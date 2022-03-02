@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <!--        <th:block th:include="include :: header('博客管理')"/>-->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <meta name="keywords" th:content="${SITE_CONFIG.SITE_KWD}">-->
+    <!--    <meta name="description" th:content="${SITE_CONFIG.SITE_DESC}">-->
+    <!--    <title th:if="${categoryName == null}" th:text="${SITE_CONFIG.SITE_NAME}"></title>-->
+    <!--        <title th:if="${categoryName != null}" th:text="${categoryName} + ' - ' +'一粒麦子'"></title>-->
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/jquery.pagination.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/swiper.min.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+    <style>
+        div > p > a {
+            color: black !important;
+            font-size: 18px !important;
+            font-weight: bold !important;
+        }
+
+        a:hover {
+            color: #0077dd !important;
+        }
+
+        @media screen and (max-width: 1100px) {
+            .m-mobile-show-conten {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+                margin-left: 0em !important;
+                margin-right: 0em !important;
+                min-height: 500px;
+            }
+            body {
+                  background: #fff;
+            }
+
+
+        }
+    </style>
+</head>
+<body>
+
+<!--导航栏-->
+<header id="header">
+    <div th:replace="emmanuel/web/navbar :: navbar"></div>
+</header>
+
+<div class="pb-container pb-content">
+    <div class="pb-main">
+
+        <!--没有内容时提示-->
+        <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.rows)}">
+            Sorry, 暂未发现任何文章~
+        </div>
+
+
+        <!--        style="background:#f1f2f7"-->
+        <section class="panel">
+
+            <div class="panel-body m-mobile-show-conten" >
+                <div class="timeline-messages" >
+                    <!-- Comment -->
+                    <div class="msg-time-chat" th:each="item,temp : ${dataInfo.rows}" >
+
+                        <!--       图片-->
+                        <a class="message-img" th:href="@{${'/blog/article/'+item.id}}" target="_blank">
+                            <img alt=""
+                                 th:src="(${#strings.isEmpty(item.thumbnail)}) ? @{/img/profile.jpg} : @{${item.thumbnail}}"
+                                 class="avatar">
+                        </a>
+                        <div class="message-body msg-in">
+                            <span class="arrow"></span>
+
+                            <!--                            时间-->
+                            <span class="fa fa-clock-o"></span><span
+                                th:text="${#dates.format(item.createTime,'yyyy-MM-dd HH:mm:ss')}"></span>
+
+                            <!--             文章title-->
+                            <div class="text">
+                                <p class="attribution"><a th:href="@{${'/blog/article/'+item.id}}"
+                                                          target="_blank"
+                                                          th:text="${item.title} "></a></p>
+
+                                <!-- ·换行-->
+                                <br/>
+
+                                <!--              摘要-->
+                                <p th:text="${item.summary}"
+                                   style="font-size: 14px; color: #566573; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 3;"></p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /comment -->
+                </div>
+            </div>
+        </section>
+
+
+        <!--        分页-->
+        <div th:if="${dataInfo!=null && dataInfo.totalPage gt 1}" id="pagebar">
+            <div id="pagination" class="page"></div>
+        </div>
+
+    </div>
+    <!--    侧边信息-->
+    <div class="hidden-xs hidden-sm">
+        <div th:replace="emmanuel/web/sidebar :: sidebar"></div>
+    </div>
+</div>
+<!--底部-->
+<div th:replace="emmanuel/web/footer :: copyrightDark"></div>
+<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+</body>
+
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/blog/mblog/js/jquery.pagination.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.7}"></script>
+<script th:src="@{/blog/mblog/js/swiper.min.js}"></script>
+<script th:src="@{/blog/mblog/js/tagcloud.js}"></script>
+<script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
+<script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
+
+
+<script th:inline="javascript">
+
+
+</script>
+
+
+<script>
+    // 分页请求
+    $(function () {
+        var $pagination = $("#pagination");
+        if ($pagination) {
+            $pagination.pagination({
+                currentPage: [[${dataInfo.currentPage}]],
+                totalPage: [[${dataInfo.totalPage}]],
+                callback: function (pageNo) {
+                    // 发出分页请求
+                    window.location.href = ('/blog/blog/focus' + '?currentPage=' + pageNo);
+                }
+            });
+        }
+    })
+</script>
+
+</html>

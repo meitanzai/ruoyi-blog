@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.emmanuel.account.mapper.AccountBillMapper">
+
+    <resultMap type="com.ruoyi.project.emmanuel.account.domain.AccountBill" id="AccountBillResult">
+        <result property="month"    column="month"    />
+        <result property="pay"    column="pay"    />
+        <result property="income"    column="income"    />
+        <result property="balance"    column="balance"    />
+    </resultMap>
+
+    <sql id="selectAccountBillVo">
+        select month, pay, income, balance from account_bill
+    </sql>
+
+    <select id="selectAccountBillList" parameterType="AccountBill" resultMap="AccountBillResult">
+        <include refid="selectAccountBillVo"/>
+        <where>
+            <if test="month != null  and month != ''"> and month = #{month}</if>
+        </where>
+    </select>
+
+    <select id="selectAccountBillByMonth" parameterType="String" resultMap="AccountBillResult">
+        <include refid="selectAccountBillVo"/>
+        where month = #{month}
+    </select>
+
+    <select id="countMoneyByMonth" resultMap="AccountBillResult">
+        SELECT  left(money_date,7) "month",
+                IFNULL(SUM(money_pay),0) "pay",
+                IFNULL(sum(money_income),0)  "income"
+        from  account_money
+        <where>
+        deleted = 0 and is_total = 0
+            <if test="accountId != null and accountId != ''">
+                and account_id = #{accountId,jdbcType=BIGINT}
+            </if>
+        <if test="month != null and month != ''">
+            and money_date LIKE CONCAT(#{month,jdbcType=VARCHAR},'%')
+        </if>
+    </where>
+        GROUP BY left(money_date,7) ORDER BY left(money_date,7) desc;
+    </select>
+
+    <select id="getAccount" resultType="com.ruoyi.project.emmanuel.account.domain.AccountAccount">
+        SELECT id,account_name "accountName" from account_account ORDER BY order_num
+    </select>
+
+    <select id="billPayConunt" resultType="com.ruoyi.project.emmanuel.account.domain.AccountBill">
+        SELECT
+                LEFT ( m.money_date, 7 ) "money",
+                class_name "name",
+                IFNull(sum( money_pay ),0 ) "value"
+        FROM
+                account_class c
+                LEFT JOIN account_money m ON c.id = m.class_id
+                AND m.deleted = 0
+        where   left( m.money_date, 7 ) = #{month,jdbcType=VARCHAR} and c.class_type = 1 and is_total = 0
+        GROUP BY
+                LEFT ( m.money_date, 7 ),
+                class_name
+    </select>
+
+    <select id="billIncomeConunt"  resultType="com.ruoyi.project.emmanuel.account.domain.AccountBill">
+        SELECT
+                LEFT ( m.money_date, 7 ) "money",
+                class_name "name",
+                IFNull(sum( money_income ),0 ) "income"
+        FROM
+                account_class c
+                LEFT JOIN account_money m ON c.id = m.class_id
+                AND m.deleted = 0
+        where   left( m.money_date, 7 ) = #{month,jdbcType=VARCHAR} and c.class_type = 0 and is_total = 0
+        GROUP BY
+                LEFT ( m.money_date, 7 ),
+                class_name
+    </select>
+
+    <select id="countFullCalendarList" resultType="com.ruoyi.project.emmanuel.account.domain.AccountMoney">
+        select IFNULL(sum(money_pay),0) "moneyPay",IFNULL(SUM(money_income),0) "moneyIncome", money_date as moneyDate from account_money WHERE is_total = 0 and  money_date like CONCAT( #{month,jdbcType=VARCHAR},'%') GROUP BY money_date
+    </select>
+</mapper>
