@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('新增记账详情')"/>
+    <th:block th:include="include :: datetimepicker-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-money-add">
+        <div class="form-group" style="display: none">
+            <label class="col-sm-3 control-label is-required">账本id：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="accountId" name="accountId" readonly="true"
+                       th:value="${account.id}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">账本名称：</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text" id="accountName" name="accountName" readonly="true"
+                       th:value="${account.accountName}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">所属分类：</label>
+            <div class="col-sm-8">
+                <select class="form-control" data-placeholder="请选择分类" id="classId" name="classId"
+                        required>
+                    <option value="">请选择</option>
+                    <option th:each="accountClass:${accountClasseList}"
+                            th:value="${accountClass.id}"
+                            th:text="${accountClass.className}"
+                            th:disabled="${accountClass.classStatus == '1'}"
+                    ></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">金额：</label>
+            <div class="col-sm-8">
+                <input name="money" id="money" class="form-control" type="text" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">消费日期：</label>
+            <div class="col-sm-8">
+                <div class="input-group date" >
+                    <input name="moneyDate" class="form-control" placeholder="yyyy-MM-dd" type="text" readonly="readonly">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">备注：</label>
+            <div class="col-sm-8">
+                <textarea name="moneyIntroduce" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">是否记入总账：</label>
+            <div class="col-sm-8">
+                <div class="radio-box" th:each="dict : ${@dict.getType('account_is_Total')}">
+                    <input type="radio" th:id="${'isTotal_' + dict.dictCode}" name="isTotal"
+                           th:value="${dict.dictValue}" th:checked="${dict.default}" required>
+                    <label th:for="${'isTotal_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                </div>
+                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请在数据字典添加 字典类型：account_income_pay </span>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-sm-offset-5 col-sm-10">
+        <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存
+        </button>&nbsp;
+        <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭
+        </button>
+    </div>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: datetimepicker-js"/>
+<script th:inline="javascript">
+    var prefix = ctx + "account/money"
+
+    $("#form-money-add").validate({
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var data = $("#form-money-add").serializeArray();
+            var type = [[${type}]];
+            console.log("type", type);
+            data.push({"name": "type", "value": type});
+            $.operate.saveTab(prefix + "/add", data);
+        }
+    }
+
+    $("input[name='moneyDate']").datetimepicker({
+        format: "yyyy-mm-dd",
+        minView: "month",
+        autoclose: true
+    });
+
+    /**
+     * 金额校验 https://blog.csdn.net/wl_Honest/article/details/81629026
+     */
+    $("#money").on('input  propertychange',function(){
+        //如果输入非数字，则替换为''
+        this.value = this.value.replace(/[^\d\.]/g, '');
+        //必须保证第一个为数字而不是.
+        this.value = this.value.replace(/^\./g,'');
+        //保证只有出现一个.而没有多个.
+        this.value = this.value.replace(/\.{2,}/g,'.');
+        //保证.只出现一次，而不能出现两次以上
+        this.value = this.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');
+        //只能输入两位小数
+        this.value = this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+    })
+
+</script>
+</body>
+</html>

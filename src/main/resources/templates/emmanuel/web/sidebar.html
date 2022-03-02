@@ -1,0 +1,116 @@
+<div th:fragment="sidebar" class="pb-sidebar">
+    <div class="about panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">关于本站</h3>
+        </div>
+        <div class="panel-body" th:if="${not #strings.isEmpty(webAbout)}">
+            <ul>
+                <div class="avatar"><img th:src="${webAbout.abAvatar}" alt=""/></div>
+                <p th:text="${webAbout.abName}" class="abname"></p>
+                <p th:text="${webAbout.abText}" class="abtext"></p>
+            </ul>
+        </div>
+
+        <div class="panel-body" th:if="${#strings.isEmpty(webAbout)}">
+            Sorry, 暂无介绍
+        </div>
+
+
+    </div>
+    <div class="tag panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">标签云</h3>
+        </div>
+<!--        <div class="panel-body" id="tagcloud" style="overflow: hidden">-->
+<!--            <a class="btn btn-default btn-xs" th:each="item:${mtoChannelList}" th:href="@{${'/blog/channel/'+item.id}}"-->
+<!--               th:text="${item.name}"></a>-->
+<!--        </div>-->
+        <div class="panel-body" id="tagcloud" style="overflow: hidden">
+            <a class="btn btn-default btn-xs" th:each="item:${mtoTagList}" th:href="@{${'/blog/tag/'+item.id}}"
+               th:text="${item.name}"></a>
+        </div>
+    </div>
+    <div class="pb-sidebar-tabs">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a href="#latest" data-toggle="tab">最新文章</a></li>
+            <li><a href="#recommend" data-toggle="tab">站长推荐</a></li>
+            <li><a href="#hot" data-toggle="tab">点击排行</a></li>
+        </ul>
+        <div class="tab-content">
+
+            <!--            最新文章-->
+            <div class="tab-pane active" id="latest">
+                <ol class="article-list" th:if="${not #lists.isEmpty(newPostList)}">
+                    <li th:each="item,temp:${newPostList}" class="slide">
+                        <span th:class="${'li-icon li-icon-'+(temp.index+1)}" th:text="${temp.index+1}"></span>
+                        <a th:text="${item.title}" th:href="${'/blog/article/'+item.id}"></a>
+                    </li>
+                </ol>
+                <ol th:if="${#lists.isEmpty(newPostList)}">
+                    Sorry, 暂无最新文章
+                </ol>
+
+            </div>
+
+            <!--            获取推荐文章-->
+            <div class="tab-pane" id="recommend">
+                <ol class="article-list" th:if="${not #lists.isEmpty(recommendPostList)}">
+                    <li th:each="item,temp:${recommendPostList}" class="slide">
+                        <span th:class="${'li-icon li-icon-'+(temp.index+1)}" th:text="${temp.index+1}"></span>
+                        <a th:text="${item.title}" th:href="${'/blog/article/'+item.id}"></a>
+                    </li>
+                </ol>
+                <ol th:if="${#lists.isEmpty(recommendPostList)}">
+                    Sorry, 暂无推荐文章
+                </ol>
+            </div>
+
+            <!--            获取最热文章-->
+            <div class="tab-pane" id="hot">
+                <ol class="article-list" th:if="${not #lists.isEmpty(hotPostList)}">
+                    <li th:each="item,temp:${hotPostList}" class="slide">
+                        <span th:class="${'li-icon li-icon-'+(temp.index+1)}" th:text="${temp.index+1}"></span>
+                        <a th:text="${item.title}" th:href="${'/blog/article/'+item.id}"></a>
+                    </li>
+                </ol>
+                <ol th:if="${#lists.isEmpty(hotPostList)}">
+                    Sorry, 暂无最热文章
+                </ol>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="link panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">友情链接</h3>
+        </div>
+        <div class="panel-body">
+            <ul th:if="${not #lists.isEmpty(linkList)}">
+                <li th:each="link:${linkList}">
+                    <a th:href="${link.linkUrl}" th:text="${link.linkName}" target="_blank"></a>
+                    <img th:src="${link.linkLogo}" th:if="${not #strings.isEmpty(link.linkLogo)}"
+                         style="width: 15px;height: 15px">
+                </li>
+            </ul>
+            <ul th:if="${#lists.isEmpty(linkList)}">
+                Sorry, 暂无友情链接
+            </ul>
+
+        </div>
+    </div>
+    <div class="webinfo panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">网站信息</h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <!--                <li> <i class="fa fa-file fa-fw"></i> 文章总数：<span th:text="${SITE_INFO.articleCount}"></span> 篇</li>-->
+                <!--                <li> <i class="fa fa-tags fa-fw"></i> 标签总数：<span th:text="${SITE_INFO.tagCount}"></span> 个</li>-->
+                <!--                <li> <i class="fa fa-folder-open fa-fw"></i> 分类总数：<span th:text="${SITE_INFO.categoryCount}"></span> 个</li>-->
+                <!--                <li> <i class="fa fa-comments fa-fw"></i> 留言数量：<span th:text="${SITE_INFO.commentCount}"></span> 条</li>-->
+            </ul>
+        </div>
+    </div>
+
+</div>

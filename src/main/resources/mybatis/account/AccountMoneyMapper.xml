@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.emmanuel.account.mapper.AccountMoneyMapper">
+    <resultMap type="com.ruoyi.project.emmanuel.account.domain.AccountMoney" id="AccountMoneyResult">
+        <result property="id" column="id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="classId" column="class_id"/>
+        <result property="money" column="money"/>
+        <result property="moneyIntroduce" column="money_introduce"/>
+        <result property="isTotal" column="is_total"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="deleted" column="deleted"/>
+        <result property="moneyDate" column="money_date"/>
+    </resultMap>
+
+    <sql id="selectAccountMoneyVo">
+        select id,
+               account_id,
+               class_id,
+               IFNULL(money_pay,money_income)  as  money,
+               money_introduce,
+               is_total,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               deleted,money_date
+        from account_money
+    </sql>
+
+    <select id="selectAccountMoneyList" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountMoney"
+            resultMap="AccountMoneyResult">
+        SELECT
+        m.id,
+        m.account_id,
+        m.class_id,
+        IFNULL(m.money_pay,m.money_income)as money,
+        m.money_introduce,
+        m.is_total,
+        m.money_date,
+        m.deleted,c.class_type "classType",c.class_name "className"
+        FROM
+        account_class c
+        LEFT JOIN account_money m ON c.id = m.class_id
+        <where>
+            <if test="accountId != null ">
+                and m.account_id = #{accountId}
+            </if>
+            <if test="classId != null ">
+                and m.class_id = #{classId}
+            </if>
+            <if test="money != null ">
+                and m.money = #{money}
+            </if>
+            <if test="moneyIntroduce != null  and moneyIntroduce != ''">
+                and m.money_introduce = #{moneyIntroduce}
+            </if>
+            <if test="isTotal != null ">
+                and m.is_total = #{isTotal}
+            </if>
+            <if test="moneyDate != null ">
+                and m.money_date = #{moneyDate,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+        order by m.money_date desc
+    </select>
+
+    <select id="selectAccountMoneyById" parameterType="Long" resultMap="AccountMoneyResult">
+        SELECT
+                m.id,
+                m.account_id,
+                m.class_id,
+                IFNULL(money_pay,money_income)  as  money,
+                money_pay "moneyPay",
+                money_income "moneyIncome",
+                m.money_introduce,
+                m.is_total,
+                m.money_date,
+                m.deleted,c.class_type "classType"
+        FROM
+                account_class c
+                        LEFT JOIN account_money m ON c.id = m.class_id
+        where m.id = #{id}
+    </select>
+
+    <insert id="insertAccountMoney" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountMoney">
+        insert into account_money
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="moneyPay != null">
+                money_pay,
+            </if>
+            <if test="moneyIncome != null">
+                money_income,
+            </if>
+            <if test="moneyDate != null">
+                money_date,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="classId != null">
+                class_id,
+            </if>
+            <if test="moneyIntroduce != null">
+                money_introduce,
+            </if>
+            <if test="isTotal != null">
+                is_total,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moneyPay != null">
+                #{moneyPay,jdbcType=DECIMAL},
+            </if>
+            <if test="moneyIncome != null">
+                #{moneyIncome,jdbcType=DECIMAL},
+            </if>
+            <if test="moneyDate != null">
+                #{moneyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="accountId != null">
+                #{accountId},
+            </if>
+            <if test="classId != null">
+                #{classId},
+            </if>
+
+            <if test="moneyIntroduce != null">
+                #{moneyIntroduce},
+            </if>
+            <if test="isTotal != null">
+                #{isTotal},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateAccountMoney" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountMoney">
+        update account_money
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="moneyPay != null">
+                money_pay =     #{moneyPay,jdbcType=DECIMAL},
+            </if>
+            <if test="moneyIncome != null">
+                money_income =      #{moneyIncome,jdbcType=DECIMAL},
+            </if>
+            <if test="moneyDate != null">
+                money_date =   #{moneyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId},
+            </if>
+            <if test="classId != null">
+                class_id = #{classId},
+            </if>
+            <if test="moneyIntroduce != null">
+                money_introduce = #{moneyIntroduce},
+            </if>
+            <if test="isTotal != null">
+                is_total = #{isTotal},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAccountMoneyById" parameterType="Long">
+        delete
+        from account_money
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteAccountMoneyByIds" parameterType="String">
+        delete from account_money where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

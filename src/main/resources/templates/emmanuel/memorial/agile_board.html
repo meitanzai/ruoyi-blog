@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('任务清单列表')"/>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <h3>任务列表</h3>
+                    <p class="small"><i class="fa fa-hand-o-up"></i> 暂不支持拖动排序</p>
+
+                    <div class="input-group">
+                         <span class="input-group-btn">
+                             <a class="btn btn-sm btn-white" onclick="$.operate.add()"
+                                shiro:hasPermission="memorial:agile_board:add">
+                          <i class="fa fa-plus"></i>添加
+                        </a>
+                                </span>
+                        <span class="input-group-btn">
+                        <a class="btn btn-sm btn-white" th:href="@{/memorial/agileBoard}">
+                            <i class="fa fa-refresh"></i> 刷新
+                        </a>
+                                </span>
+
+                    </div>
+
+                    <ul class="sortable-list connectList agile-list" th:each="noTask:${noTaskList}">
+                        <li class="danger-element">
+                            <span th:text="${noTask.agileName}"></span>
+                            <div class="agile-detail">
+                                <a class="pull-right btn btn-xs" href="javascript:void(0)" shiro:hasPermission="memorial:agile_board:editStatus"
+                                   th:onclick="updateReturn('[(${noTask.id})]',1,'[(${noTask.agileName})]')"><i
+                                        class="glyphicon glyphicon-chevron-right"></i></a>
+
+                                <a style="padding-right: 5px;" class="pull-right btn btn-xs " shiro:hasPermission="memorial:agile_board:remove"
+                                   href="javascript:void(0)"
+                                   th:onclick="$.operate.removeReturn('[(${noTask.id})]')"><i
+                                        class="fa fa-trash-o "></i></a>
+
+                                <i class="fa fa-clock-o"
+                                   th:text="${#dates.format(noTask.agileDate,'yyyy年MM月dd日 HH:mm')}"></i>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <h3>进行中</h3>
+                    <p class="small"><i class="fa fa-hand-o-up"></i> 暂不支持拖动排序</p>
+                    <ul class="sortable-list connectList agile-list" th:each="taskIng:${taskIngList}">
+
+                        <li class="warning-element">
+                            <p th:text="${taskIng.agileName}"></p>
+                            <div class="agile-detail">
+
+                                <a class="pull-right btn btn-xs" href="javascript:void(0)" shiro:hasPermission="memorial:agile_board:editStatus"
+                                   th:onclick="updateReturn('[(${taskIng.id})]',2,'[(${taskIng.agileName})]')"><i
+                                        class="glyphicon glyphicon-ok"></i></a>
+
+                                <a class="pull-right btn btn-xs" href="javascript:void(0)" shiro:hasPermission="memorial:agile_board:editStatus"
+                                   th:onclick="updateReturn('[(${taskIng.id})]',0,'[(${taskIng.agileName})]')"><i
+                                        class="glyphicon glyphicon-chevron-left"></i></a>
+
+                                <i class="fa fa-clock-o"
+                                   th:text="${#dates.format(taskIng.agileDate,'yyyy年MM月dd日 HH:mm')}"></i>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <h3>已完成</h3>
+                    <p class="small"><i class="fa fa-hand-o-up"></i> 暂不支持拖动排序</p>
+                    <ul class="sortable-list connectList agile-list" th:each="taskOk:${taskOkList}">
+                        <li class="success-element">
+                            <p th:text="${taskOk.agileName}"></p>
+                            <div class="agile-detail">
+
+                                <a style="padding-right: 5px;" class="pull-right btn btn-xs " shiro:hasPermission="memorial:agile_board:remove"
+                                   href="javascript:void(0)"
+                                   th:onclick="$.operate.removeReturn('[(${taskOk.id})]')"><i
+                                        class="fa fa-trash-o "></i></a>
+
+                                <a class="pull-right btn btn-xs " href="javascript:void(0)" shiro:hasPermission="memorial:agile_board:editStatus"
+                                   th:onclick="updateReturn('[(${taskOk.id})]',1,'[(${taskOk.agileName})]')"><i
+                                        class="glyphicon glyphicon-chevron-left"></i></a>
+
+                                <i class="fa fa-clock-o"
+                                   th:text="${#dates.format(taskOk.agileDate,'yyyy年MM月dd日 HH:mm')}"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--        <div >-->
+        <!--            <table id="bootstrap-table"></table>-->
+        <!--        </div>-->
+    </div>
+
+
+</div>
+
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var editStatusFlag = [[${@permission.hasPermi('memorial:agile_board:editStatus')}]];
+    var removeFlag = [[${@permission.hasPermi('memorial:agile_board:remove')}]];
+    var prefix = ctx + "memorial/agileBoard";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/editStatus",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "任务清单",
+        };
+        $.table.init(options);
+    });
+
+    function updateReturn(id, agileStatus, agileName) {
+        table.set();
+        var tipInfo = "确定修改此信息？";
+        if (0 === agileStatus) {
+            var tipInfo = "<span style=\"color: #ed5565\">确定将任务\"" + agileName + "\"回退到未开始状态吗？</span>"
+        }
+        if (1 === agileStatus) {
+            var tipInfo = "<span style=\"color: #f8ac59\"> 确定将任务\"" + agileName + "\"改为进行中？</span>"
+        }
+        if (2 === agileStatus) {
+            var tipInfo = "<span style=\"color: #1ab394\"> 确定完成任务\"" + agileName + "\"？</span>"
+        }
+        $.modal.confirm(tipInfo, function () {
+            var url = $.common.isEmpty(id) ? table.options.updateUrl : table.options.updateUrl.replace("{id}", id);
+            if (table.options.type == table_type.bootstrapTreeTable) {
+                $.operate.get(url);
+            } else {
+                var data = {"id": id, "agileStatus": agileStatus};
+                var config = {
+                    url: url,
+                    type: "put",
+                    dataType: "json",
+                    data: data,
+                    beforeSend: function () {
+                        $.modal.loading("正在处理中，请稍候...");
+                    },
+                    success: function (result) {
+                        if (typeof callback == "function") {
+                            callback(result);
+                        }
+                        window.location.reload();
+                    }
+                };
+                $.ajax(config)
+            }
+        });
+    }
+
+
+    // $(document).ready(function () {
+    //     $(".sortable-list").sortable({connectWith: ".connectList"}).disableSelection()
+    // });
+</script>
+</body>
+
+</html>

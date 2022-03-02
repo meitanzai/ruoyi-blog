@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('便签墙')"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/jquery.pagination.css}"/>
+
+</head>
+
+<body class="gray-bg">
+<div class="row">
+
+    <div class="col-sm-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+
+            <a class="btn btn-sm btn-white" onclick="$.operate.add()"
+               shiro:hasPermission="memorial:pin_board:add" >
+                <i class="fa fa-plus"></i>添加
+            </a>
+
+            <a class="btn btn-sm btn-white" th:href="@{/memorial/pinBoard}"      shiro:hasPermission="memorial:pin_board:view">
+                <i class="fa fa-refresh"></i> 刷新
+            </a>
+
+            <ul class="notes" th:each="pinBoard:${pinDateInfo.rows}">
+                <li>
+                    <div>
+                        <small th:text="${#dates.format(pinBoard.createTime,'yyyy年MM月dd日 HH时mm分ss秒')}"></small>
+                        <h4 th:text="${pinBoard.boardTitle}"></h4>
+                        <p th:utext="${pinBoard.boardContent}"></p>
+
+                        <!--                        编辑-->
+                        <a style="padding-right: 20px;"  href="javascript:void(0)" shiro:hasPermission="memorial:pin_board:edit"
+                           th:onclick="$.operate.edit('[(${pinBoard.id})]')"><i class="fa fa-edit"></i></a>
+                        <!--                        删除-->
+                        <a   href="javascript:void(0)" shiro:hasPermission="memorial:pin_board:remove"
+                           th:onclick="$.operate.removeReturn('[(${pinBoard.id})]')"><i class="fa fa-trash-o "></i></a>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--        分页-->
+    <div th:if="${pinDateInfo!=null && pinDateInfo.totalPage gt 1}" id="pagebar" style="text-align:center">
+        <div id="pagination" class="page"></div>
+    </div>
+
+</div>
+<th:block th:include="include :: footer"/>
+<script th:src="@{/blog/mblog/js/jquery.pagination.min.js}"></script>
+<script th:inline="javascript">
+    var addFlag = [[${@permission.hasPermi('memorial:pin_board:add')}]];
+    var editFlag = [[${@permission.hasPermi('memorial:pin_board:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('memorial:pin_board:remove')}]];
+    var classTypeDatas = [[${@dict.getType('account_income_pay')}]];
+    var classStatusDatas = [[${@dict.getType('sys_normal_disable')}]];
+    var prefix = ctx + "memorial/pinBoard";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "备忘录",
+        };
+        $.table.init(options);
+
+    });
+
+    // 分页请求
+    $(function () {
+        var $pagination = $("#pagination");
+        if ($pagination) {
+            $pagination.pagination({
+                currentPage: [[${pinDateInfo.currentPage}]],
+                totalPage: [[${pinDateInfo.totalPage}]],
+                callback: function (pageNo) {
+                    // 发出分页请求
+                    window.location.href = ('/memorial/pinBoard' + '?currentPage=' + pageNo);
+                }
+            });
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

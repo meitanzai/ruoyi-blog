@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <!--        <th:block th:include="include :: header('博客管理')"/>-->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <meta name="keywords" th:content="${SITE_CONFIG.SITE_KWD}">-->
+    <!--    <meta name="description" th:content="${SITE_CONFIG.SITE_DESC}">-->
+    <!--    <title th:if="${categoryName == null}" th:text="${SITE_CONFIG.SITE_NAME}"></title>-->
+    <!--        <title th:if="${categoryName != null}" th:text="${categoryName} + ' - ' +'一粒麦子'"></title>-->
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/jquery.pagination.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+    <!--    自定义me-css -->
+    <th:block th:include="include :: me-css"/>
+    <!--semantic-->
+    <th:block th:include="include :: semantic-css"/>
+
+    <style>
+        @media screen and (max-width: 1100px) {
+            .m-mobile-show-conten {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+                margin-left: -3em !important;
+                margin-right: 0em !important;
+                border: none !important;
+                min-height: 650px;
+            }
+
+            .m-mobile-show-right {
+                margin-right: -3em
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!--导航栏-->
+<header id="header">
+    <div th:replace="emmanuel/web/navbar :: navbar"></div>
+</header>
+
+<div class="pb-container pb-content">
+    <div class="pb-main">
+
+
+        <!--没有内容时提示-->
+        <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.data)}">
+            Sorry, 暂未发现任何文章~
+        </div>
+
+        <!--        博客内容开始-->
+        <div class="m-container-small m-mobile-show-conten">
+            <div class="ui container">
+                <!-- 归档头部标题 -->
+                <span style="font-size:.8rem;font-weight:500;">共发表 <span th:text="${dataInfo.total}"></span> 篇文章，请继续保持输出</span>
+                <br>
+
+                <!--      归档博客列表-->
+                <div th:each="item : ${dataInfo.data}" class="m-mobile-show-right">
+                    <h2 class="ui center aligned header" th:text="${item.key}"></h2>
+                    <div class="ui fluid vertical menu">
+                        <a href="#" th:href="@{/blog/article/{id}(id=${blog.id})}" target="_blank" class="item"
+                           th:each="blog : ${item.value}">
+                        <span>
+                            <i class="mini teal circle icon"></i> <span &emsp th:text="${blog.title}"></span>
+                            <!--                            <div class="ui teal basic left pointing label m-padded-mini"  th:text="${#dates.format(blog.createTime,'MM月dd日')}">10月15日</div>-->
+                        </span>
+                            <div class="ui orange basic label m-padded-mini"
+                                 th:text="${#dates.format(blog.createTime,'MM月dd日')}">
+                            </div>
+                        </a>
+
+                    </div>
+                    <br>
+                </div>
+
+            </div>
+        </div>
+        <!--        博客内容结束-->
+
+        <!--        分页-->
+        <div th:if="${dataInfo!=null && dataInfo.totalPage gt 1}" id="pagebar">
+            <div id="pagination" class="page"></div>
+        </div>
+
+    </div>
+    <!--    侧边信息-->
+    <div class="hidden-xs hidden-sm">
+        <div th:replace="emmanuel/web/sidebar :: sidebar"></div>
+    </div>
+
+</div>
+<!--底部-->
+<div th:replace="emmanuel/web/footer :: copyrightDark"></div>
+<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+</body>
+
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/blog/mblog/js/jquery.pagination.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.7}"></script>
+<script th:src="@{/blog/mblog/js/tagcloud.js}"></script>
+<script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
+<script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
+<!--semantic-->
+<th:block th:include="include :: semantic-js"/>
+
+<script>
+    // 分页请求
+    $(function () {
+        var $pagination = $("#pagination");
+        if ($pagination) {
+            $pagination.pagination({
+                currentPage: [[${dataInfo.currentPage}]],
+                totalPage: [[${dataInfo.totalPage}]],
+                callback: function (pageNo) {
+                    // 发出分页请求
+                    window.location.href = ('/blog/timeArchives' + '?pageNum=' + pageNo + '&pageSize=20');
+                }
+            });
+        }
+    })
+</script>
+
+</html>

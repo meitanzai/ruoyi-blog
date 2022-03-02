@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('百度ECharts')"/>
+    <th:block th:include="include :: toastr-css"/>
+    <!-- fullCalendar -->
+    <link href='/blog/fullcalendar/main.css' rel='stylesheet'/>
+
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight"
+     style="padding-left: 8px !important; padding-right: 8px; !important">
+
+    <div class="row" >
+
+        <!--支出饼状图-->
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="echarts" id="echarts-pie-chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!--收入折线图-->
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+                    <div class="echarts" id="smoothed-line-chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!--    月份收入支出日历图    -->
+        <div class="col-sm-12" >
+            <div class="ibox float-e-margins"  >
+                <div class="ibox-content" style="padding-left: 5px; padding-right: 5px; ">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: echarts-js"/>
+<!-- fullCalendar 2.2.5 -->
+<script src='/blog/fullcalendar/main.js'></script>
+<th:block th:include="include :: toastr-js"/>
+<script type="text/javascript">
+
+    $.ajax({
+        type: "get",
+        url: "/account/bill//bullCount/month?month=" + '[[${month}]]',
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            toastr.success("本月总支出" + data.totalPay);
+            // 支付图
+            var pieChart = echarts.init(document.getElementById("echarts-pie-chart"));
+            var pieoption = {
+                title: {
+                    text: '[[${month}]]' + ' 支出统计',
+                    subtext: '理性消费',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data: data.payTypeList
+                },
+                calculable: true,
+                series: [
+                    {
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: data.payData
+                    }
+                ]
+            };
+            pieChart.setOption(pieoption);
+            $(window).resize(pieChart.resize);
+
+            // 收入图
+            var pieChart = echarts.init(document.getElementById("smoothed-line-chart"));
+            var pieoption = {
+                title: {
+                    text: '[[${month}]]' + ' 收入统计',
+                    subtext: '合法收入',
+                    x: 'center'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: data.incomeTypeList
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        data: data.incomeMoneyList,
+                        type: 'line',
+                        smooth: true
+                    }
+                ]
+            };
+            pieChart.setOption(pieoption);
+            $(window).resize(pieChart.resize);
+        }
+    })
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'zh-cn',
+            locale: 'zh-cn',
+            initialView: 'dayGridMonth',
+            contentHeight: 650,
+            initialDate: '[[${month}]]',
+            header: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+
+            events: function (start, callback) {
+                debugger;
+                $.ajax({
+                    type: "get",
+                    url: '/account/bill/bullCount/billConuntByMonth',
+                    dataType: "json",
+                    data: {
+                        // month: '2021-10'
+                        month: '[[${month}]]'
+                    },
+                    success: function (result) {
+                        var events = [];
+                        if (result.code === 0 && result.rows) {
+                            events = result.rows;
+                        }
+                        callback(events);
+                    }
+                });
+            }
+        });
+        calendar.render();
+    });
+
+
+</script>
+
+</body>
+</html>
