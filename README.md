@@ -4,12 +4,15 @@
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi Blog 1.0</h1>
 <h4 align="center">基于RuoYi-fast v4.7.3开发的轻量级Java快速开发框架</h4>
 <p align="center">
-	<a href="https://gitee.com/y_project/RuoYi/stargazers"><img src="https://gitee.com/y_project/RuoYi/badge/star.svg?theme=gvp"></a>
-	<a href="https://gitee.com/y_project/RuoYi"><img src="https://img.shields.io/badge/RuoYi-v4.7.2-brightgreen.svg"></a>
+<a target="_blank" href="https://gitee.com/GiteeKey/ruoyi-blog">
+    <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
+    <img src="https://img.shields.io/badge/springboot-2.5.10.RELEASE-green" ></img>
+    <img src="https://img.shields.io/badge/Blog-v1.0-brightgreen.svg">
+	<img src="https://img.shields.io/badge/mybatis--plus-3.5.1-green" ></img>
+</a>
+	<a href="https://gitee.com/y_project/RuoYi"><img src="https://img.shields.io/badge/RuoYi-v4.7.3-brightgreen.svg"></a>
 	<a href="https://gitee.com/y_project/RuoYi/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
 </p>
-
-​			<font color=red size=6>将于春节后上传代码，敬请期待</font>
 
 ## 平台简介
 
@@ -90,25 +93,25 @@
 
 ![image.png](https://s2.loli.net/2022/01/28/P9EJboFKDlATQgt.png)
 
-<table>
-     <tr>
-        <td><a href="https://sm.ms/image/P9EJboFKDlATQgt" target="_blank"><img src="https://s2.loli.net/2022/01/28/P9EJboFKDlATQgt.png" ></a></td>
-        <td><a href="https://sm.ms/image/n1GIZKXlE3AtJ4q" target="_blank"><img src="https://s2.loli.net/2022/01/28/n1GIZKXlE3AtJ4q.png" ></a></td>
-    </tr>
-     <tr>
-        <td><a href="https://sm.ms/image/L7YBPJhi9qdNHmO" target="_blank"><img src="https://s2.loli.net/2022/01/28/L7YBPJhi9qdNHmO.png" ></a></td>
-        <td><a href="https://sm.ms/image/aUmo1cBvWriJGKO" target="_blank"><img src="https://s2.loli.net/2022/01/28/aUmo1cBvWriJGKO.png" ></a></td>
-    </tr> 
-     <tr>
-        <td><a href="https://sm.ms/image/eUcNXKrE6Rb1hMm" target="_blank"><img src="https://s2.loli.net/2022/01/28/eUcNXKrE6Rb1hMm.png" ></a></td>
-        <td><a href="https://sm.ms/image/zJa3xbRGKuWrow2" target="_blank"><img src="https://s2.loli.net/2022/01/28/zJa3xbRGKuWrow2.png" ></a></td>
-    </tr> 
+![image.png](https://s2.loli.net/2022/01/28/n1GIZKXlE3AtJ4q.png)
+
+![image.png](https://s2.loli.net/2022/01/28/L7YBPJhi9qdNHmO.png)
+
+![image.png](https://s2.loli.net/2022/01/28/aUmo1cBvWriJGKO.png)
+
+![image.png](https://s2.loli.net/2022/01/28/eUcNXKrE6Rb1hMm.png)
+
+![image.png](https://s2.loli.net/2022/01/28/zJa3xbRGKuWrow2.png)
+
+
+
+<table> 
       <tr>
-        <td><a href="https://sm.ms/image/zXO7UdcbIYrsEnL" target="_blank"><img src="https://s2.loli.net/2022/01/28/zXO7UdcbIYrsEnL.jpg" ></a></td>
-        <td><a href="https://sm.ms/image/rj8nHaZu9WYS65c" target="_blank"><img src="https://s2.loli.net/2022/01/28/rj8nHaZu9WYS65c.jpg" ></a></td>
+        <td><a href="https://sm.ms/image/zXO7UdcbIYrsEnL" ><img src="https://s2.loli.net/2022/01/28/zXO7UdcbIYrsEnL.jpg" ></a></td>
+        <td><a href="https://sm.ms/image/rj8nHaZu9WYS65c" ><img src="https://s2.loli.net/2022/01/28/rj8nHaZu9WYS65c.jpg" ></a></td>
     </tr> 
        <tr>
-        <td><a href="https://sm.ms/image/45Jvn9MzkHtwBNZ" target="_blank"><img src="https://s2.loli.net/2022/01/28/45Jvn9MzkHtwBNZ.jpg" ></a></td>
+        <td><a href="https://sm.ms/image/45Jvn9MzkHtwBNZ" ><img src="https://s2.loli.net/2022/01/28/45Jvn9MzkHtwBNZ.jpg" ></a></td>
         <td><a href="https://sm.ms/image/LAgiZVxPSoJvIW3" target="_blank"><img src="https://s2.loli.net/2022/01/28/LAgiZVxPSoJvIW3.jpg" ></a></td>
     </tr> 
         <tr>
@@ -152,5 +155,6 @@
         <td><img src="https://oscimg.oschina.net/oscnet/up-5e4daac0bb59612c5038448acbcef235e3a.png"/></td>
     </tr>
 </table>
+
 
 
