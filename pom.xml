@@ -39,6 +39,11 @@
         <poi.version>4.1.2</poi.version>
         <oshi.version>6.1.2</oshi.version>
         <jna.version>5.10.0</jna.version>
+        <mybatis.plus.boot.starter.version>3.5.1</mybatis.plus.boot.starter.version>
+        <lombok.version>1.18.22</lombok.version>
+        <ip2region.version>1.7.2</ip2region.version>
+        <mail.version>2.6.4</mail.version>
+        <markdown.version>0.17.0</markdown.version>
     </properties>
 
     <dependencies>
@@ -252,44 +257,45 @@
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark</artifactId>
-            <version>0.12.1</version>
+            <version>${markdown.version}</version>
         </dependency>
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark-ext-gfm-tables</artifactId>
-            <version>0.12.1</version>
+            <version>${markdown.version}</version>
         </dependency>
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark-ext-yaml-front-matter</artifactId>
-            <version>0.12.1</version>
+            <version>${markdown.version}</version>
         </dependency>
 
         <!-- mybatis-plus,注释掉 org.mybatis.spring.boot -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.1</version>
+            <version>${mybatis.plus.boot.starter.version}</version>
         </dependency>
 
         <!--     Mail依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${mail.version}</version>
         </dependency>
 
         <!-- 离线IP地址定位库 -->
         <dependency>
             <groupId>org.lionsoul</groupId>
             <artifactId>ip2region</artifactId>
-            <version>1.7.2</version>
+            <version>${ip2region.version}</version>
         </dependency>
 
         <!--        lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.18</version>
+            <version>${lombok.version}</version>
         </dependency>
 
     </dependencies>
