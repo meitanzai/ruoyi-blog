@@ -193,12 +193,14 @@
     <form enctype="multipart/form-data" class="mt20 mb10">
         <div class="col-xs-offset-1">
             <input type="file" multiple id="file" name="markDownList"/>
-
-            <div>
-                <div>导入须知</div>
-                <div>1）博客中含有图片，目前只支持网络图片，不支持本地图片</div>
-                <div>2）支持多文件同时导入</div>
-            </div>
+            <div class="mt10 pt5">
+                <input type="checkbox" id="updateSupport" name="updateSupport" title="如果名称相同，是否更新这条数据。"> 是否更新相同名称的博客
+             </div>
+<!--            <div>-->
+<!--                <div>导入须知</div>-->
+<!--                <div>1）博客中含有图片，目前只支持网络图片，不支持本地图片</div>-->
+<!--                <div>2）支持多文件同时导入</div>-->
+<!--            </div>-->
 
             <font color="red" class="pull-left mt10">
                 提示：仅允许导入markdown格式文件！

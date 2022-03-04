@@ -91,9 +91,10 @@ public interface IMtoPostService {
     void getEditInfo(Long id, ModelMap modelMap);
 
     /**
-     *  导入markdown文档
-     * @param file
+     * 导入markdown
+     * @param markDownList   markdown文件
+     * @param updateSupport  是否更新  (true更新/false不更新)
      * @return
      */
-    String importData(List<MultipartFile> markDownList);
+    String importData(List<MultipartFile> markDownList,boolean updateSupport);
 }

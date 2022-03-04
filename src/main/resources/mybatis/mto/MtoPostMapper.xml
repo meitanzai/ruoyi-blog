@@ -349,4 +349,9 @@
                update_time
         from mto_post limit 5
     </select>
+
+    <select id="isTitleExits" resultType="java.lang.Long">
+        SELECT id FROM mto_post where title = #{markdownName,jdbcType=VARCHAR} limit 1
+    </select>
+
 </mapper>

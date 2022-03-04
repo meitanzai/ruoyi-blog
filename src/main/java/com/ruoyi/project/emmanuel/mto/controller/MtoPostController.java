@@ -132,16 +132,16 @@ public class MtoPostController extends BaseController {
 
     /**
      * 导入markdown
-     *
-     * @param file
+     * @param markDownList   markdown文件
+     * @param updateSupport  是否更新  (true更新/false不更新)
      * @return
      */
     @Log(title = "导入markdown", businessType = BusinessType.IMPORT)
     @RequiresPermissions("mto:post:import")
     @PostMapping("/importData")
     @ResponseBody
-    public AjaxResult importData(List<MultipartFile> markDownList) {
-        return AjaxResult.success(mtoPostService.importData(markDownList));
+    public AjaxResult importData(List<MultipartFile> markDownList,boolean updateSupport) {
+        return AjaxResult.success(mtoPostService.importData(markDownList,updateSupport));
     }
 
 }

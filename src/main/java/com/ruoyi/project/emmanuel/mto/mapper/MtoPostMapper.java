@@ -72,4 +72,11 @@ public interface MtoPostMapper
 
     List<MtoPost> selectIndexNewPostList();
 
+    /**
+     * 查询 title 标题是否存在
+     * @param markdownName title
+     * @return 主键id
+     */
+    Long isTitleExits(String markdownName);
+
 }

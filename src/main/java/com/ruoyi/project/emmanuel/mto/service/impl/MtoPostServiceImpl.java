@@ -20,20 +20,14 @@ import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.project.emmanuel.mto.domain.*;
-import com.ruoyi.project.emmanuel.mto.mapper.MtoPostAttributeMapper;
-import com.ruoyi.project.emmanuel.mto.mapper.MtoPostTagMapper;
-import com.ruoyi.project.emmanuel.mto.mapper.MtoTagMapper;
-import com.ruoyi.project.emmanuel.mto.service.IMtoCategoryService;
-import com.ruoyi.project.emmanuel.mto.service.IMtoChannelService;
-import com.ruoyi.project.emmanuel.mto.service.IMtoTagService;
+import com.ruoyi.project.emmanuel.mto.mapper.*;
+import com.ruoyi.project.emmanuel.mto.service.*;
 import com.ruoyi.project.system.user.domain.User;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.emmanuel.mto.mapper.MtoPostMapper;
-import com.ruoyi.project.emmanuel.mto.service.IMtoPostService;
 import com.ruoyi.common.utils.text.Convert;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -55,6 +49,9 @@ public class MtoPostServiceImpl implements IMtoPostService {
 
     @Autowired
     private MtoPostMapper mtoPostMapper;
+
+    @Autowired
+    private IWebPostService postService;
 
     @Autowired
     private MtoPostAttributeMapper mtoPostAttributeMapper;
@@ -269,45 +266,54 @@ public class MtoPostServiceImpl implements IMtoPostService {
         // 获取分类
         MtoChannel mtoChannel = new MtoChannel();
         List<MtoChannel> channelList = mtoChannelService.selectMtoChannelList(mtoChannel);
-        modelMap.put("channelList", channelList);
+        modelMap.put("channelList" , channelList);
 
         // 获取标签
         List<MtoTag> tagList = this.selectMtoTagList();
-        modelMap.put("tagList", tagList);
+        modelMap.put("tagList" , tagList);
 
         // 获取导航栏
         MtoCategory category = new MtoCategory();
         category.setStatus(1);
         List<MtoCategory> categoryList = mtoCategoryService.selectCategories(category);
-        modelMap.put("categoryList", categoryList);
+        modelMap.put("categoryList" , categoryList);
     }
 
     @Override
     public void getEditInfo(Long id, ModelMap modelMap) {
         // 文章
         MtoPost mtoPost = this.selectPostById(id);
-        modelMap.put("mtoPost", mtoPost);
+        modelMap.put("mtoPost" , mtoPost);
 
         // 获取分类
         MtoChannel mtoChannel = new MtoChannel();
         List<MtoChannel> channelList = mtoChannelService.selectMtoChannelList(mtoChannel);
-        modelMap.put("channelList", channelList);
+        modelMap.put("channelList" , channelList);
 
         // 获取标签
         List<MtoTag> tagList = this.selectMtoTagList();
-        modelMap.put("tagList", tagList);
+        modelMap.put("tagList" , tagList);
 
         // 获取导航栏
         MtoCategory category = new MtoCategory();
         category.setStatus(1);
         List<MtoCategory> categoryList = mtoCategoryService.selectCategories(category);
-        modelMap.put("categoryList", categoryList);
+        modelMap.put("categoryList" , categoryList);
     }
 
+    /**
+     * 导入markdown
+     *
+     * @param markDownList  markdown文件
+     * @param updateSupport 是否更新  (true更新/false不更新)
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String importData(List<MultipartFile> markDownList) {
+    public String importData(List<MultipartFile> markDownList, boolean updateSupport) {
+
         int i = 0;
+        // 组织要保存的markdown文件
         for (MultipartFile file : markDownList) {
             String fileOriginalName = file.getOriginalFilename();
             if (!(fileOriginalName.indexOf(".md") > -1)) {
@@ -322,7 +328,6 @@ public class MtoPostServiceImpl implements IMtoPostService {
                 while ((line = br.readLine()) != null) {
                     content += line + "\n";
                 }
-                System.out.println("content = " + content);
             } catch (Exception e) {
                 throw new RuntimeException("文件解析出错：" + e.getMessage());
             }
@@ -330,20 +335,27 @@ public class MtoPostServiceImpl implements IMtoPostService {
             MtoPost mtoPost = new MtoPost();
             mtoPost.setAuthorId(ShiroUtils.getUserId());
             mtoPost.setCreateTime(DateUtils.getNowDate());
-            mtoPost.setTitle(fileOriginalName.substring(0, fileOriginalName.lastIndexOf(".") - 1));
+            String markdownName = fileOriginalName.substring(0, fileOriginalName.lastIndexOf(".") - 1);
+            mtoPost.setTitle(markdownName);
+            // 设置文章内容
+            mtoPost.setContent(content);
             // 导入的默认为 草稿
             mtoPost.setStatus(1L);
             mtoPost.setTags("");
-             i = mtoPostMapper.insertMtoPost(mtoPost);
-            Long postId = mtoPost.getId();
-            // 新增 mto_post_attribute
             MtoPostAttribute mtoPostAttribute = new MtoPostAttribute();
-            mtoPostAttribute.setId(postId);
-            mtoPostAttribute.setContent(content);
-            mtoPostAttribute.setEditor("markdown");
-            mtoPostAttributeMapper.insertMtoPostAttribute(mtoPostAttribute);
+            // updateSupport 是否更新  (true更新/false不更新)
+            if (updateSupport) {
+                // 如果存在一样的标题更新
+                Long id = mtoPostMapper.isTitleExits(markdownName);
+                mtoPostAttribute.setContent(content);
+                mtoPostAttribute.setId(id);
+                i = ToolUtils.isEmpty(id) ? this.insertMtoPost(mtoPost) : mtoPostAttributeMapper.updateMtoPostAttribute(mtoPostAttribute);
+            } else {
+                i = this.insertMtoPost(mtoPost);
+            }
+
         }
-        return i > 0 ? "成功导入" : "导入失败";
+        return i > 0 ? "导入成功" : "导入失败";
     }
 
 
