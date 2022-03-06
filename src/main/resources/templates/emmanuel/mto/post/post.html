@@ -56,6 +56,9 @@
             <a class="btn btn-info " onclick="$.table.importMarkdown()" shiro:hasPermission="mto:post:import">
                 <i class="fa fa-upload"></i> 导入
             </a>
+            <a class="btn btn-warning"  onclick="exportSelected()" shiro:hasPermission="mto:post:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
         </div>
         <div class="col-sm-12 select-table ">
             <table id="bootstrap-table" class="table table-bordered" data-resizable="true"></table>
@@ -186,6 +189,26 @@
         $.table.init(options);
     });
 
+    // 导出博客
+    function exportSelected() {
+        var postIds = $.table.selectColumns("id");
+        var dataParam = $("#export-form").serializeArray();
+        var tipMsg = "确定导出所有数据吗？";
+        if($.common.isNotEmpty(postIds)){
+            tipMsg = "确定导出勾选" + postIds.length + "条数据吗？";
+            dataParam.push({ "name": "postIds", "value": postIds });
+        }
+        $.modal.confirm(tipMsg, function() {
+            $.post(prefix + "/exportData", dataParam, function(result) {
+                if (result.code == web_status.SUCCESS) {
+                    window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+                } else {
+                    $.modal.alertError(result.msg);
+                }
+            });
+        });
+    }
+
 </script>
 </body>
 <!-- 导入区域 -->
@@ -195,12 +218,12 @@
             <input type="file" multiple id="file" name="markDownList"/>
             <div class="mt10 pt5">
                 <input type="checkbox" id="updateSupport" name="updateSupport" title="如果名称相同，是否更新这条数据。"> 是否更新相同名称的博客
-             </div>
-<!--            <div>-->
-<!--                <div>导入须知</div>-->
-<!--                <div>1）博客中含有图片，目前只支持网络图片，不支持本地图片</div>-->
-<!--                <div>2）支持多文件同时导入</div>-->
-<!--            </div>-->
+            </div>
+            <!--            <div>-->
+            <!--                <div>导入须知</div>-->
+            <!--                <div>1）博客中含有图片，目前只支持网络图片，不支持本地图片</div>-->
+            <!--                <div>2）支持多文件同时导入</div>-->
+            <!--            </div>-->
 
             <font color="red" class="pull-left mt10">
                 提示：仅允许导入markdown格式文件！

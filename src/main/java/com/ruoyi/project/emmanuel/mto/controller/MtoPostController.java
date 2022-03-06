@@ -1,18 +1,10 @@
 package com.ruoyi.project.emmanuel.mto.controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.List;
-
 import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
 import com.ruoyi.project.emmanuel.mto.domain.MtoChannel;
-import com.ruoyi.project.emmanuel.mto.domain.MtoTag;
 import com.ruoyi.project.emmanuel.mto.service.IMtoChannelService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +18,7 @@ import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 文章标题题Controller
@@ -132,16 +125,27 @@ public class MtoPostController extends BaseController {
 
     /**
      * 导入markdown
-     * @param markDownList   markdown文件
-     * @param updateSupport  是否更新  (true更新/false不更新)
+     *
+     * @param markDownList  markdown文件
+     * @param updateSupport 是否更新  (true更新/false不更新)
      * @return
      */
     @Log(title = "导入markdown", businessType = BusinessType.IMPORT)
     @RequiresPermissions("mto:post:import")
     @PostMapping("/importData")
     @ResponseBody
-    public AjaxResult importData(List<MultipartFile> markDownList,boolean updateSupport) {
-        return AjaxResult.success(mtoPostService.importData(markDownList,updateSupport));
+    public AjaxResult importData(List<MultipartFile> markDownList, boolean updateSupport) {
+        return AjaxResult.success(mtoPostService.importData(markDownList, updateSupport));
+    }
+
+    /**
+     * 导出数据
+     */
+    @PostMapping("/exportData")
+    @RequiresPermissions("mto:post:export")
+    @ResponseBody
+    public AjaxResult exportSelected(String postIds, HttpServletResponse response) {
+        throw new RuntimeException("后期将会上线此功能");
     }
 
 }
