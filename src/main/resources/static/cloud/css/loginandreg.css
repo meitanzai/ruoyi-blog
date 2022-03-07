@@ -1,0 +1,175 @@
+*{
+    margin: 0;
+    padding: 0;
+    /*禁止双击选中*/
+    -moz-user-select:none;/*火狐*/
+    -webkit-user-select:none;/*webkit浏览器*/
+    -ms-user-select:none;/*IE10*/
+    -khtml-user-select:none;/*早期浏览器*/
+    user-select:none;
+}
+body{
+    width: 100%;
+    height: 100%;
+    background-color: #ECEFFF;
+}
+a{
+    text-decoration: none;
+}
+body div{
+    float: left;
+}
+.showlogo{
+    width: 65%;
+    height: 600px;
+}
+.showlogo img{
+    padding-top: 120px;
+    padding-left: 100px;
+}
+.loginform{
+    width: 35%;
+    height: 600px;
+}
+.loginform .box01{
+    width: 348px;
+    height: 454px;
+    position: absolute;
+    right: 150px;
+    text-align: center;
+    margin-top: 150px;
+}
+.loginform .box01 img{
+    padding-bottom: 40px;
+}
+.loginform div .form-reg-login{
+    width: 348px;
+    height: 346px;
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+.loginform div .form-reg-login .titletip{
+    width: 100%;
+    height: 56px;
+}
+.loginform div .form-reg-login .titletip span{
+    cursor: pointer;
+    float: left;
+    width: 116px;
+    height: 56px;
+    color: #AAABAD;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 56px;
+    background-color: #F5F5F6;
+}
+.loginform div .form-reg-login .titletip :nth-child(1){
+    background-color: #ffffff;
+    color: #25262B;
+    border-radius: 12px 0px 0px 0px;
+}
+.loginform div .form-reg-login .titletip :nth-child(3){
+    border-radius: 0px 12px 0px 0px;
+}
+#form01{
+    display: block;
+}
+#form02,#form03{
+    display: none;
+}
+#form01 form{
+    padding-top: 4px;
+    width: 348px;
+    text-align: center;
+}
+
+#email,#code,#loginsub{
+    width: 304px;
+    height: 46px;
+    border: none;
+    outline: none;
+    margin-top: 15px;
+    border-radius: 8px;
+    background-color: #F5F5F6;
+}
+#form01 form #code{
+    padding-left: 12px;
+    width: 180px;
+}
+#email{
+    padding-left: 12px;
+}
+#form01 form #getcode{
+    height: 44px;
+    color: #637DFF;
+    border-radius: 8px;
+    border: 1px solid #D4DAF9;
+    width: 118px;
+}
+input[type="checkbox"] {
+    -webkit-appearance: none;
+}
+#loginsub{
+    background-color: #AFBFFF;
+    color: white;
+    font-size: 16px;
+}
+#loginsub:hover{
+    cursor: no-drop;
+}
+#checkboxyes{
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    bottom: 78px;
+    left: 25px;
+    border-radius: 50%;
+    border: 2px solid #E6E7E8;
+    background-color: #ffffff;
+}
+input[type=checkbox]:checked:after {
+    font-size: 14px;
+    content: "√";
+    color: white;
+}
+#checkboxyes:checked{
+    border: 2px solid #637DFE;
+    background-color: #637DFE;
+}
+#agree01{
+    padding-left: 20px;
+    font-size: 12px;
+    color: #B0B1B3;
+}
+#form02 form{
+    padding-top: 4px;
+    width: 348px;
+    text-align: center;
+}
+#username,#password,#loginsub01,#loginsub02{
+    width: 304px;
+    height: 46px;
+    border: none;
+    outline: none;
+    margin-top: 15px;
+    border-radius: 8px;
+    background-color: #F5F5F6;
+}
+#username,#password{
+    padding-left: 12px;
+}
+#loginsub01,#loginsub02{
+    background-color: #697DEA;
+    font-size: 16px;
+    color: white;
+}
+#form03 form{
+    width: 348px;
+    text-align: center;
+}
+#form03 form #yktou{
+    width: 100px;
+    height: 100px;
+    padding-top: 40px;
+    padding-bottom: 30px;
+}

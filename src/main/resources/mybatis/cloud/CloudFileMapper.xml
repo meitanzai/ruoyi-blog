@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.emmanuel.cloud.mapper.CloudFileMapper">
+    <resultMap type="com.ruoyi.project.emmanuel.cloud.domain.CloudFile" id="CloudFileResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="oldfilename" column="oldfilename"/>
+        <result property="newfilename" column="newfilename"/>
+        <result property="ext" column="ext"/>
+        <result property="urlPath" column="url_path"/>
+        <result property="filePath" column="file_path"/>
+        <result property="size" column="size"/>
+        <result property="type" column="type"/>
+        <result property="isImg" column="is_img"/>
+        <result property="downcounts" column="downcounts"/>
+        <result property="uploadTime" column="upload_time"/>
+        <result property="isPublic" column="is_public"/>
+        <result property="isCollect" column="is_collect"/>
+        <result property="isShare" column="is_share"/>
+        <result property="isRecycle" column="is_recycle"/>
+    </resultMap>
+
+    <sql id="selectCloudFileVo">
+        select id,
+               user_id,
+               oldfilename,
+               newfilename,
+               ext,
+               url_path, file_path, size, type, is_img, downcounts, upload_time, update_time, is_public, is_collect, is_share, is_recycle
+        from cloud_file
+    </sql>
+
+    <select id="findUserInfo" resultType="com.ruoyi.project.emmanuel.cloud.domain.FileDTO">
+        SELECT IFNULL(sum(f.size), 0)  AS usedSpace,
+               u.avatar,
+               u.user_name             AS userName,
+               IFNULL(u.totalSpace, 0) as totalSpace
+        FROM sys_user u
+                     LEFT JOIN cloud_file f on u.user_id = f.user_id
+        WHERE f.user_id = #{userId,jdbcType=BIGINT};
+    </select>
+
+    <update id="updateCollectByIdList">
+        update cloud_file set is_collect = #{isCollect}
+        <where>
+            <foreach collection="idList" open="id in (" separator="," item="id" close=")">
+                #{id}
+            </foreach>
+        </where>
+    </update>
+
+    <select id="findAllImages" resultMap="CloudFileResult">
+        <include refid="selectCloudFileVo"/>
+        <where>
+            and is_img = 1 and is_recycle = 0
+            <if test="userId != null and userId != ''">and  user_id = #{userId,jdbcType=BIGINT}</if>
+        </where>
+    </select>
+
+    <select id="isShare" resultType="int">
+        select  count(*) from  cloud_file where id = #{fileId,jdbcType=BIGINT} and is_share = 1
+    </select>
+
+    <update id="updatePublicByIdList">
+        update cloud_file set is_public = #{isPublic}
+        <where>
+            <foreach collection="idList" open="id in (" separator="," item="id" close=")">
+                #{id}
+            </foreach>
+        </where>
+    </update>
+
+    <update id="updateShareById">
+        update cloud_file set is_share = #{isShare} where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,68 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 100%;
+    height: 100%;
+}
+#pertou{
+    width: 100%;
+    height: 100%;
+    padding-top: 30px;
+    padding-left: 60px;
+}
+#test1{
+    position: fixed;
+    border-radius: 10px;
+    left: 150px;
+    top: 110px;
+    background-color: white;
+    color: #637dff;
+    border: 1px solid #637dff;
+}
+.lines{
+    width: 300px;
+    height: 1px;
+    margin-left: 18px;
+    margin-bottom: 35px;
+    background-color: #eeeded;
+}
+#perinfo{
+    width: 500px;
+    padding-top: 40px;
+}
+input{
+    width: 200px;
+    height: 30px;
+    border: none;
+}
+#subinfo{
+    border-radius: 8px;
+    color: white;
+    background-color: #8e81f1;
+    margin-left: 30px;
+}
+#code{
+    width: 180px;
+    margin-left: 18px;
+}
+#lines{
+    margin-left: 18px;
+    width: 180px;
+}
+#line01{
+    margin-left: 18px;
+}
+#setlines{
+    margin-bottom: 20px;
+}
+#getcode{
+    margin-left: 10px;
+    width: 110px;
+    height: 35px;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    background-color: #8e81f1;
+}
