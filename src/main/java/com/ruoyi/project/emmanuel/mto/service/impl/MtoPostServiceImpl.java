@@ -266,39 +266,39 @@ public class MtoPostServiceImpl implements IMtoPostService {
         // 获取分类
         MtoChannel mtoChannel = new MtoChannel();
         List<MtoChannel> channelList = mtoChannelService.selectMtoChannelList(mtoChannel);
-        modelMap.put("channelList" , channelList);
+        modelMap.put("channelList", channelList);
 
         // 获取标签
         List<MtoTag> tagList = this.selectMtoTagList();
-        modelMap.put("tagList" , tagList);
+        modelMap.put("tagList", tagList);
 
         // 获取导航栏
         MtoCategory category = new MtoCategory();
         category.setStatus(1);
         List<MtoCategory> categoryList = mtoCategoryService.selectCategories(category);
-        modelMap.put("categoryList" , categoryList);
+        modelMap.put("categoryList", categoryList);
     }
 
     @Override
     public void getEditInfo(Long id, ModelMap modelMap) {
         // 文章
         MtoPost mtoPost = this.selectPostById(id);
-        modelMap.put("mtoPost" , mtoPost);
+        modelMap.put("mtoPost", mtoPost);
 
         // 获取分类
         MtoChannel mtoChannel = new MtoChannel();
         List<MtoChannel> channelList = mtoChannelService.selectMtoChannelList(mtoChannel);
-        modelMap.put("channelList" , channelList);
+        modelMap.put("channelList", channelList);
 
         // 获取标签
         List<MtoTag> tagList = this.selectMtoTagList();
-        modelMap.put("tagList" , tagList);
+        modelMap.put("tagList", tagList);
 
         // 获取导航栏
         MtoCategory category = new MtoCategory();
         category.setStatus(1);
         List<MtoCategory> categoryList = mtoCategoryService.selectCategories(category);
-        modelMap.put("categoryList" , categoryList);
+        modelMap.put("categoryList", categoryList);
     }
 
     /**
@@ -335,7 +335,8 @@ public class MtoPostServiceImpl implements IMtoPostService {
             MtoPost mtoPost = new MtoPost();
             mtoPost.setAuthorId(ShiroUtils.getUserId());
             mtoPost.setCreateTime(DateUtils.getNowDate());
-            String markdownName = fileOriginalName.substring(0, fileOriginalName.lastIndexOf(".") - 1);
+            // 标题 xxx.md  => xxx
+            String markdownName = fileOriginalName.substring(0, fileOriginalName.lastIndexOf("."));
             mtoPost.setTitle(markdownName);
             // 设置文章内容
             mtoPost.setContent(content);
