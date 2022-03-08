@@ -68,7 +68,9 @@
              th:if="${not #lists.isEmpty(dataInfo) && not #lists.isEmpty(dataInfo.rows)}" >
             <!--            推荐状态-->
             <span th:if="${item.featured==1}" class="fa fa-superscript-top superscript superscript-top"></span>
-            <span class="blogpic" th:if="${not #strings.isEmpty(item.thumbnail)}"><a><img th:src="${item.thumbnail}" style="width: 140px; height: 100px"></a><span class="blog-type"><a
+            <span class="blogpic" th:if="${not #strings.isEmpty(item.thumbnail)}"><a>
+                 <img th:src="${item.thumbnail}" onerror="javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'"  style="width: 140px; height: 100px"></a><span class="blog-type">
+                 </a><span class="blog-type"><a
                     th:href="@{${'/blog/channel/'+item.channelId}}"
                     th:text="${item.channelName}"></a></span></span>
             <!--            标题-->
