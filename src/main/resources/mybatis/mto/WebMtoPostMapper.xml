@@ -106,8 +106,12 @@
         p.views,
         p.weight,
         ifnull( p.update_time, p.create_time ) AS update_time,
-        p.thumbnail AS  thumbnail,
-        c.name as channel_Name
+        <!--        p.thumbnail AS  thumbnail,-->
+        c.name as channel_Name,
+
+        IF(ISNULL(p.thumbnail) || LENGTH(trim(p.thumbnail))=0,
+        CONCAT('/blog/img/',(SELECT FLOOR(RAND()*22)),'.jpg'),
+        p.thumbnail) as thumbnail
         FROM
         mto_post p
         LEFT JOIN mto_channel c ON p.channel_id = c.id
