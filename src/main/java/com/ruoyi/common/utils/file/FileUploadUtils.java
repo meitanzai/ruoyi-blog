@@ -2,6 +2,7 @@ package com.ruoyi.common.utils.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Objects;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,7 @@ import com.ruoyi.framework.config.RuoYiConfig;
 
 /**
  * 文件上传工具类
- * 
+ *
  * @author ruoyi
  */
 public class FileUploadUtils
@@ -111,8 +112,8 @@ public class FileUploadUtils
 
         String fileName = extractFilename(file);
 
-        File desc = getAbsoluteFile(baseDir, fileName);
-        file.transferTo(desc);
+        String absPath = getAbsoluteFile(baseDir, fileName).getAbsolutePath();
+        file.transferTo(Paths.get(absPath));
         return getPathFileName(baseDir, fileName);
     }
 
@@ -216,7 +217,7 @@ public class FileUploadUtils
 
     /**
      * 获取文件名的后缀
-     * 
+     *
      * @param file 表单文件
      * @return 后缀名
      */
