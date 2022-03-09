@@ -1141,6 +1141,35 @@ var table = {
                     }
                 });
             },
+            // 删除信息并刷新
+            removeReturn: function (id) {
+                table.set();
+                $.modal.confirm("确定删除该条" + table.options.modalName + "信息吗？", function () {
+                    var url = $.common.isEmpty(id) ? table.options.removeUrl : table.options.removeUrl.replace("{id}", id);
+                    if (table.options.type == table_type.bootstrapTreeTable) {
+                        $.operate.get(url);
+                    } else {
+                        var data = {"ids": id};
+                        // $.operate.submit(url, "post", "json", data);
+                        var config = {
+                            url: url,
+                            type: "post",
+                            dataType: "json",
+                            data: data,
+                            beforeSend: function () {
+                                $.modal.loading("正在处理中，请稍候...");
+                            },
+                            success: function (result) {
+                                if (typeof callback == "function") {
+                                    callback(result);
+                                }
+                                window.location.reload();
+                            }
+                        };
+                        $.ajax(config)
+                    }
+                });
+            },
             // 批量删除信息
             removeAll: function() {
                 table.set();
