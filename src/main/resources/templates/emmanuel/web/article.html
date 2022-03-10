@@ -35,6 +35,21 @@
             }
 
         }
+        :not(pre)>code[class*=language-], pre[class*=language-]::before {
+            content: " ";
+            position: absolute;
+            border-radius: 50%;
+            background: #fc625d;
+            width: 12px;
+            height: 12px;
+            top: 12px;
+            left: 12px;
+            box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
+            z-index: 2;
+        }
+        :not(pre)>code[class*=language-], pre[class*=language-] {
+            padding: 30px 10px 10px 10px;
+        }
     </style>
 </head>
 <body>
