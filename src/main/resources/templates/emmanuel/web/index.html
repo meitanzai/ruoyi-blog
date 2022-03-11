@@ -43,19 +43,19 @@
         </div>
 
         <!--            分类开始-->
-<!--        <div class="swiper-container mb-20">-->
-<!--            <div class="card" style="margin-bottom: 0;border-bottom: 1px solid rgba(0,0,0,.125);"-->
-<!--                 th:if="${not #lists.isEmpty(mtoChannelList)}">-->
-<!--                <div class="card-body d-flex align-content-start flex-wrap type-box"-->
-<!--                >-->
-<!--                    <a th:each="mtoChanne : ${mtoChannelList}"-->
-<!--                       th:text="${mtoChanne.name}"-->
-<!--                       th:href="${'/blog/channel/'+mtoChanne.id}"-->
-<!--                       style="margin: 0.2em;color: #fff;"-->
-<!--                       class="btn btn-primary">全部</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="swiper-container mb-20">-->
+        <!--            <div class="card" style="margin-bottom: 0;border-bottom: 1px solid rgba(0,0,0,.125);"-->
+        <!--                 th:if="${not #lists.isEmpty(mtoChannelList)}">-->
+        <!--                <div class="card-body d-flex align-content-start flex-wrap type-box"-->
+        <!--                >-->
+        <!--                    <a th:each="mtoChanne : ${mtoChannelList}"-->
+        <!--                       th:text="${mtoChanne.name}"-->
+        <!--                       th:href="${'/blog/channel/'+mtoChanne.id}"-->
+        <!--                       style="margin: 0.2em;color: #fff;"-->
+        <!--                       class="btn btn-primary">全部</a>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <!--            分类结束-->
 
         <!--没有内容时提示-->
@@ -69,10 +69,9 @@
             <!--            推荐状态-->
             <span th:if="${item.featured==1}" class="fa fa-superscript-top superscript superscript-top"></span>
             <span class="blogpic" th:if="${not #strings.isEmpty(item.thumbnail)}"><a>
-                 <img th:src="${item.thumbnail}" onerror="javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'"  style="width: 140px; height: 100px"></a><span class="blog-type">
-                 </a><span class="blog-type"><a
-                    th:href="@{${'/blog/channel/'+item.channelId}}"
-                    th:text="${item.channelName}"></a></span></span>
+                <img th:src="${item.thumbnail}" onerror="javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'"  style="width: 140px; height: 100px"></a><span class="blog-type">
+                <a th:href="@{${'/blog/channel/'+item.channelId}}"
+                   th:text="${item.channelName}"></a></span></span>
             <!--            标题-->
             <h3 class="blogtitle"><a th:href="@{${'/blog/article/'+item.id}}" target="_blank" th:text="${item.title}"></a></h3>
             <!--            摘要-->
