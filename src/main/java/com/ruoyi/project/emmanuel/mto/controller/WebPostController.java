@@ -218,4 +218,16 @@ public class WebPostController extends BaseController {
         return rspData;
     }
 
+    /**
+     * 标签页获取标签
+     *
+     * @param modelMap
+     * @return
+     */
+    @GetMapping({"/tags"})
+    public String selectTagList(ModelMap modelMap) {
+        postService.selectTagList(modelMap);
+        return prefix + "/tags";
+    }
+
 }
