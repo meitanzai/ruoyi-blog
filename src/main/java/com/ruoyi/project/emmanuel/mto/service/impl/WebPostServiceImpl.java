@@ -455,4 +455,30 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         this.publicWeb(modelMap);
         this.selectCategory(modelMap);
     }
+
+    /**
+     * 标签页获取标签
+     *
+     * @param modelMap
+     */
+    @Override
+    public void selectTagList(ModelMap modelMap) {
+        // 获取导航
+        this.selectCategory(modelMap);
+        // 获取侧边栏
+        this.publicWeb(modelMap);
+
+        // 获取所有标签
+        CompletableFuture<Void> categoryFuture = CompletableFuture.runAsync(() -> {
+            List<MtoTag> tagList = tagMapper.selectList(null);
+            modelMap.put("tagList", tagList);
+        }, executor);
+        try {
+            CompletableFuture.allOf(categoryFuture).get();
+        } catch (Exception e) {
+            throw new RuntimeException("异步编程发生错误: " + e.getMessage());
+        }
+
+    }
+
 }

@@ -452,6 +452,7 @@ INSERT INTO `mto_category` VALUES (4, 0, '领悟', '记录个人生活等文章'
 INSERT INTO `mto_category` VALUES (5, 3, '总结', '总结反思', 12, NULL, 1, '2019-09-11 11:28:15', '2022-02-25 13:32:56', 0, '');
 INSERT INTO `mto_category` VALUES (6, 0, '工具资源', '开发工具、服务端工具、中间件', 20, NULL, 1, '2019-09-14 15:26:39', '2019-09-14 15:28:28', 0, NULL);
 INSERT INTO `mto_category` VALUES (7, 0, '时间轴', '页面按时间排序', 2, NULL, 1, '2022-01-02 21:58:34', '2022-01-03 18:55:59', 1, '/blog/blog/focus');
+INSERT INTO `mto_category` VALUES (8, 0, '标签', '标签分类', 3, NULL, 1, '2022-01-02 21:58:34', '2022-01-03 18:55:59', 1, '/blog/tags');
 
 -- ----------------------------
 -- Table structure for mto_channel

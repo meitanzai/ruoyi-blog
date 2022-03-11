@@ -129,4 +129,12 @@ public interface IWebPostService extends IService<WebMtoPost> {
      * @return
      */
     public TableDataInfo selectIndexPostList(WebMtoPost webMtoPost, Long currentPage, Long currentSize);
+
+    /**
+     * 标签页获取标签
+     *
+     * @param modelMap
+     * @return
+     */
+    void selectTagList(ModelMap modelMap);
 }
