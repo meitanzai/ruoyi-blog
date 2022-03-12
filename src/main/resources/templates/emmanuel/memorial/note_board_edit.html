@@ -32,6 +32,10 @@
         <div class="form-group">
             <label class="col-sm-3 control-label is-required">类型：</label>
             <div class="col-sm-8">
+                <label class="radio-box">
+                    <input type="radio" name="noteType" id="-1" value="-1" required th:field="*{noteType}"
+                    > 动态</input>
+                </label>
                 <div class="radio-box" th:each="dict : ${@dict.getType('note_type')}">
                     <input type="radio" th:id="${'noteType_' + dict.dictCode}" name="noteType"
                            th:value="${dict.dictValue}" th:field="*{noteType}" required>
@@ -47,7 +51,8 @@
                     <input name="isPublic" type="radio" id=0 value=0 required th:field="*{isPublic}"> 公 开</input>
                 </label>
                 <label class="radio-box">
-                    <input name="isPublic" type="radio" id=1 value="1" required th:field="*{isPublic}"> 私 密(仅自己可见)</input>
+                    <input name="isPublic" type="radio" id=1 value="1" required th:field="*{isPublic}"> 私
+                    密(仅自己可见)</input>
                 </label>
             </div>
         </div>
@@ -84,9 +89,8 @@
                     ['color', ['color']],
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['table', ['table']],
-                    ['insert', ['link', 'picture']],
+                    ['insert', ['link', 'picture', 'video']],
                     ['view', ['fullscreen', 'help']],
-
                 ],
                 callbacks: {
                     onChange: function (contents, $edittable) {
