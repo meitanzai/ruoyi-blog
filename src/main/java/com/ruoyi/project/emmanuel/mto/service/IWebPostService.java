@@ -37,9 +37,9 @@ public interface IWebPostService extends IService<WebMtoPost> {
     MtoGolden selectIndexGolden();
 
     /**
-     * 博客查看
+     * 根据id获取博客详情
      *
-     * @param id
+     * @param id 博客id
      * @return
      */
     WebMtoPost selectMtoPostById(Long id);
@@ -68,6 +68,13 @@ public interface IWebPostService extends IService<WebMtoPost> {
      */
     void channelById(ModelMap modelMap, Long channelId, Long currentPage, Long currentSize);
 
+    /**
+     * 文章详情
+     *
+     * @param modelMap
+     * @param articleId 文章id
+     * @return
+     */
     void articleById(ModelMap modelMap, Long articleId);
 
     /**
@@ -134,7 +141,15 @@ public interface IWebPostService extends IService<WebMtoPost> {
      * 标签页获取标签
      *
      * @param modelMap
-     * @return
      */
     void selectTagList(ModelMap modelMap);
+
+    /**
+     * 获取动态
+     *
+     * @param pageNum  当前页
+     * @param pageSize 页大小
+     * @param modelMap
+     */
+    void dynamicList(Long pageNum, Long pageSize, ModelMap modelMap);
 }

@@ -95,7 +95,12 @@
                     field: 'noteType',
                     title: '类型',
                     formatter: function (value, row, index) {
-                        return $.table.selectDictLabel(noteTypeDatas, value);
+                        if (row.noteType == -1) {
+                            return '<span class="label label-warning">动态</span>';
+                        } else {
+                            return $.table.selectDictLabel(noteTypeDatas, value);
+
+                        }
                     }
                 },
                 // {
@@ -105,20 +110,15 @@
                 {
                     field: 'isPublic',
                     title: '发布形式',
-                    formatter: function(value, item, index) {
+                    formatter: function (value, item, index) {
                         if (item.isPublic == 0) {
                             return '<span class="label label-warning">公开</span>';
-                        }
-                        else if (item.isPublic == 1) {
+                        } else if (item.isPublic == 1) {
                             return '<span class="label label-danger">私密</span>';
                         }
 
                     }
                 },
-                // {
-                //     field: 'createTime',
-                //     title: '创建时间'
-                // },
                 {
                     title: '操作',
                     align: 'center',

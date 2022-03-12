@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="referrer" content="no-referrer"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/jquery.pagination.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/app.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+</head>
+<body>
+
+<!--导航栏-->
+<header id="header">
+    <div th:replace="emmanuel/web/navbar :: navbar"></div>
+</header>
+
+<div class="pb-container pb-content">
+    <div class="pb-main">
+        <!--        内容start-->
+        <div class="dynamic-content" id="dynamic-content">
+            <div class="dynamic-item" th:each="dynamic : ${pageInfo.rows}">
+                <div class="info">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="content" th:utext="${dynamic.noteContent}"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="meta">
+                            <span class="date">
+                                <i class="fa fa-clock-o"></i> 发布于 [[${dynamic.createTime}]]
+                            </span>
+                    <a class="praise" href="javascript:void(0)" th:data-id="${dynamic.id}">
+                        <i class="fa fa-heart-o"></i>&nbsp;<span class="praise-num">[[${dynamic.praiseNum}]]</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--        内容end-->
+
+        <!--        分页-->
+        <div th:if="${pageInfo!=null && pageInfo.totalPage gt 1}" id="pagebar">
+            <div id="pagination" class="page"></div>
+        </div>
+
+    </div>
+    <!--    侧边信息-->
+    <div class="hidden-xs hidden-sm">
+        <div th:replace="emmanuel/web/sidebar :: sidebar"></div>
+    </div>
+</div>
+
+<!--底部-->
+<div th:replace="emmanuel/web/footer :: copyrightDark"></div>
+<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+</body>
+
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/blog/mblog/js/jquery.pagination.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.7}"></script>
+
+<script>
+    // 分页请求
+    $(function () {
+        var $pagination = $("#pagination");
+        if ($pagination) {
+            $pagination.pagination({
+                currentPage: [[${pageInfo.currentPage}]],
+                totalPage: [[${pageInfo.totalPage}]],
+                callback: function (pageNo) {
+                    // 发出分页请求
+                    window.location.href = ('/blog/dynamics' + '?pageNum=' + pageNo);
+                }
+            });
+        }
+    })
+</script>
+
+</html>

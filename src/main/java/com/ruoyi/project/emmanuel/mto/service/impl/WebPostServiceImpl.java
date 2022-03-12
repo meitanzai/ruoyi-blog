@@ -9,9 +9,12 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.index.domin.BizRepeatLog;
 import com.ruoyi.project.emmanuel.index.mapper.BizRepeatLogMapper;
+import com.ruoyi.project.emmanuel.memorial.service.IBoardNoteService;
 import com.ruoyi.project.emmanuel.mto.domain.*;
 import com.ruoyi.project.emmanuel.mto.mapper.*;
 import com.ruoyi.project.emmanuel.mto.service.IWebPostService;
+import org.apache.ibatis.annotations.CacheNamespace;
+import org.apache.ibatis.cache.decorators.ScheduledCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
+@CacheNamespace(eviction = ScheduledCache.class, blocking = true, flushInterval = 120 * 1000)
 public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> implements IWebPostService {
 
     @Autowired
@@ -43,6 +47,10 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
     @Autowired
     private MtoPostTagMapper postTagMapper;
+
+
+    @Autowired
+    private IBoardNoteService boardNoteService;
 
     // @Resource
     // private ThreadPoolExecutor executor;
@@ -141,7 +149,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      */
     @Override
     public void selectIndexInfo(ModelMap modelMap, Long currentPage, Long currentSize) {
-        // 获取文章内容
+        // 获取文章列表
         this.loadMainPage(modelMap, new WebMtoPost(), currentPage, currentSize);
         // 获取导航
         this.selectCategory(modelMap);
@@ -261,12 +269,6 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      */
     @Override
     public void publicWeb(ModelMap modelMap) {
-
-        // 获取分类
-        // CompletableFuture<Void> channelFuture = CompletableFuture.runAsync(() -> {
-        //     List<MtoChannel> mtoChannelList = this.selectIndexChannelList();
-        //     modelMap.put("mtoChannelList", mtoChannelList);
-        // }, executor);
 
         // 获取标签
         CompletableFuture<Void> channelFuture = CompletableFuture.runAsync(() -> {
@@ -435,8 +437,8 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      *
      * @param tagId       标签名称
      * @param modelMap
-     * @param id
-     * @param currentPage
+     * @param currentPage 当前页
+     * @param currentSize 当页大小
      * @return
      */
     @Override
@@ -481,4 +483,21 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
     }
 
+    /**
+     * 获取动态
+     *
+     * @param pageNum  当前页
+     * @param pageSize 页大小
+     * @param modelMap
+     */
+    @Override
+    public void dynamicList(Long pageNum, Long pageSize, ModelMap modelMap) {
+        // 获取导航
+        this.selectCategory(modelMap);
+        // 获取侧边栏
+        this.publicWeb(modelMap);
+        // 获取动态列表
+        TableDataInfo tableDataInfo = boardNoteService.dynamicList(pageNum, pageSize, modelMap);
+        modelMap.put("pageInfo", tableDataInfo);
+    }
 }

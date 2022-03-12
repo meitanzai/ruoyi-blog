@@ -12,6 +12,7 @@ import com.ruoyi.project.emmanuel.memorial.mapper.BoardNoteMapper;
 import com.ruoyi.project.emmanuel.memorial.service.IBoardNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +33,8 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
         queryWrapper.lambda()
                 .select(BoardNote::getId, BoardNote::getNoteTitle, BoardNote::getNoteSummary, BoardNote::getNoteType, BoardNote::getIsPublic)
                 .eq(BoardNote::getIsPublic, "0")
-                .or().eq(BoardNote::getIsPublic, "1").and(i->i.eq(BoardNote::getAuthorId,ShiroUtils.getUserId()))
-        .last("order by create_time desc");
+                .or().eq(BoardNote::getIsPublic, "1").and(i -> i.eq(BoardNote::getAuthorId, ShiroUtils.getUserId()))
+                .last("order by create_time desc");
         Page<BoardNote> boardNotePage = boardNoteMapper.selectPage(page, queryWrapper);
         TableDataInfo dataInfo = new TableDataInfo();
         if (ToolUtils.isNotEmpty(boardNotePage)) {
@@ -73,5 +74,33 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
     public int deleteBoardNoteByIds(String ids) {
         ArrayList<String> idList = new ArrayList<>(Arrays.asList(ids.split(",")));
         return boardNoteMapper.deleteBatchIds(idList);
+    }
+
+    /**
+     * 获取动态
+     *
+     * @param pageNum  当前页
+     * @param pageSize 页大小
+     * @param modelMap
+     * @return
+     */
+    @Override
+    public TableDataInfo dynamicList(Long pageNum, Long pageSize, ModelMap modelMap) {
+        Page<BoardNote> dynamicPage = new Page<>(pageNum, pageSize);
+        TableDataInfo dataInfo = new TableDataInfo();
+        QueryWrapper<BoardNote> queryWrapper = new QueryWrapper<>();
+        // note_type = -1 为动态类型 and is_public = 0 为公共
+        queryWrapper.lambda().eq(BoardNote::getNoteType, "-1").and(i->i.eq(BoardNote::getIsPublic, "0")).orderByDesc(BoardNote::getCreateTime);
+
+        // 根据栏目id查询
+        Page<BoardNote> mtoDynamicPage = boardNoteMapper.selectPage(dynamicPage, queryWrapper);
+        if (ToolUtils.isNotEmpty(mtoDynamicPage)) {
+            dataInfo.setRows(mtoDynamicPage.getRecords());
+            dataInfo.setTotal(mtoDynamicPage.getTotal());
+            dataInfo.setCurrentPage(mtoDynamicPage.getCurrent());
+            dataInfo.setCurrentSize(mtoDynamicPage.getSize());
+            dataInfo.setTotalPage(mtoDynamicPage.getPages());
+        }
+        return dataInfo;
     }
 }

@@ -1,33 +1,22 @@
 package com.ruoyi.project.emmanuel.mto.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ruoyi.common.utils.IpUtils;
 import com.ruoyi.common.utils.ToolUtils;
-import com.ruoyi.common.utils.security.ShiroUtils;
-import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
-import com.ruoyi.project.emmanuel.mto.domain.*;
-import com.ruoyi.project.emmanuel.mto.service.IMtoCommentService;
+import com.ruoyi.project.emmanuel.mto.domain.MtoPost;
+import com.ruoyi.project.emmanuel.mto.domain.WebMtoPost;
 import com.ruoyi.project.emmanuel.mto.service.IWebPostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 @Controller
@@ -40,9 +29,6 @@ public class WebPostController extends BaseController {
 
     @Autowired
     private IWebPostService postService;
-
-    @Autowired
-    private IMtoCommentService mtoCommentService;
 
     // @GetMapping({"/list","/","index",""})
     // public String post(ModelMap modelMap, @RequestParam(value = "currentPage", defaultValue = "1") Long currentPage, @RequestParam(value = "currentSize", defaultValue = "10") Long currentSize) {
@@ -80,6 +66,13 @@ public class WebPostController extends BaseController {
     //     return prefix + "/index";
     // }
 
+    /**
+     * 根据id获取博客详情
+     *
+     * @param id       博客id
+     * @param modelMap
+     * @return
+     */
     @GetMapping("info/{id}")
     public String selectById(@PathVariable("id") Long id, ModelMap modelMap) {
         WebMtoPost mtoPost = postService.selectMtoPostById(id);
@@ -136,7 +129,7 @@ public class WebPostController extends BaseController {
      * 根据分类查询
      *
      * @param modelMap
-     * @param tagName     标签名称
+     * @param tagId       标签id
      * @param currentPage 当前页
      * @param currentSize 页大小
      * @return
@@ -230,4 +223,19 @@ public class WebPostController extends BaseController {
         return prefix + "/tags";
     }
 
+    /**
+     * 获取动态
+     *
+     * @param pageNum  当前页
+     * @param pageSize 页大小
+     * @param modelMap
+     * @return
+     */
+    @GetMapping(value = {"/dynamics"})
+    public String dynamics(@RequestParam(value = "pageNum", defaultValue = "1") Long pageNum,
+                           @RequestParam(value = "pageSize", defaultValue = "10") Long pageSize,
+                           ModelMap modelMap) {
+        postService.dynamicList(pageNum, pageSize, modelMap);
+        return prefix + "/dynamic";
+    }
 }

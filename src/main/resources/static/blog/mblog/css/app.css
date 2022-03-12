@@ -1235,6 +1235,17 @@ h3.friend-link-title {
 /** 友链 end  */
 
 /** 动态 start  */
+.dynamic-item {
+    overflow: hidden;
+    margin-bottom: 20px;
+    background: #FFF;
+    -webkit-box-shadow: 0 2px 5px 0 rgb(146 146 146 / 10%);
+    -moz-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1);
+    -moz-transition: all 0.6s ease;
+    -o-transition: all 0.6s ease;
+    transition: all 0.6s ease;
+    position: relative;
+}
 
 .dynamic-item {
     color: var(--text-color);

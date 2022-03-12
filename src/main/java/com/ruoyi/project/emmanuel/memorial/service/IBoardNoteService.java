@@ -3,6 +3,7 @@ package com.ruoyi.project.emmanuel.memorial.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.memorial.domain.BoardNote;
+import org.springframework.ui.ModelMap;
 
 public interface IBoardNoteService extends IService<BoardNote> {
 
@@ -18,6 +19,7 @@ public interface IBoardNoteService extends IService<BoardNote> {
 
     /**
      * 根据id查询随手记
+     *
      * @param id 随手记id
      * @return
      */
@@ -25,6 +27,7 @@ public interface IBoardNoteService extends IService<BoardNote> {
 
     /**
      * 修改随手记
+     *
      * @param boardNote
      * @return
      */
@@ -32,8 +35,19 @@ public interface IBoardNoteService extends IService<BoardNote> {
 
     /**
      * 删除随手记
+     *
      * @param ids
      * @return
      */
     int deleteBoardNoteByIds(String ids);
+
+    /**
+     * 获取动态数据
+     *
+     * @param pageNum  当前页
+     * @param pageSize 页大小
+     * @param modelMap
+     * @return
+     */
+    TableDataInfo dynamicList(Long pageNum, Long pageSize, ModelMap modelMap);
 }
