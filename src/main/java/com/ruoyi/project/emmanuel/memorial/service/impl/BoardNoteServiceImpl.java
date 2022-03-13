@@ -1,5 +1,6 @@
 package com.ruoyi.project.emmanuel.memorial.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -32,9 +33,17 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
         QueryWrapper<BoardNote> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
                 .select(BoardNote::getId, BoardNote::getNoteTitle, BoardNote::getNoteSummary, BoardNote::getNoteType, BoardNote::getIsPublic)
-                .eq(BoardNote::getIsPublic, "0")
-                .or().eq(BoardNote::getIsPublic, "1").and(i -> i.eq(BoardNote::getAuthorId, ShiroUtils.getUserId()))
+                .or().and(k -> k.eq(BoardNote::getIsPublic, "0").or(i -> i.eq(BoardNote::getAuthorId, ShiroUtils.getUserId()).eq(BoardNote::getIsPublic, "1")))
                 .last("order by create_time desc");
+        // 搜索
+        String noteType = boardNote.getNoteType();
+        if (ToolUtils.isNotEmpty(noteType)) {
+            queryWrapper.lambda().and(i -> i.eq(BoardNote::getNoteType, noteType));
+        }
+        String noteTitle = boardNote.getNoteTitle();
+        if (ToolUtils.isNotEmpty(noteTitle)) {
+            queryWrapper.lambda().like(BoardNote::getNoteTitle, noteTitle);
+        }
         Page<BoardNote> boardNotePage = boardNoteMapper.selectPage(page, queryWrapper);
         TableDataInfo dataInfo = new TableDataInfo();
         if (ToolUtils.isNotEmpty(boardNotePage)) {
@@ -90,7 +99,7 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
         TableDataInfo dataInfo = new TableDataInfo();
         QueryWrapper<BoardNote> queryWrapper = new QueryWrapper<>();
         // note_type = -1 为动态类型 and is_public = 0 为公共
-        queryWrapper.lambda().eq(BoardNote::getNoteType, "-1").and(i->i.eq(BoardNote::getIsPublic, "0")).orderByDesc(BoardNote::getCreateTime);
+        queryWrapper.lambda().eq(BoardNote::getNoteType, "-1").and(i -> i.eq(BoardNote::getIsPublic, "0")).orderByDesc(BoardNote::getCreateTime);
 
         // 根据栏目id查询
         Page<BoardNote> mtoDynamicPage = boardNoteMapper.selectPage(dynamicPage, queryWrapper);
