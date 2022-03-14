@@ -42,6 +42,9 @@
             <if test="classType != null  and classType != ''">
                 and class_type = #{classType}
             </if>
+            <if test="classStatus != null  and classStatus != ''">
+                and class_status = #{classStatus}
+            </if>
             <if test="classIntroduce != null  and classIntroduce != ''">
                 and class_introduce = #{classIntroduce}
             </if>
