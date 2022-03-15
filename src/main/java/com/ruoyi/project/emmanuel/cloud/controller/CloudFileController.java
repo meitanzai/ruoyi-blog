@@ -79,11 +79,9 @@ public class CloudFileController extends BaseController {
     public AjaxResult uploadFiles(@RequestParam("files") List<MultipartFile> fileList) {
         try {
             cloudFileService.uploadFiles(fileList);
-        } catch (MaxUploadSizeExceededException e){
-            throw new RuntimeException("上传文件超过系统设置最大限制");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            return AjaxResult.error("文件上传失败");
         }
         return AjaxResult.success("文件上传成功");
     }

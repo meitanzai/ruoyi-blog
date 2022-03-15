@@ -21,6 +21,12 @@
 
 <div class="pb-container pb-content">
     <div class="pb-main">
+
+        <!--没有内容时提示-->
+        <div class="no-article-content" th:if="${#lists.isEmpty(pageInfo.rows)}">
+            Sorry, 暂未发现任何动态~
+        </div>
+
         <!--        内容start-->
         <div class="dynamic-content" id="dynamic-content">
             <div class="dynamic-item" th:each="dynamic : ${pageInfo.rows}">

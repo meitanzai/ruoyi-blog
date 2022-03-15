@@ -97,6 +97,8 @@ layui.use(['upload', 'element', 'layer'], function(){
                 tds.eq(3).html('success'); //清空操作
                 delete this.files[index]; //删除文件队列已经上传成功的文件
                 return;
+            }else{
+                layer.msg(res.msg)
             }
             this.error(index, upload);
         }
@@ -108,7 +110,7 @@ layui.use(['upload', 'element', 'layer'], function(){
             var tr = that.elemList.find('tr#upload-'+ index)
                 ,tds = tr.children();
             tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
-            layer.msg("请检查空间是否已满")
+            // layer.msg("请检查空间是否已满")
         }
         ,progress: function(n, elem, e, index){ //注意：index 参数为 layui 2.6.6 新增
             element.progress('progress-demo-'+ index, n + '%'); //执行进度条。n 即为返回的进度百分比
