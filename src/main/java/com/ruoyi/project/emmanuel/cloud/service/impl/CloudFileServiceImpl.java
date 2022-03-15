@@ -65,9 +65,8 @@ public class CloudFileServiceImpl extends ServiceImpl<CloudFileMapper, CloudFile
         float usedSpace = userInfo.getUsedSpace();
         //获取总空间
         float totalSpace = userInfo.getTotalSpace();
-
         //得到百分比
-        String percentage = String.format("%.2f", (usedSpace / (totalSpace * 1024 * 1024)) * 100) + "%";
+        String percentage =  (totalSpace<=0) ? "无空间":String.format("%.2f", (usedSpace / (totalSpace * 1024 * 1024)) * 100) + "%";
         userInfo.setPercentage(percentage);
 
         //计算结果保留两位小数
