@@ -19,11 +19,6 @@
 
         <div class="collapse navbar-collapse navbar-right" aria-expanded="false">
             <ul class="nav navbar-nav">
-                <!--                <li th:class="${categoryId=='index' ? 'active' : ''} ">-->
-                <!--                    <a th:href="@{/blog}">-->
-                <!--                        首页-->
-                <!--                    </a>-->
-                <!--                </li>-->
 
                 <!--从数据库取的导航-->
                 <li th:each="category:${mtoCategoryList}"
@@ -38,6 +33,7 @@
                     <ul th:if="${not #lists.isEmpty(category.children)}" class="dropdown-menu">
                         <li th:each="node:${category.children}"><a
                                 th:href="@{${node.type==1 ? node.pageUrl : ('/blog/category/' + node.id)}}"
+                                th:class="${node.icon}"
                                 th:text="${node.name}"></a></li>
                     </ul>
                 </li>
@@ -47,7 +43,6 @@
                     </a>
                 </li>
                 <li>
-
 <!--                    <div>-->
 <!--                        <input class="inputstle" type="text" placeholder="请输入您要搜索的内容..." onkeydown="onkeypres(event)">-->
 <!--                        <i class="search-btn istle" />-->
