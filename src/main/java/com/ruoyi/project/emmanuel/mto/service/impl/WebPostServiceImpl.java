@@ -27,7 +27,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
-@CacheNamespace(eviction = ScheduledCache.class, blocking = true, flushInterval = 120 * 1000)
 public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> implements IWebPostService {
 
     @Autowired
