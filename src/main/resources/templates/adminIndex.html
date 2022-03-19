@@ -6,6 +6,7 @@
     <th:block th:include="include :: header('首頁')"/>
     <!--    <th:block th:include="include :: element-css"/>-->
     <th:block th:include="include :: toastr-css"/>
+    <!--    自定义样式-->
     <style>
         [v-cloak] {
             display: none;
@@ -83,6 +84,115 @@
                     <div class="col-xs-12 text-right">
                         <span style="font-family: 黑体; text-align:left; float:left "> {{oneGolden.golden.length > 59 ? oneGolden.golden.slice(0,58) + '...' : oneGolden.golden }} </span>
                         <h6 class="font-bold">{{oneGolden.author}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    项目介绍-->
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-4">
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>联系信息</h5>
+
+                    </div>
+                    <div class="ibox-content">
+                        <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.ruoyi.vip" target="_blank">http://www.ruoyi.vip</a>
+                        </p>
+                        <p><i class="fa fa-qq"></i> QQ群： <a href="https://jq.qq.com/?_wv=1027&k=540WfdEr"
+                                                            target="_blank">暂不提供</a>
+                        </p>
+                        <p><i class="fa fa-weixin"></i> 微信：<a href="javascript:;">暂不提供</a>
+                        </p>
+                        <p><i class="fa fa-credit-card"></i> 支付宝：<a href="javascript:;" class="支付宝信息">暂不提供</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>更新日志</h5>
+                    </div>
+                    <div class="ibox-content no-padding">
+                        <div class="panel-body">
+                            <div class="panel-group" id="version">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#version" href="#v473">v2.0 </a><code
+                                                class="pull-right">2022.03.19</code>
+                                        </h5>
+                                    </div>
+                                    <div id="v473" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <ol>
+                                                <li>新增功能标签分类</li>
+                                                <li>新增动态(心情打卡上线啦)</li>
+                                                <li>新增网盘功能</li>
+                                                <li>新增mac风格代码块</li>
+                                                <li>自定义全局异常上传文件超过系统设置最大限制</li>
+                                                <li>优化博客首页图片显示</li>
+                                                <li>优化博客导航二级菜单icon</li>
+                                                <li>修复备忘录删除报错</li>
+                                                <li>首页index列表图片失效容错</li>
+                                                <li>修复导入markdown文档标题错误</li>
+                                                <li>修复随手记sql查询逻辑错误</li>
+                                                <li>修复记账分类(分类状态)过滤失效问题</li>
+                                                <li>浏览文件解决上传图片名有中文名无法显示</li>
+                                                <li>优化博客导入，支持导入是否选择更新</li>
+                                                <li>修复首页显示问题</li>
+                                                <li>修复导入Excel时字典字段类型为Long转义为空问题</li>
+                                                <li>优化导出数据LocalDateTime类型无数据问题</li>
+                                                <li>修复表格打印组件不识别多层对象属性值问题(I4V7YV)</li>
+                                                <li>文件上传兼容Weblogic环境</li>
+                                                <li>升级mybatis-plus到最新版3.5.1</li>
+                                                <li>升级lombok到1.18.22</li>
+                                                <li>升级markdown转html到2.6.4</li>
+                                                <li>其他细节优化</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#version" href="#v472">v1.0</a><code
+                                                class="pull-right">2022-03-02</code>
+                                        </h5>
+                                    </div>
+                                    <div id="v472" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ol>
+                                                <li>若依博客稳定版发布</li>
+                                                <li>已具备基本的博客功能</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>捐赠</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="alert alert-warning">
+                            请作者喝杯咖啡（支付宝扫码）
+                        </div>
+                        <p id="pay-qrcode">
+                            <a href="javascript:;"><img th:src="@{/img/ali-pay.png}" width="100%" alt="请使用手机支付宝扫码支付">
+                            </a>
+                        </p>
+
                     </div>
                 </div>
             </div>

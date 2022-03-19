@@ -1,7 +1,7 @@
 <p align="center">
 	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-dd77653d7c9f197dd9d93684f3c8dcfbab6.png">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi Blog 1.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi Blog 2.0</h1>
 <h4 align="center">基于RuoYi-fast v4.7.3开发的轻量级Java快速开发框架</h4>
 <p align="center">
 <a target="_blank" href="https://gitee.com/GiteeKey/ruoyi-blog">
@@ -13,6 +13,7 @@
 	<a href="https://gitee.com/y_project/RuoYi"><img src="https://img.shields.io/badge/RuoYi-v4.7.3-brightgreen.svg"></a>
 	<a href="https://gitee.com/y_project/RuoYi/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
 </p>
+
 
 ## 平台简介
 
@@ -81,7 +82,7 @@
 
 ## 在线体验
 
-<font color=#d71345 size=3>本项目我将长期维护，优化，并不定时保持与ruoyi-fast同步。目前可能还存在bug或性能问题,希望大家一起解决。</font>
+<font color=#d71345 size=3>本项目我将长期维护，优化，并时刻保持与ruoyi-fast同步。目前可能还存在bug或性能问题,希望大家一起解决。</font>
 
 - admin/admin123   （后台暂不开放）
 
@@ -91,17 +92,21 @@
 
 ## 演示图
 
-![image.png](https://s2.loli.net/2022/01/28/P9EJboFKDlATQgt.png)
+![image.png](https://s2.loli.net/2022/03/19/WBZ36KxVAqs5Ovf.png)
 
-![image.png](https://s2.loli.net/2022/01/28/n1GIZKXlE3AtJ4q.png)
+![image.png](https://s2.loli.net/2022/03/19/iQTCEsmcvILyYAb.png)
 
-![image.png](https://s2.loli.net/2022/01/28/L7YBPJhi9qdNHmO.png)
+![image.png](https://s2.loli.net/2022/03/19/wpHv5n6GTqlPb4O.png)
 
-![image.png](https://s2.loli.net/2022/01/28/aUmo1cBvWriJGKO.png)
+![image.png](https://s2.loli.net/2022/03/19/98IXsOT2gcKeJQk.png)
 
-![image.png](https://s2.loli.net/2022/01/28/eUcNXKrE6Rb1hMm.png)
+![image.png](https://s2.loli.net/2022/03/19/YByPMCuA26jpZio.png)
+
+![image.png](https://s2.loli.net/2022/03/19/FXfj8a5hERMkYqt.png)
 
 ![image.png](https://s2.loli.net/2022/01/28/zJa3xbRGKuWrow2.png)
+
+![image.png](https://s2.loli.net/2022/03/19/auCJ6hne3dAkDZR.png)
 
 
 
@@ -155,6 +160,5 @@
         <td><img src="https://oscimg.oschina.net/oscnet/up-5e4daac0bb59612c5038448acbcef235e3a.png"/></td>
     </tr>
 </table>
-
 
 
