@@ -89,31 +89,54 @@
             </div>
         </div>
     </div>
-
     <!--    项目介绍-->
+    <div class="row border-bottom white-bg dashboard-header">
+        <div class="col-sm-3">
+            <h2>Hello,Guest</h2>
+            <small>移动设备访问请扫描以下二维码：</small>
+            <br>
+            <br>
+            <img th:src="@{/img/qr_code.png}" width="100%" style="max-width:264px;">
+            <br>
+        </div>
+        <div class="col-sm-5">
+            <h2>若依博客管理框架</h2>
+            <p>一直想做一个博客平台，看了很多优秀的开源项目但是发现没有合适的。于是利用空闲休息时间将若依后台管理与 pb-cms结合，在自己参考着开发一部分，如此有了这个博客系统。，她可以用于所有的Web应用程序，如<b>网站管理后台</b>，<b>网站会员中心</b>，<b>CMS</b>，<b>CRM</b>，<b>OA</b>等等，当然，您也可以对她进行深度定制，以做出更强系统。所有前端后台代码封装过后十分精简易上手，出错概率低。同时支持移动客户端访问。系统会陆续更新一些实用功能。
+            </p>
+            <p>
+                <b>当前版本：</b><span>V2.0 (若依v[[${version}]])</span>
+            </p>
+            <p>
+                <span class="label label-warning">&yen;免费开源</span>
+            </p>
+            <br>
+            <p>
+                <a class="btn btn-success btn-outline" href="https://gitee.com/GiteeKey/ruoyi-blog" target="_blank">
+                    <i class="fa fa-cloud"> </i> 访问码云
+                </a>
+                <a class="btn btn-white btn-bitbucket" href="http://ruoyi.vip" target="_blank">
+                    <i class="fa fa-home"></i> 访问主页
+                </a>
+            </p>
+        </div>
+        <div class="col-sm-4">
+            <h4>技术选型：</h4>
+            <ol>
+                <li>核心框架：Spring Boot。</li>
+                <li>安全框架：Apache Shiro。</li>
+                <li>模板引擎：Thymeleaf。</li>
+                <li>持久层框架：MyBatis Mybatis-Plus。</li>
+                <li>定时任务:Quartz。</li>
+                <li>数据库连接池：Druid。</li>
+                <li>工具类：Fastjson。</li>
+                <li>更多……</li>
+            </ol>
+        </div>
+    </div>
+    <!--    项目升级情况-->
     <div class="wrapper wrapper-content">
         <div class="row">
-            <div class="col-sm-4">
-
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>联系信息</h5>
-
-                    </div>
-                    <div class="ibox-content">
-                        <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.ruoyi.vip" target="_blank">http://www.ruoyi.vip</a>
-                        </p>
-                        <p><i class="fa fa-qq"></i> QQ群： <a href="https://jq.qq.com/?_wv=1027&k=540WfdEr"
-                                                            target="_blank">暂不提供</a>
-                        </p>
-                        <p><i class="fa fa-weixin"></i> 微信：<a href="javascript:;">暂不提供</a>
-                        </p>
-                        <p><i class="fa fa-credit-card"></i> 支付宝：<a href="javascript:;" class="支付宝信息">暂不提供</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
+            <div class="col-sm-8">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>更新日志</h5>
@@ -128,7 +151,7 @@
                                                 class="pull-right">2022.03.19</code>
                                         </h5>
                                     </div>
-                                    <div id="v473" class="panel-collapse collapse">
+                                    <div id="v473" class="panel-collapse collapse in">
                                         <div class="panel-body">
                                             <ol>
                                                 <li>新增功能标签分类</li>
