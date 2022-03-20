@@ -51,7 +51,6 @@ public class AccountBillController extends BaseController {
      */
     @RequiresPermissions("account:bill:view")
     @PostMapping("/list")
-    @Log(title = "查询账单年月统计", businessType = BusinessType.EXPORT)
     @ResponseBody
     public TableDataInfo list(AccountBill accountBill) {
         List<AccountBill> list = accountBillService.countMoneyByMonth(accountBill);
