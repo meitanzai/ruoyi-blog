@@ -6,6 +6,7 @@ import com.ruoyi.project.emmanuel.cloud.domain.CloudFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FileTypeUtils {
 
@@ -15,7 +16,7 @@ public class FileTypeUtils {
             return new ArrayList<CloudFile>();
         }
 
-        String[] exts = new String[]{"css", "doc", "html", "js", "json", "md", "mp3", "pdf", "psd", "ppt", "txt", "xml", "xls","img"};
+        String[] exts = new String[]{"css", "doc", "html", "js", "json", "md", "mp3", "pdf", "psd", "ppt", "txt", "xml", "xls", "img"};
 
         for (CloudFile file : list) {
             if (file.getIsImg() == 0) {
@@ -49,13 +50,13 @@ public class FileTypeUtils {
         return list;
     }
 
-    public static String iconFile(String fileType,String ext) {
+    public static String iconFile(String fileType, String ext) {
 
         if (StringUtils.isEmpty(fileType)) {
             return null;
         }
 
-        String[] exts = new String[]{"css","mp4", "doc", "html", "js", "json", "md", "mp3", "pdf", "psd", "ppt", "txt", "xml", "xls"};
+        String[] exts = new String[]{"css", "mp4", "doc", "html", "js", "json", "md", "mp3", "pdf", "psd", "ppt", "txt", "xml", "xls"};
 
         String icon = "";
 
@@ -68,19 +69,21 @@ public class FileTypeUtils {
         if (fileType.startsWith("video")) {
             icon = "mp4";
         }
-        if (fileType.startsWith("zip") || fileType.startsWith("rar") || fileType.startsWith("7z") || fileType.startsWith("gz")) {
+        if (fileType.startsWith("zip") || fileType.startsWith("rar") || fileType.startsWith("7z") || fileType.startsWith("gz") || fileType.startsWith("tar") || Objects.equals(ext, "7z") || Objects.equals(ext, "tar")) {
             icon = "zip";
         }
-        int i = 0;
-        while (i < exts.length) {
-            if (ext.startsWith(exts[i])) {
-                icon = exts[i];
-                break;
+        if (ToolUtils.isEmpty(icon) && ToolUtils.isNotEmpty(ext)) {
+            int i = 0;
+            while (i < exts.length) {
+                if (ext.startsWith(exts[i])) {
+                    icon = exts[i];
+                    break;
+                }
+                i++;
             }
-            i++;
-        }
-        if (i == exts.length) {
-            icon = "oth";
+            if (i == exts.length) {
+                icon = "oth";
+            }
         }
 
         return icon;

@@ -81,7 +81,7 @@ public class CloudFileController extends BaseController {
             cloudFileService.uploadFiles(fileList);
         } catch (IOException e) {
             e.printStackTrace();
-            return AjaxResult.error("文件上传失败");
+            return AjaxResult.error("文件上传失败:"+e.getMessage());
         }
         return AjaxResult.success("文件上传成功");
     }
