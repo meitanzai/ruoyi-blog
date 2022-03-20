@@ -11,7 +11,8 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
-    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/> /link>
+    <th:block th:include="include :: viewer-css"/>
     <th:block th:include="include :: tocbot-css"/>
     <th:block th:include="include :: toastr-css"/>
 
@@ -35,7 +36,8 @@
             }
 
         }
-        :not(pre)>code[class*=language-], pre[class*=language-]::before {
+
+        :not(pre) > code[class*=language-], pre[class*=language-]::before {
             content: " ";
             position: absolute;
             border-radius: 50%;
@@ -47,7 +49,8 @@
             box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
             z-index: 2;
         }
-        :not(pre)>code[class*=language-], pre[class*=language-] {
+
+        :not(pre) > code[class*=language-], pre[class*=language-] {
             padding: 30px 10px 10px 10px;
         }
     </style>
@@ -69,10 +72,10 @@
 
 
             <div class="article-meta">
-<!--                发布于  <span th:text="${#dates.format(mtoPost.createTime,'yyyy-MM-dd')}"></span>-->
-                  <span th:text="${mtoPost.updateTime} ? '更新于' + ${#dates.format(mtoPost.updateTime,'yyyy-MM-dd')}: '发布于' + ${#dates.format(mtoPost.createTime,'yyyy-MM-dd')}"></span>
+                <!--                发布于  <span th:text="${#dates.format(mtoPost.createTime,'yyyy-MM-dd')}"></span>-->
+                <span th:text="${mtoPost.updateTime} ? '更新于' + ${#dates.format(mtoPost.updateTime,'yyyy-MM-dd')}: '发布于' + ${#dates.format(mtoPost.createTime,'yyyy-MM-dd')}"></span>
                 &nbsp;|&nbsp; <span th:text="${mtoPost.channelName}"></span> &nbsp;
-                |&nbsp; 浏览（<span  th:text="${mtoPost.views}? ${mtoPost.views} : 0"></span>）
+                |&nbsp; 浏览（<span th:text="${mtoPost.views}? ${mtoPost.views} : 0"></span>）
                 &nbsp;|&nbsp; 评论（<span th:text="${mtoPost.comments}? ${mtoPost.comments} : 0"></span>）
             </div>
             <hr class="hr0"/>
@@ -135,6 +138,7 @@
 <script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
 <script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
 <script th:src="@{/ruoyi/js/ry-ui.js?v=4.7.1}"></script>
+<th:block th:include="include :: viewer-js"/>
 <th:block th:include="include :: tocbot-js"/>
 <th:block th:include="include :: toastr-js"/>
 
@@ -184,19 +188,6 @@
         });
     });
 
-
-    // tocbot.init({
-    //     // Where to render the table of contents.
-    //     tocSelector: '.js-toc',
-    //     // Where to grab the headings to build the table of contents.
-    //     contentSelector: '.js-toc-content',
-    //     // Which headings to grab inside of the contentSelector element.
-    //     headingSelector: 'h1, h2, h3',
-    //     // For headings inside relative or absolute positioned containers within content.
-    //     hasInnerContainers: true,
-    // });
-
-
     // 参考文章 https://eriri.ink/archives/build-a-toc-for-an-article.html
     var headerEl = 'h1, h2, h3, h4, h5, h6',  //headers
         content = '.js-toc-content',//文章容器
@@ -240,6 +231,9 @@
         // fixedSidebarOffset: 'auto',
 
     });
+
+    // 点击图片预览 官网 https://gitcode.net/mirrors/fengyuanchen/viewerjs
+    const gallery = new Viewer(document.getElementById('content'));
 
 </script>
 

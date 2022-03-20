@@ -11,6 +11,7 @@
     <link rel="stylesheet" th:href="@{/blog/mblog/css/app.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+    <th:block th:include="include :: viewer-css"/>
 </head>
 <body>
 
@@ -65,11 +66,10 @@
 <div th:replace="emmanuel/web/footer :: copyrightDark"></div>
 <div class="return_top"><a class=" fa fa-arrow-up"></a></div>
 </body>
-
 <script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
 <script th:src="@{/blog/mblog/js/jquery.pagination.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js?v=3.3.7}"></script>
-
+<th:block th:include="include :: viewer-js"/>
 <script>
     // 分页请求
     $(function () {
@@ -85,6 +85,9 @@
             });
         }
     })
+
+    // 官网 https://gitcode.net/mirrors/fengyuanchen/viewerjs
+    const gallery = new Viewer(document.getElementById('dynamic-content'));
 </script>
 
 </html>
