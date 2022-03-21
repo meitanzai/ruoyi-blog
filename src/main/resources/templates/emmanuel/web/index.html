@@ -26,7 +26,7 @@
 <div class="pb-container pb-content">
     <div class="pb-main">
 
-        <!--				轮播图-->
+        <!--				轮播图start -->
         <div class="swiper-container mb-20"
              th:if="${not #lists.isEmpty(sliderDataInfo) && not #lists.isEmpty(sliderDataInfo.rows)}">
             <div class="swiper-wrapper">
@@ -41,23 +41,7 @@
             <div class="swiper-button-prev"><i class="fa fa-chevron-circle-left"></i></div>
             <div class="swiper-button-next"><i class="fa fa-chevron-circle-right"></i></div>
         </div>
-
-        <!--            分类开始-->
-        <!--        <div class="swiper-container mb-20">-->
-        <!--            <div class="card" style="margin-bottom: 0;border-bottom: 1px solid rgba(0,0,0,.125);"-->
-        <!--                 th:if="${not #lists.isEmpty(mtoChannelList)}">-->
-        <!--                <div class="card-body d-flex align-content-start flex-wrap type-box"-->
-        <!--                >-->
-        <!--                    <a th:each="mtoChanne : ${mtoChannelList}"-->
-        <!--                       th:text="${mtoChanne.name}"-->
-        <!--                       th:href="${'/blog/channel/'+mtoChanne.id}"-->
-        <!--                       style="margin: 0.2em;color: #fff;"-->
-        <!--                       class="btn btn-primary">全部</a>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
-        <!--            分类结束-->
-
+        <!--				轮播图end -->
         <!--没有内容时提示-->
         <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.rows)}">
             Sorry, 暂未发现任何文章~
@@ -65,15 +49,19 @@
 
         <!--        博客内容开始-->
         <div th:each="item,temp : ${dataInfo.rows}" class="blogs"
-             th:if="${not #lists.isEmpty(dataInfo) && not #lists.isEmpty(dataInfo.rows)}" >
+             th:if="${not #lists.isEmpty(dataInfo) && not #lists.isEmpty(dataInfo.rows)}">
             <!--            推荐状态-->
             <span th:if="${item.featured==1}" class="fa fa-superscript-top superscript superscript-top"></span>
             <span class="blogpic" th:if="${not #strings.isEmpty(item.thumbnail)}"><a>
-                <img th:src="${item.thumbnail}" onerror="javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'"  style="width: 140px; height: 100px"></a><span class="blog-type">
+                <img src="/blog/img/load.jpg"
+                     th:data-echo="${item.thumbnail}"
+                     onerror="javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'"
+                     style="width: 140px; height: 100px"></a><span class="blog-type">
                 <a th:href="@{${'/blog/channel/'+item.channelId}}"
                    th:text="${item.channelName}"></a></span></span>
             <!--            标题-->
-            <h3 class="blogtitle"><a th:href="@{${'/blog/article/'+item.id}}" target="_blank" th:text="${item.title}"></a></h3>
+            <h3 class="blogtitle"><a th:href="@{${'/blog/article/'+item.id}}" target="_blank"
+                                     th:text="${item.title}"></a></h3>
             <!--            摘要-->
             <p th:text="${item.summary}" class="blogtext"></p>
             <div class="bloginfo">
@@ -112,13 +100,7 @@
 <script th:src="@{/blog/mblog/js/tagcloud.js}"></script>
 <script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
 <script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
-
-
-<script th:inline="javascript">
-
-
-</script>
-
+<th:block th:include="include :: echo-js"/>
 
 <script>
     // 分页请求
@@ -131,11 +113,17 @@
                 callback: function (pageNo) {
                     // 发出分页请求
                     // window.location.href = ('/blog' + '?currentPage=' + pageNo);
-                    window.location.href = ("?currentPage="+pageNo);
+                    window.location.href = ("?currentPage=" + pageNo);
                 }
             });
         }
     })
+
+    // 图片懒加载
+    Echo.init({
+        offset: 0,//离可视区域多少像素的图片可以被加载
+        throttle: 0 //图片延时多少毫秒加载
+    });
 </script>
 
 </html>
