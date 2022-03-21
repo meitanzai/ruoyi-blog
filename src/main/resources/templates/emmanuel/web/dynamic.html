@@ -40,7 +40,7 @@
                 </div>
                 <div class="meta">
                             <span class="date">
-                                <i class="fa fa-clock-o"></i> 发布于 [[${dynamic.createTime}]]
+                                <i class="fa fa-clock-o"></i> 发布于 [[${#dates.format(dynamic.createTime,'yyyy-MM-dd HH:mm:ss')}]]
                             </span>
                     <a class="praise" href="javascript:void(0)" th:data-id="${dynamic.id}">
                         <i class="fa fa-heart-o"></i>&nbsp;<span class="praise-num">[[${dynamic.praiseNum}]]</span>
