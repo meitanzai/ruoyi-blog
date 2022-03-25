@@ -6,6 +6,7 @@
 <p align="center">
 <a target="_blank" href="https://gitee.com/GiteeKey/ruoyi-blog">
     <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
+        <img src="https://img.shields.io/badge/mysql-5.7-yellow.svg" >
     <img src="https://img.shields.io/badge/springboot-2.5.10.RELEASE-green" ></img>
     <img src="https://img.shields.io/badge/Blog-v1.0-brightgreen.svg">
 	<img src="https://img.shields.io/badge/mybatis--plus-3.5.1-green" ></img>
@@ -13,6 +14,7 @@
 	<a href="https://gitee.com/y_project/RuoYi"><img src="https://img.shields.io/badge/RuoYi-v4.7.3-brightgreen.svg"></a>
 	<a href="https://gitee.com/y_project/RuoYi/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
 </p>
+
 
 
 ## 平台简介
