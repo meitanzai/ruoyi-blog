@@ -180,14 +180,15 @@ var table = {
                 if (typeof table.get(this.id).responseHandler == "function") {
                     table.get(this.id).responseHandler(res);
                 }
+                var thisOptions = table.config[this.id];
                 if (res.code == web_status.SUCCESS) {
-                    if ($.common.isNotEmpty(table.options.sidePagination) && table.options.sidePagination == 'client') {
+                    if ($.common.isNotEmpty(thisOptions.sidePagination) && thisOptions.sidePagination == 'client') {
                         return res.rows;
                     } else {
-                        if ($.common.isNotEmpty(table.options.rememberSelected) && table.options.rememberSelected) {
-                            var column = $.common.isEmpty(table.options.uniqueId) ? table.options.columns[1].field : table.options.uniqueId;
+                        if ($.common.isNotEmpty(thisOptions.rememberSelected) && thisOptions.rememberSelected) {
+                            var column = $.common.isEmpty(thisOptions.uniqueId) ? thisOptions.columns[1].field : thisOptions.uniqueId;
                             $.each(res.rows, function(i, row) {
-                                row.state = $.inArray(row[column], table.rememberSelectedIds[table.options.id]) !== -1;
+                                row.state = $.inArray(row[column], table.rememberSelectedIds[thisOptions.id]) !== -1;
                             })
                         }
                         return { rows: res.rows, total: res.total };
@@ -436,12 +437,12 @@ var table = {
                             type: 'POST',
                             success: function (result) {
                                 if (result.code == web_status.SUCCESS) {
-                                	$.modal.close(index);
+                                    $.modal.close(index);
                                     $.modal.closeAll();
                                     $.modal.alertSuccess(result.msg);
                                     $.table.refresh();
                                 } else if (result.code == web_status.WARNING) {
-                                	$.modal.close(index);
+                                    $.modal.close(index);
                                     $.modal.enable();
                                     $.modal.alertWarning(result.msg)
                                 } else {
@@ -451,7 +452,7 @@ var table = {
                                 }
                             },
                             complete: function () {
-                            	layero.find('#file').val('');
+                                layero.find('#file').val('');
                             }
                         });
                     }
@@ -758,7 +759,7 @@ var table = {
                     startLayDate.config.max.year = '2099';
                     startLayDate.config.max.month = '12';
                     startLayDate.config.max.date = '31';
-                 }
+                }
             },
             // 获取选中复选框项
             selectCheckeds: function(name) {
@@ -804,9 +805,9 @@ var table = {
             // 消息提示
             msg: function(content, type) {
                 if (type != undefined) {
-                	top.layer.msg(content, { icon: $.modal.icon(type), time: 1000, shift: 5 });
+                    top.layer.msg(content, { icon: $.modal.icon(type), time: 1000, shift: 5 });
                 } else {
-                	top.layer.msg(content);
+                    top.layer.msg(content);
                 }
             },
             // 错误消息
@@ -845,17 +846,17 @@ var table = {
             // 消息提示，重新加载页面
             msgReload: function(msg, type) {
                 top.layer.msg(msg, {
-                    icon: $.modal.icon(type),
-                    time: 500,
-                    shade: [0.1, '#8F8F8F']
-                },
-                function() {
-                    $.modal.reload();
-                });
+                        icon: $.modal.icon(type),
+                        time: 500,
+                        shade: [0.1, '#8F8F8F']
+                    },
+                    function() {
+                        $.modal.reload();
+                    });
             },
             // 消息提示成功并刷新父窗体
             msgSuccessReload: function(msg) {
-            	$.modal.msgReload(msg, modal_status.SUCCESS);
+                $.modal.msgReload(msg, modal_status.SUCCESS);
             },
             // 获取iframe页的DOM
             getChildFrame: function (index) {
@@ -1386,7 +1387,7 @@ var table = {
                 if (result.code == web_status.SUCCESS) {
                     var parent = activeWindow();
                     if($.common.isEmpty(parent.table)) {
-                    	$.modal.msgSuccessReload(result.msg);
+                        $.modal.msgSuccessReload(result.msg);
                     } else if (parent.table.options.type == table_type.bootstrapTable) {
                         $.modal.close();
                         parent.$.modal.msgSuccess(result.msg);
@@ -1702,12 +1703,12 @@ var table = {
                 if (!date) return;
                 if (!format) format = "yyyy-MM-dd";
                 switch (typeof date) {
-                case "string":
-                    date = new Date(date.replace(/-/g, "/"));
-                    break;
-                case "number":
-                    date = new Date(date);
-                    break;
+                    case "string":
+                        date = new Date(date.replace(/-/g, "/"));
+                        break;
+                    case "number":
+                        date = new Date(date);
+                        break;
                 }
                 if (!date instanceof Date) return;
                 var dict = {
@@ -1724,9 +1725,9 @@ var table = {
                     "ss": ("" + (date.getSeconds() + 100)).substr(1)
                 };
                 return format.replace(/(yyyy|MM?|dd?|HH?|ss?|mm?)/g,
-                function() {
-                    return dict[arguments[0]];
-                });
+                    function() {
+                        return dict[arguments[0]];
+                    });
             },
             // 获取节点数据，支持多层级访问
             getItemField: function (item, field) {
@@ -1801,11 +1802,11 @@ var table = {
             },
             // 获取obj对象长度
             getLength: function(obj) {
-                var count = 0;　　
+                var count = 0;
                 for (var i in obj) {
                     if (obj.hasOwnProperty(i)) {
                         count++;
-                    }　　
+                    }
                 }
                 return count;
             },
