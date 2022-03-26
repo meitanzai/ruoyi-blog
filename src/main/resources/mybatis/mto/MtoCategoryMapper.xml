@@ -23,7 +23,6 @@
 			<result property="description" jdbcType="VARCHAR" column="p_description"/>
 			<result property="status" jdbcType="INTEGER" column="p_status"/>
 			<result property="icon" jdbcType="VARCHAR" column="p_icon"/>
-			<result property="sort" jdbcType="INTEGER" column="sort"/>
 		</association>
 		<collection property="children" column="n_id" javaType="ArrayList" ofType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory">
 			<result property="id" jdbcType="INTEGER" column="n_id"/>
@@ -34,7 +33,6 @@
 			<result property="description" jdbcType="VARCHAR" column="n_description"/>
 			<result property="status" jdbcType="INTEGER" column="n_status"/>
 			<result property="icon" jdbcType="VARCHAR" column="n_icon"/>
-			<result property="sort" jdbcType="INTEGER" column="sort"/>
 		</collection>
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -71,7 +69,6 @@
 		p.description p_description,
 		p.`status` p_status,
 		p.icon p_icon,
-		p.sort,
 		n.`id` n_id,
 		n.`pid` n_pid,
 		n.type as n_type,
@@ -79,8 +76,7 @@
 		n.`name` n_name,
 		n.description n_description,
 		n.`status` n_status,
-		n.icon n_icon,
-		n.sort
+		n.icon n_icon
 		FROM
 		mto_category t
 		LEFT JOIN mto_category p ON t.pid = p.id
