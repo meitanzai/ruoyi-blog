@@ -23,6 +23,7 @@
 			<result property="description" jdbcType="VARCHAR" column="p_description"/>
 			<result property="status" jdbcType="INTEGER" column="p_status"/>
 			<result property="icon" jdbcType="VARCHAR" column="p_icon"/>
+			<result property="sort" jdbcType="INTEGER" column="sort"/>
 		</association>
 		<collection property="children" column="n_id" javaType="ArrayList" ofType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory">
 			<result property="id" jdbcType="INTEGER" column="n_id"/>
@@ -33,6 +34,7 @@
 			<result property="description" jdbcType="VARCHAR" column="n_description"/>
 			<result property="status" jdbcType="INTEGER" column="n_status"/>
 			<result property="icon" jdbcType="VARCHAR" column="n_icon"/>
+			<result property="sort" jdbcType="INTEGER" column="sort"/>
 		</collection>
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -47,8 +49,20 @@
 		update_time
 	</sql>
 
-	<select id="selectCategories" parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory" resultMap="rm" >
-		select t.*,
+	<select id="selectCategories"
+			parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory"
+			resultMap="rm"
+			useCache="true">
+		select
+		t.`id` ,
+		t.`pid`,
+		t.type ,
+		t.page_url,
+		t.`name` ,
+		t.description ,
+		t.`status` ,
+		t.icon   ,
+		t.sort,
 		p.id p_id,
 		p.`pid` p_pid,
 		p.type as p_type,
@@ -57,6 +71,7 @@
 		p.description p_description,
 		p.`status` p_status,
 		p.icon p_icon,
+		p.sort,
 		n.`id` n_id,
 		n.`pid` n_pid,
 		n.type as n_type,
@@ -64,30 +79,30 @@
 		n.`name` n_name,
 		n.description n_description,
 		n.`status` n_status,
-		n.icon n_icon
+		n.icon n_icon,
+		n.sort
 		FROM
 		mto_category t
 		LEFT JOIN mto_category p ON t.pid = p.id
 		LEFT JOIN mto_category n ON n.pid = t.id
 		<where>
-		<if test="name !=null and name != ''">
-			AND t.`name` like concat('%', #{name}, '%')
-		</if>
-		<if test="description !=null and description != ''">
-			AND t.description like concat('%', #{description}, '%')
-		</if>
-		<if test="status !=null">
-			AND t.`status` = #{status}
-		</if>
-		<if test="pid !=null">
-			AND t.pid = #{pid}
-		</if>
+			<if test="name !=null and name != ''">
+				AND t.`name` like concat('%', #{name}, '%')
+			</if>
+			<if test="description !=null and description != ''">
+				AND t.description like concat('%', #{description}, '%')
+			</if>
+			<if test="status !=null">
+				AND t.`status` = #{status}
+			</if>
+			<if test="pid !=null">
+				AND t.pid = #{pid}
+			</if>
 		</where>
 		ORDER BY t.sort ASC
 	</select>
 
-
-<!--	新代码-->
+	<!--	新代码-->
 	<resultMap type="com.ruoyi.project.emmanuel.mto.domain.MtoCategory" id="MtoCategoryResult">
 		<result property="id"    column="id"    />
 		<result property="pid"    column="pid"    />
