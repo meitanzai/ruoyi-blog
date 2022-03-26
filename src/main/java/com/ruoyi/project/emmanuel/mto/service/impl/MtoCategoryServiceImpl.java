@@ -144,7 +144,12 @@ public class MtoCategoryServiceImpl extends ServiceImpl<MtoCategoryMapper, MtoCa
      */
     @Override
     public List<Ztree> selectMtoCategoryTree() {
-        List<MtoCategory> mtoCategoryList = mtoCategoryMapper.selectMtoCategoryList(new MtoCategory());
+        MtoCategory category = new MtoCategory();
+        // 只查询分类，页面不可新增下级
+        category.setType(0);
+        // 查询启用状态
+        category.setStatus(1);
+        List<MtoCategory> mtoCategoryList = mtoCategoryMapper.selectMtoCategoryList(category);
         List<Ztree> ztrees = new ArrayList<Ztree>();
         for (MtoCategory mtoCategory : mtoCategoryList) {
             Ztree ztree = new Ztree();

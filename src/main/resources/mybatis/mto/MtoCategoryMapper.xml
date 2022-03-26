@@ -127,6 +127,7 @@
 			<if test="sort != null "> and sort = #{sort}</if>
 			<if test="icon != null  and icon != ''"> and icon = #{icon}</if>
 			<if test="status != null "> and status = #{status}</if>
+			<if test="type != null "> and `type` = #{type}</if>
 		</where>
 		order by sort
 	</select>
