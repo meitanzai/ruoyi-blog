@@ -1,20 +1,21 @@
 <nav id="navbar" th:fragment="navbar" class="navbar navbar-default ">
     <div class="pb-container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only">
-								导航
-							</span>
-                <span class="icon-bar">
-							</span>
-                <span class="icon-bar">
-							</span>
-                <span class="icon-bar">
-							</span>
-            </button>
-            <a class="logo-a" th:href="@{/}">
-                <img th:src="@{/favicon.ico}" alt="logo"/>
-            </a>
+
+            <ul class="nav navbar-nav">
+                <!-- logo图片-->
+                <a class="logo-a" th:href="@{/}">
+                    <img th:src="@{/favicon.ico}" alt="logo"/>
+                </a>
+                <li style="padding-left: 10px;padding-top: 5px;">
+                    <!-- 屏蔽 iframe -->
+                    <div class="mask"></div>
+                    <!--    2345天气插件官网            https://tianqi.2345.com/plugin/-->
+                    <iframe allowtransparency="true" frameborder="0" width="150" height="30" scrolling="no"
+                            src="//tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=0&v=0&d=3&bd=0&k=&f=&ltf=009944&htf=cc0000&q=1&e=1&a=1&c=54511&w=180&h=36&align=left"></iframe>
+                </li>
+            </ul>
+
         </div>
 
         <div class="collapse navbar-collapse navbar-right" aria-expanded="false">
@@ -37,76 +38,20 @@
                                 th:text="${node.name}"></a></li>
                     </ul>
                 </li>
-                <li>
-<!--                    <div>-->
-<!--                        <input class="inputstle" type="text" placeholder="请输入您要搜索的内容..." onkeydown="onkeypres(event)">-->
-<!--                        <i class="search-btn istle" />-->
-<!--                        </input>-->
-<!--                    </div>-->
-                </li>
             </ul>
         </div>
     </div>
-<!--    <script>-->
-<!--        // 给input绑定回车搜索事件-->
-<!--        function onkeypres(e) {-->
-<!--            var evt = window.event || e;-->
-<!--            if (e.keyCode == 13) {-->
-<!--                inputs()-->
-<!--                return false;-->
-<!--            }-->
-<!--        }-->
 
-<!--        // 使用i标签点击触发搜素-->
-<!--        function inputs() {-->
-<!--            let inputstle = document.querySelectorAll('.inputstle')[0]-->
-<!--            if (inputstle) {-->
-<!--                ajax("GET", "/blog/search?searchName=" + inputstle.value)-->
-<!--            } else {-->
-<!--                alert('请输入搜索内容')-->
-<!--            }-->
-<!--        }-->
-
-<!--        /*  原生axios请求-->
-<!--            open method  (get post)-->
-<!--            url      纯净的地址-->
-<!--            params   参数-->
-<!--        */-->
-<!--        // search?name="搜索值"-->
-<!--        function ajax(method, url, params) {-->
-<!--            var xhr = new XMLHttpRequest();-->
-<!--            xhr.open(method, url, true);-->
-<!--            xhr.onreadystatechange = function () {-->
-<!--                if (this.readyState == 4 && this.status == 200) {-->
-<!--                    console.log("收到响应");-->
-<!--                    console.log(this.responseText);-->
-<!--                    // fn(this.responseText);-->
-<!--                }-->
-<!--            }-->
-<!--            //  GET 有参数-->
-<!--            if (method.toUpperCase() == "GET" && params != undefined) {-->
-<!--                url = url + "?" + params;-->
-<!--            }-->
-<!--            //  POST有参-->
-<!--            if (method.toUpperCase() == "POST" && params != undefined) {-->
-<!--                xhr.send(params);-->
-<!--            } else {-->
-<!--                xhr.send(null);-->
-<!--            }-->
-<!--        }-->
-<!--    </script>-->
-<!--    <style>-->
-<!--        input.inputstle {-->
-<!--            margin-top: 10px;-->
-<!--            padding-right: 30px;-->
-<!--            position: static;-->
-<!--        }-->
-
-<!--        i.istle {-->
-<!--            position: absolute;-->
-<!--            top: 15px;-->
-<!--            right: 10px-->
-<!--        }-->
-
-<!--    </style>-->
+    <style type="text/css">
+        /*屏蔽 iframe*/
+        .mask {
+            position: absolute;
+            width: 290px;
+            height: 96px;
+            z-index: 1;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            background: #ffffff;
+        }
+    </style>
 </nav>
