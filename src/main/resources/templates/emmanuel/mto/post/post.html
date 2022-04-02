@@ -94,7 +94,17 @@
                     visible: false,  // 隐藏某列（列选项可见）
                     ignore: true,    // 列选项不可见
                 },
-
+                {
+                    field: 'number',
+                    title: '序号',
+                    width: '30',
+                    formatter: function (value, row, index) {
+                        let param = $('#bootstrap-table').bootstrapTable('getOptions');
+                        let pageSize = param.pageSize;
+                        let pageNumber = param.pageNumber;
+                        return (pageNumber - 1) * pageSize + index + 1;
+                    }
+                },
                 {
                     field: 'title',
                     title: '文章标题',
