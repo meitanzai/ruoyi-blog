@@ -2,6 +2,9 @@ package com.ruoyi.project.system.user.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.framework.shiro.auth.LoginType;
+import com.ruoyi.framework.shiro.auth.UserToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -22,7 +25,7 @@ import com.ruoyi.framework.web.service.ConfigService;
 
 /**
  * 登录验证
- * 
+ *
  * @author ruoyi
  */
 @Controller
@@ -56,7 +59,7 @@ public class LoginController extends BaseController
     @ResponseBody
     public AjaxResult ajaxLogin(String username, String password, Boolean rememberMe)
     {
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+        UserToken token = new UserToken(username, password, LoginType.PASSWORD, rememberMe);
         Subject subject = SecurityUtils.getSubject();
         try
         {
@@ -78,5 +81,15 @@ public class LoginController extends BaseController
     public String unauth()
     {
         return "error/unauth";
+    }
+
+    /**
+     * 未绑定页面
+     * @return
+     */
+    @GetMapping("/bind")
+    public String bind()
+    {
+        return "error/bind";
     }
 }

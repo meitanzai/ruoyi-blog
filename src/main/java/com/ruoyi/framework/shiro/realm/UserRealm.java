@@ -2,6 +2,9 @@ package com.ruoyi.framework.shiro.realm;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.ruoyi.framework.shiro.auth.LoginType;
+import com.ruoyi.framework.shiro.auth.UserToken;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -34,7 +37,7 @@ import com.ruoyi.project.system.user.domain.User;
 
 /**
  * 自定义Realm 处理登录 权限
- * 
+ *
  * @author ruoyi
  */
 public class UserRealm extends AuthorizingRealm
@@ -86,8 +89,9 @@ public class UserRealm extends AuthorizingRealm
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException
     {
-        UsernamePasswordToken upToken = (UsernamePasswordToken) token;
+        UserToken upToken = (UserToken) token;
         String username = upToken.getUsername();
+        LoginType type = upToken.getType();
         String password = "";
         if (upToken.getPassword() != null)
         {
@@ -97,7 +101,14 @@ public class UserRealm extends AuthorizingRealm
         User user = null;
         try
         {
-            user = loginService.login(username, password);
+            if (LoginType.PASSWORD.equals(type))
+            {
+                user = loginService.login(username, password);
+            }
+            else if (LoginType.NOPASSWD.equals(type))
+            {
+                user = loginService.login(username);
+            }
         }
         catch (CaptchaException e)
         {

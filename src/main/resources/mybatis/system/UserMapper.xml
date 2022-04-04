@@ -227,5 +227,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		)
 	</insert>
 
+	<select id="checkAuthUser" resultType="java.lang.String">
+		select 1 from sys_auth_user where user_id=#{userId,jdbcType=BIGINT} and source=#{source,jdbcType=VARCHAR} limit 1
+	</select>
+
+	<insert id="insertAuthUser" parameterType="AuthUser">
+		insert into sys_auth_user(
+		<if test="uuid != null and uuid != ''">uuid,</if>
+		<if test="userId != null and userId != 0">user_id,</if>
+		<if test="loginName != null and loginName != ''">login_name,</if>
+		<if test="userName != null and userName != ''">user_name,</if>
+		<if test="avatar != null and avatar != ''">avatar,</if>
+		<if test="email != null and email != ''">email,</if>
+		<if test="source != null and source != ''">source,</if>
+		<if test="info != null and info != ''">info,</if>
+		create_time
+		)values(
+		<if test="uuid != null and uuid != ''">#{uuid},</if>
+		<if test="userId != null and userId != 0">#{userId},</if>
+		<if test="loginName != null and loginName != ''">#{loginName},</if>
+		<if test="userName != null and userName != ''">#{userName},</if>
+		<if test="avatar != null and avatar != ''">#{avatar},</if>
+		<if test="email != null and email != ''">#{email},</if>
+		<if test="source != null and source != ''">#{source},</if>
+		<if test="info != null and info != ''">#{info,jdbcType=VARCHAR},</if>
+		sysdate()
+		)
+	</insert>
+
+	<delete id="deleteAuthUser" parameterType="com.ruoyi.project.system.user.domain.AuthUser">
+		delete from sys_auth_user where auth_id = #{authId,jdbcType=BIGINT}
+	</delete>
+
+	<select id="selectAuthUserByUuid" parameterType="String" resultMap="UserResult">
+		select b.user_id as user_id, b.login_name as login_name, b.password as password
+		from sys_auth_user a left join sys_user b on a.user_id = b.user_id
+		where a.uuid = #{uuid} and source= #{source,jdbcType=VARCHAR} and b.del_flag = '0'
+	</select>
 
 </mapper>

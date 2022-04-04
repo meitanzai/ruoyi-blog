@@ -291,6 +291,10 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
         // 前台首页
         filterChainDefinitionMap.put("/blog/**", "anon");
+        // 第三方登录
+        filterChainDefinitionMap.put("/oauth/**", "anon");
+        // 未绑定页面
+        filterChainDefinitionMap.put("/bind", "anon");
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
