@@ -45,6 +45,10 @@ public class AuthService {
     @Transactional(rollbackFor = Exception.class)
     public String callback(String code, String state) {
 
+        if (ToolUtils.isEmpty(code)){
+            return "redirect:/login";
+        }
+
         // 根据获取用户信息
         String giteeUserInfo = getGiteeUserInfo(code);
         JSONObject jsonGiteeUserInfo = JSONObject.parseObject(giteeUserInfo);

@@ -181,7 +181,6 @@ xss:
 # 第三方登录
 auth:
   gitee:
-    enabled: false
     clientId: 你的码云clientId
     clientSecret: 你的码云clientSecret
     callbackUrl: 你的码云回调地址

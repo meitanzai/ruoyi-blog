@@ -44,7 +44,7 @@ public class AuthController extends BaseController {
      * @return
      */
     @GetMapping("/gitee/callback")
-    public String callback(@RequestParam("code") String code, String state) {
+    public String callback(@RequestParam(name = "code",required = false) String code, String state) {
         return authService.callback(code, state);
     }
 
