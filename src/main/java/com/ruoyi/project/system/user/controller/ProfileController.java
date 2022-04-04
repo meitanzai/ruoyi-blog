@@ -26,7 +26,7 @@ import com.ruoyi.project.system.user.service.IUserService;
 
 /**
  * 个人信息 业务处理
- * 
+ *
  * @author ruoyi
  */
 @Controller
@@ -51,6 +51,7 @@ public class ProfileController extends BaseController
     {
         User user = getSysUser();
         mmap.put("user", user);
+        mmap.put("auths", userService.selectAuthUserListByUserId(user.getUserId()));
         mmap.put("roleGroup", userService.selectUserRoleGroup(user.getUserId()));
         mmap.put("postGroup", userService.selectUserPostGroup(user.getUserId()));
         return prefix + "/profile";

@@ -132,4 +132,12 @@ public interface UserMapper
     public int insertAuthUser (AuthUser authUser);
 
     User selectAuthUserByUuid(@Param("uuid") String uuid, @Param("source") String source );
+
+    /**
+     * 根据用户编号查询授权列表
+     *
+     * @param userId 登录账户
+     * @return 授权列表
+     */
+    public List<AuthUser> selectAuthUserListByUserId(Long userId);
 }
