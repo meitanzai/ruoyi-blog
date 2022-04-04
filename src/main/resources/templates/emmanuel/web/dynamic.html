@@ -87,7 +87,36 @@
     })
 
     // 官网 https://gitcode.net/mirrors/fengyuanchen/viewerjs
-    const gallery = new Viewer(document.getElementById('dynamic-content'));
+    window.addEventListener('DOMContentLoaded', function () {
+        var galley = document.getElementById('dynamic-content');
+        var viewer = new Viewer(galley, {
+            navbar: false,
+            loading: true,
+            title: false,
+            toolbar: {
+                oneToOne: false,
+
+                prev: function() {
+                    viewer.prev(true);
+                },
+
+                play: true,
+
+                next: function() {
+                    viewer.next(true);
+                },
+
+                download: function() {
+                    const a = document.createElement('a');
+                    a.href = viewer.image.src;
+                    a.download = viewer.image.alt;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                },
+            },
+        });
+    });
 </script>
 
 </html>
