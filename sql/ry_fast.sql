@@ -70,6 +70,25 @@ INSERT INTO `account_class` VALUES (6, '名称', '0', '介绍', '0', 1, 'admin',
 INSERT INTO `account_class` VALUES (7, '奖金', '0', '奖金', '0', 2, 'admin', '2021-12-04 12:59:28', '', NULL);
 
 -- ----------------------------
+-- Table structure for sys_auth_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_auth_user`;
+CREATE TABLE `sys_auth_user`  (
+  `auth_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '授权ID',
+  `uuid` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '第三方平台用户唯一ID',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '系统用户ID',
+  `login_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登录账号',
+  `user_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户昵称',
+  `avatar` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '头像地址',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户邮箱',
+  `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户来源',
+  `deleted` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '0正常，1删除',
+  `info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方返回的所有信息',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`auth_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方授权表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for account_money
 -- ----------------------------
 DROP TABLE IF EXISTS `account_money`;
