@@ -121,10 +121,7 @@
                     field: 'thumbnail',
                     title: '首图',
                     formatter: function (value, row, index) {
-                        // 显示图片
-                        // return '<img src="' + value + '" width="90" height="90" >';
-                        // 点击可预览文件
-                        return $.table.imageView(value, "400px", "400px");
+                        return $.table.imageView(value);
                     }
                 },
                 // {
