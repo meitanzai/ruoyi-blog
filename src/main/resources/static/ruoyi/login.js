@@ -1,3 +1,12 @@
+// 公钥加密(前后端公钥私钥保持一对)  密钥对生成 http://web.chacuo.net/netrsakeypair
+const publicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCv06UX91BPfk7OhrgNOHZztpNWz7lDU+eerIKnjScR3bchhVZfc09P9lVulaKbhhfU+oyLWfHh6/25S7n7M9e5IlAIuNtqvO/3MzCRtsYfPO6EOemSPMM+17BiVviWfewp/XAqByV4KChqop3/X0qs9vmqrJRQs30W1kksimwwMQIDAQAB'
+
+// 加密
+function encrypt(txt) {
+    const encryptor = new JSEncrypt()
+    encryptor.setPublicKey(publicKey) // 设置公钥
+    return encryptor.encrypt(txt) // 对数据进行加密
+}
 
 $(function() {
     validateKickout();
@@ -25,7 +34,7 @@ function login() {
         url: ctx + "login",
         data: {
             "username": username,
-            "password": password,
+            "password": encrypt(password),
             "validateCode": validateCode,
             "rememberMe": rememberMe
         },

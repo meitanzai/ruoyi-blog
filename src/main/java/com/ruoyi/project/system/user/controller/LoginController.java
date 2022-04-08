@@ -3,6 +3,7 @@ package com.ruoyi.project.system.user.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.utils.RsaUtils;
 import com.ruoyi.framework.shiro.auth.LoginType;
 import com.ruoyi.framework.shiro.auth.UserToken;
 import org.apache.shiro.SecurityUtils;
@@ -59,14 +60,14 @@ public class LoginController extends BaseController
     @ResponseBody
     public AjaxResult ajaxLogin(String username, String password, Boolean rememberMe)
     {
-        UserToken token = new UserToken(username, password, LoginType.PASSWORD, rememberMe);
-        Subject subject = SecurityUtils.getSubject();
         try
         {
+            UserToken token = new UserToken(username, RsaUtils.decryptByPrivateKey(password), LoginType.PASSWORD, rememberMe);
+            Subject subject = SecurityUtils.getSubject();
             subject.login(token);
             return success();
         }
-        catch (AuthenticationException e)
+        catch (Exception e)
         {
             String msg = "用户或密码错误";
             if (StringUtils.isNotEmpty(e.getMessage()))
