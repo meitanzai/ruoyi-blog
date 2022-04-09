@@ -272,20 +272,20 @@
     <link th:href="@{/blog/me.css}" rel="stylesheet"/>
 </div>
 
-<!-- element-ui,vue -->
-<div th:fragment="element-css">
-    <!--    <link th:href="@{/blog/element-ui/css/element.css}" rel="stylesheet"/>-->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-</div>
-<div th:fragment="element-js">
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-
-    <!--    <script th:src="@{/blog/element-ui/js/vue.min.js}" type="text/javascript"></script>-->
-    <!--    <script th:src="@{/blog/element-ui/js/element.js}" type="text/javascript"></script>-->
-</div>
+<!--vue-->
 <div th:fragment="vue-js">
     <script th:src="@{/blog/mblog/js/vue.min.js}" type="text/javascript"></script>
 </div>
+
+<!-- element-ui -->
+<div th:fragment="element-css">
+    <link th:href="@{/ajax/libs/element-ui/element-ui.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="element-js">
+    <script th:src="@{/ajax/libs/element-ui/element-ui.js}" type="text/javascript"></script>
+</div>
+
+
 
 <!--tocbot目录-->
 <div th:fragment="tocbot-css">
