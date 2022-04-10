@@ -30,42 +30,6 @@ public class WebPostController extends BaseController {
     @Autowired
     private IWebPostService postService;
 
-    // @GetMapping({"/list","/","index",""})
-    // public String post(ModelMap modelMap, @RequestParam(value = "currentPage", defaultValue = "1") Long currentPage, @RequestParam(value = "currentSize", defaultValue = "10") Long currentSize) {
-    //
-    //     // 获取博客
-    //     CompletableFuture<Void> postFuture = CompletableFuture.runAsync(() -> {
-    //         TableDataInfo postList = postService.selectIndexPostList(currentPage, currentSize);
-    //         modelMap.put("dataInfo", postList);
-    //     }, executor);
-    //
-    //     // 获取栏目
-    //     CompletableFuture<Void> channelFuture = CompletableFuture.runAsync(() -> {
-    //         List<MtoChannel> channelList = postService.selectIndexChannelList();
-    //         modelMap.put("channelList", channelList);
-    //     }, executor);
-    //
-    //     // 获取最新
-    //     CompletableFuture<Void> newPostFuture = CompletableFuture.runAsync(() -> {
-    //         List<WebMtoPost> newPostList = postService.selectIndexNewPostList();
-    //         modelMap.put("newPostList", newPostList);
-    //     }, executor);
-    //
-    //     // 每日一语
-    //     CompletableFuture<Void> golenFuture = CompletableFuture.runAsync(() -> {
-    //         MtoGolden golden = postService.selectIndexGolden();
-    //         modelMap.put("golden", golden);
-    //     }, executor);
-    //
-    //     try {
-    //         CompletableFuture.allOf(postFuture, channelFuture, newPostFuture, golenFuture).get();
-    //     } catch (Exception e) {
-    //         throw new RuntimeException("异步编程发生错误: " + e.getMessage());
-    //     }
-    //
-    //     return prefix + "/index";
-    // }
-
     /**
      * 根据id获取博客详情
      *
@@ -238,4 +202,25 @@ public class WebPostController extends BaseController {
         postService.dynamicList(pageNum, pageSize, modelMap);
         return prefix + "/dynamic";
     }
+
+    @GetMapping("/search")
+    public String news(ModelMap modelMap,
+                       @RequestParam(value = "keyword", required = true) String keyword,
+                       @RequestParam(value = "currentPage", defaultValue = "1") Long pageNum,
+                       @RequestParam(value = "currentSize", defaultValue = "10") Long pageSize) {
+        pageSize = pageSize > 50 ? 50 : pageSize;
+        // 获取导航
+        postService.selectCategory(modelMap);
+        // 获取侧边栏
+        postService.publicWeb(modelMap);
+        // 获取博客
+        WebMtoPost webMtoPost = new WebMtoPost();
+        webMtoPost.setTitle(keyword);
+        TableDataInfo postList = postService.selectIndexPostList(webMtoPost, pageNum, pageSize);
+        modelMap.put("dataInfo", postList);
+
+        modelMap.put("keyword",keyword);
+        return prefix + "/search";
+    }
 }
+

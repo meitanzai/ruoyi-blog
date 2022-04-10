@@ -27,10 +27,11 @@ public interface WebPostMapper extends BaseMapper<WebMtoPost> {
      * @param slider     是否轮播
      * @return
      */
-    Page<WebMtoPost> selectPage(Page<WebMtoPost> postPage,
-                                @Param("categoryId") Long categoryId,
-                                @Param("channelId") Long channelId,
-                                @Param("slider") Integer slider);
+    // Page<WebMtoPost> selectPage(Page<WebMtoPost> postPage,
+    //                             @Param("categoryId") Long categoryId,
+    //                             @Param("channelId") Long channelId,
+    //                             @Param("slider") Integer slider);
+    Page<WebMtoPost> selectPage(Page<WebMtoPost> postPage,@Param("mtoPost") WebMtoPost webMtoPost);
 
     /**
      * 更新点赞 +1

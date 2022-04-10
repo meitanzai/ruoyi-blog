@@ -66,7 +66,8 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         Page<WebMtoPost> postPage = new Page<>(currentPage, currentSize);
         TableDataInfo dataInfo = new TableDataInfo();
         // 根据栏目id查询
-        Page<WebMtoPost> mtoPostPage = postMapper.selectPage(postPage, webMtoPost.getCategoryId(), webMtoPost.getChannelId(), webMtoPost.getSlider());
+        // Page<WebMtoPost> mtoPostPage = postMapper.selectPage(postPage, webMtoPost.getCategoryId(), webMtoPost.getChannelId(), webMtoPost.getSlider());
+        Page<WebMtoPost> mtoPostPage = postMapper.selectPage(postPage, webMtoPost);
         if (ToolUtils.isNotEmpty(mtoPostPage)) {
             dataInfo.setRows(mtoPostPage.getRecords());
             dataInfo.setTotal(mtoPostPage.getTotal());

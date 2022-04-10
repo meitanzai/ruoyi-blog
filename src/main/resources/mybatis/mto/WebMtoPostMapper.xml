@@ -89,7 +89,7 @@
     </update>
 
     <select id="selectPage"
-            parameterType="com.baomidou.mybatisplus.extension.plugins.pagination.Page"
+            parameterType="com.ruoyi.project.emmanuel.mto.domain.WebMtoPost"
             resultMap="MtoPostResult">
         SELECT
         p.id,
@@ -106,9 +106,7 @@
         p.views,
         p.weight,
         ifnull( p.update_time, p.create_time ) AS update_time,
-        <!--        p.thumbnail AS  thumbnail,-->
         c.name as channel_Name,
-
         IF(ISNULL(p.thumbnail) || LENGTH(trim(p.thumbnail))=0,
         CONCAT('/blog/img/',(SELECT FLOOR(RAND()*22)),'.jpg'),
         p.thumbnail) as thumbnail
@@ -117,14 +115,17 @@
         LEFT JOIN mto_channel c ON p.channel_id = c.id
         <where>
             and p.status = 0
-            <if test="categoryId != '' and categoryId != null">
-                and category_id = #{categoryId,jdbcType=BIGINT}
+            <if test="mtoPost.categoryId != '' and mtoPost.categoryId != null">
+                and category_id = #{mtoPost.categoryId,jdbcType=BIGINT}
             </if>
-            <if test="channelId != '' and channelId != null">
-                and channel_id = #{channelId,jdbcType=BIGINT}
+            <if test="mtoPost.channelId != '' and mtoPost.channelId != null">
+                and channel_id = #{mtoPost.channelId,jdbcType=BIGINT}
             </if>
-            <if test="slider != '' and slider != null">
-                and slider = #{slider,jdbcType=INTEGER}
+            <if test="mtoPost.slider != '' and mtoPost.slider != null">
+                and slider = #{mtoPost.slider,jdbcType=INTEGER}
+            </if>
+            <if test="mtoPost.title != '' and mtoPost.title != null">
+                and title like concat("%",concat(#{mtoPost.title,jdbcType=VARCHAR},"%"))
             </if>
         </where>
         order by  create_time desc
