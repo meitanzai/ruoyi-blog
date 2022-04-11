@@ -50,11 +50,6 @@
 <div class="pb-container pb-content">
     <div class="pb-main">
 
-        <!--没有内容时提示-->
-        <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.rows)}">
-            Sorry, 暂未发现任何文章~
-        </div>
-
         <!--                博客的头部-->
         <div class="ui top attached segment">
             <div class="ui meddle aligned two column grid">
@@ -72,6 +67,11 @@
         <div class="ui attached segment">
 
             <!--                    开始-->
+            <!--没有内容时提示-->
+            <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.rows)}">
+                Sorry, 暂未发现任何文章~
+            </div>
+
             <!-- 博客条目 m-padded-tb-large-blog 可以调博客的上面高距-->
             <div class="ui padded vertical segment m-padded-tb-large-blog m-mobile-clear m-pandded-lr-mini"
                  th:each="blog:${dataInfo.rows}">
@@ -122,8 +122,10 @@
                 </div>
             </div>
             <!--                    结束-->
+
         </div>
-        <!--                博客的底部-->
+
+        <!--                博客的底部分页-->
         <div class="ui bottom attached segment" th:if="${(dataInfo.total>10)}">
             <div class="ui meddle aligned two column grid">
                 <div class="column" th:if="${(dataInfo.currentPage>1) && dataInfo.total>10}">
@@ -142,6 +144,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!--    侧边信息-->

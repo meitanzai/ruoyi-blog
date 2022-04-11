@@ -63,13 +63,20 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * @return
      */
     public TableDataInfo selectIndexPostList(WebMtoPost webMtoPost, Long currentPage, Long currentSize) {
+
+        // 搜索关键字
+        String keyword = webMtoPost.getTitle();
+
+        // 分页
         Page<WebMtoPost> postPage = new Page<>(currentPage, currentSize);
         TableDataInfo dataInfo = new TableDataInfo();
         // 根据栏目id查询
-        // Page<WebMtoPost> mtoPostPage = postMapper.selectPage(postPage, webMtoPost.getCategoryId(), webMtoPost.getChannelId(), webMtoPost.getSlider());
         Page<WebMtoPost> mtoPostPage = postMapper.selectPage(postPage, webMtoPost);
         if (ToolUtils.isNotEmpty(mtoPostPage)) {
             dataInfo.setRows(mtoPostPage.getRecords());
+            if (StringUtils.isNotEmpty(keyword)) {
+                mtoPostPage.getRecords().forEach(e -> e.setTitle(this.getHitCode(e.getTitle(), keyword)));
+            }
             dataInfo.setTotal(mtoPostPage.getTotal());
             dataInfo.setCurrentPage(mtoPostPage.getCurrent());
             dataInfo.setCurrentSize(mtoPostPage.getSize());
@@ -500,4 +507,99 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         TableDataInfo tableDataInfo = boardNoteService.dynamicList(pageNum, pageSize, modelMap);
         modelMap.put("pageInfo", tableDataInfo);
     }
+
+    /**
+     * 根据关键字搜索
+     *
+     * @param keyword  关键字
+     * @param pageNum  页码
+     * @param pageSize 多少条数据
+     */
+    @Override
+    public void searchByKeyword(ModelMap modelMap,String keyword, Long pageNum, Long pageSize) {
+        // 获取导航
+        this.selectCategory(modelMap);
+        // 获取侧边栏
+        this.publicWeb(modelMap);
+        // 获取博客
+        WebMtoPost webMtoPost = new WebMtoPost();
+        webMtoPost.setTitle(keyword);
+        this.loadMainPage(modelMap,webMtoPost, pageNum, pageSize);
+        // 关键字
+        modelMap.put("keyword",keyword);
+
+    }
+
+    /**
+     * 添加高亮
+     *
+     * @param title   标题
+     * @param keyword 搜索关键字
+     * @return
+     */
+    private String getHitCode(String title, String keyword) {
+        if (StringUtils.isEmpty(keyword) || StringUtils.isEmpty(title)) {
+            return title;
+        }
+        String startStr = "<span style = 'color:red'>";
+        String endStr = "</span>";
+        // 判断关键字是否直接是搜索的内容，否者直接返回
+        if (title.equals(keyword)) {
+            return startStr + title + endStr;
+        }
+        String lowerCaseStr = title.toLowerCase();
+        String lowerKeyword = keyword.toLowerCase();
+        String[] lowerCaseArray = lowerCaseStr.split(lowerKeyword);
+        Boolean isEndWith = lowerCaseStr.endsWith(lowerKeyword);
+
+        // 计算分割后的字符串位置
+        Integer count = 0;
+        List<Map<String, Integer>> list = new ArrayList<>();
+        List<Map<String, Integer>> keyList = new ArrayList<>();
+        for (int a = 0; a < lowerCaseArray.length; a++) {
+            // 将切割出来的存储map
+            Map<String, Integer> map = new HashMap<>();
+            Map<String, Integer> keyMap = new HashMap<>();
+            map.put("startIndex", count);
+            Integer len = lowerCaseArray[a].length();
+            count += len;
+            map.put("endIndex", count);
+            list.add(map);
+            if (a < lowerCaseArray.length - 1 || isEndWith) {
+                // 将keyword存储map
+                keyMap.put("startIndex", count);
+                count += keyword.length();
+                keyMap.put("endIndex", count);
+                keyList.add(keyMap);
+            }
+        }
+        // 截取切割对象
+        List<String> arrayList = new ArrayList<>();
+        for (Map<String, Integer> item : list) {
+            Integer start = item.get("startIndex");
+            Integer end = item.get("endIndex");
+            String itemStr = title.substring(start, end);
+            arrayList.add(itemStr);
+        }
+        // 截取关键字
+        List<String> keyArrayList = new ArrayList<>();
+        for (Map<String, Integer> item : keyList) {
+            Integer start = item.get("startIndex");
+            Integer end = item.get("endIndex");
+            String itemStr = title.substring(start, end);
+            keyArrayList.add(itemStr);
+        }
+
+        StringBuffer sb = new StringBuffer();
+        for (int a = 0; a < arrayList.size(); a++) {
+            sb.append(arrayList.get(a));
+            if (a < arrayList.size() - 1 || isEndWith) {
+                sb.append(startStr);
+                sb.append(keyArrayList.get(a));
+                sb.append(endStr);
+            }
+        }
+        return sb.toString();
+    }
+
 }

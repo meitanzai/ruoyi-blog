@@ -204,22 +204,12 @@ public class WebPostController extends BaseController {
     }
 
     @GetMapping("/search")
-    public String news(ModelMap modelMap,
+    public String search(ModelMap modelMap,
                        @RequestParam(value = "keyword", required = true) String keyword,
                        @RequestParam(value = "currentPage", defaultValue = "1") Long pageNum,
                        @RequestParam(value = "currentSize", defaultValue = "10") Long pageSize) {
         pageSize = pageSize > 50 ? 50 : pageSize;
-        // 获取导航
-        postService.selectCategory(modelMap);
-        // 获取侧边栏
-        postService.publicWeb(modelMap);
-        // 获取博客
-        WebMtoPost webMtoPost = new WebMtoPost();
-        webMtoPost.setTitle(keyword);
-        TableDataInfo postList = postService.selectIndexPostList(webMtoPost, pageNum, pageSize);
-        modelMap.put("dataInfo", postList);
-
-        modelMap.put("keyword",keyword);
+        postService.searchByKeyword(modelMap,keyword,pageNum,pageSize);
         return prefix + "/search";
     }
 }

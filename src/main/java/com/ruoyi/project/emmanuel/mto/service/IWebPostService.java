@@ -152,4 +152,12 @@ public interface IWebPostService extends IService<WebMtoPost> {
      * @param modelMap
      */
     void dynamicList(Long pageNum, Long pageSize, ModelMap modelMap);
+
+    /**
+     * 根据关键字搜索
+     * @param keyword 关键字
+     * @param pageNum 页码
+     * @param pageSize 多少条数据
+     */
+    void searchByKeyword(ModelMap modelMap,String keyword, Long pageNum, Long pageSize);
 }
