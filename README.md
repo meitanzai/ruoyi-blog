@@ -89,9 +89,9 @@
 
 - admin/admin123   （后台暂不开放）
 
-前台演示地址：http://ryblog.vaiwan.com/blog
+前台演示地址：http://123.56.31.132/blog
 
-后台演示地址：http://ryblog.vaiwan.com
+后台演示地址：http://123.56.31.132
 
 ## 演示图
 
