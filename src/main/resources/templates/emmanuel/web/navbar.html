@@ -48,7 +48,7 @@
                 </li>
                 <li>
                     <div class="searchGroup layoutHide">
-                        <form method="get" th:action="@{/blog/search}" target="_blank" onsubmit="return checkSearch()">
+                        <form method="get" th:action="@{/blog/search}" onsubmit="return checkSearch()">
                             <div id="searchtxt">
                                 <input name="keyword" type="text" placeholder="输入关键词回车搜索" id="searchInput"
                                        class="searchInput" autocomplete="off" th:value="${keyword}"/>
