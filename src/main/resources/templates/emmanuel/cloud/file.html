@@ -5,7 +5,7 @@
     <title>我的文件</title>
     <link rel="stylesheet" th:href="@{/cloud/css/subpage.css}">
     <link rel="stylesheet" th:href="@{/cloud/layui/css/layui.css}" media="all">
-
+    <th:block th:include="include :: viewer-css"/>
 </head>
 <body class="layui-anim layui-anim-fadein;">
 <div id="curtain"></div>
@@ -274,5 +274,21 @@
 <script th:src="@{/cloud/js/file.js}"></script>
 <script th:src="@{/cloud/layui/layui.js}"></script>
 <script th:src="@{/cloud/js/uploadui.js}"></script>
+<th:block th:include="include :: viewer-js"/>
+<script>
+    // 官网 https://gitcode.net/mirrors/fengyuanchen/viewerjs
+    window.addEventListener('DOMContentLoaded', function () {
+        var galley = document.getElementById('nonullshow');
+        var viewer = new Viewer(galley, {
+            navbar: false,
+            loading: true,
+            title: false,
+            keyboard: false,
+            toolbar: {
+
+            },
+        });
+    });
+</script>
 </body>
 </html>
