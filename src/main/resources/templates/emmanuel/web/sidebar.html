@@ -25,7 +25,7 @@
 <!--            <a class="btn btn-default btn-xs" th:each="item:${mtoChannelList}" th:href="@{${'/blog/channel/'+item.id}}"-->
 <!--               th:text="${item.name}"></a>-->
 <!--        </div>-->
-        <div class="panel-body" id="tagcloud" style="overflow: hidden">
+        <div class="panel-body panel-body-high" id="tagcloud" style="overflow: hidden">
             <a class="btn btn-default btn-xs" th:each="item:${mtoTagList}" th:href="@{${'/blog/tag/'+item.id}}"
                th:text="${item.name}"></a>
         </div>

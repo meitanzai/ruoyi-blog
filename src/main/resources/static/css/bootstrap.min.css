@@ -5868,6 +5868,10 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:focus, a.list-g
     padding: 15px
 }
 
+.panel-body-high{
+    min-height: 180px !important;
+}
+
 .panel-heading {
     padding: 10px 15px;
     border-bottom: 1px solid transparent;
