@@ -1,5 +1,6 @@
 package com.ruoyi.project.monitor.job.util;
 
+import com.ruoyi.common.utils.spring.SpringUtils;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
@@ -18,7 +19,7 @@ import com.ruoyi.project.monitor.job.domain.Job;
 
 /**
  * 定时任务工具类
- * 
+ *
  * @author ruoyi
  *
  */
@@ -114,7 +115,7 @@ public class ScheduleUtils
 
     /**
      * 检查包名是否为白名单配置
-     * 
+     *
      * @param invokeTarget 目标字符串
      * @return 结果
      */
@@ -126,6 +127,7 @@ public class ScheduleUtils
         {
             return StringUtils.containsAnyIgnoreCase(invokeTarget, Constants.JOB_WHITELIST_STR);
         }
-        return true;
+        Object obj = SpringUtils.getBean(StringUtils.split(invokeTarget, ".")[0]);
+        return StringUtils.containsAnyIgnoreCase(obj.getClass().getPackage().getName(), Constants.JOB_WHITELIST_STR);
     }
 }
