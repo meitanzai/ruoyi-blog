@@ -18,7 +18,7 @@
 
 
 
-## 平台简介
+## 📚平台简介
 
 ​		**此项目使用SpringBoot + Apache Shiro + mybatis/Mybatis Plus + Thymeleaf**
 
@@ -33,7 +33,7 @@
 * 感谢 [LinZhaoguan/pb-cms](https://gitee.com/LinZhaoguan/pb-cms)  CMS建站系统 
 * 感谢 [SpringBoot开发一个小而美的个人博客](https://search.bilibili.com/all?keyword=SpringBoot%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%E5%B0%8F%E8%80%8C%E7%BE%8E%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2&from_source=webtop_search&spm_id_from=333.1007) 李仁密老师
 
-## 技术选型
+### 💡技术选型
 
 1. 核心框架：Spring Boot。
 2. 安全框架：Apache Shiro。
@@ -44,9 +44,9 @@
 7. 工具类：Fastjson。
 8. 更多……
 
-## 内置功能
+## 🎖️内置功能
 
-### 若依原有的功能
+### 👨‍🔬若依原有的功能
 
 1.  用户管理：用户是系统操作者，该功能主要完成系统用户配置。
 2.  部门管理：配置系统组织机构（公司、部门、小组），树结构展现支持数据权限。
@@ -67,7 +67,7 @@
 17.  在线构建器：拖动表单元素生成相应的HTML代码。
 18.  连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
 
-### 博客功能
+### 👨‍💻博客功能
 
 1. 导航管理 ：对博客前台显示配置，可以设置页面，也可设置分类
 
@@ -83,7 +83,7 @@
 
    <font color=#f47920 size=6>支持markdown语法，支持博客文章代码高亮</font>
 
-## 在线体验
+## 💻在线体验
 
 <font color=#d71345 size=3>本项目我将长期维护，优化，并时刻保持与ruoyi-fast同步。目前可能还存在bug或性能问题,希望大家一起解决。</font>
 
@@ -93,7 +93,7 @@
 
 后台演示地址：http://123.56.31.132
 
-## 演示图
+## ❤️演示图
 
 ![image.png](https://s2.loli.net/2022/03/19/WBZ36KxVAqs5Ovf.png)
 
@@ -103,7 +103,7 @@
 
 ![image.png](https://s2.loli.net/2022/03/19/98IXsOT2gcKeJQk.png)
 
-![image.png](https://s2.loli.net/2022/03/19/YByPMCuA26jpZio.png)
+![image.png](https://s2.loli.net/2022/04/19/T8IMdQnav3j5m2O.png)
 
 ![image.png](https://s2.loli.net/2022/03/19/FXfj8a5hERMkYqt.png)
 
