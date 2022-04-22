@@ -166,10 +166,12 @@
 
     var prefix = ctx + "mto/post"
 
-    var testEditor;
+    var editor;
 
     $(function () {
-        testEditor = editormd("md-content", {
+
+        // editormd配置
+        editor = editormd("md-content", {
             width: "100%",
             height: 700,
             syncScrolling: "single",
@@ -206,6 +208,56 @@
             // 开启时序/序列图支持，默认关闭,
             sequenceDiagram: true,
         });
+
+        //监听粘贴
+        document.addEventListener('paste', function (event) {
+            var items = (event.clipboardData || window.clipboardData).items;
+            var file = null;
+            if (items && items.length) {
+                // 搜索剪切板items
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                        file = items[i].getAsFile();
+                        break;
+                    }
+                }
+            } else {
+                alert("当前浏览器不支持");
+                return;
+            }
+            if (!file) {
+                return;
+            }
+            // 此时file就是我们的剪切板中的图片对象
+            // 这里是上传
+            var xhr = new XMLHttpRequest();
+            // 上传结束
+            xhr.onload = function () {
+
+            };
+            xhr.onerror = function () {
+                alert("网络异常，上传失败!");
+            };
+            var formData = new FormData();
+            formData.append("editormd-image-file", file);
+            xhr.open('POST', '/common/markdown/upload', true);
+            xhr.send(formData);
+            xhr.onreadystatechange = function () {
+                if(xhr.readyState === 4){
+                    if(xhr.status >=200 && xhr.status < 300 || xhr.status === 304){
+                        //5.处理返回的结果
+                        var obj = xhr.responseText;
+                        var objarr = eval("("+obj+")");
+                        if (objarr["success"] == 1){
+                            editor.insertValue("![](" + objarr["url"] + ")");
+                        }else{
+                            alert("粘贴图片失败!");
+                        }
+                    }
+                }
+            }
+        });
+
     });
 
     $("#form-post-add").validate({
