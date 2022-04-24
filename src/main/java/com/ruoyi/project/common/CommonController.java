@@ -167,14 +167,14 @@ public class CommonController
      * @return
      */
 
-    @PostMapping("/markdown/upload")
+    @PostMapping({"/markdown/upload","/blog/blogPicture"})
     @ResponseBody
     public AjaxResult markdownUploadFile(@RequestParam(value = "editormd-image-file", required = false) MultipartFile file) throws Exception
     {
         try
         {
-            // 上传文件路径
-            String filePath = RuoYiConfig.getUploadPath();
+            // 上传文件博客路径
+            String filePath = RuoYiConfig.getBlogPath();
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);
             String url = serverConfig.getUrl() + fileName;
@@ -183,6 +183,9 @@ public class CommonController
             ajax.put("message", "上传成功");
             ajax.put("success", 1); //0表示上传失败;1表示上传成功
             ajax.put("url", url);
+            ajax.put("fileName", fileName);
+            ajax.put("newFileName", FileUtils.getName(fileName));
+            ajax.put("originalFilename", file.getOriginalFilename());
             return ajax;
         }
         catch (Exception e)

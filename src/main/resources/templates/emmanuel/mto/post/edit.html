@@ -287,7 +287,7 @@
                         var obj = xhr.responseText;
                         var objarr = eval("("+obj+")");
                         if (objarr["success"] == 1){
-                            editor.insertValue("![](" + objarr["url"] + ")");
+                            editor.insertValue("![](" + objarr["fileName"] + ")");
                         }else{
                             alert("粘贴图片失败!");
                         }
@@ -335,10 +335,10 @@
 
     $("#tpicf").change(function () {
         var data = new FormData();
-        data.append("file", $("#tpicf")[0].files[0]);
+        data.append("editormd-image-file", $("#tpicf")[0].files[0]);
         $.ajax({
             type: "post",
-            url: ctx + "common/upload",
+            url: ctx + "common/blog/blogPicture",
             data: data,
             cache: false,
             contentType: false,

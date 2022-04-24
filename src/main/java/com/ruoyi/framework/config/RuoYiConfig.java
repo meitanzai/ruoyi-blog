@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 读取项目相关配置
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -29,7 +29,7 @@ public class RuoYiConfig
 
     /** 获取地址开关 */
     private static boolean addressEnabled;
-    
+
     public String getName()
     {
         return name;
@@ -120,5 +120,13 @@ public class RuoYiConfig
     public static String getUploadPath()
     {
         return getProfile() + "/upload";
+    }
+
+    /**
+     * 获取博客上传路径
+     */
+    public static String getBlogPath()
+    {
+        return getProfile() + "/blog";
     }
 }
