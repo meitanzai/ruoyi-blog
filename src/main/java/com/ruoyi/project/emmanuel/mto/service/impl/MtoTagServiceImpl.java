@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -58,7 +60,8 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
         if (StringUtils.isNotNull(pageNum) && StringUtils.isNotNull(pageSize)) {
             page = new Page<>(pageNum, pageSize);
         }
-        IPage<MtoTag> tagIPage = mtoTagMapper.selectPage(page, null);
+        LambdaQueryWrapper<MtoTag> query = new QueryWrapper<MtoTag>().lambda().like(MtoTag::getName, mtoTag.getName());
+        IPage<MtoTag> tagIPage = mtoTagMapper.selectPage(page, query);
 
         TableDataInfo tableDataInfo = new TableDataInfo();
         tableDataInfo.setTotal(tagIPage.getTotal());
