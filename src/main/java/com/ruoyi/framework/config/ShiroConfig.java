@@ -289,8 +289,10 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/ruoyi/**", "anon");
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
-        // 前台首页
+        // 前台
         filterChainDefinitionMap.put("/blog/**", "anon");
+        // 博客图片
+        filterChainDefinitionMap.put("/profile/blog/**", "anon");
         // 第三方登录
         filterChainDefinitionMap.put("/oauth/**", "anon");
         // 未绑定页面
