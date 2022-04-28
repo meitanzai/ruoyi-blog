@@ -31,7 +31,17 @@
 <script th:inline="javascript">
     var prefix = ctx + "memorial/pinBoard";
     $("#form-board-edit").validate({
-        focusCleanup: true
+        focusCleanup: true,
+        rules: {
+            boardTitle: {
+                required: true,
+                maxlength: 10
+            },
+            boardContent: {
+                required: true,
+                maxlength: 100
+            },
+        }
     });
 
     function submitHandler() {

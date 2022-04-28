@@ -31,12 +31,23 @@
 <script th:inline="javascript">
     var prefix = ctx + "memorial/pinBoard"
     $("#form-board-add").validate({
-        focusCleanup: true
+        focusCleanup: true,
+        rules: {
+            boardTitle: {
+                required: true,
+                maxlength: 10
+            },
+            boardContent: {
+                required: true,
+                maxlength: 100
+            },
+        }
     });
 
     function submitHandler() {
         if ($.validate.form()) {
             var data = $('#form-board-add').serialize();
+            console.log(data)
             var config = {
                 url: prefix + "/add",
                 type: "post",
