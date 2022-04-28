@@ -30,19 +30,19 @@ public class MtoLink implements Serializable {
     private Long id;
 
     /**
-     *
+     * 友情链接名
      */
     @Excel(name = "友情链接名")
     private String linkName;
 
     /**
-     *
+     * 链接logo
      */
     @Excel(name = "链接logo")
     private String linkLogo;
 
     /**
-     *
+     * 链接url
      */
     @Excel(name = "链接url")
     private String linkUrl;
@@ -60,7 +60,7 @@ public class MtoLink implements Serializable {
     /**
      * 创建时间
      */
-     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -71,7 +71,7 @@ public class MtoLink implements Serializable {
     /**
      * 更新时间
      */
-     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date updateTime;
 
     /**

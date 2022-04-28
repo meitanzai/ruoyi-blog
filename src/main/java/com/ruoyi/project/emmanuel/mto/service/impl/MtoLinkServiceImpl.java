@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -51,7 +52,14 @@ public class MtoLinkServiceImpl extends ServiceImpl<MtoLinkMapper, MtoLink> impl
     @Override
     public TableDataInfo selectMtoLinkList(Integer pageNum, Integer pageSize, MtoLink mtoLink) {
         Page<MtoLink> iPage = new Page<>(pageNum, pageSize);
-        Page<MtoLink> mtoLinkPage = mtoLinkMapper.selectPage(iPage, null);
+        QueryWrapper<MtoLink> queryWrapper = new QueryWrapper<>();
+        if (ToolUtils.isNotEmpty(mtoLink.getLinkName())){
+            queryWrapper.lambda().eq(MtoLink::getLinkName, mtoLink.getLinkName());
+        }
+        if (ToolUtils.isNotEmpty(mtoLink.getLinkUrl())){
+            queryWrapper.lambda().like(MtoLink::getLinkUrl, mtoLink.getLinkUrl());
+        }
+        Page<MtoLink> mtoLinkPage = mtoLinkMapper.selectPage(iPage, queryWrapper);
         TableDataInfo dataInfo = new TableDataInfo();
         if (ToolUtils.isNotEmpty(mtoLinkPage)) {
             dataInfo.setRows(mtoLinkPage.getRecords());
