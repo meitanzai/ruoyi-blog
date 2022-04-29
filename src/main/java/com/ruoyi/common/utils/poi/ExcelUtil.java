@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFPicture;
@@ -673,21 +672,6 @@ public class ExcelUtil<T>
         style.setFont(totalFont);
         styles.put("total", style);
 
-        style = wb.createCellStyle();
-        style.cloneStyleFrom(styles.get("data"));
-        style.setAlignment(HorizontalAlignment.LEFT);
-        styles.put("data1", style);
-
-        style = wb.createCellStyle();
-        style.cloneStyleFrom(styles.get("data"));
-        style.setAlignment(HorizontalAlignment.CENTER);
-        styles.put("data2", style);
-
-        style = wb.createCellStyle();
-        style.cloneStyleFrom(styles.get("data"));
-        style.setAlignment(HorizontalAlignment.RIGHT);
-        styles.put("data3", style);
-
         return styles;
     }
 
@@ -787,7 +771,9 @@ public class ExcelUtil<T>
             // 设置列宽
             sheet.setColumnWidth(column, (int) ((attr.width() + 0.72) * 256));
         }
-        if (StringUtils.isNotEmpty(attr.prompt()) || attr.combo().length > 0) {// 提示信息或只能选择不能输入的列内容.
+        if (StringUtils.isNotEmpty(attr.prompt()) || attr.combo().length > 0)
+        {
+            // 提示信息或只能选择不能输入的列内容.
             setPromptOrValidation(sheet, attr.combo(), attr.prompt(), 1, 100, column, column);
         }
     }
@@ -807,8 +793,7 @@ public class ExcelUtil<T>
             {
                 // 创建cell
                 cell = row.createCell(column);
-                int align = attr.align().value();
-                cell.setCellStyle(styles.get("data" + (align >= 1 && align <= 3 ? align : "")));
+                setDataCell(cell, attr);
 
                 // 用于读取对象中的属性
                 Object value = getTargetValue(vo, field, attr);
@@ -852,9 +837,38 @@ public class ExcelUtil<T>
     }
 
     /**
-     * 设置 POI XSSFSheet 单元格提示
+     * 设置单元格样式
+     *
+     * @param cell 单元格
+     * @param excel 注解信息
+     */
+    public void setDataCell(Cell cell, Excel excel)
+    {
+        CellStyle style = wb.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setRightBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setLeftBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
+        style.setBorderTop(BorderStyle.THIN);
+        style.setTopBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBottomBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
+        style.setAlignment(excel.align());
+        Font dataFont = wb.createFont();
+        dataFont.setFontName("Arial");
+        dataFont.setFontHeightInPoints((short) 10);
+        dataFont.setColor(excel.color().index);
+        style.setFont(dataFont);
+        cell.setCellStyle(style);
+    }
+
+    /**
+     * 设置 POI XSSFSheet 单元格提示或选择框
      *
      * @param sheet 表单
+     * @param textlist 下拉框显示的内容
      * @param promptContent 提示内容
      * @param firstRow 开始行
      * @param endRow 结束行
@@ -862,7 +876,7 @@ public class ExcelUtil<T>
      * @param endCol 结束列
      */
     public void setPromptOrValidation(Sheet sheet, String[] textlist, String promptContent, int firstRow, int endRow,
-            int firstCol, int endCol)
+                                      int firstCol, int endCol)
     {
         DataValidationHelper helper = sheet.getDataValidationHelper();
         DataValidationConstraint constraint = textlist.length > 0 ? helper.createExplicitListConstraint(textlist) : helper.createCustomConstraint("DD1");
