@@ -12,6 +12,7 @@
     <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/article.css}"/>
     <th:block th:include="include :: viewer-css"/>
     <th:block th:include="include :: tocbot-css"/>
     <th:block th:include="include :: toastr-css"/>
@@ -52,6 +53,27 @@
 
         :not(pre) > code[class*=language-], pre[class*=language-] {
             padding: 30px 10px 10px 10px;
+        }
+
+        /*定义滚动条样式（高宽及背景）*/
+        ::-webkit-scrollbar {
+            /* 滚动条宽度， width：对应竖滚动条的宽度  height：对应横滚动条的高度*/
+            width: 6px;
+            height: 6px;
+            background: #d4dce2;
+        }
+
+        /*定义滚动条轨道（凹槽）样式*/
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); /* 较少使用 */
+            border-radius: 3px;
+        }
+
+        /*定义滑块 样式*/
+        ::-webkit-scrollbar-thumb {
+            border-radius: 3px;
+            height: 100px; /* 滚动条滑块长度 */
+            background-color: #d42c2c;
         }
     </style>
 </head>
@@ -106,22 +128,21 @@
 
     </div>
 
-    <!--    侧边栏-->
-    <!--    <div th:replace="emmanuel/web/sidebar :: sidebar"></div>-->
-    <!--        目录-->
-    <!--    <div class="hidden-xs hidden-sm"-->
-    <!--         style="max-width: 350px; max-height: 380px; border-radius: 10px 0px 0px 10px; margin-top:30px;  border: 1px solid #ccc; position: fixed; right: 0px;  background: #f1f1f1; overflow:auto;">-->
-    <!--        <div style="   background:#f1f1f1 ;">-->
-    <!--            <ol class="js-toc" style="background:#f1f1f1 ;"></ol>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--        目录-->
-    <div class="hidden-xs hidden-sm"
-         style="max-width: 350px; min-width: 210px;  max-height: 380px; margin-top:25px;  border: 0px solid #ccc; position: fixed; right: 0px;   background: #f1f1f1; border-radius: 10px 0px 0px 10px;overflow:auto;  ">
-        <div style="width: 100%; height:100%; margin: 0px; bottom: 0px;   background:#f1f1f1 ;">
-            <ol class="js-toc" style="background:#f1f1f1 ; "></ol>
+    <!--    侧边栏 start -->
+    <div class="col-other">
+        <div class="inner">
+            <div class="other-item" id="categoryandsearch">
+                <div class="panel-heading" style="background-color: #e8e3e3">
+                    <h3 class="panel-title">目录</h3>
+                </div>
+                <ul class=" mt20" id="category" style="max-height: 300px; overflow:auto;">
+                    <ol class="js-toc"></ol>
+                </ul>
+            </div>
         </div>
     </div>
+
+    <!--    侧边栏 end -->
 
 </div>
 
@@ -210,6 +231,7 @@
         }
     });
 
+    // 目录
     tocbot.init({
         // Where to render the table of contents.
         tocSelector: '.js-toc',
@@ -235,6 +257,14 @@
     // 点击图片预览 官网 https://gitcode.net/mirrors/fengyuanchen/viewerjs
     const gallery = new Viewer(document.getElementById('content'));
 
+    // 目录悬浮
+    $(window).scroll(function (event) {
+        var winPos = $(window).scrollTop();
+        if (winPos > 750)
+            $('#categoryandsearch').addClass('fixed');
+        else
+            $('#categoryandsearch').removeClass('fixed');
+    });
 </script>
 
 
