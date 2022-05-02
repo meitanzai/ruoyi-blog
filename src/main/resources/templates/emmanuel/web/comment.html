@@ -164,14 +164,22 @@
                 rules: [{
                     type: 'empty',
                     prompt: '请输入留言内容'
-                }
-                ]
+                }, {
+                    type: 'maxLength[1000]',
+                    prompt: '干啥呢，长篇大论，这不是你撒野的地方'
+                }]
             },
             content: {
                 identifier: 'nickName',
                 rules: [{
                     type: 'empty',
                     prompt: '请输入你的大名'
+                }, {
+                    type: 'minLength[2]',
+                    prompt: '昵称最少2个字符'
+                }, {
+                    type: 'maxLength[10]',
+                    prompt: '昵称不能超过10个字符'
                 }]
             },
             type: {
@@ -190,6 +198,16 @@
         if (bool) {
             postData();
         } else {
+            let nickName = $("[name='nickName']").val();
+            if (nickName && (nickName.length < 2 || nickName.length > 10)) {
+                toastr.error("昵称长度保持2到10个字符");
+                return;
+            }
+            let content = $("[name='content']").val();
+            if (content && (content.length < 0 || content.length > 1000)) {
+                toastr.error("干啥呢，长篇大论，这不是你撒野的地方");
+                return;
+            }
             toastr.error("请检查信息是否填写完整/正确");
         }
     });
