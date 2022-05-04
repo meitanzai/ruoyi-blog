@@ -108,4 +108,18 @@ public class NoticeController extends BaseController
     {
         return toAjax(noticeService.deleteNoticeByIds(ids));
     }
+
+    /**
+     * 根据ID查看公告
+     * @param noticeId 公告id
+     * @param modelMap
+     * @return
+     */
+    @RequiresPermissions("system:notice:selectDetail")
+    @GetMapping("/selectById/{noticeId}")
+    public String get(@PathVariable("noticeId") Long noticeId, ModelMap modelMap)
+    {
+        modelMap.put("notice", noticeService.selectNoticeById(noticeId));
+        return prefix + "/notice_detail";
+    }
 }

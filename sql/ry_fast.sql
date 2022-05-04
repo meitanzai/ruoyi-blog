@@ -1185,6 +1185,8 @@ INSERT INTO `sys_menu` VALUES (1136, '随手记新增', 1134, 2, '#', '', 'F', '
 INSERT INTO `sys_menu` VALUES (1137, '随手记修改', 1134, 3, '#', '', 'F', '0', '1', 'memorial:note_board:edit', '#', 'admin', '2021-12-18 16:15:26', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1138, '随手记删除', 1134, 4, '#', '', 'F', '0', '1', 'memorial:note_board:remove', '#', 'admin', '2021-12-18 16:15:26', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1139, '随手记查询详情', 1134, 5, '#', '', 'F', '0', '1', 'memorial:note_board:datail', '#', 'admin', '2021-12-18 16:15:26', '', NULL, '');
+INSERT INTO `ry_fast`.`sys_menu`(`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1141, '公告详情', 107, 5, '#', 'menuItem', 'F', '0', '1', 'system:notice:selectDetail', '#', 'admin', '2022-05-04 15:49:46', '', NULL, '');
+
 
 -- ----------------------------
 -- Table structure for sys_notice

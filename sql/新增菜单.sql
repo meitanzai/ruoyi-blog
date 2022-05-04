@@ -1,0 +1,1 @@
+INSERT INTO `ry_fast`.`sys_menu`( `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ( '公告详情', 107, 5, '#', 'menuItem', 'F', '0', '1', 'system:notice:selectDetail', '#', 'admin', '2022-05-04 15:49:46', '', NULL, '');
