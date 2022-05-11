@@ -5,12 +5,14 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.memorial.domain.BoardNote;
 import org.springframework.ui.ModelMap;
 
+import java.util.List;
+
 public interface IBoardNoteService extends IService<BoardNote> {
 
     /**
      * 查询随手记列表
      */
-    TableDataInfo selectBoardNoteList(BoardNote boardNote, Integer pageNum, Integer pageSize);
+    List<BoardNote> selectBoardNoteList(BoardNote boardNote);
 
     /**
      * 新增保存随手记

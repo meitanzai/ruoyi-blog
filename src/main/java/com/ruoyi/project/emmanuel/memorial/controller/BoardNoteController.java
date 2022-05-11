@@ -50,11 +50,9 @@ public class BoardNoteController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(BoardNote boardNote) {
-        PageDomain pageDomain = TableSupport.buildPageRequest();
-        Integer pageNum = pageDomain.getPageNum();
-        Integer pageSize = pageDomain.getPageSize();
-        TableDataInfo boardNoteDataInfo = boardNoteService.selectBoardNoteList(boardNote, pageNum, pageSize);
-        return boardNoteDataInfo;
+        startPage();
+        List<BoardNote> list = boardNoteService.selectBoardNoteList(boardNote);
+        return getDataTable(list);
     }
 
 

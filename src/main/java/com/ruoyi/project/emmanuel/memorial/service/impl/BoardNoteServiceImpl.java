@@ -17,6 +17,7 @@ import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote> implements IBoardNoteService {
@@ -28,8 +29,7 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
      * 查询随手记列表
      */
     @Override
-    public TableDataInfo selectBoardNoteList(BoardNote boardNote, Integer pageNum, Integer pageSize) {
-        Page<BoardNote> page = new Page<>(pageNum, pageSize);
+    public List<BoardNote> selectBoardNoteList(BoardNote boardNote) {
         QueryWrapper<BoardNote> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
                 .select(BoardNote::getId, BoardNote::getNoteTitle, BoardNote::getNoteSummary, BoardNote::getNoteType, BoardNote::getIsPublic)
@@ -44,16 +44,9 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
         if (ToolUtils.isNotEmpty(noteTitle)) {
             queryWrapper.lambda().like(BoardNote::getNoteTitle, noteTitle);
         }
-        Page<BoardNote> boardNotePage = boardNoteMapper.selectPage(page, queryWrapper);
-        TableDataInfo dataInfo = new TableDataInfo();
-        if (ToolUtils.isNotEmpty(boardNotePage)) {
-            dataInfo.setRows(boardNotePage.getRecords());
-            dataInfo.setTotal(boardNotePage.getTotal());
-            dataInfo.setCurrentPage(boardNotePage.getCurrent());
-            dataInfo.setCurrentSize(boardNotePage.getSize());
-            dataInfo.setTotalPage(boardNotePage.getPages());
-        }
-        return dataInfo;
+        List<BoardNote> boardNoteList = boardNoteMapper.selectList( queryWrapper);
+
+        return boardNoteList;
     }
 
     /**
