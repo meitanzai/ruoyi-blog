@@ -30,6 +30,7 @@ import com.ruoyi.common.utils.text.Convert;
  */
 @Service
 public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> implements IMtoTagService {
+
     @Autowired
     private MtoTagMapper mtoTagMapper;
 
@@ -51,23 +52,10 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
      * @return mto
      */
     @Override
-    public TableDataInfo selectMtoTagList(MtoTag mtoTag) {
-        // 分页
-        PageDomain pageDomain = TableSupport.buildPageRequest();
-        Integer pageNum = pageDomain.getPageNum();
-        Integer pageSize = pageDomain.getPageSize();
-        IPage<MtoTag> page = null;
-        if (StringUtils.isNotNull(pageNum) && StringUtils.isNotNull(pageSize)) {
-            page = new Page<>(pageNum, pageSize);
-        }
+    public  List<MtoTag> selectMtoTagList(MtoTag mtoTag) {
         LambdaQueryWrapper<MtoTag> query = new QueryWrapper<MtoTag>().lambda().like(MtoTag::getName, mtoTag.getName());
-        IPage<MtoTag> tagIPage = mtoTagMapper.selectPage(page, query);
-
-        TableDataInfo tableDataInfo = new TableDataInfo();
-        tableDataInfo.setTotal(tagIPage.getTotal());
-        tableDataInfo.setRows(tagIPage.getRecords());
-
-        return tableDataInfo;
+        List<MtoTag> list = mtoTagMapper.selectList(query);
+        return list;
     }
 
     /**

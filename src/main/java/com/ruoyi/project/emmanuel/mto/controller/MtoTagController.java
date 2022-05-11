@@ -48,9 +48,9 @@ public class MtoTagController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(MtoTag mtoTag) {
-
-        TableDataInfo  dataInfo = mtoTagService.selectMtoTagList(mtoTag);
-        return dataInfo;
+        startPage();
+        List<MtoTag> list = mtoTagService.selectMtoTagList(mtoTag);
+        return getDataTable(list);
     }
 
     /**

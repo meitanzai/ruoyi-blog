@@ -27,7 +27,7 @@ public interface IMtoTagService extends IService<MtoTag> {
      * @param mtoTag mto
      * @return mto集合
      */
-    public TableDataInfo selectMtoTagList(MtoTag mtoTag);
+    public  List<MtoTag> selectMtoTagList(MtoTag mtoTag);
 
     /**
      * 新增mto
