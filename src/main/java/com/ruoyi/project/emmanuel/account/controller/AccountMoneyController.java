@@ -61,7 +61,6 @@ public class AccountMoneyController extends BaseController {
     public TableDataInfo list(AccountMoney accountMoney) {
         startPage();
         List<AccountMoney> list = accountMoneyService.selectAccountMoneyList(accountMoney);
-        System.out.println("list = " + list);
         return getDataTable(list);
     }
 

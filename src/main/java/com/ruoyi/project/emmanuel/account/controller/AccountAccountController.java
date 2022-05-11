@@ -90,8 +90,6 @@ public class AccountAccountController extends BaseController {
     @ResponseBody
     @RepeatSubmit(interval = 5000, message = "请勿重复提交")
     public AjaxResult addSave(AccountAccount accountAccount) {
-        String cover = accountAccount.getCover();
-        System.out.println("cover = " + cover);
         return toAjax(accountAccountService.insertAccountAccount(accountAccount));
     }
 
