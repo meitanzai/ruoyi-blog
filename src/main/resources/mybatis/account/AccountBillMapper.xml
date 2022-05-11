@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             and money_date LIKE CONCAT(#{month,jdbcType=VARCHAR},'%')
         </if>
     </where>
-        GROUP BY left(money_date,7) ORDER BY left(money_date,7) desc;
+        GROUP BY left(money_date,7)
     </select>
 
     <select id="getAccount" resultType="com.ruoyi.project.emmanuel.account.domain.AccountAccount">

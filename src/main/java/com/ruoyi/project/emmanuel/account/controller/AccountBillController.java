@@ -53,6 +53,7 @@ public class AccountBillController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(AccountBill accountBill) {
+        startPage();
         List<AccountBill> list = accountBillService.countMoneyByMonth(accountBill);
         return getDataTable(list);
     }
