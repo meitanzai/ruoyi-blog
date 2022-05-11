@@ -44,31 +44,21 @@ public class MtoLinkServiceImpl extends ServiceImpl<MtoLinkMapper, MtoLink> impl
     /**
      * 查询mto列表
      *
-     * @param pageNum
-     * @param pageSize
-     * @param mtoLink  mto
+     * @param mtoLink mto
      * @return mto
      */
     @Override
-    public TableDataInfo selectMtoLinkList(Integer pageNum, Integer pageSize, MtoLink mtoLink) {
-        Page<MtoLink> iPage = new Page<>(pageNum, pageSize);
+    public List<MtoLink> selectMtoLinkList(MtoLink mtoLink) {
+
         QueryWrapper<MtoLink> queryWrapper = new QueryWrapper<>();
-        if (ToolUtils.isNotEmpty(mtoLink.getLinkName())){
+        if (ToolUtils.isNotEmpty(mtoLink.getLinkName())) {
             queryWrapper.lambda().eq(MtoLink::getLinkName, mtoLink.getLinkName());
         }
-        if (ToolUtils.isNotEmpty(mtoLink.getLinkUrl())){
+        if (ToolUtils.isNotEmpty(mtoLink.getLinkUrl())) {
             queryWrapper.lambda().like(MtoLink::getLinkUrl, mtoLink.getLinkUrl());
         }
-        Page<MtoLink> mtoLinkPage = mtoLinkMapper.selectPage(iPage, queryWrapper);
-        TableDataInfo dataInfo = new TableDataInfo();
-        if (ToolUtils.isNotEmpty(mtoLinkPage)) {
-            dataInfo.setRows(mtoLinkPage.getRecords());
-            dataInfo.setTotal(mtoLinkPage.getTotal());
-            dataInfo.setCurrentPage(mtoLinkPage.getCurrent());
-            dataInfo.setCurrentSize(mtoLinkPage.getSize());
-            dataInfo.setTotalPage(mtoLinkPage.getPages());
-        }
-        return dataInfo;
+        List<MtoLink> mtoLinks = mtoLinkMapper.selectList(queryWrapper);
+        return mtoLinks;
     }
 
     /**

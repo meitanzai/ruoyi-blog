@@ -24,13 +24,10 @@ public interface IMtoLinkService extends IService<MtoLink> {
     /**
      * 查询mto列表
      *
-     *
-     * @param pageNum
-     * @param pageSize
      * @param mtoLink mto
      * @return mto集合
      */
-    TableDataInfo selectMtoLinkList(Integer pageNum, Integer pageSize, MtoLink mtoLink);
+    List<MtoLink> selectMtoLinkList(MtoLink mtoLink);
 
     /**
      * 新增mto

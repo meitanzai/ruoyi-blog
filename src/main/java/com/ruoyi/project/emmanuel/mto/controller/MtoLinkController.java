@@ -50,11 +50,8 @@ public class MtoLinkController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(MtoLink mtoLink) {
-        PageDomain pageDomain = TableSupport.buildPageRequest();
-        Integer pageNum = pageDomain.getPageNum();
-        Integer pageSize = pageDomain.getPageSize();
-        TableDataInfo tableDataInfo = mtoLinkService.selectMtoLinkList(pageNum,pageSize,mtoLink);
-        return tableDataInfo;
+        startPage();
+        return getDataTable(mtoLinkService.selectMtoLinkList(mtoLink));
     }
 
     /**
