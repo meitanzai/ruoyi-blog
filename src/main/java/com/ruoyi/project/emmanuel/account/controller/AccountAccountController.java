@@ -55,7 +55,6 @@ public class AccountAccountController extends BaseController {
     @ResponseBody
     public TableDataInfo list(AccountAccount accountAccount) {
         startPage();
-
         List<AccountAccount> list = accountAccountService.selectAccountAccountList(accountAccount);
         return getDataTable(list);
     }
