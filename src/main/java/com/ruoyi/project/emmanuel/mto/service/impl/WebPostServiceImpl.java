@@ -165,7 +165,9 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         // 获取侧边栏
         this.publicWeb(modelMap);
         // 获取轮播图
-        this.sliderList(modelMap);
+        if (Objects.equals(1L,currentPage)) {
+            this.sliderList(modelMap);
+        }
     }
 
 
