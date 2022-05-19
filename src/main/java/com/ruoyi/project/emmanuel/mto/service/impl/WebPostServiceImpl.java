@@ -1,8 +1,10 @@
 package com.ruoyi.project.emmanuel.mto.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.*;
 import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.framework.web.domain.AjaxResult;
@@ -207,12 +209,22 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * @param modelMap
      */
     private void sliderList(ModelMap modelMap) {
+        // 先查询缓存，如果存在，直接返回
+        Object sliderObj = CacheUtils.get(Constants.WEB_SLIDER);
+        if (StringUtils.isNotNull(sliderObj)) {
+            modelMap.put("sliderDataInfo", StringUtils.cast(sliderObj));
+            return;
+        }
+
         // 获取博客(轮播图)
         WebMtoPost webMtoPost = new WebMtoPost();
         webMtoPost.setSlider(1);
         CompletableFuture<Void> sliderFuture = CompletableFuture.runAsync(() -> {
             TableDataInfo sliderList = this.selectIndexPostList(webMtoPost, 1L, 10L);
             modelMap.put("sliderDataInfo", sliderList);
+
+            // 保存到缓存
+            CacheUtils.put(Constants.WEB_SLIDER,sliderList);
         }, executor);
 
         try {
@@ -255,9 +267,21 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
     public void selectCategory(ModelMap modelMap) {
         // 获取导航
         CompletableFuture<Void> categoryFuture = CompletableFuture.runAsync(() -> {
+
+            // 先查询缓存，如果存在，直接返回
+            Object categoryObj = CacheUtils.get(Constants.WEB_CATEGORY);
+            if (StringUtils.isNotNull(categoryObj)) {
+                modelMap.put("mtoCategoryList", StringUtils.cast(categoryObj));
+                return;
+            }
+            // 否则查询数据库
             List<MtoCategory> mtoCategoryList = categoryMapper.selectCategories(null);
             // 过滤掉停用的(后台与前台用的同一个sql，所以不能在sql里where，会使后台导航管理列表不显示)
             List<MtoCategory> collect = mtoCategoryList.stream().filter(e -> Objects.equals(1, e.getStatus())).collect(Collectors.toList());
+
+            // 保存到缓存
+            CacheUtils.put(Constants.WEB_CATEGORY, JSONObject.toJSON(collect));
+
             modelMap.put("mtoCategoryList", collect);
         }, executor);
 
@@ -279,8 +303,17 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
         // 获取标签
         CompletableFuture<Void> channelFuture = CompletableFuture.runAsync(() -> {
+            // 先查询缓存，如果存在，直接返回
+            Object tagObj = CacheUtils.get(Constants.WEB_TAG);
+            if (StringUtils.isNotNull(tagObj)) {
+                modelMap.put("mtoTagList", StringUtils.cast(tagObj));
+                return;
+            }
+            // 否则查询数据库
             List<MtoTag> mtoTagList = this.selectIndexTagList();
             modelMap.put("mtoTagList", mtoTagList);
+            // 保存到缓存
+            CacheUtils.put(Constants.WEB_TAG, JSONObject.toJSON(mtoTagList));
         }, executor);
 
         // 获取关于本站
@@ -292,26 +325,62 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
         // 获取最新文章
         CompletableFuture<Void> newPostFuture = CompletableFuture.runAsync(() -> {
+            // 先查询缓存，如果存在，直接返回
+            Object newBlogObj = CacheUtils.get(Constants.WEB_NEW_BLOG);
+            if (StringUtils.isNotNull(newBlogObj)) {
+                modelMap.put("newPostList", StringUtils.cast(newBlogObj));
+                return;
+            }
+            // 否则查询数据库
             List<WebMtoPost> newPostList = this.selectIndexNewPostList();
             modelMap.put("newPostList", newPostList);
+            // 保存到缓存
+            CacheUtils.put(Constants.WEB_NEW_BLOG, JSONObject.toJSON(newPostList));
+
         }, executor);
 
         // 获取最热文章
         CompletableFuture<Void> hotPostFuture = CompletableFuture.runAsync(() -> {
+            // 先查询缓存，如果存在，直接返回
+            Object hotBlogObj = CacheUtils.get(Constants.WEB_HOT_BLOG);
+            if (StringUtils.isNotNull(hotBlogObj)) {
+                modelMap.put("hotPostList", StringUtils.cast(hotBlogObj));
+                return;
+            }
+            // 否则查询数据库
             List<WebMtoPost> hotPostList = this.selectIndexHotPostList();
             modelMap.put("hotPostList", hotPostList);
+            // 保存到缓存
+            CacheUtils.put(Constants.WEB_HOT_BLOG, JSONObject.toJSON(hotPostList));
         }, executor);
 
         // 获取推荐文章
         CompletableFuture<Void> recommendPostFuture = CompletableFuture.runAsync(() -> {
+            // 先查询缓存，如果存在，直接返回
+            Object recommendBlogObj = CacheUtils.get(Constants.WEB_RECOMMEND_BLOG);
+            if (StringUtils.isNotNull(recommendBlogObj)) {
+                modelMap.put("recommendPostList", StringUtils.cast(recommendBlogObj));
+                return;
+            }
+            // 否则查询数据库
             List<WebMtoPost> recommendPostList = this.selectIndexRecommendPostList();
             modelMap.put("recommendPostList", recommendPostList);
+            // 保存到缓存
+            CacheUtils.put(Constants.WEB_RECOMMEND_BLOG, JSONObject.toJSON(recommendPostList));
         }, executor);
 
         // 获取友情链接
         CompletableFuture<Void> linkFuture = CompletableFuture.runAsync(() -> {
+            // 先查询缓存，如果存在，直接返回
+            Object linkObj = CacheUtils.get(Constants.WEB_LINK);
+            if (StringUtils.isNotNull(linkObj)) {
+                modelMap.put("linkList", StringUtils.cast(linkObj));
+                return;
+            }
             List<MtoLink> linkList = this.linkList();
             modelMap.put("linkList", linkList);
+            // 保存到缓存
+            CacheUtils.put(Constants.WEB_LINK, JSONObject.toJSON(linkList));
         }, executor);
 
         try {
@@ -479,6 +548,13 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
         // 获取所有标签
         CompletableFuture<Void> categoryFuture = CompletableFuture.runAsync(() -> {
+            // 先查询缓存，如果存在，直接返回
+            Object tagObj = CacheUtils.get(Constants.WEB_TAG);
+            if (StringUtils.isNotNull(tagObj)) {
+                modelMap.put("tagList", StringUtils.cast(tagObj));
+                return;
+            }
+            // 否则查询数据库
             List<MtoTag> tagList = tagMapper.selectList(null);
             modelMap.put("tagList", tagList);
         }, executor);

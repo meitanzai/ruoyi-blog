@@ -112,4 +112,39 @@ public class Constants
      */
     public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
             "org.springframework", "com.ruoyi.common.utils.file" };
+
+    /**
+     * 前台导航 cache key
+     */
+    public static final String WEB_CATEGORY = "web:category";
+
+    /**
+     * 前台首页 轮播图
+     */
+    public static final String WEB_SLIDER = "web:slider";
+
+    /**
+     * 前台首页 标签
+     */
+    public static final String WEB_TAG = "web:tagList";
+
+    /**
+     * 前台首页 最新文章
+     */
+    public static final String WEB_NEW_BLOG = "web:newBlog";
+
+    /**
+     * 前台首页 最热文章
+     */
+    public static final String WEB_HOT_BLOG = "web:hotBlog";
+
+    /**
+     * 前台首页 轮播图
+     */
+    public static final String WEB_RECOMMEND_BLOG = "web:recommendBlog";
+
+    /**
+     * 前台首页 友情链接
+     */
+    public static final String WEB_LINK = "web:link";
 }

@@ -53,11 +53,5 @@ public interface IMtoTagService extends IService<MtoTag> {
      */
     public int deleteMtoTagByIds(String ids);
 
-    /**
-     * 删除mto信息
-     *
-     * @param id mto主键
-     * @return 结果
-     */
-    public int deleteMtoTagById(Long id);
+
 }

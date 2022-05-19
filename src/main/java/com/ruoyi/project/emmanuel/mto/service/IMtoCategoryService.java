@@ -48,14 +48,6 @@ public interface IMtoCategoryService extends IService<MtoCategory> {
     public int updateMtoCategory(MtoCategory mtoCategory);
 
     /**
-     * 批量删除导航表
-     *
-     * @param ids 需要删除的导航表主键集合
-     * @return 结果
-     */
-    public int deleteMtoCategoryByIds(String ids);
-
-    /**
      * 删除导航表信息
      *
      * @param id 导航表主键

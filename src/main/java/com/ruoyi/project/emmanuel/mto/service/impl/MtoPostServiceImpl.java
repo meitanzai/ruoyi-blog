@@ -13,10 +13,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.MarkdownUtils;
-import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.ToolUtils;
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.utils.*;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.project.emmanuel.mto.domain.*;
@@ -148,6 +146,9 @@ public class MtoPostServiceImpl implements IMtoPostService {
         mtoPostAttributeMapper.insertMtoPostAttribute(mtoPostAttribute);
         // 新增 mto_post_tag
         this.insertBatchPostTag(tagIdList, postId);
+        // 删除缓存
+        CacheUtils.remove(Constants.WEB_NEW_BLOG);
+        CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
         return i;
     }
 
@@ -200,7 +201,9 @@ public class MtoPostServiceImpl implements IMtoPostService {
         wrapper.lambda().eq(MtoPostTag::getPostId, postId);
         mtoPostTagMapper.delete(wrapper);
         this.insertBatchPostTag(tagIdList, postId);
-
+        // 查询缓存
+        CacheUtils.remove(Constants.WEB_HOT_BLOG);
+        CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
         return i;
     }
 
@@ -213,15 +216,20 @@ public class MtoPostServiceImpl implements IMtoPostService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteMtoPostByIds(String ids) {
-        String[] strings = Convert.toStrArray(ids);
+        String[] idsArr = Convert.toStrArray(ids);
         // 删除博客文章 mto_post_attribute
-        mtoPostAttributeMapper.deleteMtoPostAttributeByIds(strings);
+        mtoPostAttributeMapper.deleteMtoPostAttributeByIds(idsArr);
         // 删除博客标签 mto_post_tag
         QueryWrapper<MtoPostTag> wrapper = new QueryWrapper<>();
-        wrapper.lambda().in(MtoPostTag::getPostId, strings);
+        wrapper.lambda().in(MtoPostTag::getPostId, idsArr);
         mtoPostTagMapper.delete(wrapper);
         // 删除博客标题等信息 mto_post
-        return mtoPostMapper.deleteMtoPostByIds(strings);
+        int i = mtoPostMapper.deleteMtoPostByIds(idsArr);
+        // 查询缓存
+        CacheUtils.remove(Constants.WEB_NEW_BLOG);
+        CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
+        CacheUtils.remove(Constants.WEB_HOT_BLOG);
+        return i;
     }
 
     /**
@@ -233,7 +241,11 @@ public class MtoPostServiceImpl implements IMtoPostService {
     @Override
     public int deleteMtoPostById(Long id) {
         mtoPostAttributeMapper.deleteMtoPostAttributeById(id);
-        return mtoPostMapper.deleteMtoPostById(id);
+        int i = mtoPostMapper.deleteMtoPostById(id);
+        // 删除缓存
+        CacheUtils.remove(Constants.WEB_HOT_BLOG);
+        CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
+        return i;
     }
 
     @Override
@@ -356,6 +368,9 @@ public class MtoPostServiceImpl implements IMtoPostService {
             }
 
         }
+        // 删除缓存
+        CacheUtils.remove(Constants.WEB_NEW_BLOG);
+        CacheUtils.remove(Constants.WEB_HOT_BLOG);
         return i > 0 ? "导入成功" : "导入失败";
     }
 

@@ -3,6 +3,8 @@ package com.ruoyi.project.emmanuel.mto.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.utils.CacheUtils;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.text.Convert;
@@ -94,7 +96,9 @@ public class MtoCategoryServiceImpl extends ServiceImpl<MtoCategoryMapper, MtoCa
     @Override
     public int insertMtoCategory(MtoCategory mtoCategory) {
         mtoCategory.setCreateTime(DateUtils.getNowDate());
-        return mtoCategoryMapper.insertMtoCategory(mtoCategory);
+        int i = mtoCategoryMapper.insertMtoCategory(mtoCategory);
+        CacheUtils.remove(Constants.WEB_CATEGORY);
+        return i;
     }
 
     /**
@@ -106,18 +110,9 @@ public class MtoCategoryServiceImpl extends ServiceImpl<MtoCategoryMapper, MtoCa
     @Override
     public int updateMtoCategory(MtoCategory mtoCategory) {
         mtoCategory.setUpdateTime(DateUtils.getNowDate());
-        return mtoCategoryMapper.updateMtoCategory(mtoCategory);
-    }
-
-    /**
-     * 批量删除导航表
-     *
-     * @param ids 需要删除的导航表主键
-     * @return 结果
-     */
-    @Override
-    public int deleteMtoCategoryByIds(String ids) {
-        return mtoCategoryMapper.deleteMtoCategoryByIds(Convert.toStrArray(ids));
+        int i = mtoCategoryMapper.updateMtoCategory(mtoCategory);
+        CacheUtils.remove(Constants.WEB_CATEGORY);
+        return i;
     }
 
     /**
@@ -134,7 +129,9 @@ public class MtoCategoryServiceImpl extends ServiceImpl<MtoCategoryMapper, MtoCa
        if (ToolUtils.isNotEmpty(exit) && exit>0){
            throw new RuntimeException("存在下级，不允许删除");
        }
-        return mtoCategoryMapper.deleteMtoCategoryById(id);
+        int i = mtoCategoryMapper.deleteMtoCategoryById(id);
+        CacheUtils.remove(Constants.WEB_CATEGORY);
+        return i;
     }
 
     /**
