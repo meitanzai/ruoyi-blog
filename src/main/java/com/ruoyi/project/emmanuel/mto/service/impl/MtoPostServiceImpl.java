@@ -1,40 +1,34 @@
 package com.ruoyi.project.emmanuel.mto.service.impl;
 
-import java.io.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.*;
 import com.ruoyi.common.utils.security.ShiroUtils;
-import com.ruoyi.framework.manager.factory.AsyncFactory;
-import com.ruoyi.project.emmanuel.mto.domain.*;
-import com.ruoyi.project.emmanuel.mto.mapper.*;
-import com.ruoyi.project.emmanuel.mto.service.*;
-import com.ruoyi.project.system.user.domain.User;
-import org.apache.ibatis.javassist.NotFoundException;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.text.Convert;
+import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.project.emmanuel.mto.domain.*;
+import com.ruoyi.project.emmanuel.mto.mapper.MtoPostAttributeMapper;
+import com.ruoyi.project.emmanuel.mto.mapper.MtoPostMapper;
+import com.ruoyi.project.emmanuel.mto.mapper.MtoPostTagMapper;
+import com.ruoyi.project.emmanuel.mto.mapper.MtoTagMapper;
+import com.ruoyi.project.emmanuel.mto.service.IMtoCategoryService;
+import com.ruoyi.project.emmanuel.mto.service.IMtoChannelService;
+import com.ruoyi.project.emmanuel.mto.service.IMtoPostService;
+import com.ruoyi.project.emmanuel.mto.service.IWebPostService;
+import com.ruoyi.project.system.user.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 文章表题Service业务层处理
@@ -201,7 +195,12 @@ public class MtoPostServiceImpl implements IMtoPostService {
         wrapper.lambda().eq(MtoPostTag::getPostId, postId);
         mtoPostTagMapper.delete(wrapper);
         this.insertBatchPostTag(tagIdList, postId);
-        // 查询缓存
+        // 如果开启静态模板删除文件
+        if (RuoYiConfig.isPageStaticEnabled()) {
+            File directory = new File(RuoYiConfig.getHtmlPath() + File.separator + postId + ".html");
+            directory.delete();
+        }
+        // 删除缓存
         CacheUtils.remove(Constants.WEB_HOT_BLOG);
         CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
         return i;

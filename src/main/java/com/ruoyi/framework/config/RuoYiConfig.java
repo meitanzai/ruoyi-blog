@@ -30,6 +30,9 @@ public class RuoYiConfig
     /** 获取地址开关 */
     private static boolean addressEnabled;
 
+    /** 开启页面静态化开关 */
+    private static boolean pageStaticEnabled;
+
     public String getName()
     {
         return name;
@@ -90,6 +93,14 @@ public class RuoYiConfig
         RuoYiConfig.addressEnabled = addressEnabled;
     }
 
+    public static boolean isPageStaticEnabled() {
+        return pageStaticEnabled;
+    }
+
+    public void setPageStaticEnabled(boolean pageStaticEnabled) {
+        RuoYiConfig.pageStaticEnabled = pageStaticEnabled;
+    }
+
     /**
      * 获取导入上传路径
      */
@@ -128,5 +139,13 @@ public class RuoYiConfig
     public static String getBlogPath()
     {
         return getProfile() + "/blog";
+    }
+
+    /**
+     * 生成静态页面路径
+     */
+    public static String getHtmlPath()
+    {
+        return getProfile() + "/html";
     }
 }

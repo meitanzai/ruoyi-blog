@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -116,10 +117,10 @@ public class WebPostController extends BaseController {
      * @return
      */
     @GetMapping("/article/{articleId}")
-    public String articleById(ModelMap modelMap,
+    public String articleById(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response,
                               @PathVariable("articleId") Long articleId) {
-        postService.articleById(modelMap, articleId);
-        return prefix + "/article";
+        String url = postService.articleById(request, response, modelMap, articleId);
+        return ToolUtils.isEmpty(url)?prefix + "/article":url;
     }
 
     /**

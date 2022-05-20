@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.utils.*;
 import com.ruoyi.common.utils.spring.SpringUtils;
+import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.index.domin.BizRepeatLog;
@@ -15,15 +16,18 @@ import com.ruoyi.project.emmanuel.memorial.service.IBoardNoteService;
 import com.ruoyi.project.emmanuel.mto.domain.*;
 import com.ruoyi.project.emmanuel.mto.mapper.*;
 import com.ruoyi.project.emmanuel.mto.service.IWebPostService;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.cache.decorators.ScheduledCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -49,9 +53,11 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
     @Autowired
     private MtoPostTagMapper postTagMapper;
 
-
     @Autowired
     private IBoardNoteService boardNoteService;
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     // @Resource
     // private ThreadPoolExecutor executor;
@@ -430,19 +436,54 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
     }
 
     /**
+     * 生成文章静态页面
+     *
+     * @param request
+     * @param response
+     * @param modelMap  页面内容
+     * @param articleId 文章ID
+     */
+    private void createArticleHtml(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId) {
+        Map<String, Object> paramMap = new LinkedHashMap<>();
+        // 生成静态页面的导航
+        paramMap.put("mtoCategoryList", modelMap.get("mtoCategoryList"));
+        // 生成静态页面的文章
+        paramMap.put("mtoPost", modelMap.get("mtoPost"));
+        // 创建静态页面
+        createHtml(request, response, true, paramMap, "emmanuel/web/article", String.valueOf(articleId));
+    }
+
+    /**
      * 根据文章获取id
      *
      * @param modelMap
      * @param articleId postId,博客的id
      */
-    // @Override
-    public void articleById(ModelMap modelMap, Long articleId) {
+    @Override
+    public String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId) {
+        // 如果开启静态模板
+        if (RuoYiConfig.isPageStaticEnabled()) {
+            // 判断文件是否存在
+            File directory = new File(RuoYiConfig.getHtmlPath() + File.separator + articleId + ".html");
+            if (directory.exists()) {
+                // 静态页面存在的路径
+                String currentHtmlDir = RuoYiConfig.getHtmlPath().substring(RuoYiConfig.getHtmlPath().lastIndexOf("/") + 1);
+                // 当前静态页面访问地址
+                String currentDir = Constants.RESOURCE_PREFIX + "/" + currentHtmlDir + "/" + articleId + ".html";
+                return "forward:" + currentDir;
+            }
+        }
         // 获取导航
         this.selectCategory(modelMap);
         // 文章详情
         WebMtoPost webMtoPost = this.selectMtoPostById(articleId);
         modelMap.put("mtoPost", webMtoPost);
 
+        // 是否开启文章页面静态化(true开启)
+        if (RuoYiConfig.isPageStaticEnabled()) {
+            createArticleHtml(request, response, modelMap, articleId);
+        }
+        return null;
     }
 
     /**
@@ -678,6 +719,50 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 生成静态页面
+     *
+     * @param request
+     * @param response
+     * @param force       文件存在是否进行覆盖(true覆盖，false不进行覆盖)
+     * @param paramMap    页面数据
+     * @param templateUrl 要生成的HTML在项目中的路径
+     * @param fileName    文件名
+     */
+    public void createHtml(HttpServletRequest request, HttpServletResponse response, Boolean force, Map<String, Object> paramMap, String templateUrl, String fileName) {
+
+        PrintWriter printWriter = null;
+        try {
+            // 创建thymeleaf上下文对象
+            WebContext context = new WebContext(request, response, request.getServletContext());
+            // 把数据放入上下文对象
+            context.setVariables(paramMap);
+            // 文件生成路径
+            String fileUrl = StringUtils.appendIfMissing(RuoYiConfig.getHtmlPath(), File.separator) + fileName + ".html";
+            // 创建文件夹
+            File directory = new File(StringUtils.substringBeforeLast(fileUrl, File.separator));
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            // 创建输出流
+            File file = new File(fileUrl);
+            // force为false不强制覆盖现有文件
+            if (Boolean.FALSE.equals(force) && file.exists()) {
+                return;
+            }
+            printWriter = new PrintWriter(file);
+            // 执行页面静态化方法 (项目中生成模板的页面，上下文，流)
+            templateEngine.process(templateUrl, context, printWriter);
+        } catch (Exception e) {
+            e.getMessage();
+        } finally {
+            if (printWriter != null) {
+                printWriter.flush();
+                printWriter.close();
+            }
+        }
     }
 
 }

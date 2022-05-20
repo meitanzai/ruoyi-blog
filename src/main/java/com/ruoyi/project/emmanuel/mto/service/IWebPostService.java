@@ -11,6 +11,7 @@ import com.ruoyi.project.emmanuel.mto.domain.WebMtoPost;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface IWebPostService extends IService<WebMtoPost> {
@@ -75,7 +76,7 @@ public interface IWebPostService extends IService<WebMtoPost> {
      * @param articleId 文章id
      * @return
      */
-    void articleById(ModelMap modelMap, Long articleId);
+    String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId);
 
     /**
      * 点赞
