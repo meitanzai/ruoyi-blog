@@ -8,155 +8,164 @@
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal m" id="form-post-add">
 
-        <div class="col-lg-8">
+    <div class="ibox-content">
+        <div class="row form-body form-horizontal m-t">
+            <form class="form-horizontal m-t col-lg-12" id="form-post-add">
 
-            <!--            标题-->
-            <div class="form-group">
-                <h3>
-                    <input type="text" class="form-control" id="title" name="title" th:value="${mtoPost?.title}"
-                           placeholder="请输入文章标题" required>
-                </h3>
-            </div>
+                <!-- 左侧-->
+                <div class="col-lg-8">
 
-            <!--markdown编辑器-->
-            <div class="form-group">
-                <div id=md-content>
-                    <textarea id="content" name="content" th:text="${mtoPost?.content}"></textarea>
+                    <!--            标题-->
+                    <div class="form-group">
+                        <h3>
+                            <input type="text" class="form-control" id="title" name="title" th:value="${mtoPost?.title}"
+                                   placeholder="请输入文章标题" required>
+                        </h3>
+                    </div>
+
+                    <!--markdown编辑器-->
+                    <div class="form-group">
+                        <div id=md-content>
+                            <textarea id="content" name="content" th:text="${mtoPost?.content}"></textarea>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
 
-        </div>
+                <!-- 右侧-->
+                <div class="col-lg-4 ">
+                    <!--       博客导航     -->
+                    <div class="form-group col-xs-12">
+                        <label class="font-noraml">博客导航：</label>
+                        <select class="form-control " data-placeholder="请选择导航" id="categoryId" name="categoryId">
+                            <option value="">请选择导航(非必选)</option>
+                            <block th:each="category:${categoryList}">
 
-        <div class="col-lg-4 p-3" style="border: 1px solid #ddd;border-radius: 4px;">
-            <!--       博客导航     -->
-            <div class="form-group col-xs-12">
-                <label class="font-noraml">博客导航：</label>
-                <select class="form-control " data-placeholder="请选择导航" id="categoryId" name="categoryId">
-                    <option value="">请选择导航(非必选)</option>
-                    <block th:each="category:${categoryList}">
+                                <option
+                                        th:if="${#lists.isEmpty(category.children) && category.type ==0}"
+                                        th:value="${category.id}"
+                                        th:text="${category.name}"
+                                        th:selected="${mtoPost?.categoryId == category.id}"
+                                ></option>
 
-                        <option
-                                th:if="${#lists.isEmpty(category.children) && category.type ==0}"
-                                th:value="${category.id}"
-                                th:text="${category.name}"
-                                th:selected="${mtoPost?.categoryId == category.id}"
-                        ></option>
+                                <optgroup th:unless="${#lists.isEmpty(category.children)}"
+                                          th:label="${category.name}">
+                                    <option th:each="child: ${category.children}"
+                                            th:value="${child.id}"
+                                            th:text="${child.name}"></option>
+                                </optgroup>
+                            </block>
+                        </select>
+                    </div>
 
-                        <optgroup th:unless="${#lists.isEmpty(category.children)}"
-                                  th:label="${category.name}">
-                            <option th:each="child: ${category.children}"
-                                    th:value="${child.id}"
-                                    th:text="${child.name}"></option>
-                        </optgroup>
-                    </block>
-                </select>
-            </div>
+                    <!--        博客栏目    -->
+                    <div class="form-group col-xs-12">
+                        <label class=" control-label is-required">博客栏目：</label>
+                        <select class="form-control  noselect2 selectpicker" data-placeholder="请选择栏目" id="channelId"
+                                name="channelId"
+                                required>
+                            <option value="">请选择</option>
+                            <option th:each="channel:${channelList}"
+                                    th:value="${channel.id}"
+                                    th:text="${channel.name}"
+                                    th:selected="${mtoPost?.channelId}==${channel.id}"
+                            ></option>
+                        </select>
+                    </div>
 
-            <!--        博客栏目    -->
-            <div class="form-group col-xs-12">
-                <label class=" control-label is-required">博客栏目：</label>
-                <select class="form-control  noselect2 selectpicker" data-placeholder="请选择栏目" id="channelId"
-                        name="channelId"
-                        required>
-                    <option value="">请选择</option>
-                    <option th:each="channel:${channelList}"
-                            th:value="${channel.id}"
-                            th:text="${channel.name}"
-                            th:selected="${mtoPost?.channelId}==${channel.id}"
-                    ></option>
-                </select>
-            </div>
+                    <!--      博客标签      -->
+                    <div class="form-group col-xs-12">
+                        <label class="font-noraml">多选</label>
+                        <select id="tag" class="form-control noselect2 selectpicker" data-none-selected-text="请选择博客标签"
+                                multiple>
+                            <option th:each="tag:${tagList}"
+                                    th:value="${tag.id}"
+                                    th:text="${tag.name}"
+                            ></option>
+                        </select>
+                    </div>
 
-            <!--      博客标签      -->
-            <div class="form-group col-xs-12">
-                <label class="font-noraml">多选</label>
-                <select id="tag" class="form-control noselect2 selectpicker" data-none-selected-text="请选择博客标签" multiple>
-                    <option th:each="tag:${tagList}"
-                            th:value="${tag.id}"
-                            th:text="${tag.name}"
-                    ></option>
-                </select>
-            </div>
-
-            <!--       文章摘要     -->
-            <div class="form-group col-xs-12">
-                <label class="control-label">博客摘要：</label>
-                <div class="ml-3">
+                    <!--       文章摘要     -->
+                    <div class="form-group col-xs-12">
+                        <label class="control-label">博客摘要：</label>
+                        <div class="ml-3">
                     <textarea type="text" name="summary" maxlength="500" class="form-control" rows="5"
                               th:value="${mtoPost?.summary}"
                               placeholder="博客摘要"></textarea>
-                </div>
-            </div>
+                        </div>
+                    </div>
 
-            <!--     是否轮播       -->
-            <div class="form-group col-xs-12">
-                <label class="control-label is-required">是否轮播：</label>
-                <div class="ml-3">
-                    <label class="radio-box">
-                        <input name="slider" type="radio" id=0 value=0 required
-                               th:checked="true"> 否</input>
-                    </label>
-                    <label class="radio-box">
-                        <input name="slider" type="radio" id=1 value="1"
-                               required> 是 </input>
-                    </label>
-                </div>
-            </div>
+                    <!--     是否轮播       -->
+                    <div class="form-group col-xs-12">
+                        <label class="control-label is-required">是否轮播：</label>
+                        <div class="ml-3">
+                            <label class="radio-box">
+                                <input name="slider" type="radio" id=0 value=0 required
+                                       th:checked="true"> 否</input>
+                            </label>
+                            <label class="radio-box">
+                                <input name="slider" type="radio" id=1 value="1"
+                                       required> 是 </input>
+                            </label>
+                        </div>
+                    </div>
 
-            <!--       是否推荐     -->
-            <div class="form-group col-xs-12">
-                <label class=" control-label is-required">是否推荐：</label>
-                <div class="ml-3">
-                    <label class="radio-box">
-                        <input name="featured" type="radio" id=0 value=0 required th:checked="true"> 否</input>
-                    </label>
-                    <label class="radio-box">
-                        <input name="featured" type="radio" id=1 value="1" required> 是 </input>
-                    </label>
-                </div>
-            </div>
+                    <!--       是否推荐     -->
+                    <div class="form-group col-xs-12">
+                        <label class=" control-label is-required">是否推荐：</label>
+                        <div class="ml-3">
+                            <label class="radio-box">
+                                <input name="featured" type="radio" id=0 value=0 required th:checked="true"> 否</input>
+                            </label>
+                            <label class="radio-box">
+                                <input name="featured" type="radio" id=1 value="1" required> 是 </input>
+                            </label>
+                        </div>
+                    </div>
 
-            <!--       是否推荐     -->
-            <div class="form-group col-xs-12">
-                <label class=" control-label is-required">状态：</label>
-                <div class="ml-3">
-                    <label class="radio-box">
-                        <input name="status" type="radio" id=0 value=0 required th:checked="true">发布</input>
-                    </label>
-                    <label class="radio-box">
-                        <input name="status" type="radio" id=1 value="1" required> 草稿 </input>
-                    </label>
-                </div>
-            </div>
+                    <!--       发布状态     -->
+                    <div class="form-group col-xs-12">
+                        <label class=" control-label is-required">状态：</label>
+                        <div class="ml-3">
+                            <label class="radio-box">
+                                <input name="status" type="radio" id=0 value=0 required th:checked="true">发布</input>
+                            </label>
+                            <label class="radio-box">
+                                <input name="status" type="radio" id=1 value="1" required> 草稿 </input>
+                            </label>
+                        </div>
+                    </div>
 
-            <!--       博客封面-->
-            <div class="form-group col-xs-12">
-                <label class="control-label">博客封面：</label>
-                <div class="ml-3">
-                    <input name="thumbnail" id="thumbnail" class="form-control" >
-                    <a id="url"><img style="width: 90px;height: 90px"></a>
-                    <input type="file" id="tpicf">
-                </div>
-            </div>
+                    <!--       博客封面-->
+                    <div class="form-group col-xs-12">
+                        <label class="control-label">博客封面：</label>
+                        <div class="ml-3">
+                            <input name="thumbnail" id="thumbnail" class="form-control">
+                            <a id="url"><img style="width: 90px;height: 90px"></a>
+                            <input type="file" id="tpicf">
+                        </div>
+                    </div>
 
+                </div>
+
+            </form>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-sm-offset-5 col-sm-10">
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
 
-                <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i
-                        class="fa fa-check"></i>保 存
-                </button>&nbsp;
-                <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i
-                        class="fa fa-reply-all"></i>关 闭
-                </button>
-            </div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i
+                    class="fa fa-check"></i>保 存
+            </button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i
+                    class="fa fa-reply-all"></i>关 闭
+            </button>
         </div>
-    </form>
+    </div>
+
 </div>
-
 <th:block th:include="include :: footer"/>
 <th:block th:include="include :: datetimepicker-js"/>
 <th:block th:include="include :: bootstrap-select-js"/>
@@ -243,14 +252,14 @@
             xhr.open('POST', '/common/markdown/upload', true);
             xhr.send(formData);
             xhr.onreadystatechange = function () {
-                if(xhr.readyState === 4){
-                    if(xhr.status >=200 && xhr.status < 300 || xhr.status === 304){
+                if (xhr.readyState === 4) {
+                    if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
                         //5.处理返回的结果
                         var obj = xhr.responseText;
-                        var objarr = eval("("+obj+")");
-                        if (objarr["success"] == 1){
+                        var objarr = eval("(" + obj + ")");
+                        if (objarr["success"] == 1) {
                             editor.insertValue("![](" + objarr["fileName"] + ")");
-                        }else{
+                        } else {
                             alert("粘贴图片失败!");
                         }
                     }
