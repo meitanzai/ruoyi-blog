@@ -309,8 +309,31 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
     @Override
     public void publicWeb(ModelMap modelMap) {
 
-        // 获取标签
+        // 获取关于本站
+        WebAbout webAbout = new WebAbout();
+        webAbout.setAbAvatar("https://tse1-mm.cn.bing.net/th/id/OIP.Ups1Z8igjNjLuDfO38XhTgHaHa?pid=Api&rs=1");
+        webAbout.setAbName("一粒麦子");
+        webAbout.setAbText("90后少年，热爱写bug，热爱编程，热爱学习，分享一些个人经验，共同学习，少走弯路。Talk is cheap,show me the code!");
+        modelMap.put("webAbout", webAbout);
+
+        // 获取分类
         CompletableFuture<Void> channelFuture = CompletableFuture.runAsync(() -> {
+            // 先查询缓存，如果存在，直接返回
+            Object channelObj = CacheUtils.get(Constants.WEB_CHANNEL);
+            if (StringUtils.isNotNull(channelObj)) {
+                modelMap.put("channelList", StringUtils.cast(channelObj));
+                return;
+            }
+            // 否则查询数据库
+            List<MtoChannel> channelList = this.selectIndexChannelList();
+            modelMap.put("channelList", channelList);
+            // 保存到缓存
+            CacheUtils.put(Constants.WEB_CHANNEL, JSONObject.toJSON(channelList));
+        }, executor);
+
+
+        // 获取标签
+        CompletableFuture<Void> tagFuture = CompletableFuture.runAsync(() -> {
             // 先查询缓存，如果存在，直接返回
             Object tagObj = CacheUtils.get(Constants.WEB_TAG);
             if (StringUtils.isNotNull(tagObj)) {
@@ -323,13 +346,6 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
             // 保存到缓存
             CacheUtils.put(Constants.WEB_TAG, JSONObject.toJSON(mtoTagList));
         }, executor);
-
-        // 获取关于本站
-        WebAbout webAbout = new WebAbout();
-        webAbout.setAbAvatar("https://tse1-mm.cn.bing.net/th/id/OIP.Ups1Z8igjNjLuDfO38XhTgHaHa?pid=Api&rs=1");
-        webAbout.setAbName("一粒麦子");
-        webAbout.setAbText("90后少年，热爱写bug，热爱编程，热爱学习，分享一些个人经验，共同学习，少走弯路。Talk is cheap,show me the code!");
-        modelMap.put("webAbout", webAbout);
 
         // 获取最新文章
         CompletableFuture<Void> newPostFuture = CompletableFuture.runAsync(() -> {
@@ -392,7 +408,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         }, executor);
 
         try {
-            CompletableFuture.allOf(channelFuture, newPostFuture, recommendPostFuture, hotPostFuture, linkFuture).get();
+            CompletableFuture.allOf(channelFuture,tagFuture, newPostFuture, recommendPostFuture, hotPostFuture, linkFuture).get();
         } catch (Exception e) {
             throw new RuntimeException("异步编程发生错误: " + e.getMessage());
         }

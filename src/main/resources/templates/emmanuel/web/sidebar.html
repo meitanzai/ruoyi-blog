@@ -17,14 +17,28 @@
 
 
     </div>
+
+
+    <div class="tag panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">分类</h3>
+        </div>
+        <div class="panel-body channel" style="overflow: hidden">
+            <ul>
+                <li>
+                    <a style="height: auto;" th:each="item:${channelList}"
+                       th:classappend="${pageUrl == 'blog/channel/'+item.id}?'active'"
+                       th:href="@{${'/blog/channel/'+item.id+'?currentPage=1'}}" th:text="${item.name}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
     <div class="tag panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">标签云</h3>
         </div>
-<!--        <div class="panel-body" id="tagcloud" style="overflow: hidden">-->
-<!--            <a class="btn btn-default btn-xs" th:each="item:${mtoChannelList}" th:href="@{${'/blog/channel/'+item.id}}"-->
-<!--               th:text="${item.name}"></a>-->
-<!--        </div>-->
         <div class="panel-body panel-body-high" id="tagcloud" style="overflow: hidden">
             <a class="btn btn-default btn-xs" th:each="item:${mtoTagList}" th:href="@{${'/blog/tag/'+item.id}}"
                th:text="${item.name}"></a>
@@ -81,6 +95,7 @@
 
         </div>
     </div>
+
     <div class="link panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">友情链接</h3>

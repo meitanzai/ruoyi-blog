@@ -124,6 +124,11 @@ public class Constants
     public static final String WEB_SLIDER = "web:slider";
 
     /**
+     * 前台首页 分类
+     */
+    public static final String WEB_CHANNEL = "web:channelList";
+
+    /**
      * 前台首页 标签
      */
     public static final String WEB_TAG = "web:tagList";

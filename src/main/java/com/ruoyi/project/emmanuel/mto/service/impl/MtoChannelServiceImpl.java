@@ -1,21 +1,16 @@
 package com.ruoyi.project.emmanuel.mto.service.impl;
 
-import java.util.List;
-
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.utils.CacheUtils;
 import com.ruoyi.common.utils.ToolUtils;
-import com.ruoyi.project.emmanuel.mto.domain.MtoCategory;
-import com.ruoyi.project.emmanuel.mto.domain.MtoTag;
-import com.ruoyi.project.emmanuel.mto.mapper.MtoCategoryMapper;
-import com.ruoyi.project.emmanuel.mto.service.IMtoCategoryService;
-import com.ruoyi.project.emmanuel.mto.service.IMtoPostService;
-import javafx.scene.chart.CategoryAxis;
+import com.ruoyi.common.utils.text.Convert;
+import com.ruoyi.project.emmanuel.mto.domain.MtoChannel;
+import com.ruoyi.project.emmanuel.mto.mapper.MtoChannelMapper;
+import com.ruoyi.project.emmanuel.mto.service.IMtoChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.emmanuel.mto.mapper.MtoChannelMapper;
-import com.ruoyi.project.emmanuel.mto.domain.MtoChannel;
-import com.ruoyi.project.emmanuel.mto.service.IMtoChannelService;
-import com.ruoyi.common.utils.text.Convert;
-import org.springframework.ui.ModelMap;
+
+import java.util.List;
 
 /**
  * 栏目管理Service业务层处理
@@ -65,7 +60,9 @@ public class MtoChannelServiceImpl implements IMtoChannelService {
         if (ToolUtils.isEmpty(mtoChannel.getWeight())) {
             mtoChannel.setWeight(0L);
         }
-        return mtoChannelMapper.insertMtoChannel(mtoChannel);
+        int i = mtoChannelMapper.insertMtoChannel(mtoChannel);
+        CacheUtils.remove(Constants.WEB_CHANNEL);
+        return i;
     }
 
     /**
@@ -92,7 +89,9 @@ public class MtoChannelServiceImpl implements IMtoChannelService {
     @Override
     public int updateMtoChannel(MtoChannel mtoChannel) {
         this.isExist(mtoChannel);
-        return mtoChannelMapper.updateMtoChannel(mtoChannel);
+        int i = mtoChannelMapper.updateMtoChannel(mtoChannel);
+        CacheUtils.remove(Constants.WEB_CHANNEL);
+        return i;
     }
 
     /**
@@ -103,7 +102,9 @@ public class MtoChannelServiceImpl implements IMtoChannelService {
      */
     @Override
     public int deleteMtoChannelByIds(String ids) {
-        return mtoChannelMapper.deleteMtoChannelByIds(Convert.toStrArray(ids));
+        int i = mtoChannelMapper.deleteMtoChannelByIds(Convert.toStrArray(ids));
+        CacheUtils.remove(Constants.WEB_CHANNEL);
+        return i;
     }
 
     /**
@@ -114,6 +115,7 @@ public class MtoChannelServiceImpl implements IMtoChannelService {
      */
     @Override
     public int deleteMtoChannelById(Long id) {
+        CacheUtils.remove(Constants.WEB_CHANNEL);
         return mtoChannelMapper.deleteMtoChannelById(id);
     }
 
