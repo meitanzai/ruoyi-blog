@@ -2,6 +2,10 @@ body {
     background: #f1f1f1;
 }
 
+html {
+    height: 100%;
+}
+
 .top-box {
     height: 35px;
     background: #555;
@@ -227,6 +231,10 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+a {
+    color: #07d
 }
 
 .blogs .blogtitle a {
@@ -795,7 +803,6 @@ body {
     .blogs .blogtext, .blogs .bloginfo .read-more, .blogs .blog-type, .blogs:before {
         display: none;
     }
-
 
 }
 
