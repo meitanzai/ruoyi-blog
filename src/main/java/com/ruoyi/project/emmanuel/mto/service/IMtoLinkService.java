@@ -1,7 +1,6 @@
 package com.ruoyi.project.emmanuel.mto.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.mto.domain.MtoLink;
 
 import java.util.List;
@@ -53,11 +52,4 @@ public interface IMtoLinkService extends IService<MtoLink> {
      */
     public int deleteMtoLinkByIds(String ids);
 
-    /**
-     * 删除mto信息
-     *
-     * @param id mto主键
-     * @return 结果
-     */
-    public int deleteMtoLinkById(Long id);
 }

@@ -1,22 +1,21 @@
 package com.ruoyi.project.emmanuel.mto.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.utils.CacheUtils;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
-import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.mto.domain.MtoLink;
 import com.ruoyi.project.emmanuel.mto.mapper.MtoLinkMapper;
 import com.ruoyi.project.emmanuel.mto.service.IMtoLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 友情链接 业务层处理
@@ -71,7 +70,9 @@ public class MtoLinkServiceImpl extends ServiceImpl<MtoLinkMapper, MtoLink> impl
     public int insertMtoLink(MtoLink mtoLink) {
         mtoLink.setCreateBy(ShiroUtils.getLoginName());
         mtoLink.setCreateTime(DateUtils.getNowDate());
-        return mtoLinkMapper.insert(mtoLink);
+        int insert = mtoLinkMapper.insert(mtoLink);
+        CacheUtils.remove(Constants.WEB_LINK);
+        return insert;
     }
 
     /**
@@ -84,7 +85,9 @@ public class MtoLinkServiceImpl extends ServiceImpl<MtoLinkMapper, MtoLink> impl
     public int updateMtoLink(MtoLink mtoLink) {
         mtoLink.setUpdateBy(ShiroUtils.getLoginName());
         mtoLink.setUpdateTime(DateUtils.getNowDate());
-        return mtoLinkMapper.updateById(mtoLink);
+        int update = mtoLinkMapper.updateById(mtoLink);
+        CacheUtils.remove(Constants.WEB_LINK);
+        return update;
     }
 
     /**
@@ -95,17 +98,8 @@ public class MtoLinkServiceImpl extends ServiceImpl<MtoLinkMapper, MtoLink> impl
      */
     @Override
     public int deleteMtoLinkByIds(String ids) {
-        return mtoLinkMapper.deleteBatchIds(new ArrayList<>(Arrays.asList(ids.split(","))));
-    }
-
-    /**
-     * 删除mto信息
-     *
-     * @param id mto主键
-     * @return 结果
-     */
-    @Override
-    public int deleteMtoLinkById(Long id) {
-        return mtoLinkMapper.deleteById(id);
+        int batchIds = mtoLinkMapper.deleteBatchIds(new ArrayList<>(Arrays.asList(ids.split(","))));
+        CacheUtils.remove(Constants.WEB_LINK);
+        return batchIds;
     }
 }
