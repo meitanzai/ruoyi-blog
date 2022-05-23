@@ -143,6 +143,109 @@
                     <div class="ibox-content no-padding">
                         <div class="panel-body">
                             <div class="panel-group" id="version">
+                                <!--3.0-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#version" href="#v30">v3.0 </a><code
+                                                class="pull-right">2022.05.23</code>
+                                        </h5>
+                                    </div>
+                                    <div id="v30" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <ol>
+
+                                                <li>优化Switch case   </li>
+                                                <li>新增SpringUtils.getRequiredProperty，以静态方式获取配置文件中的值 </li>
+                                                <li>接口使用泛型使其看到响应属性字段  </li>
+                                                <li>删除https://cdn.jsdelivr.net/npm/sweetalert2@11   </li>
+                                                <li>将js-cookie升级为本地引入,防止网络不稳定加载失败  </li>
+                                                <li>当友情链接发生变化清空缓存</li>
+                                                <li>侧边栏新增分类</li>
+                                                <li>优化博客新增修改,完美支持手机端发布   </li>
+                                                <li>支持文章页面静态化</li>
+                                                <li>添加只有首页打开轮播图</li>
+                                                <li>将热点数据存到缓存</li>
+                                                <li>取消金额输入记录 </li>
+                                                <li>优化动态css,优化标签css </li>
+                                                <li>升级oshi到最新版本6.1.6   </li>
+                                                <li>账单详情新增分页功能  </li>
+                                                <li>随手记分页查询由mybatis-plus分页改为PageHelper</li>
+                                                <li>后台标签页新增时间排序</li>
+                                                <li>标签分页查询由mybatis-plus分页改为PageHelper  </li>
+                                                <li>将友情链接分页查询由mybatis-plus分页改为PageHelper</li>
+                                                <li>优化excel创建表格样式 </li>
+                                                <li>后台账目明细新增排序字段  </li>
+                                                <li>后台通知公告新增查看  </li>
+                                                <li>前台评论新增校验  </li>
+                                                <li>美化文章侧边目录  </li>
+                                                <li>升级spring-boot到最新版本2.5.13   </li>
+                                                <li>树表格操作时保留ajaxParams初始参数</li>
+                                                <li>表格冻结列阴影效果显示</li>
+                                                <li>Excel注解支持color字体颜色</li>
+                                                <li>修改显示顺序orderNum类型为整型</li>
+                                                <li>后端备忘录新增长度校验</li>
+                                                <li>修复后台友情链接搜索不生效问题</li>
+                                                <li>修复后台便签搜索  </li>
+                                                <li>博客前台图片设置匿名访问  </li>
+                                                <li>优化博客图片上传  </li>
+                                                <li>美化侧边栏推荐博客样式</li>
+                                                <li>博客编辑器新增复制粘贴图片</li>
+                                                <li>主子表操作列新增单个删除  </li>
+                                                <li>设置分页参数默认值</li>
+                                                <li>新增获取不带后缀文件名称方法  </li>
+                                                <li>定时任务bean也检查包名是否为白名单配置</li>
+                                                <li>字典类型必须以字母开头，且只能为(小写字母，数字，下滑线)  </li>
+                                                <li>修复动态侧栏标签云样式</li>
+                                                <li>网盘图片新增预览功能  </li>
+                                                <li>侧边栏标签云高度调整  </li>
+                                                <li>取消搜索打开新页面</li>
+                                                <li>新增搜索关键字高亮</li>
+                                                <li>博客搜索功能上线啦</li>
+                                                <li>element-ui本地化  </li>
+                                                <li>使用jsencrypt实现密码加密传输 </li>
+                                                <li>新增RsaUtils工具类</li>
+                                                <li>上传第三方登录表SQL   </li>
+                                                <li>优化后台博客列表图片显示  </li>
+                                                <li>优化第三方账号绑定列表显示</li>
+                                                <li>修复Excel注解prompt/combo同时使用不生效问题   </li>
+                                                <li>用户缓存信息添加部门ancestors祖级列表 </li>
+                                                <li>修复URL类型回退键被禁止问题   </li>
+                                                <li>优化菜单侧边栏滚动条尺寸及颜色</li>
+                                                <li>新增已绑定第三方列表  </li>
+                                                <li>第三方点击拒绝重定向到登录页面</li>
+                                                <li>新增第三方登录(gitee) </li>
+                                                <li>优化前台动态页面图片预览  </li>
+                                                <li>axios改为本地加载 </li>
+                                                <li>博客列表排序  </li>
+                                                <li>升级spring-boot到最新版本2.5.12 防止RCE漏洞   </li>
+                                                <li>新增清理分页的线程变量方法</li>
+                                                <li>升级spring-boot到最新版本2.5.11   </li>
+                                                <li>升级fastjson到最新版1.2.80</li>
+                                                <li>优化IP地址获取到多个的问题</li>
+                                                <li>优化导出excel单元格验证,包含变更为开头.防止正常内容被替换 </li>
+                                                <li>优化前台导航天气插件  </li>
+                                                <li>前台导航新增天气  </li>
+                                                <li>导航管理 上级导航过滤（分类和正常）状态可选择 </li>
+                                                <li>修复因航管理排序显示导致前台导航栏无法选择</li>
+                                                <li>导航管理图标显示  </li>
+                                                <li>修复导航管理排序不显示问题</li>
+                                                <li>修复初始化多表格处理回调函数时获取的表格配置不一致问题</li>
+                                                <li>动态页面时间格式化</li>
+                                                <li>首页标题图片懒加载</li>
+                                                <li>新增文章图片预览功能  </li>
+                                                <li>优化网盘文件上传  </li>
+                                                <li>优化后台首页  </li>
+                                                <li>优化随手记页面</li>
+                                                <li>修复element-ui Demo展示   </li>
+                                                <li>切换vue.js为本地引入  </li>
+                                                <li>其他细节优化</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--2.0-->
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h5 class="panel-title">
@@ -150,7 +253,7 @@
                                                 class="pull-right">2022.03.19</code>
                                         </h5>
                                     </div>
-                                    <div id="v473" class="panel-collapse collapse in">
+                                    <div id="v473" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <ol>
                                                 <li>新增功能标签分类</li>
@@ -180,6 +283,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!--1.0-->
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h5 class="panel-title">
