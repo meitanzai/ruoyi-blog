@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('查看博客')"/>
+    <th:block th:include="include :: semantic-css"/>
+    <link rel="stylesheet" th:href="@{/blog/editormd/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/editormd/css/editormd.preview.css}"/>
+
+    <style>
+        @media screen and (max-width: 800px) {
+            .m-mobile-show {
+                border-top-width: 0px !important;
+                border-left-width: 0px !important;
+                margin-right: 0px !important;
+                padding-left: 3px !important;
+                padding-right: 3px !important;
+                border-right-width: 0px !important;
+                border-bottom-width: 0px !important;
+            }
+        }
+    </style>
+</head>
+<body class="white-bg">
+
+<!--<div class="m-container m-padded-td-big m-box-relative">-->
+<div class="wrapper wrapper-content animated fadeInRight ibox-content m-mobile-show">
+
+    <!--    头部-->
+
+
+    <!--    内容-->
+    <div class="ui  attached padded segment m-mobile-show">
+
+        <!--博客标题-->
+        <h2 class="ui aligned center header" th:utext="${blog.title}"></h2>
+
+        <!--        博客信息-->
+        <!--    取消边框 style="border: none !important;" -->
+        <div class="ui top attached segment" style="border: none !important;">
+            <div class="ui horizontal link list">
+
+                <div class="item" th:if="${not #strings.isEmpty(blog.avatar)}">
+                    <img src="#" th:src="@{${blog.avatar}}" th:onerror="'this.src=\'' + @{'/img/profile.jpg'} + '\''"
+                         class="ui avatar image">
+                    <div class="content"><a class="header"><span th:text="${blog.username}"></span></a>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <i class="calendar alternate outline icon" style="padding: 0em  1.5em 1.2em 0em !important;"></i><span
+                        th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd HH:mm:ss')}"></span>
+                </div>
+                <div class="item">
+                    <i class="glyphicon glyphicon-eye-open" style="padding: 0em  0.5em 1.2em 0em !important;"></i><span
+                        th:text="${blog.views}"></span>
+                </div>
+                <div class="item">
+                    <span th:text="${blog.tags}"></span>
+                </div>
+            </div>
+        </div>
+
+        <!--博客内容 -->
+        <!--        <div id="content" class="typo typo-selection js-toc-content  m-padded-rl m-padded-tb-large "-->
+        <!--             th:utext="${blog.content}">-->
+        <!--        </div>-->
+
+        <div id="BlogContent">
+            <textarea style="display:none;" th:utext="${blog.content}"></textarea>
+        </div>
+
+        <!-- 类别 -->
+        <div class="m-padded-lr-big" th:if="${not #strings.isEmpty(blog.tags)}">
+            <br/>
+            <div class="ui basic teal right pointing label" style="float: right !important;" th:text="${blog.tags}"></div>
+            <br/>
+        </div>
+
+        <div class="ui horizontal divider">end</div>
+
+        <!--博客信息 -->
+        <div class="ui bottom attached positive message">
+            <div class="ui middle aligned grid">
+                <div class="eleven wide column">
+                    <ui class="list">
+                        <li>作者：<span th:text="${blog.username}"></span></li>
+                        <li>发表/更新时间：<span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd HH:mm:ss')}"></span></li>
+                        <li>版权声明：自由转载-非商用-非衍生-保持署名（创意共享3.0许可证）</li>
+                        <li>公众号转载：请在文末添加作者公众号二维码</li>
+                    </ui>
+                </div>
+                <div class="five wide column">
+                    <img src="/img/wechat.png" alt=""
+                         class="ui right floated rounded bordered image" style="width:100px"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:include="include :: footer"/>
+    <th:block th:include="include :: semantic-js"/>
+    <script th:src="@{/blog/editormd/lib/flowchart.min.js}"></script>
+    <script th:src="@{/blog/editormd/lib/marked.min.js}"></script>
+    <script th:src="@{/blog/editormd/lib/prettify.min.js}"></script>
+    <script th:src="@{/blog/editormd/lib/raphael.min.js}"></script>
+    <script th:src="@{/blog/editormd/lib/underscore.min.js}"></script>
+    <script th:src="@{/blog/editormd/lib/sequence-diagram.min.js}"></script>
+    <script th:src="@{/blog/editormd/lib/flowchart.min.js}"></script>
+    <script th:src="@{/blog/editormd/lib/jquery.flowchart.min.js}"></script>
+    <script th:src="@{/blog/editormd/editormd.min.js}"></script>
+    <script type="text/javascript">
+        $(function () {
+            var BlogContent;
+            BlogContent = editormd.markdownToHTML("BlogContent", {
+                gfm: true,
+                toc: true,
+                tocm: false,
+                tocStartLevel: 1,
+                tocTitle: "目录",
+                htmlDecode: "style,script,iframe",  // you can filter tags decode
+                markdownSourceCode: true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+                pageBreak: true,           // Enable parse page break [========]
+                emailLink: true,           // for email address auto link
+                selector: "h1,h2,h3,h4,h5,h6",//生成目录 时的选择器
+                emoji: true,
+                taskList: true,
+                tex: true,  // 默认不解析
+                flowChart: true,  // 默认不解析
+                sequenceDiagram: true,  // 默认不解析
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>

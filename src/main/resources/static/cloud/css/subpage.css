@@ -1,0 +1,836 @@
+*{
+    padding: 0;
+    margin: 0;
+    /*禁止双击选中*/
+    -moz-user-select:none;/*火狐*/
+    -webkit-user-select:none;/*webkit浏览器*/
+    -ms-user-select:none;/*IE10*/
+    -khtml-user-select:none;/*早期浏览器*/
+    user-select:none;
+}
+body{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.nonullshow{
+    overflow-x: auto;
+    overflow-y: auto;
+}
+ul li{
+    list-style: none;
+}
+.eyebrows{
+    width: 100%;
+    height: 68px;
+    position: fixed;
+    z-index: 2;
+    background-color: white;
+}
+.eyebrows div{
+    float: left;
+}
+
+.eyebrows .toptitle{
+    font-size: 17px;
+    margin-top: 28px;
+    padding-left: 40px;
+    line-height: 40px;
+}
+.eyebrows .topsearch{
+    width: 85px;
+    height: 40px;
+    line-height: 40px;
+    position: fixed;
+    top: 28px;
+    right: 40px;
+}
+.eyebrows .topsearch .layui-icon-search{
+    font-size: 20px;
+    border-radius: 50px;
+    padding: 5px;
+    margin-top: 0px;
+}
+.eyebrows .topsearch .layui-icon-search:hover{
+    cursor: pointer;
+    background-color: #e5e5e5;
+}
+.eyebrows .topsearch .layui-icon-add-1{
+    color: #ffffff;
+    font-size: 30px;
+    border-radius: 50px;
+    margin-left: 15px;
+    background-color: #988bfa;
+}
+.eyebrows .topsearch .layui-icon-add-1:hover{
+    cursor: pointer;
+    background-color: #796AEE;
+}
+.eyebrows .search-win{
+    width: 620px;
+    height: 272px;
+    margin-left: 45%;
+    margin-top: 70px;
+    position: absolute;
+    z-index: 3;
+    border-radius: 10px;
+    display: none;
+    cursor:pointer;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px #d4d3d3;
+}
+.eyebrows .search-win .search-frame{
+    width: 596px;
+    height: 64px;
+    border-radius: 10px;
+}
+.eyebrows .search-win .search-frame form .search-input{
+    width: 540px;
+    height: 50px;
+    border: none;
+    margin-top: 15px;
+    padding-left: 24px;
+    border-radius: 10px;
+}
+.eyebrows .search-win .search-frame form .search-line{
+    width: 596px;
+    height: 1px;
+    margin-left: 12px;
+    background-color: #f0f0f1;
+}
+.eyebrows .search-win .search-frame form .layui-icon-close{
+    padding: 5px;
+    border-radius: 5px;
+}
+.eyebrows .search-win .search-frame form .layui-icon-close:hover{
+    background-color: #e5e5e5;
+}
+#layui-icon-close01{
+    padding: 5px;
+    border-radius: 5px;
+}
+#layui-icon-close01:hover{
+    background-color: #e5e5e5;
+}
+.eyebrows .search-win .search-frame form ul{
+    margin-top: 4px;
+}
+.eyebrows .search-win .search-frame form ul li{
+    width: 596px;
+    height: 40px;
+    margin-left: 12px;
+    border-radius: 5px;
+}
+.eyebrows .search-win .search-frame form ul li:hover{
+    background-color: #ececee;
+}
+.eyebrows .search-win .search-frame form #tip-frame li span i{
+    padding-left: 12px;
+    font-size: 18px;
+}
+.eyebrows .search-win .search-frame form #tip-frame li span:nth-child(2){
+    padding-left: 12px;
+    line-height: 40px;
+    font-size: 16px;
+}
+/*=======================*/
+.infoshow{
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    position: fixed;
+    z-index: 1;
+    top: 65px;
+    background-color: white;
+    padding-top: 24px;
+    padding-bottom: 10px;
+}
+.infoshow div{
+    height: 40px;
+    line-height: 40px;
+    float: left;
+}
+
+.infoshow .showcount{
+    height: 40px;
+    width: calc(84% - 40px);
+    margin-left: 40px;
+}
+.infoshow .showcount #allchoose{
+    width: 16px;
+    height: 16px;
+    margin-top: 12px;
+    border: 2px solid #d7d7d7;
+    border-radius: 50px;
+}
+.infoshow .showcount #allchoose:hover{
+    border: 2px solid #637dff;
+}
+.infoshow .showcount #allchoose:checked{
+    border: 2px solid #637dff;
+    background-color: #637dff;
+}
+.infoshow .showcount *{
+    float: left;
+    margin-left: 5px;
+}
+.infoshow .showview{
+    position: fixed;
+    right: 25px;
+}
+.infoshow .showview .div01{
+    height: 30px;
+    margin-top: 5px;
+    line-height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 6px;
+}
+.infoshow .showview .div01 p{
+    font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.infoshow .showview .div01:hover{
+   background-color: #ececee;
+}
+.infoshow .showview .div02{
+    padding-left: 20px;
+    width: 50px;
+}
+.infoshow .showview .div02 i{
+    padding: 5px;
+    font-size: 18px;
+}
+.infoshow .showview .div02 i:hover{
+    border-radius: 5px;
+    background-color: #ececee;
+}
+.infoshow .showview .sortlist{
+    width: 124px;
+    height: 278px;
+    margin-top: 40px;
+    position: absolute;
+    z-index: 1;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #d4d3d3;
+}
+.infoshow .showview .sortlist ul{
+    margin-top: 3px;
+}
+.infoshow .showview .sortlist ul li{
+    margin-left: 3px;
+    width: 118px;
+    height: 38px;
+    border-radius: 5px;
+}
+.infoshow .showview .sortlist ul li a{
+    width: 108px;
+    height: 38px;
+    font-weight: 500;
+    color: #0C0C0C;
+    padding-left: 10px;
+    border-radius: 5px;
+    display: block;
+}
+.infoshow .showview .sortlist ul li:hover{
+    background-color: #ececee;
+}
+.nullshow{
+    width: 100%;
+    height: 120px;
+    position: fixed;
+    bottom: 0px;
+    top: 0px;
+    margin-top: 262px;
+    text-align: center;
+    cursor: pointer;
+}
+.nullshow ul{
+    margin: 0 auto;
+    width: 374px;
+    height: 120px;
+}
+.nullshow ul li{
+    float: left;
+    width: 106px;
+    height: 120px;
+    border-radius: 10px;
+    background-color: #f5f5f6;
+}
+.nullshow ul li:hover{
+    background-color: #eeeeee;
+}
+.nullshow ul li p{
+    width: 100%;
+    height: 81px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.nullshow ul li p img {
+    margin-top: 30px;
+    margin-left: 34px;
+}
+.nullshow ul li div{
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 20px;
+}
+.nonullshow{
+    width: 100%;
+    height: calc(100% - 142px);
+    position: fixed;
+    bottom: 0px;
+    top: 0px;
+    z-index: -1;
+    margin-top: 142px;
+}
+.nonullshow .files{
+    cursor: pointer;
+    width: 123px;
+    height: 170px;
+    margin-left: 54px;
+    margin-top: 30px;
+    border-radius: 10px;
+    float: left;
+    text-align: center;
+}
+
+.nonullshow .files img{
+    padding-top: 8px;
+    padding-bottom: 10px;
+}
+.nonullshow div :nth-child(5){
+    padding: 0px 0px 5px 0px;
+    margin: 0 auto;
+    width: 100px;
+    font-size: 16px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.nonullshow .files :nth-child(6),.nonullshow .files :nth-child(7){
+    font-size: 12px;
+    color: rgba(37, 38, 43, 0.36);
+}
+
+.nonullshow .files .leftsub{
+    width: 24px;
+    height: 24px;
+    margin-top: 4px;
+    margin-left: 4px;
+    border-radius: 5px;
+    position: absolute;
+    background-color: #ffffff;
+}
+.nonullshow .files .leftsub input{
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+    border: 2px solid #d7d7d7;
+    border-radius: 50px;
+}
+
+.nonullshow .files .leftsub input:hover{
+    border: 2px solid #637dff;
+}
+.nonullshow .files .leftsub input:checked{
+    background-color: #637dff;
+    border: 2px solid #637dff;
+}
+.nonullshow .files .rightsub:hover{
+    color: #637dff;
+}
+input[type="checkbox"] {
+    -webkit-appearance: none;
+}
+input[type=checkbox]:checked:after {
+    font-size: 14px;
+    content: "√";
+    color: white;
+}
+input[type="radio"] {
+    -webkit-appearance: none;
+}
+input[type=radio]:checked:after {
+    font-size: 14px;
+    content: "√";
+    color: white;
+}
+.nonullshow .files .rightsub{
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 5px;
+    margin-top: 4px;
+    margin-left: 94px;
+    position: absolute;
+    color: #d7d7d7;
+    background-color: #ffffff;
+}
+.nonullshow .files .rightsub-list{
+    width: 120px;
+    height: 160px;
+    margin-left: 55px;
+    margin-top: 25px;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 4;
+    background-color: white;
+    box-shadow: 0px 0px 10px #d4d3d3;
+}
+.nonullshow .files .rightsub-list ul li{
+    border-radius: 5px;
+    margin-left: 3px;
+    width: 114px;
+    height: 38.5px;
+    line-height: 38.5px;
+}
+.nonullshow .files .rightsub-list ul li a{
+    padding-left: 10px;
+    text-align: left;
+    font-size: 16px;
+    width: 114px;
+    height: 38.5px;
+    border-radius: 5px;
+    display: block;
+}
+.nonullshow .files .rightsub-list ul li:hover{
+    background-color: #ececee;
+}
+.downlist{
+    display: none;
+    width: 220px;
+    height: 48px;
+    margin-left: 40%;
+    bottom: 50px;
+    position: fixed;
+    z-index: 1;
+    border-radius: 10px;
+    padding-left: 30px;
+    background-color: rgb(49 49 54);
+}
+.downlist div{
+    width: 190px;
+}
+.downlist div a{
+    float: left;
+    width: 30px;
+    height: 30px;
+    margin-top: 9px;
+    margin-left: 10px;
+    border-radius: 5px;
+    display: block;
+    line-height: 30px;
+    text-align: center;
+}
+.downlist div a:hover{
+    background-color: #555559;
+}
+.downlist div a i{
+    font-size: 18px;
+    color: #c6c6c7;
+}
+#curtain{
+    display: none;
+    width: 100%;
+    height: 753px;
+    z-index: 3;
+    background-color: #000000;
+    opacity: 40%;
+    position: fixed;
+}
+#createfolder{
+    display: none;
+    position: fixed;
+    width: 340px;
+    height: 340px;
+    z-index: 4;
+    margin-left: 35%;
+    margin-top: 100px;
+    border-radius: 10px;
+    background-color: white;
+}
+#createfolder .title001{
+    line-height: 64px;
+    width: 100%;
+    height: 64px;
+}
+#createfolder .title001 span{
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+#createfolder .title001 i{
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 190px;
+}
+#createfolder .title001 i:hover{
+    background-color: #e5e5e5;
+}
+
+#createfolder :nth-child(2){
+    text-align: center;
+    width: 100%;
+    height: 200px;
+}
+#createfolder :nth-child(2) img{
+    padding: 36px 0px 36px 0px;
+}
+#createfolder :nth-child(2) form input{
+    border: none;
+    width: 280px;
+    height: 38px;
+    padding-left: 10px;
+    border-radius: 10px;
+    background-color: #e5e5e5;
+}
+#createfolder :nth-child(3){
+    width: 100%;
+    height: 76px;
+    line-height: 76px;
+}
+#createfolder :nth-child(3) button{
+    width: 80px;
+    height: 36px;
+    background-color: #637dff;
+    border-radius: 6px;
+    margin-left: 235px;
+}
+#lookinfo{
+    width: 340px;
+    height: 560px;
+    display: none;
+    position: fixed;
+    z-index: 4;
+    margin-left: 35%;
+    margin-top: 100px;
+    border-radius: 10px;
+    background-color: white;
+}
+#lookinfo .title002{
+    width: 100%;
+    height: 64px;
+}
+#lookinfo .title002 p{
+    line-height: 64px;
+    float: left;
+}
+#lookinfo .title002 :nth-child(1){
+    width: 250px;
+    font-size: 16px;
+    margin-left: 20px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#lookinfo .title002 p i{
+    padding: 5px;
+    border-radius: 5px;
+}
+#lookinfo .title002 i:hover{
+    background-color: #e5e5e5;
+}
+#lookinfo .picture01{
+    margin-top: 20px;
+    width: 100%;
+    height: 126px;
+    text-align: center;
+}
+#lookinfo .datainfo{
+    width: 300px;
+    height: 268px;
+    padding: 10px 20px 40px 20px;
+}
+#lookinfo .datainfo :nth-child(1){
+    font-size: 12px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+#lookinfo .datainfo .textnum{
+    width: 100%;
+    height: 40px;
+}
+#lookinfo .datainfo .textnum p{
+    height: 40px;
+    width: 18px;
+    float: left;
+}
+#lookinfo .datainfo .textnum :nth-child(1) i{
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    line-height: 40px;
+}
+#lookinfo .datainfo .textnum :nth-child(2){
+    padding: 0px 10px 0px 0px;
+    margin-left: 15px;
+    width: 257px;
+    line-height: 40px;
+    font-size: 14px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#lookinfo .datainfo .filesize{
+    font-size: 12px;
+    padding: 0px 0px 0px 34px;
+    color: rgba(37, 38, 43, 0.36);
+}
+#lookinfo .datainfo p{
+    width: 100%;
+    height: 40px;
+}
+#lookinfo .datainfo p .layui-icon{
+    font-size: 18px;
+}
+#lookinfo .datainfo p span{
+    margin-left: 12px;
+    font-size: 15px;
+}
+#lookinfo .datainfo p g{
+    font-size: 12px;
+    padding: 0px 0px 0px 34px;
+    color: rgba(37, 38, 43, 0.36);
+}
+#sharefiles{
+    width: 440px;
+    height: 530px;
+    background-color: white;
+    display: none;
+    position: fixed;
+    z-index: 4;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-left: 30%;
+    margin-top: 100px;
+}
+#sharefiles .title003{
+    width: 100%;
+    height: 64px;
+    font-size: 18px;
+    border-radius: 10px 10px 0px 0px;
+    background-color: #edf0ff;
+    line-height: 64px;
+}
+#sharefiles .title003 span{
+    height: 64px;
+    border-radius: 10px;
+    margin-left: 184px;
+    line-height: 64px;
+    text-align: center;
+}
+#sharefiles .title003 i{
+    padding: 5px;
+    margin-left: 130px;
+    border-radius: 5px;
+}
+#sharefiles .title003 i:hover{
+    background-color: #e5e5e5;
+}
+#sharefiles .picture02{
+    width: 100%;
+    height: 230px;
+    background-color: #edf0ff;
+    text-align: center;
+}
+#sharefiles .picture02 img{
+    padding: 20px 0px 15px 0px;
+}
+#sharefiles .picture02 p{
+    font-size: 16px;
+    width: 360px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0px 0px 20px 40px;
+}
+#sharefiles .linkinfo{
+    width: 380px;
+    height: 177px;
+    padding: 30px 0px 0px 30px;
+}
+#sharefiles .linkinfo p{
+    font-size: 14px;
+    padding: 0px 0px 20px 0px;
+}
+#sharefiles .linkinfo p span{
+    margin-left: 20px;
+    font-size: 12px;
+    color: #545454;
+}
+#sharefiles .linkinfo .copylink{
+    width: 361px;
+    height: 28px;
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #ececee;
+}
+#sharefiles .linkinfo .copylink *{
+    float: left;
+}
+#sharefiles .linkinfo .copylink p{
+    color: #adaeb1;
+    font-size: 14px;
+    padding-left: 2px;
+    line-height: 28px;
+    width: 255px;
+    overflow: hidden;/*超出部分隐藏*/
+    text-overflow:ellipsis;/* 超出部分显示省略号 */
+    white-space: nowrap;/*规定段落中的文本不进行换行 */
+}
+#sharefiles .linkinfo .copylink a{
+    width: 100px;
+    height: 28px;
+    color: white;
+    display: block;
+    float: right;
+    line-height: 28px;
+    text-align: center;
+    background-color: #637dff;
+    border-radius: 5px;
+}
+#sharefiles .linkinfo nav{
+    width: 380px;
+    text-align: center;
+    margin-top: 50px;
+}
+#hidetext{
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: -10;
+}
+#sortlist ul li a .mycheckeds{
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+    border: 2px solid #d7d7d7;
+    border-radius: 50px;
+}
+
+#sortlist ul li a .mycheckeds:hover{
+    border: 2px solid #637dff;
+}
+#sortlist ul li a .mycheckeds:checked{
+    background-color: #637dff;
+    border: 2px solid #637dff;
+}
+
+/*回收站页面独有*/
+
+#removetip{
+    cursor: pointer;
+    display: none;
+    padding: 20px;
+    width: 300px;
+    height: 140px;
+    position: absolute;
+    margin-left: 38%;
+    margin-top: 6%;
+    z-index: 3;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+#removetip .outtitle{
+    font-size: 16px;
+    padding-bottom: 25px;
+}
+#removetip .outtip{
+    letter-spacing: 1px;
+    font-size: 14px;
+    color: #25262bb8;
+}
+#removetip .btnchoose{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+#removetip .btnchoose a{
+    font-size: 14px;
+    float: left;
+    width: 80px;
+    height: 36px;
+    display: block;
+    border-radius: 6px;
+    line-height: 36px;
+    text-align: center;
+}
+#removetip .btnchoose :nth-child(2){
+    color: white;
+}
+#removetip .btnchoose :nth-child(1){
+    width: 78px;
+    height: 34px;
+    margin-left: 100px;
+    border: 1px solid #ebebed;
+}
+#removetip .btnchoose :nth-child(2){
+    margin-left: 10px;
+    background-color: #f35b51;
+}
+
+/*=====================================*/
+#uploadfiles{
+    cursor: pointer;
+    display: none;
+    padding: 20px;
+    left: 10%;
+    width: 70%;
+    right: 20%;
+    top: 10%;
+    height: 75%;
+    bottom: 10%;
+    position: absolute;
+    z-index: 3;
+    border-radius: 20px;
+    background-color: #ffffff;
+}
+#uploadfiles .outtitle{
+    font-size: 16px;
+    padding-bottom: 25px;
+}
+#uploadfiles .outtip{
+    letter-spacing: 1px;
+    font-size: 14px;
+    color: #25262bb8;
+}
+/*==========================*/
+#testList{
+    color: #687CEA;
+    position: absolute;
+    right: 130px;
+    border-radius: 6px;
+    background-color: white;
+    border: 1px solid #B4C1FF;
+}
+#testListAction{
+    color: white;
+    position: absolute;
+    right: 20px;
+    border-radius: 6px;
+    background-color: #687CEA;
+}
+#closeupload{
+    position: absolute;
+    right: 25px;
+    padding: 5px;
+    border-radius: 5px;
+}
+#closeupload:hover{
+    background-color: #e5e5e5;
+}
+
+
+
+
+
+

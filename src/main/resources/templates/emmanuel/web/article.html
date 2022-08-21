@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <th:block th:include="include :: typo-css"/>
+    <th:block th:include="include :: prism-css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${mtoPost.title} + ' - ' + 一粒麦子"></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/article.css}"/>
+    <th:block th:include="include :: viewer-css"/>
+    <th:block th:include="include :: tocbot-css"/>
+    <th:block th:include="include :: toastr-css"/>
+
+    <style type="text/css">
+        @media screen and (max-width: 1100px) {
+            .m-mobile-show {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+                margin-left: 0em !important;
+                margin-right: 0em !important;
+                border: none !important;
+                background-color: #fff
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .article-main:before {
+                background: none;
+            }
+
+        }
+
+        :not(pre) > code[class*=language-], pre[class*=language-]::before {
+            content: " ";
+            position: absolute;
+            border-radius: 50%;
+            background: #fc625d;
+            width: 12px;
+            height: 12px;
+            top: 12px;
+            left: 12px;
+            box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
+            z-index: 2;
+        }
+
+        :not(pre) > code[class*=language-], pre[class*=language-] {
+            padding: 30px 10px 10px 10px;
+        }
+
+        /*定义滚动条样式（高宽及背景）*/
+        ::-webkit-scrollbar {
+            /* 滚动条宽度， width：对应竖滚动条的宽度  height：对应横滚动条的高度*/
+            width: 6px;
+            height: 6px;
+            background: #d4dce2;
+        }
+
+        /*定义滚动条轨道（凹槽）样式*/
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); /* 较少使用 */
+            border-radius: 3px;
+        }
+
+        /*定义滑块 样式*/
+        ::-webkit-scrollbar-thumb {
+            border-radius: 3px;
+            height: 100px; /* 滚动条滑块长度 */
+            background-color: #d42c2c;
+        }
+    </style>
+</head>
+<body>
+<!--	导航-->
+<header id="header">
+    <div th:replace="emmanuel/web/navbar :: navbar"></div>
+</header>
+
+
+<div class="pb-container pb-content">
+    <div class="pb-main">
+
+        <!--        文章详情-->
+        <div class="article-main m-mobile-show">
+            <h3 th:text="${mtoPost.title}" class="article-title"></h3>
+            <!--					<span th:text="${article.original==1 ? '原创' : '转载'}" class="article-original"></span>-->
+
+
+            <div class="article-meta">
+                <!--                发布于  <span th:text="${#dates.format(mtoPost.createTime,'yyyy-MM-dd')}"></span>-->
+                <span th:text="${mtoPost.updateTime} ? '更新于' + ${#dates.format(mtoPost.updateTime,'yyyy-MM-dd')}: '发布于' + ${#dates.format(mtoPost.createTime,'yyyy-MM-dd')}"></span>
+                &nbsp;|&nbsp; <span th:text="${mtoPost.channelName}"></span> &nbsp;
+                |&nbsp; 浏览（<span th:text="${mtoPost.views}? ${mtoPost.views} : 0"></span>）
+                &nbsp;|&nbsp; 评论（<span th:text="${mtoPost.comments}? ${mtoPost.comments} : 0"></span>）
+            </div>
+            <hr class="hr0"/>
+
+            <!--            文章详情-->
+            <div id="content"
+                 class=" js-toc-content article-body markdown-body editor-preview-active-side"
+                 style="min-height: 500px"
+                 th:utext="${mtoPost.content}">
+            </div>
+
+            <div class="thumbs-content">
+                <span class="thumbs-button fa fa-thumbs-up"> 点赞 <span id="loveCount" th:text="${mtoPost.favors}"></span></span>
+                <span class="reward-button fa fa-money"> 打赏
+						<p class="reward-content">
+							<span class="reward-img"><img th:src="@{/img/wechat-pay.png}"><br>微信赞赏</span>
+							<span class="reward-img"><img th:src="@{/img/ali-pay.png}"><br>支付宝赞赏</span>
+                        </p>
+						<span class="reward-bottom"></span>
+						<span class="reward-bottom-top"></span>
+						</span>
+            </div>
+        </div>
+
+        <!--      评论-->
+        <!--      评论-->
+
+
+    </div>
+
+    <!--    侧边栏 start -->
+    <div class="col-other">
+        <div class="inner">
+            <div class="other-item " id="categoryandsearch">
+                <div class="panel-heading" style="background-color: #e8e3e3">
+                    <h3 class="panel-title">目录</h3>
+                </div>
+                <ul class=" mt20" id="category" style="max-height: 300px; overflow:auto;">
+                    <ol class="js-toc"></ol>
+                </ul>
+            </div>
+
+            <!--    专栏开始        -->
+            <div class="other-item" th:if="${not #lists.isEmpty(specialPostList)}">
+                <div class="panel-heading" style="background-color: #e8e3e3">
+                    <h3 class="panel-title">专栏内容</h3>
+                </div>
+                <div class="inner">
+                    <ul class="special-list-article">
+                        <li th:each="specialPost : ${specialPostList}"><a
+                                th:href="@{/blog/article/{id}(id=${specialPost.id})}"
+                                th:text="${specialPost.title}"> </a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--    专栏结束        -->
+
+        </div>
+    </div>
+
+    <!--    侧边栏 end -->
+
+</div>
+
+<!--底部-->
+<div th:replace="emmanuel/web/footer :: copyrightDark"></div>
+<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+</body>
+
+<th:block th:include="include :: prism-js"/>
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.7}"></script>
+<script th:src="@{/ajax/libs/layer/layer.min.js?v=3.5.1}"></script>
+<script th:src="@{/blog/mblog/js/tagcloud.js}"></script>
+<script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
+<script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
+<script th:src="@{/ruoyi/js/ry-ui.js?v=4.7.4}"></script>
+<th:block th:include="include :: viewer-js"/>
+<th:block th:include="include :: tocbot-js"/>
+<th:block th:include="include :: toastr-js"/>
+<th:block th:include="include :: echo-js"/>
+
+<script>
+    <!--    文章id，点赞-->
+    var postId = [[${mtoPost.id}]];
+    $(function () {
+        $(".thumbs-button").click(function () {
+            $.ajax({
+                url: '/blog/love',
+                cache: false,
+                data: {"postId": postId, "favorsType": 1},
+                type: 'post',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                success: function (data) {
+                    if (typeof d == "function") {
+                        d(data);
+                    }
+                    if (data.code == 0) {
+                        $("#loveCount").text(parseInt($("#loveCount").text()) + 1);
+                        toastr.success(data.msg)
+                    }
+                    // 本月已点赞
+                    if (data.code == 500) {
+                        toastr.error(data.msg)
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (XMLHttpRequest.status == 403) {
+                        layer.msg("您没有权限访问，请联系管理员！")
+                    } else if (XMLHttpRequest.status == 500) {
+                        layer.msg("服务器内部错误！")
+                    } else if (XMLHttpRequest.status == 404) {
+                        layer.msg("您访问的内容不存在！")
+                    } else {
+                        layer.msg("服务器未知错误！")
+                    }
+                }
+            });
+        });
+    });
+
+    // 参考文章 https://eriri.ink/archives/build-a-toc-for-an-article.html
+    var headerEl = 'h1, h2, h3, h4, h5, h6',  //headers
+        content = '.js-toc-content',//文章容器
+        idArr = {};  //标题数组以确定是否增加索引id
+    //add #id
+
+    $(content).children(headerEl).each(function () {
+        //去除空格以及多余标点
+        var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+        headerId = headerId.toLowerCase();
+        if (idArr[headerId]) {
+            //id已经存在
+            $(this).attr('id', headerId + '-' + idArr[headerId]);
+            idArr[headerId]++;
+        } else {
+            //id未存在
+            idArr[headerId] = 1;
+            $(this).attr('id', headerId);
+        }
+    });
+
+    // 目录
+    tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.js-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.js-toc-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3, h4, h5, h6',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+
+        scrollSmooth: true,
+        // smoothScroll: true,
+        scrollSmooth: true,
+        scrollSmoothOffset: -50,
+        headingsOffset: 50,
+
+        // positionFixedSelector: '.js-toc',
+        // positionFixedClass: 'is-position-fixed',
+        // fixedSidebarOffset: 'auto',
+
+    });
+
+    // 点击图片预览 官网 https://gitcode.net/mirrors/fengyuanchen/viewerjs
+    const gallery = new Viewer(document.getElementById('content'));
+
+    // 目录悬浮
+    $(window).scroll(function (event) {
+        var winPos = $(window).scrollTop();
+        if (winPos > 750)
+            $('#categoryandsearch').addClass('fixed');
+        else
+            $('#categoryandsearch').removeClass('fixed');
+    });
+
+    // 图片懒加载
+    Echo.init({
+        offset: 100,//离可视区域多少像素的图片可以被加载
+        throttle: 30 //图片延时多少毫秒加载
+    });
+</script>
+
+
+</html>

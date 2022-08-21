@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8"/>
+    <title>标签</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <meta name="keywords" th:content="${SITE_CONFIG.SITE_KWD}">-->
+    <!--    <meta name="description" th:content="${SITE_CONFIG.SITE_DESC}">-->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/app.css}"/>
+    <style>
+
+
+        a:hover {
+            color: #0077dd !important;
+        }
+
+        /*@media screen and (max-width: 1100px) {*/
+        /*    .m-mobile-show-conten {*/
+        /*        padding-left: 0px !important;*/
+        /*        padding-right: 0px !important;*/
+        /*        margin-left: 0em !important;*/
+        /*        margin-right: 0em !important;*/
+        /*        min-height: 500px;*/
+        /*    }*/
+        /*    body {*/
+        /*        background: #fff;*/
+        /*    }*/
+        /*}*/
+    </style>
+</head>
+<body>
+
+<!--导航栏-->
+<header id="header" >
+    <div th:replace="emmanuel/web/navbar :: navbar"></div>
+</header>
+
+<div class="pb-container pb-content" style="min-height: 600px">
+    <div class="pb-main">
+
+        <!--        style="background:#f1f2f7"-->
+        <section class="panel">
+            <!-- Comment -->
+            <div class="ml-content">
+                <div class="tags-content">
+                    <a data-pjax class="tag" th:href="@{'/blog/tag/'+${tag.id}+'/'}" th:each="tag,status : ${tagList}">[[${tag.name}]]&nbsp;</a>
+                </div>
+                <!--没有内容时提示-->
+                <div th:if="${tagList.size == 0}" th:style="'text-align:center;'" th:text="'~~暂无标签~~'"></div>
+                <script>
+                    let colorArr = ["#1ABC9C", "#2ECC71", "#3498DB", "#9B59B6", "#34495E", "#F1C40F", "#E67E22", "#E74C3C", "#000"];
+                    let elements = document.getElementsByClassName("tag");
+                    for (let i = 0; i < elements.length; i++) {
+                        let element = elements[i];
+                        let index = Math.floor(Math.random() * colorArr.length);
+                        element.style.backgroundColor = colorArr[index];
+                        element.style.color = "#fff";
+                    }
+                </script>
+            </div>
+            <!-- /comment -->
+
+        </section>
+
+
+    </div>
+    <!--    侧边信息-->
+    <div class="hidden-xs hidden-sm">
+        <div th:replace="emmanuel/web/sidebar :: sidebar"></div>
+    </div>
+</div>
+<!--底部-->
+<div th:replace="emmanuel/web/footer :: copyrightDark"></div>
+<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+</body>
+
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/blog/mblog/js/jquery.pagination.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.7}"></script>
+<script th:src="@{/blog/mblog/js/swiper.min.js}"></script>
+<script th:src="@{/blog/mblog/js/tagcloud.js}"></script>
+<script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
+<script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
+
+
+<script th:inline="javascript">
+
+
+</script>
+
+</html>

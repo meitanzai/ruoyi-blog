@@ -1,0 +1,135 @@
+<nav id="navbar" th:fragment="navbar" class="navbar navbar-default ">
+    <div class="pb-container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">
+								导航
+							</span>
+                <span class="icon-bar">
+							</span>
+                <span class="icon-bar">
+							</span>
+                <span class="icon-bar">
+							</span>
+            </button>
+
+            <a class="logo-a" th:href="@{/}">
+                <img th:src="@{/favicon.ico}" alt="logo"/>
+            </a>
+
+            <!-- 屏蔽 iframe -->
+            <div style="width:280px;height:50px;position:absolute;filter:alpha(opacity=0);top:0;left:0;"></div>
+            <!--    2345天气插件官网            https://tianqi.2345.com/plugin/-->
+            <iframe class="m-mobile-show-weather" style="padding-left: 8px;padding-top: 8px;" allowtransparency="true" frameborder="0"
+                    width="155" height="40" scrolling="no"
+                    src="//tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=0&v=0&d=3&bd=0&k=&f=&ltf=009944&htf=cc0000&q=1&e=1&a=1&c=54511&w=180&h=36&align=left"></iframe>
+
+        </div>
+
+        <div class="collapse navbar-collapse navbar-right" aria-expanded="false">
+            <ul class="nav navbar-nav">
+
+                <!--从数据库取的导航-->
+                <li th:each="category:${mtoCategoryList}"
+                    th:class="${category.id==categoryId ? 'active':(#lists.isEmpty(category.children)?'':'dropdown')}">
+                    <a th:if="${category.pid==null||category.pid==0}"
+                       th:href="@{${not #lists.isEmpty(category.children) || category.type != 0 ? category.pageUrl : ('/blog/category/' + category.id)}}"
+                       th:class="${#lists.isEmpty(category.children)?'':'dropdown-toggle'}"
+                       th:data-toggle="${#lists.isEmpty(category.children)?'':'dropdown'}">
+                        <span th:class="${category.icon}" th:text="${category.name}"></span>
+                        <b th:if="${not #lists.isEmpty(category.children)}" class="caret"></b>
+                    </a>
+                    <ul th:if="${not #lists.isEmpty(category.children)}" class="dropdown-menu">
+                        <li th:each="node:${category.children}"><a
+                                th:href="@{${node.type==1 ? node.pageUrl : ('/blog/category/' + node.id)}}"
+                                th:class="${node.icon}"
+                                th:text="${node.name}"></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="searchGroup layoutHide">
+                        <form method="get" th:action="@{/blog/search}" onsubmit="return checkSearch()">
+                            <div id="searchtxt">
+                                <input name="keyword" type="text" placeholder="输入关键词回车搜索" id="searchInput"
+                                       class="searchInput" autocomplete="off" th:value="${keyword}"/>
+                            </div>
+                            <!--                            <button id="searchbtn" class="searchBtn" type="submit"><i-->
+                            <!--                                    class="glyphicon glyphicon-zoom-out"></i>-->
+                            <!--                            </button>-->
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <style type="text/css">
+        @media screen and (max-width: 1100px) {
+            .m-mobile-show-weather {
+                height: 40px !important;
+                width: 150px !important;
+            }
+        }
+
+        .searchGroup {
+            margin-top: 12px;
+            float: left;
+            width: 200px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            line-height: 24px;
+            overflow: hidden;
+            padding: 2px 40px 2px 15px;
+            position: relative;
+            outline: none !important;
+        }
+
+        .searchInput:focus {
+            outline: none;
+        }
+
+        .searchBtn {
+            outline: none;
+            position: absolute;
+            right: 5px;
+            top: 0;
+            background: none;
+            height: 28px;
+            width: 28px;
+            line-height: 28px;
+            text-align: center;
+            font-size: 16px;
+            color: #ddd;
+        }
+
+        .searchGroup .searchInput {
+            display: inline-block;
+            width: 100%;
+            height: 24px;
+            line-height: 24px;
+            font-size: 14px;
+            color: #666;
+            border: 0;
+            background: none;
+        }
+
+        .searchGroup {
+            float: right;
+            border: 0;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        function checkSearch() {
+            debugger;
+            var searchInput = $('#searchInput').val();
+            var searchVal = $.trim(searchInput);
+            if (searchVal == '') {
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</nav>

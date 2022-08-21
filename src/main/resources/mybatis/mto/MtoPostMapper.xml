@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.emmanuel.mto.mapper.MtoPostMapper">
+    <resultMap type="com.ruoyi.project.emmanuel.mto.domain.MtoPost" id="MtoPostResult">
+        <result property="id" column="id"/>
+        <result property="authorId" column="author_id"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="categoryId" column="category_Id"/>
+        <result property="comments" column="comments"/>
+        <result property="createTime" column="create_time"/>
+        <result property="favors" column="favors"/>
+        <result property="slider" column="slider"/>
+        <result property="featured" column="featured"/>
+        <result property="status" column="status"/>
+        <result property="summary" column="summary"/>
+        <result property="tags" column="tags"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="title" column="title"/>
+        <result property="views" column="views"/>
+        <result property="weight" column="weight"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="username" column="username"/>
+    </resultMap>
+
+    <sql id="selectMtoPostVo">
+        select id,
+               author_id,
+               channel_id,
+               comments,
+               slider,
+               create_Time,
+               favors,
+               featured,
+               status,
+               summary,
+               tags,
+               thumbnail,
+               title,
+               views,
+               weight,
+               update_time
+        from mto_post
+    </sql>
+
+
+    <select id="selectMtoPostList" parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoPost" resultMap="MtoPostResult">
+        SELECT
+        p.id,
+        p.author_id,
+        p.channel_id,
+        p.comments,
+        p.slider,
+        p.favors,
+        p.featured,
+        p.STATUS,
+        p.summary,
+        p.tags,
+        p.thumbnail,
+        p.title,
+        p.views,
+        p.weight
+        FROM
+        mto_post p
+        <where>
+            <if test="authorId != null ">
+                and p.author_id = #{authorId}
+            </if>
+            <if test="channelId != null ">
+                and p.channel_id = #{channelId}
+            </if>
+            <if test="comments != null ">
+                and p.comments = #{comments}
+            </if>
+            <if test="createTime != null ">
+                and p.create_Time = #{createTime}
+            </if>
+            <if test="favors != null ">
+                and p.favors = #{favors}
+            </if>
+            <if test="featured != null ">
+                and p.featured = #{featured}
+            </if>
+            <if test="status != null ">
+                and p.status = #{status}
+            </if>
+            <if test="summary != null  and summary != ''">
+                and p.summary = #{summary}
+            </if>
+            <if test="tags != null  and tags != ''">
+                and p.tags = #{tags}
+            </if>
+            <if test="thumbnail != null  and thumbnail != ''">
+                and p.thumbnail = #{thumbnail}
+            </if>
+            <if test="title != null  and title != ''">
+                and p.title like concat ('%',#{title,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="views != null ">
+                and p.views = #{views}
+            </if>
+            <if test="weight != null ">
+                and p.weight = #{weight}
+            </if>
+        </where>
+        order by IFNULL(p.create_time,p.update_time) desc
+    </select>
+
+    <select id="selectMtoPostById" parameterType="Long" resultMap="MtoPostResult">
+        SELECT p.id,
+               p.author_id,
+               p.channel_id,
+               p.category_Id,
+               p.comments,
+               p.create_time,
+               p.favors,
+               p.featured,
+               p.slider,
+               p.STATUS,
+               p.summary,
+               p.tags,
+               p.thumbnail,
+               p.title,
+               p.views,
+               p.weight,
+               ifnull(p.update_time, p.create_time) as update_time,
+               pa.content
+        FROM mto_post p
+                     left join mto_post_attribute pa on p.id = pa.id
+        where p.id = #{id} limit 1
+    </select>
+
+    <insert id="insertMtoPost" parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoPost" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into mto_post
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null and categoryId != ''">
+                category_id,
+            </if>
+            <if test="authorId != null">
+                author_id,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="comments != null">
+                comments,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="favors != null">
+                favors,
+            </if>
+            <if test="featured != null">
+                featured,
+            </if>
+            <if test="slider != null">
+                slider,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="summary != null">
+                summary,
+            </if>
+            <if test="tags != null">
+                tags,
+            </if>
+            <if test="thumbnail != null and thumbnail != ''">
+                thumbnail,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="views != null">
+                views,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null and categoryId != ''">
+                #{categoryId,jdbcType=BIGINT },
+            </if>
+            <if test="authorId != null">
+                #{authorId},
+            </if>
+            <if test="channelId != null">
+                #{channelId},
+            </if>
+            <if test="comments != null">
+                #{comments},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="favors != null">
+                #{favors},
+            </if>
+            <if test="featured != null">
+                #{featured},
+            </if>
+            <if test="slider != null">
+                #{slider},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="summary != null">
+                #{summary},
+            </if>
+            <if test="tags != null">
+                #{tags},
+            </if>
+            <if test="thumbnail != null and thumbnail != ''">
+                #{thumbnail},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="views != null">
+                #{views},
+            </if>
+            <if test="weight != null">
+                #{weight},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateMtoPost" parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoPost">
+        update mto_post
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null and categoryId != ''">
+                category_id =   #{categoryId,jdbcType=BIGINT },
+            </if>
+            <if test="slider != null ">
+                slider =  #{slider},
+            </if>
+            <if test="authorId != null">
+                author_id = #{authorId},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId},
+            </if>
+            <if test="comments != null">
+                comments = #{comments},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="favors != null">
+                favors = #{favors},
+            </if>
+            <if test="featured != null">
+                featured = #{featured},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="summary != null">
+                summary = #{summary},
+            </if>
+            <if test="tags != null">
+                tags = #{tags},
+            </if>
+            <if test="thumbnail != null">
+                thumbnail = #{thumbnail},
+            </if>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="views != null">
+                views = #{views},
+            </if>
+            <if test="weight != null">
+                weight = #{weight},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMtoPostById" parameterType="Long">
+        delete
+        from mto_post
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteMtoPostByIds" parameterType="String">
+        delete from mto_post where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectMtoTagList" resultType="com.ruoyi.project.emmanuel.mto.domain.MtoTag">
+        select id "id", `name` "name"
+        from mto_tag
+    </select>
+
+    <select id="selectUserNameByAuthorId" resultType="com.ruoyi.project.system.user.domain.User">
+        SELECT user_name "userName", avatar
+        FROM `sys_user`
+        where user_id = #{authorId,jdbcType=BIGINT}
+    </select>
+
+    <select id="copyBlog"  resultType="com.ruoyi.project.emmanuel.mto.domain.MtoPost">
+
+        SELECT author_id "authorId", channel_id "channelId", comments, created "createTime", favors, featured, status, summary, tags, thumbnail, title, views, weight, update_time "updateTime"
+               , content
+        FROM
+                list_mto_post_list l,
+                list_mto_post_attribute_list ll
+        WHERE
+                l.id = ll.id
+        order by l.id
+    </select>
+
+    <select id="addOneViews" >
+        update mto_post set views = views+1 where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectIndexNewPostList" resultMap="MtoPostResult">
+        select id,
+               author_id,
+               channel_id,
+               comments,
+               create_Time,
+               favors,
+               featured,
+               status,
+               summary,
+               tags,
+               thumbnail,
+               title,
+               views,
+               weight,
+               update_time
+        from mto_post limit 5
+    </select>
+
+    <select id="isTitleExits" resultType="java.lang.Long">
+        SELECT id FROM mto_post where title = #{markdownName,jdbcType=VARCHAR} limit 1
+    </select>
+
+    <select id="selectLookIpFirstList" resultType="com.ruoyi.project.emmanuel.mto.domain.MtoLookIpFirst">
+        select id, ip_addr, ip_location, first_visit_url, first_visit_date, remark from mto_look_ip_first
+        <where>
+            <if test="ipAddr != null  and ipAddr != ''"> and ip_addr = #{ipAddr}</if>
+            <if test="ipLocation != null  and ipLocation != ''"> and ip_location = #{ipLocation}</if>
+            <if test="firstVisitUrl != null  and firstVisitUrl != ''"> and first_visit_url = #{firstVisitUrl}</if>
+            <if test="firstVisitDate != null "> and date_format(first_visit_date,'%y-%m-%d') =date_format( #{firstVisitDate},'%y-%m-%d')</if>
+        </where>
+        order by first_visit_date desc
+    </select>
+
+    <select id="getStatisticalAccountIpByDay" resultType="string">
+        SELECT DISTINCT ip_addr from mto_look_ip_first where DATE_FORMAT(first_visit_date,'%Y-%m-%d') = DATE_FORMAT( #{nowDate},'%Y-%m-%d')
+    </select>
+
+</mapper>

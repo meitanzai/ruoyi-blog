@@ -1,0 +1,81 @@
+/** 标签 start **/
+.tags-content {
+    margin-top: 2rem;
+    animation: slowUp 1s;
+}
+
+.tags-content a {
+    display: inline-block;
+    margin: .625rem;
+    padding: .5rem .625rem;
+    border-radius: 4px;
+}
+
+.tags-content a:hover {
+    box-shadow: 0 1px 3px 1px var(--shadow-color);
+    opacity: .8;
+}
+
+/** 标签 end **/
+
+/** 动态 start  */
+.dynamic-item {
+    overflow: hidden;
+    margin-bottom: 20px;
+    background: #FFF;
+    -webkit-box-shadow: 0 2px 5px 0 rgb(146 146 146 / 10%);
+    -moz-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1);
+    -moz-transition: all 0.6s ease;
+    -o-transition: all 0.6s ease;
+    transition: all 0.6s ease;
+    position: relative;
+}
+
+.dynamic-item {
+    color: var(--text-color);
+    box-shadow: 0 0 5px var(--shadow-color);
+    margin-bottom: 2rem;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+}
+
+.dynamic-item .info {
+    padding: 2rem;
+    border-radius: 4px 4px 0 0;
+}
+
+.dynamic-item .info .content {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.dynamic-item .info .content img.custom-img,
+.dynamic-item .info .content video,
+.dynamic-item .info .content iframe {
+    max-width: 720px !important;
+    max-height: 368px !important;
+    object-fit: cover;
+}
+
+.dynamic-item .info .content a {
+    color: var(--theme-color);
+    text-decoration: underline !important;
+}
+
+.dynamic-item .meta {
+    padding: 1rem 2rem;
+    border-radius: 0 0 4px 4px;
+}
+
+.dynamic-item .meta span {
+    display: inline-block;
+}
+
+.dynamic-item .meta a.praise {
+    float: right;
+    color: var(--text-color);
+}
+
+/** 动态 end  */
+

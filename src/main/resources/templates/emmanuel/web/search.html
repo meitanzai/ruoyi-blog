@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8"/>
+    <title>搜索</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <meta name="keywords" th:content="${SITE_CONFIG.SITE_KWD}">-->
+    <!--    <meta name="description" th:content="${SITE_CONFIG.SITE_DESC}">-->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/jquery.pagination.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/swiper.min.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+    <th:block th:include="include :: me-css"/>
+    <th:block th:include="include :: semantic-css"/>
+    <style type="text/css">
+        @media screen and (max-width: 800px) {
+            .mobile-show {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+                margin-left: 0em !important;
+                margin-right: 0em !important;
+                border: none !important;
+                background-color: #fff
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .article-main:before {
+                background: none;
+            }
+
+        }
+    </style>
+</head>
+<body>
+
+<!--导航栏-->
+<header id="header">
+    <div th:replace="emmanuel/web/navbar :: navbar"></div>
+</header>
+
+<!--中间内容  m-container 可以调博客宽度-->
+<div class="pb-container pb-content">
+    <div class="pb-main">
+
+        <!--                博客的头部-->
+        <div class="ui top attached segment">
+            <div class="ui meddle aligned two column grid">
+                <div class="column">
+                    <h3 class="ui teal header">搜索 <span style="color: red" th:text="${keyword}"></span> 结果</h3>
+                </div>
+                <div class="right aligned column">
+                    共 <h2 class="ui orange header m-inline-blok m-text-thin" th:text="${dataInfo.total}">
+                    10 </h2> 个
+                </div>
+            </div>
+        </div>
+
+        <!--                    博客的首页目录-->
+        <div class="ui attached segment">
+
+            <!--                    开始-->
+            <!--没有内容时提示-->
+            <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.rows)}">
+                Sorry, 暂未发现任何文章~
+            </div>
+
+            <!-- 博客条目 m-padded-tb-large-blog 可以调博客的上面高距-->
+            <div class="ui padded vertical segment m-padded-tb-large-blog m-mobile-clear m-pandded-lr-mini"
+                 th:each="blog:${dataInfo.rows}">
+                <div class="ui middle aligned mobile reversed stackable grid">
+                    <div class="eleven wide column">
+                        <h3 class="ui header"><a href="" class="m-black" target="_blank"
+                                                 th:href="@{/blog/article/{id}(id=${blog.id})}"
+                                                 th:utext="${blog.title}"></a>
+                        </h3>
+                        <p class="m-text" th:text="|${blog.summary}......|"></p>
+                        <div class="ui stackable grid">
+                            <div class="eleven wide column">
+                                <div class="ui mini horizontal link list">
+                                    <div class="item">
+                                        <img src="#" th:src="@{${blog.avatar}}" alt="" class="ui avatar image"
+                                             th:if="${not #strings.isEmpty(blog.avatar)}">
+                                        <div class="content">
+                                            <a href="#" class="header" th:text="${blog.username}">一粒麦子</a>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <i class="calendar alternate outline icon icon"></i><span
+                                            th:text="${#dates.format(blog.updateTime,'yyy年MM月dd日')}"></span>
+                                    </div>
+                                    <div class="item">
+                                        <i class="tv icon"></i><span th:text="${blog.views}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right aligned five wide column"
+                                 th:if="${not #strings.isEmpty(blog.tags)}">
+                                <a href="#" target="_blank"
+                                   class="ui teal basic label m-padded-tiny m-text-thin"
+                                   th:text="${blog.tags}"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${not #strings.isEmpty(blog.thumbnail)}" class="five wide column">
+                        <a href="#" th:href="@{/blog/article/{id}(id=${blog.id})}" target="_blank">
+                            <img width="190" height="100"
+                                 src="/blog/img/load.gif"
+                                 th:data-echo="${blog.thumbnail}"
+                                 onerror="javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'"
+                                 class="ui rounded image m-mobile-image">
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <!--                    结束-->
+
+        </div>
+
+        <!--                博客的底部分页-->
+        <div class="ui bottom attached segment" th:if="${(dataInfo.total>10)}">
+            <div class="ui meddle aligned two column grid">
+                <div class="column" th:if="${(dataInfo.currentPage>1) && dataInfo.total>10}">
+                    <a href="#"
+                       th:href="@{/blog/search/(keyword=${keyword},currentPage=${dataInfo.currentPage}-1)}"
+                       class="ui teal basic mini button"
+                    >上一页</a>
+
+                </div>
+                <div class="right aligned column">
+                    <a href="#"
+                       th:href="@{/blog/search/(keyword=${keyword},currentPage=${dataInfo.currentPage}+1)}"
+                       th:if="${dataInfo.currentPage<dataInfo.totalPage}"
+                       class="ui teal basic mini button"
+                    >下一页</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--    侧边信息-->
+    <div class="hidden-xs hidden-sm">
+        <div th:replace="emmanuel/web/sidebar :: sidebar"></div>
+    </div>
+</div>
+</div>
+
+</div>
+
+<!--底部-->
+<div th:replace="emmanuel/web/footer :: copyrightDark"></div>
+<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+
+</body>
+
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/blog/mblog/js/jquery.pagination.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.7}"></script>
+<script th:src="@{/blog/mblog/js/swiper.min.js}"></script>
+<script th:src="@{/blog/mblog/js/tagcloud.js}"></script>
+<script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
+<script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
+<th:block th:include="include :: echo-js"/>
+<th:block th:include="include :: semantic-js"/>
+<script>
+
+    // 图片懒加载
+    Echo.init({
+        offset: 0,//离可视区域多少像素的图片可以被加载
+        throttle: 0 //图片延时多少毫秒加载
+    });
+
+</script>
+
+</html>

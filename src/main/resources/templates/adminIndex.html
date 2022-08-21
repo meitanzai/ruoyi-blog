@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <th:block th:include="include :: header('首頁')"/>
+    <th:block th:include="include :: toastr-css"/>
+    <!--    自定义样式-->
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body class="gray-bg">
+<div v-cloak class="wrapper wrapper-content animated fadeInRight" id="app">
+
+    <!--    最上面四个框-->
+    <div class="row">
+        <div class="col-sm-3" style="height:140px; overflow:hidden; ">
+            <div class="widget style1 " style="height:115px; overflow:hidden;">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-envelope-o fa-5x"></i>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <!--                        <span> 新消息 </span>-->
+                        <!--                        <h6 class="font-bold">您来自: {{weather.ip}} <br>{{weather.comeFrom}}</h6>-->
+                        <h5 class="font-bold">本次登录: {{returnLocation.cip}}
+                            <br>{{ returnLocation.cname.length == 0 ? '获取定位失败' : returnLocation.cname}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="widget style1 navy-bg" style="height:115px; overflow:hidden;">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <!--                        <i class="fa fa-cloud fa-5x"></i>-->
+                        <span style="font-family: 黑体; text-align:left; font-size: 20px"> {{weather.data.city}}</span>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <span style="font-family: 黑体; text-align:left; float:left"> {{weather.data.ganmao}} </span>
+                        <h6 class="font-bold"><span
+                                style="color: yellow">  {{(weather.data.forecast[0].low || '').slice(2)}}/{{(weather.data.forecast[0].high || '').slice(2)}}</span>
+                            {{weather.data.forecast[0].type}} {{weather.data.forecast[0].fengxiang}}
+                            {{ weather.data.wendu }}'C</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="widget style1 lazur-bg" style="height:115px; overflow:hidden;">
+                <div class="row">
+                    <div class="col-xs-4 text-center">
+                        <!--                        <i class="fa fa-trophy fa-5x"></i>-->
+<!--                        <span style="font-family: 黑体; text-align:left; font-size: 13px"> {{(dataInfo.nowDate || '').slice(0, 11)}}</span>-->
+                        <span style="font-family: 黑体; text-align:left; font-size: 13px"> {{date}}</span> <br>
+                        <span style="font-family: 黑体; text-align:left; font-size: 13px"> 星期{{"日一二三四五六".charAt(new Date().getDay())}}</span>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <h6 class="font-bold">今年剩于{{dataInfo.surpluDay}}天</h6>
+                        <div class="progress progress-mini">
+                            <div :style=" {width:  dataInfo.surpluHundred } " class="progress-bar progress-bar-warning"></div>
+                        </div>
+
+                        <h6 class="font-bold">本周剩余{{7-(new Date().getDay())}}天</h6>
+                        <div class="progress progress-mini">
+                            <div :style=" {width:   ((7-new Date().getDay())/7*100).toFixed(4)+'%'} " class="progress-bar progress-bar-warning"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="widget style1 yellow-bg" style="height:115px; overflow:hidden;">
+                <div class="row" style="overflow:auto;">
+<!--                    <div class="col-xs-4">-->
+<!--                        <i class="fa fa-music fa-5x"></i>-->
+<!--                    </div>-->
+                    <div class="col-xs-12 text-right">
+                        <span style="font-family: 黑体; text-align:left; float:left "> {{oneGolden.golden.length > 59 ? oneGolden.golden.slice(0,58) + '...' : oneGolden.golden }} </span>
+                        <h6 class="font-bold">{{oneGolden.author}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    项目介绍-->
+    <div class="row border-bottom white-bg dashboard-header">
+        <div class="col-sm-3">
+            <h2>Hello,Guest</h2>
+            <small>移动设备访问请扫描以下二维码：</small>
+            <br>
+            <br>
+            <img th:src="@{/img/qr_code.png}" width="100%" style="max-width:264px;">
+            <br>
+        </div>
+        <div class="col-sm-5">
+            <h2>若依博客管理框架</h2>
+            <p>一直想做一个博客平台，看了很多优秀的开源项目但是发现没有合适的。于是利用空闲休息时间将若依后台管理与 pb-cms结合，在自己参考着开发一部分，如此有了这个博客系统。，她可以用于所有的Web应用程序，如<b>网站管理后台</b>，<b>网站会员中心</b>，<b>CMS</b>，<b>CRM</b>，<b>OA</b>等等，当然，您也可以对她进行深度定制，以做出更强系统。所有前端后台代码封装过后十分精简易上手，出错概率低。同时支持移动客户端访问。系统会陆续更新一些实用功能。
+            </p>
+            <p>
+                <b>当前版本：</b><span>V2.0 (若依v[[${version}]])</span>
+            </p>
+            <p>
+                <span class="label label-warning">&yen;免费开源</span>
+            </p>
+            <br>
+            <p>
+                <a class="btn btn-success btn-outline" href="https://gitee.com/GiteeKey/ruoyi-blog" target="_blank">
+                    <i class="fa fa-cloud"> </i> 访问码云
+                </a>
+                <a class="btn btn-white btn-bitbucket" href="http://ruoyi.vip" target="_blank">
+                    <i class="fa fa-home"></i> 访问主页
+                </a>
+            </p>
+        </div>
+        <div class="col-sm-4">
+            <h4>技术选型：</h4>
+            <ol>
+                <li>核心框架：Spring Boot。</li>
+                <li>安全框架：Apache Shiro。</li>
+                <li>模板引擎：Thymeleaf。</li>
+                <li>持久层框架：MyBatis Mybatis-Plus。</li>
+                <li>定时任务:Quartz。</li>
+                <li>数据库连接池：Druid。</li>
+                <li>工具类：Fastjson。</li>
+                <li>更多……</li>
+            </ol>
+        </div>
+    </div>
+    <!--    项目升级情况-->
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>更新日志</h5>
+                    </div>
+                    <div class="ibox-content no-padding">
+                        <div class="panel-body">
+                            <div class="panel-group" id="version">
+                                <!--3.0-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#version" href="#v30">v3.0 </a><code
+                                                class="pull-right">2022.05.23</code>
+                                        </h5>
+                                    </div>
+                                    <div id="v30" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <ol>
+
+                                                <li>优化Switch case   </li>
+                                                <li>新增SpringUtils.getRequiredProperty，以静态方式获取配置文件中的值 </li>
+                                                <li>接口使用泛型使其看到响应属性字段  </li>
+                                                <li>删除https://cdn.jsdelivr.net/npm/sweetalert2@11   </li>
+                                                <li>将js-cookie升级为本地引入,防止网络不稳定加载失败  </li>
+                                                <li>当友情链接发生变化清空缓存</li>
+                                                <li>侧边栏新增分类</li>
+                                                <li>优化博客新增修改,完美支持手机端发布   </li>
+                                                <li>支持文章页面静态化</li>
+                                                <li>添加只有首页打开轮播图</li>
+                                                <li>将热点数据存到缓存</li>
+                                                <li>取消金额输入记录 </li>
+                                                <li>优化动态css,优化标签css </li>
+                                                <li>升级oshi到最新版本6.1.6   </li>
+                                                <li>账单详情新增分页功能  </li>
+                                                <li>随手记分页查询由mybatis-plus分页改为PageHelper</li>
+                                                <li>后台标签页新增时间排序</li>
+                                                <li>标签分页查询由mybatis-plus分页改为PageHelper  </li>
+                                                <li>将友情链接分页查询由mybatis-plus分页改为PageHelper</li>
+                                                <li>优化excel创建表格样式 </li>
+                                                <li>后台账目明细新增排序字段  </li>
+                                                <li>后台通知公告新增查看  </li>
+                                                <li>前台评论新增校验  </li>
+                                                <li>美化文章侧边目录  </li>
+                                                <li>升级spring-boot到最新版本2.5.13   </li>
+                                                <li>树表格操作时保留ajaxParams初始参数</li>
+                                                <li>表格冻结列阴影效果显示</li>
+                                                <li>Excel注解支持color字体颜色</li>
+                                                <li>修改显示顺序orderNum类型为整型</li>
+                                                <li>后端备忘录新增长度校验</li>
+                                                <li>修复后台友情链接搜索不生效问题</li>
+                                                <li>修复后台便签搜索  </li>
+                                                <li>博客前台图片设置匿名访问  </li>
+                                                <li>优化博客图片上传  </li>
+                                                <li>美化侧边栏推荐博客样式</li>
+                                                <li>博客编辑器新增复制粘贴图片</li>
+                                                <li>主子表操作列新增单个删除  </li>
+                                                <li>设置分页参数默认值</li>
+                                                <li>新增获取不带后缀文件名称方法  </li>
+                                                <li>定时任务bean也检查包名是否为白名单配置</li>
+                                                <li>字典类型必须以字母开头，且只能为(小写字母，数字，下滑线)  </li>
+                                                <li>修复动态侧栏标签云样式</li>
+                                                <li>网盘图片新增预览功能  </li>
+                                                <li>侧边栏标签云高度调整  </li>
+                                                <li>取消搜索打开新页面</li>
+                                                <li>新增搜索关键字高亮</li>
+                                                <li>博客搜索功能上线啦</li>
+                                                <li>element-ui本地化  </li>
+                                                <li>使用jsencrypt实现密码加密传输 </li>
+                                                <li>新增RsaUtils工具类</li>
+                                                <li>上传第三方登录表SQL   </li>
+                                                <li>优化后台博客列表图片显示  </li>
+                                                <li>优化第三方账号绑定列表显示</li>
+                                                <li>修复Excel注解prompt/combo同时使用不生效问题   </li>
+                                                <li>用户缓存信息添加部门ancestors祖级列表 </li>
+                                                <li>修复URL类型回退键被禁止问题   </li>
+                                                <li>优化菜单侧边栏滚动条尺寸及颜色</li>
+                                                <li>新增已绑定第三方列表  </li>
+                                                <li>第三方点击拒绝重定向到登录页面</li>
+                                                <li>新增第三方登录(gitee) </li>
+                                                <li>优化前台动态页面图片预览  </li>
+                                                <li>axios改为本地加载 </li>
+                                                <li>博客列表排序  </li>
+                                                <li>升级spring-boot到最新版本2.5.12 防止RCE漏洞   </li>
+                                                <li>新增清理分页的线程变量方法</li>
+                                                <li>升级spring-boot到最新版本2.5.11   </li>
+                                                <li>升级fastjson到最新版1.2.80</li>
+                                                <li>优化IP地址获取到多个的问题</li>
+                                                <li>优化导出excel单元格验证,包含变更为开头.防止正常内容被替换 </li>
+                                                <li>优化前台导航天气插件  </li>
+                                                <li>前台导航新增天气  </li>
+                                                <li>导航管理 上级导航过滤（分类和正常）状态可选择 </li>
+                                                <li>修复因航管理排序显示导致前台导航栏无法选择</li>
+                                                <li>导航管理图标显示  </li>
+                                                <li>修复导航管理排序不显示问题</li>
+                                                <li>修复初始化多表格处理回调函数时获取的表格配置不一致问题</li>
+                                                <li>动态页面时间格式化</li>
+                                                <li>首页标题图片懒加载</li>
+                                                <li>新增文章图片预览功能  </li>
+                                                <li>优化网盘文件上传  </li>
+                                                <li>优化后台首页  </li>
+                                                <li>优化随手记页面</li>
+                                                <li>修复element-ui Demo展示   </li>
+                                                <li>切换vue.js为本地引入  </li>
+                                                <li>其他细节优化</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--2.0-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#version" href="#v473">v2.0 </a><code
+                                                class="pull-right">2022.03.19</code>
+                                        </h5>
+                                    </div>
+                                    <div id="v473" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ol>
+                                                <li>新增功能标签分类</li>
+                                                <li>新增动态(心情打卡上线啦)</li>
+                                                <li>新增网盘功能</li>
+                                                <li>新增mac风格代码块</li>
+                                                <li>自定义全局异常上传文件超过系统设置最大限制</li>
+                                                <li>优化博客首页图片显示</li>
+                                                <li>优化博客导航二级菜单icon</li>
+                                                <li>修复备忘录删除报错</li>
+                                                <li>首页index列表图片失效容错</li>
+                                                <li>修复导入markdown文档标题错误</li>
+                                                <li>修复随手记sql查询逻辑错误</li>
+                                                <li>修复记账分类(分类状态)过滤失效问题</li>
+                                                <li>浏览文件解决上传图片名有中文名无法显示</li>
+                                                <li>优化博客导入，支持导入是否选择更新</li>
+                                                <li>修复首页显示问题</li>
+                                                <li>修复导入Excel时字典字段类型为Long转义为空问题</li>
+                                                <li>优化导出数据LocalDateTime类型无数据问题</li>
+                                                <li>修复表格打印组件不识别多层对象属性值问题(I4V7YV)</li>
+                                                <li>文件上传兼容Weblogic环境</li>
+                                                <li>升级mybatis-plus到最新版3.5.1</li>
+                                                <li>升级lombok到1.18.22</li>
+                                                <li>升级markdown转html到2.6.4</li>
+                                                <li>其他细节优化</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--1.0-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#version" href="#v472">v1.0</a><code
+                                                class="pull-right">2022-03-02</code>
+                                        </h5>
+                                    </div>
+                                    <div id="v472" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ol>
+                                                <li>若依博客稳定版发布</li>
+                                                <li>已具备基本的博客功能</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>捐赠</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="alert alert-warning">
+                            请作者喝杯咖啡（支付宝扫码）
+                        </div>
+                        <p id="pay-qrcode">
+                            <a href="javascript:;"><img th:src="@{/img/ali-pay.png}" width="100%" alt="请使用手机支付宝扫码支付">
+                            </a>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: vue-js"/>
+<th:block th:include="include :: toastr-js"/>
+<th:block th:include="include :: axios-js"/>
+<th:block th:include="include :: js-cookie"/>
+
+</body>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            // 天气
+            weather: {
+                data: {
+                    ganmao: "",
+                    wendu: "",
+                    forecast: [
+                        {
+                            type: "", date: "",
+                            fengli: "",
+                            fengxiang: "",
+                            high: "",
+                            low: "",
+                        },
+                    ],
+                },
+                ip: '',
+                comeFrom: '',
+            },
+
+            // 天数
+            dataInfo: {},
+
+            // 每日一句
+            oneGolden: {},
+
+            // 定位城市
+            returnLocation: {cname: ''},
+
+            date: new Date().toLocaleString('chinese',{hour12:false}),
+
+        },
+        created() {
+            // 获取天气
+            this.getWeather();
+
+            // 获取天数
+            this.getDayInfo();
+
+            // 获取每日一句
+            this.getOneGolden();
+
+            // 根据ip获取定位
+            this.getLocationByIp();
+
+        },
+
+        mounted () {
+            // 声明一个变量指向Vue实例this,保证作用域一致
+            let _this = this
+            this.timer = setInterval(() => {
+                // 修改数据date
+                _this.date = new Date().toLocaleString('chinese',{hour12:false});
+        }, 1000)
+        },
+        beforeDestroy () {
+            if (this.timer) {
+                // 在vue实例销毁前，清除我们的定时器
+                clearInterval(this.timer)
+            }
+        },
+
+        methods: {
+            // 获取天气
+            getWeather() {
+                var weather = Cookies.get('weather');
+                if (weather) {
+                    this.weather = JSON.parse(weather);
+                    return;
+                }
+                axios.get("http://api.ipify.org?format=xml").then((res) => {
+                    axios.get("/admin/index/getWeathe?ip=" + window.btoa(res.data)
+                    ).then(res => {  // 成功
+                        if (res && res.data) {
+                            this.weather = res.data.data;
+                            toastr.success(this.weather.data.city + " 天气：" + this.weather.data.forecast[0].type + "，现在温度" + this.weather.data.wendu + "'C 最低气温" + (this.weather.data.forecast[0].low || '').slice(2) + "，最高气温" + (this.weather.data.forecast[0].high || '').slice(2))
+                            // 设置为当天24点过期
+                            // Cookies.set('weather', JSON.stringify(this.weather), {expires: this.getNextDate()});
+                            // 设置为1小时后过期
+                            Cookies.set('weather', JSON.stringify(this.weather), {expires: new Date(new Date().getTime() + 60 * 1000 * 60)});
+                        }
+                    }).catch(error => { //失败
+                        toastr.error("获取天气失败")
+                    })
+                })
+            },
+
+            // 获取天数
+            getDayInfo() {
+                var dataInfo = Cookies.get('dataInfo');
+                if (dataInfo) {
+                    this.dataInfo = JSON.parse(dataInfo);
+                    return;
+                }
+                axios.get("/admin/index/dayInfo"
+                ).then(res => {  // 成功
+                    if (res && res.data) {
+                        this.dataInfo = res.data.data;
+                        Cookies.set('dataInfo', JSON.stringify(this.dataInfo), {expires: this.getNextDate()});
+                    }
+                }).catch(error => { //失败
+                    toastr.error("获取时间失败")
+                })
+            },
+
+            // 获取每日一句
+            getOneGolden() {
+                var oneGolden = Cookies.get('oneGolden');
+                if (oneGolden) {
+                    this.oneGolden = JSON.parse(oneGolden);
+                    return;
+                }
+                axios.get("/admin/index/oneGolden"
+                ).then(res => {  // 成功
+                    if (res && res.data) {
+                        this.oneGolden = res.data.data;
+                        toastr.success(this.oneGolden.golden);
+                        Cookies.set('oneGolden', JSON.stringify(this.oneGolden), {expires: this.getNextDate()});
+                    }
+                }).catch(error => { //失败
+                    toastr.error("获取每日一句失败")
+                })
+            },
+
+            // 根据ip获取定位
+            getLocationByIp() {
+                // console.log("111",Math.ceil(( new Date() - new Date(new Date().getFullYear().toString()))/(24*60*60*1000))+1)
+               var that = this;
+                $.ajax({
+                    url: 'http://pv.sohu.com/cityjson?ie=utf-8',
+                    dataType: "script",
+                    method: 'GET',
+                }).done(function () {
+                    that.returnLocation = returnCitySN;
+                    toastr.success(that.returnLocation.cname);
+                });
+            },
+
+            /**
+             * 需求为：在当天晚上0:00过期。
+             * @returns {当前时间}
+             */
+            getNextDate() {
+                var d = new Date(),
+                    year = d.getFullYear(),
+                    month = d.getMonth(),
+                    day = d.getDate(),
+                    nextDay = new Date(year, month, (day + 1), 00, 00, 00);
+                return nextDay;
+            },
+        }
+
+    })
+</script>
+
+
+</html>

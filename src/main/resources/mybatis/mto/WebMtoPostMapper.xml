@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.emmanuel.mto.mapper.WebPostMapper">
+    <resultMap type="com.ruoyi.project.emmanuel.mto.domain.WebMtoPost" id="MtoPostResult">
+        <result property="id" column="id"/>
+        <result property="authorId" column="author_id"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="comments" column="comments"/>
+        <result property="createTime" column="create_time"/>
+        <result property="slider" column="slider"/>
+        <result property="favors" column="favors"/>
+        <result property="featured" column="featured"/>
+        <result property="status" column="status"/>
+        <result property="summary" column="summary"/>
+        <result property="tags" column="tags"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="title" column="title"/>
+        <result property="views" column="views"/>
+        <result property="weight" column="weight"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="username" column="username"/>
+        <result property="avatar" column="avatar"/>
+        <result property="channelName" column="channelName"/>
+    </resultMap>
+
+    <sql id="selectMtoPostVo">
+        select id,
+               author_id,
+               channel_id,
+               comments,
+               create_Time,
+               favors,
+               featured,
+               status,
+               summary,
+               tags,
+               thumbnail,
+               title,
+               views,
+               weight,
+               update_time
+        from mto_post
+    </sql>
+
+    <select id="selectIndexChannelList" resultType="com.ruoyi.project.emmanuel.mto.domain.MtoChannel">
+        SELECT id, name, weight, IFNULL(TYPE,1) "type"
+        FROM `mto_channel`
+        ORDER BY weight DESC
+    </select>
+
+    <select id="selectIndexGolden" resultType="com.ruoyi.project.emmanuel.mto.domain.MtoGolden">
+        SELECT *
+        from mto_golden
+        order by RAND() limit 1
+    </select>
+
+    <select id="selectWebPostById" resultMap="MtoPostResult">
+        SELECT p.id,
+               p.author_id,
+               p.channel_id,
+               p.comments,
+               p.create_time,
+               p.favors,
+               p.featured,
+               p.STATUS,
+               p.summary,
+               p.tags,
+               p.thumbnail,
+               p.title,
+               p.views,
+               p.weight,
+               p.update_time,
+               p.create_time,
+               pa.content,
+               u.user_name "username",
+               u.avatar,
+               C.type      "channelType",
+               C.`name`    "channelName"
+        FROM mto_post p
+                 LEFT JOIN mto_post_attribute pa ON p.id = pa.id
+                 left join sys_user u on p.author_id = u.user_id
+                 left JOIN MTO_CHANNEL C ON C.ID = P.channel_id
+        WHERE p.id = #{id,jdbcType=BIGINT}
+          and p.status = 0
+    </select>
+
+    <update id="addOneViews">
+        update mto_post
+        set views = views + 1
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectPage"
+            parameterType="com.ruoyi.project.emmanuel.mto.domain.WebMtoPost"
+            resultMap="MtoPostResult">
+        SELECT
+        p.id,
+        p.author_id,
+        p.channel_id,
+        p.comments,
+        p.create_time,
+        p.favors,
+        p.featured,
+        p.STATUS,
+        IFNULL(p.summary,"暂无摘要") as summary,
+        p.tags,
+        p.title,
+        p.views,
+        p.weight,
+        ifnull( p.update_time, p.create_time ) AS update_time,
+        c.name as channel_Name,
+        IF(ISNULL(p.thumbnail) || LENGTH(trim(p.thumbnail))=0,
+        CONCAT('/blog/img/',(SELECT FLOOR(RAND()*22)),'.jpg'),
+        p.thumbnail) as thumbnail
+        FROM
+        mto_post p
+        LEFT JOIN mto_channel c ON p.channel_id = c.id
+        <where>
+            and p.status = 0
+            <if test="mtoPost.categoryId != '' and mtoPost.categoryId != null">
+                and category_id = #{mtoPost.categoryId,jdbcType=BIGINT}
+            </if>
+            <if test="mtoPost.channelId != '' and mtoPost.channelId != null">
+                and channel_id = #{mtoPost.channelId,jdbcType=BIGINT}
+            </if>
+            <if test="mtoPost.slider != '' and mtoPost.slider != null">
+                and slider = #{mtoPost.slider,jdbcType=INTEGER}
+            </if>
+            <if test="mtoPost.title != '' and mtoPost.title != null">
+                and title like concat("%",concat(#{mtoPost.title,jdbcType=VARCHAR},"%"))
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <update id="updateFavors">
+        update mto_post set
+        <if test="favorsType != null and favorsType != '' and favorsType = 1">
+            favors = favors+1
+        </if>
+        where id = #{postId,jdbcType=BIGINT}
+    </update>
+
+    <select id="timeArchiving" resultMap="MtoPostResult">
+        SELECT
+        p.id,
+        p.author_id,
+        p.channel_id,
+        p.comments,
+        p.create_time,
+        p.favors,
+        p.featured,
+        p.STATUS,
+        IFNULL( p.summary, "暂无摘要" ) AS summary,
+        p.tags,
+        p.title,
+        p.views,
+        p.weight,
+        ifnull( p.update_time, p.create_time ) AS update_time,
+        p.thumbnail AS thumbnail
+        FROM
+        mto_post p
+        <where>
+            p.`status` = 0
+        </where>
+        ORDER BY
+        p.create_time DESC
+    </select>
+
+    <select id="timeArchives" resultType="com.ruoyi.project.emmanuel.mto.domain.MtoPost">
+        SELECT id, title, create_time
+        from mto_post
+        WHERE status = 0
+        ORDER BY create_time desc
+    </select>
+
+    <select id="selectSpecial" resultMap="MtoPostResult">
+        SELECT p.id, P.title
+        FROM mto_post p
+                 LEFT JOIN MTO_CHANNEL C ON C.ID = P.channel_id
+        WHERE c.type = 2
+          AND C.id = 2
+          AND p.STATUS = 0
+        ORDER BY P.create_time
+    </select>
+</mapper>

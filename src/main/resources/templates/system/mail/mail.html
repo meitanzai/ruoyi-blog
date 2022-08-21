@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('邮件列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label>标题：</label>
+                            <input type="text" name="mailTitle"/>
+                        </li>
+                        <li>
+                            <label>接收者：</label>
+                            <input type="text" name="mailTo"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:mail:add">
+                <i class="fa fa-plus"></i> 发送
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+               shiro:hasPermission="system:mail:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:mail:edit')}]];
+    var selectDtail = [[${@permission.hasPermi('system:mail:detail')}]];
+    var removeFlag = [[${@permission.hasPermi('system:mail:remove')}]];
+    var prefix = ctx + "system/mail";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            selectUrl: prefix + "/selectById/{id}",
+            modalName: "【邮件】",
+            sortName: "createTime",
+            sortOrder: "desc",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'id',
+                    title: '',
+                    visible: false,  // 隐藏某列（列选项可见）
+                    ignore: true,    // 列选项不可见
+                },
+                {
+                    field: 'mailTitle',
+                    title: '邮件标题'
+                },
+                {
+                    //0简单邮件，1复杂邮件
+                    field: 'mailType',
+                    title: '类型',
+                    formatter: function (value, row, index) {
+                        if (value == 0) {
+                            return '<span class="badge badge-warning">简单邮件</span>';
+                        } else if (value == 1) {
+                            return '<span class="badge badge-info">复杂邮件</span>';
+                        }
+                    }
+                },
+                {
+                    // (0草稿，1成功，-1失败)
+                    field: 'mailStatus',
+                    title: '状态',
+                    formatter: function (value, row, index) {
+                        if (value == 0) {
+                            return '<span class="badge badge-warning">草稿</span>';
+                        } else if (value == 1) {
+                            return '<span class="badge badge-success">成功</span>';
+                        }
+                        return '<span class="badge badge-danger">失败</span>'
+                    }
+                },
+                {
+                    field: 'mailMessage',
+                    title: '错误信息',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
+                },
+                {
+                    field: 'mailFrom',
+                    title: '发送者'
+                },
+                {
+                    field: 'mailTo',
+                    title: '接收者'
+                },
+                {
+                    field: 'mailSource',
+                    title: '邮件来源'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + selectDtail + '" href="javascript:void(0)" onclick="$.operate.selectTab(\'' + row.id + '\')"><i class="fa fa-tv"></i>查看</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

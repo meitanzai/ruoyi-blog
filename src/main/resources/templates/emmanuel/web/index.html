@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <meta name="keywords" th:content="${SITE_CONFIG.SITE_KWD}">-->
+    <!--    <meta name="description" th:content="${SITE_CONFIG.SITE_DESC}">-->
+    <title>首页</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/jquery.pagination.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/swiper.min.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+</head>
+<style  type="text/css">
+    @media screen and (max-width: 1100px) {
+        .pb-slider-mobile {
+            height: 180px !important;
+        }
+    }
+</style>
+<body>
+
+<!--导航栏-->
+<header id="header">
+    <div th:replace="emmanuel/web/navbar :: navbar"></div>
+</header>
+
+<div class="pb-container pb-content">
+    <div class="pb-main">
+
+        <!--				轮播图start -->
+        <div class="swiper-container mb-20"
+             th:if="${not #lists.isEmpty(sliderDataInfo) && not #lists.isEmpty(sliderDataInfo.rows)}">
+            <div class="swiper-wrapper ">
+                <div th:each="item:${sliderDataInfo.rows}" class="swiper-slide  pb-slider-mobile">
+                    <a th:href="@{${'/blog/article/'+item.id}}" target="_blank">
+                        <img th:src="${item.thumbnail}" style="max-height: 380px"
+                             onerror="javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'">
+                        <p class="slider-title" th:text="${item.title}"></p>
+                    </a>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"><i class="fa fa-chevron-circle-left"></i></div>
+            <div class="swiper-button-next"><i class="fa fa-chevron-circle-right"></i></div>
+        </div>
+        <!--				轮播图end -->
+        <!--没有内容时提示-->
+        <div class="no-article-content" th:if="${#lists.isEmpty(dataInfo.rows)}">
+            Sorry, 暂未发现任何文章~
+        </div>
+
+        <!--        博客内容开始-->
+        <div th:each="item,temp : ${dataInfo.rows}" class="blogs"
+             th:if="${not #lists.isEmpty(dataInfo) && not #lists.isEmpty(dataInfo.rows)}">
+            <!--            推荐状态-->
+            <span th:if="${item.featured==1}" class="fa fa-superscript-top superscript superscript-top"></span>
+            <span class="blogpic" th:if="${not #strings.isEmpty(item.thumbnail)}"><a>
+                <img src="/blog/img/load.gif"
+                     th:data-echo="${item.thumbnail}"
+                     onerror="javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'"
+                     style="width: 140px; height: 100px"></a><span class="blog-type">
+                <a th:href="@{${'/blog/channel/'+item.channelId}}"
+                   th:text="${item.channelName}"></a></span></span>
+            <!--            标题-->
+            <h3 class="blogtitle"><a th:href="@{${'/blog/article/'+item.id}}" target="_blank"
+                                     th:text="${item.title}"></a></h3>
+            <!--            摘要-->
+            <p th:text="${item.summary}" class="blogtext"></p>
+            <div class="bloginfo">
+                <ul>
+                    <li><span class="fa fa-clock-o"></span><span
+                            th:text="${#dates.format(item.createTime,'yyyy-MM-dd')}"></span></li>
+                    <li><span class="fa fa-eye"></span><span th:text="${item.views}? ${item.views} : 0"></span>
+                    </li>
+                    <li><a class="comment-link-a" th:href="@{${'/blog/article/'+item.id+'#comment'}}"><span
+                            target="_blank" class="fa fa-comments-o"></span><span
+                            th:text="${item.comments}? ${item.comments} : 0"></span></a></li>
+                </ul>
+                <a class="read-more" target="_blank" th:href="@{${'/blog/article/'+item.id}}">阅读全文</a>
+            </div>
+        </div>
+        <!--        博客内容结束-->
+
+        <!--        分页-->
+        <div th:if="${dataInfo!=null && dataInfo.totalPage gt 1}" id="pagebar">
+            <div id="pagination" class="page"></div>
+        </div>
+
+    </div>
+    <!--    侧边信息-->
+    <div th:replace="emmanuel/web/sidebar :: sidebar"></div>
+</div>
+<!--底部-->
+<div th:replace="emmanuel/web/footer :: copyrightDark"></div>
+<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+</body>
+
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/blog/mblog/js/jquery.pagination.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.7}"></script>
+<script th:src="@{/blog/mblog/js/swiper.min.js}"></script>
+<script th:src="@{/blog/mblog/js/tagcloud.js}"></script>
+<script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
+<script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
+<th:block th:include="include :: echo-js"/>
+
+<script>
+    // 分页请求
+    $(function () {
+        var $pagination = $("#pagination");
+        if ($pagination) {
+            $pagination.pagination({
+                currentPage: [[${dataInfo.currentPage}]],
+                totalPage: [[${dataInfo.totalPage}]],
+                callback: function (pageNo) {
+                    // 发出分页请求
+                    // window.location.href = ('/blog' + '?currentPage=' + pageNo);
+                    window.location.href = ("?currentPage=" + pageNo);
+                }
+            });
+        }
+    })
+
+    // 图片懒加载
+    Echo.init({
+        offset: 0,//离可视区域多少像素的图片可以被加载
+        throttle: 0 //图片延时多少毫秒加载
+    });
+</script>
+
+</html>

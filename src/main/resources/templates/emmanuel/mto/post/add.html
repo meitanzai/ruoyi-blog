@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('新增博客标题题')"/>
+    <th:block th:include="include :: datetimepicker-css"/>
+    <th:block th:include="include :: bootstrap-select-css"/>
+    <th:block th:include="include :: markdown-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+
+    <div class="ibox-content">
+        <div class="row form-body form-horizontal m-t">
+            <form class="form-horizontal m-t col-lg-12" id="form-post-add">
+
+                <!-- 左侧-->
+                <div class="col-lg-8">
+
+                    <!--            标题-->
+                    <div class="form-group">
+                        <h3>
+                            <input type="text" class="form-control" id="title" name="title" th:value="${mtoPost?.title}"
+                                   placeholder="请输入文章标题" required>
+                        </h3>
+                    </div>
+
+                    <!--markdown编辑器-->
+                    <div class="form-group">
+                        <div id=md-content>
+                            <textarea id="content" name="content" th:text="${mtoPost?.content}"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 右侧-->
+                <div class="col-lg-4 ">
+                    <!--       博客导航     -->
+                    <div class="form-group col-xs-12">
+                        <label class="font-noraml">博客导航：</label>
+                        <select class="form-control " data-placeholder="请选择导航" id="categoryId" name="categoryId">
+                            <option value="">请选择导航(非必选)</option>
+                            <block th:each="category:${categoryList}">
+
+                                <option
+                                        th:if="${#lists.isEmpty(category.children) && category.type ==0}"
+                                        th:value="${category.id}"
+                                        th:text="${category.name}"
+                                        th:selected="${mtoPost?.categoryId == category.id}"
+                                ></option>
+
+                                <optgroup th:unless="${#lists.isEmpty(category.children)}"
+                                          th:label="${category.name}">
+                                    <option th:each="child: ${category.children}"
+                                            th:value="${child.id}"
+                                            th:text="${child.name}"></option>
+                                </optgroup>
+                            </block>
+                        </select>
+                    </div>
+
+                    <!--        博客栏目    -->
+                    <div class="form-group col-xs-12">
+                        <label class=" control-label is-required">博客栏目：</label>
+                        <select class="form-control  noselect2 selectpicker" data-placeholder="请选择栏目" id="channelId"
+                                name="channelId"
+                                required>
+                            <option value="">请选择</option>
+                            <option th:each="channel:${channelList}"
+                                    th:value="${channel.id}"
+                                    th:text="${channel.name} + (${channel.type == 2} ? '-专题':'-分类')"
+                                    th:selected="${mtoPost?.channelId}==${channel.id}"
+                            ></option>
+                        </select>
+                    </div>
+
+                    <!--      博客标签      -->
+                    <div class="form-group col-xs-12">
+                        <label class="font-noraml">多选</label>
+                        <select id="tag" class="form-control noselect2 selectpicker" data-none-selected-text="请选择博客标签"
+                                multiple>
+                            <option th:each="tag:${tagList}"
+                                    th:value="${tag.id}"
+                                    th:text="${tag.name}"
+                            ></option>
+                        </select>
+                    </div>
+
+                    <!--       文章摘要     -->
+                    <div class="form-group col-xs-12">
+                        <label class="control-label">博客摘要：</label>
+                        <div class="ml-3">
+                    <textarea type="text" name="summary" maxlength="500" class="form-control" rows="5"
+                              th:value="${mtoPost?.summary}"
+                              placeholder="博客摘要"></textarea>
+                        </div>
+                    </div>
+
+                    <!--     是否轮播       -->
+                    <div class="form-group col-xs-12">
+                        <label class="control-label is-required">是否轮播：</label>
+                        <div class="ml-3">
+                            <label class="radio-box">
+                                <input name="slider" type="radio" id=0 value=0 required
+                                       th:checked="true"> 否</input>
+                            </label>
+                            <label class="radio-box">
+                                <input name="slider" type="radio" id=1 value="1"
+                                       required> 是 </input>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!--       是否推荐     -->
+                    <div class="form-group col-xs-12">
+                        <label class=" control-label is-required">是否推荐：</label>
+                        <div class="ml-3">
+                            <label class="radio-box">
+                                <input name="featured" type="radio" id=0 value=0 required th:checked="true"> 否</input>
+                            </label>
+                            <label class="radio-box">
+                                <input name="featured" type="radio" id=1 value="1" required> 是 </input>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!--       发布状态     -->
+                    <div class="form-group col-xs-12">
+                        <label class=" control-label is-required">状态：</label>
+                        <div class="ml-3">
+                            <label class="radio-box">
+                                <input name="status" type="radio" id=0 value=0 required th:checked="true">发布</input>
+                            </label>
+                            <label class="radio-box">
+                                <input name="status" type="radio" id=1 value="1" required> 草稿 </input>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!--       博客封面-->
+                    <div class="form-group col-xs-12">
+                        <label class="control-label">博客封面：</label>
+                        <div class="ml-3">
+                            <input name="thumbnail" id="thumbnail" class="form-control">
+                            <a id="url"><img style="width: 90px;height: 90px"></a>
+                            <input type="file" id="tpicf">
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i
+                    class="fa fa-check"></i>保 存
+            </button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i
+                    class="fa fa-reply-all"></i>关 闭
+            </button>
+        </div>
+    </div>
+
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: datetimepicker-js"/>
+<th:block th:include="include :: bootstrap-select-js"/>
+<th:block th:include="include :: markdown-js"/>
+
+<script th:inline="javascript">
+
+    var prefix = ctx + "mto/post"
+
+    var editor;
+
+    $(function () {
+
+        // editormd配置
+        editor = editormd("md-content", {
+            width: "100%",
+            height: 700,
+            syncScrolling: "single",
+            path: "/blog/editormd/lib/",
+            // 开启工具栏 (默认为true)
+            toolbar: true,
+            // 指定工具栏
+            toolbarIcons: function () {
+                return ["undo", "redo", "|",
+                    "list-ul", "list-ol", "|",
+                    "bold", "del", "hr", "|",
+                    "table", "image", "|",
+                    "||", "watch", "fullscreen", "preview", "search"]
+            },
+            // 开始图片上传
+            imageUpload: true,
+            // 上传图片的格式
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            // 上传路径
+            imageUploadURL: "/common/markdown/upload",
+            // 图片上传成功后，可以做点什么
+            onload: function () {
+            },
+            // 关闭实时预览
+            watch: false,
+            //预览主题
+            // previewTheme: "dark",
+            //编辑主题
+            // editorTheme: "pastel-on-dark",
+            // 开启科学公式TeX语言支持，默认关闭
+            tex: true,
+            // 开启流程图支持，默认关闭
+            flowChart: true,
+            // 开启时序/序列图支持，默认关闭,
+            sequenceDiagram: true,
+        });
+
+        //监听粘贴
+        document.addEventListener('paste', function (event) {
+            var items = (event.clipboardData || window.clipboardData).items;
+            var file = null;
+            if (items && items.length) {
+                // 搜索剪切板items
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                        file = items[i].getAsFile();
+                        break;
+                    }
+                }
+            } else {
+                alert("当前浏览器不支持");
+                return;
+            }
+            if (!file) {
+                return;
+            }
+            // 此时file就是我们的剪切板中的图片对象
+            // 这里是上传
+            var xhr = new XMLHttpRequest();
+            // 上传结束
+            xhr.onload = function () {
+
+            };
+            xhr.onerror = function () {
+                alert("网络异常，上传失败!");
+            };
+            var formData = new FormData();
+            formData.append("editormd-image-file", file);
+            xhr.open('POST', '/common/markdown/upload', true);
+            xhr.send(formData);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
+                        //5.处理返回的结果
+                        var obj = xhr.responseText;
+                        var objarr = eval("(" + obj + ")");
+                        if (objarr["success"] == 1) {
+                            editor.insertValue("![](" + objarr["fileName"] + ")");
+                        } else {
+                            alert("粘贴图片失败!");
+                        }
+                    }
+                }
+            }
+        });
+
+    });
+
+    $("#form-post-add").validate({
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var data = $("#form-post-add").serializeArray();
+            var tags = $.form.selectSelects("tag");
+            data.push({"name": "tags", "value": tags});
+            $.operate.saveTab(prefix + "/add", data);
+
+        }
+    }
+
+
+    $("input[name='created']").datetimepicker({
+        format: "yyyy-mm-dd",
+        minView: "month",
+        autoclose: true
+    });
+
+    $().ready(function () {
+        var single = [[${channelId}]];
+        $("#channelId option[value= " + single + "]").prop("selected", true);
+    });
+
+    $(function () {
+        $('#tag').select2({
+            placeholder: "请选择标签",
+            allowClear: true
+        });
+    })
+
+    // 图片上传
+    $("#tpicf").change(function () {
+        var data = new FormData();
+        data.append("editormd-image-file", $("#tpicf")[0].files[0]);
+        $.ajax({
+            type: "post",
+            url: ctx + "common/blog/blogPicture",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (result) {
+                if (result.code == web_status.SUCCESS) {
+                    $("#url img").attr("src", result.fileName)
+                    $("#thumbnail").val(result.fileName)
+                }
+            },
+            error: function (error) {
+                alert("图片上传失败。");
+            }
+        });
+    })
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增栏目管理')" />
+    <th:block th:include="include :: bootstrap-fileinput-css"/>
+</head>
+<body class="white-bg" >
+    <div class="wrapper wrapper-content animated fadeInRight ">
+        <form class="form-horizontal m" id="form-channel-add" th:width="100px">
+            <div class="form-group">
+                <label class="col-sm-3 control-label" required>key：</label>
+                <div class="col-sm-4">
+                    <input name="key" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" required>名称：</label>
+                <div class="col-sm-4" >
+                    <input name="name" class="form-control" type="text">
+                </div>
+            </div>
+            <!--        类型：1分类,2专题-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">类型：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input name="type" title="请选择类型" type="radio" value="1" required>
+                        <label value="1" th:text="分类"></label>
+                    </div>
+                    <div class="radio-box">
+                        <input name="type" title="请选择类型" type="radio" value="2" required>
+                        <label value="2" th:text="专题"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">状态：</label>
+                <div class="col-sm-4">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_show_hide')}">
+                        <input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}" th:checked="${dict.default}">
+                        <label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-fileinput-js"/>
+    <script th:inline="javascript">
+        var prefix = ctx + "mto/channel"
+        $("#form-channel-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-channel-add').serialize());
+            }
+        }
+
+        $(".file-upload").fileinput({
+            uploadUrl: ctx + 'common/upload',
+            maxFileCount: 1,
+            autoReplace: true
+        }).on('fileuploaded', function (event, data, previewId, index) {
+            $("input[name='" + event.currentTarget.id + "']").val(data.response.url)
+        }).on('fileremoved', function (event, id, index) {
+            $("input[name='" + event.currentTarget.id + "']").val('')
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('查看博客')"/>
+    <th:block th:include="include :: typo-css"/>
+    <th:block th:include="include :: prism-css"/>
+    <th:block th:include="include :: tocbot-css"/>
+    <th:block th:include="include :: semantic-css"/>
+
+    <style>
+        @media screen and (max-width: 800px) {
+            .m-mobile-show {
+                border-top-width: 0px !important;
+                border-left-width: 0px !important;
+                margin-right: 0px !important;
+                padding-left: 3px !important;
+                padding-right: 3px !important;
+                border-right-width: 0px !important;
+                border-bottom-width: 0px !important;
+            }
+        }
+    </style>
+</head>
+<body class="white-bg">
+
+<!--<div class="m-container m-padded-td-big m-box-relative">-->
+<div class="wrapper wrapper-content animated fadeInRight ibox-content m-mobile-show">
+
+    <!--    内容-->
+    <div class="ui  attached padded segment m-mobile-show">
+        <!--博客标题-->
+        <h2 class="ui aligned center header " th:text="${mail.mailTitle}"></h2> <br>
+
+        <!--博客内容 -->
+        <div id="content" class="typo typo-selection js-toc-content  m-padded-rl m-padded-tb-large"
+             th:utext="${mail.mailContent}">
+        </div>
+
+        <div class="ui horizontal divider">end</div>
+        <div style="text-align:right;">接收者: <span th:text="${mail.mailTo}"></span></div>
+        <div style="text-align:right;"><span th:text="${#dates.format(mail.createTime,'yyyy-MM-dd HH:mm:ss')}"></span></div>
+        <div style="text-align:right;"><span th:text="${mail.createBy}"></span></div>
+        <div th:if="${not #strings.isEmpty(mail.mailMessage)}" class="center" style="color: red">邮件发送失败: <span th:text="${mail.mailMessage}"></span></div>
+
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: prism-js"/>
+<th:block th:include="include :: tocbot-js"/>
+<th:block th:include="include :: semantic-js"/>
+
+</div>
+
+</body>
+</html>

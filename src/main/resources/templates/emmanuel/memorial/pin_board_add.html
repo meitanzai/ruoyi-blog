@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('新增便签墙')"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-board-add">
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">标题：</label>
+            <div class="col-sm-8">
+                <input name="boardTitle" class="form-control" type="text" placeholder="标题不要超过10个字哟" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">内容：</label>
+            <div class="col-sm-8">
+                <textarea name="boardContent" rows="8px" class="form-control" placeholder="内容不可以超过100个字符哈" required></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">顺序：</label>
+            <div class="col-sm-8">
+                <input name="orderNum" class="form-control" min="1" type="number" required>
+            </div>
+        </div>
+    </form>
+</div>
+
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var prefix = ctx + "memorial/pinBoard"
+    $("#form-board-add").validate({
+        focusCleanup: true,
+        rules: {
+            boardTitle: {
+                required: true,
+                maxlength: 10
+            },
+            boardContent: {
+                required: true,
+                maxlength: 100
+            },
+        }
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            var data = $('#form-board-add').serialize();
+            console.log(data)
+            var config = {
+                url: prefix + "/add",
+                type: "post",
+                dataType: "json",
+                data: data,
+                beforeSend: function () {
+                    $.modal.loading("正在处理中，请稍候...");
+                    $.modal.disable();
+                },
+                success: function (result) {
+                    if (result.code == 0){
+                        $.modal.msgReload();
+                          // parent.location.reload();
+                        // $.modal.msgSuccess("保存成功");
+                    }
+
+
+                }
+            };
+            $.ajax(config)
+        }
+    }
+</script>
+</body>
+</html>

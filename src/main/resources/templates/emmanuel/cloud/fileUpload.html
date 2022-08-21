@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <th:block th:include="include :: header('首頁')"/>
+    <th:block th:include="include :: toastr-css"/>
+    <!--    自定义样式-->
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+<div v-cloak class="wrapper wrapper-content animated fadeInRight" id="app">
+
+    <!--@files-added="filesAdded"-->
+    <uploader :options="options"
+              :autoStart="false"
+              :file-status-text="statusText"
+              @file-success="fileSuccess"
+              @file-error="fileError"
+              @complete="complete"
+              @files-added="filesAdded"
+              class=" ibox-content no-padding">
+        <uploader-unsupport></uploader-unsupport>
+        <uploader-drop>
+            <p>将文件拖放到此处以上传</p>
+            <uploader-btn>选择文件</uploader-btn>
+            <uploader-btn :attrs="attrs">选择图片</uploader-btn>
+            <uploader-btn :directory="true">选择文件夹</uploader-btn>
+        </uploader-drop>
+        <br/>
+        <button @click="allRemove()" style="margin-left: 4px">全部移除</button>
+        <uploader-list></uploader-list>
+    </uploader>
+
+
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: vue-js"/>
+<th:block th:include="include :: toastr-js"/>
+<th:block th:include="include :: axios-js"/>
+<th:block th:include="include :: js-cookie"/>
+<th:block th:include="include :: js-cookie"/>
+<script th:src="@{/ajax/libs/vue-simple-uploader/vue-uploader.js}"></script>
+<script th:src="@{/ajax/libs/sprak-md5/spark-md5.min.js}"></script>
+
+</body>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                fileList: [],
+                options: {
+                    target: 'upload/uploadChunk',
+                    // 不校验
+                    testChunks: true,
+                    // 每片大小
+                    chunkSize: 3 * 1024 * 1024,
+                    // 并发上传数
+                    simultaneousUploads: 5,
+                    // 上传文件时文件的参数名
+                    fileParameterName: 'file',
+                    // 其他额外的参数，这个可以是一个对象或者是一个函数，如果是函数的话，则会传入 Uploader.File 实例、当前块 Uploader.Chunk 以及是否是测试模式
+                    query: {},
+                    // 额外的一些请求头，如果是函数的话，则会传入 Uploader.File 实例、当前块 Uploader.Chunk 以及是否是测试模式
+                    headers: {},
+                    // 认为响应式成功的响应码
+                    successStatuses: [200, 201, 202],
+                    // 认为是出错的响应码
+                    permanentErrors: [302, 404, 415, 500, 501],
+                    // 时间格式化
+                    parseTimeRemaining: function (timeRemaining, parsedTimeRemaining) {
+                        return parsedTimeRemaining
+                            .replace(/\syears?/, "年")
+                            .replace(/\days?/, "天")
+                            .replace(/\shours?/, "小时")
+                            .replace(/\sminutes?/, "分钟")
+                            .replace(/\sseconds?/, "秒");
+                    },
+                    // 服务器分片校验函数，秒传及断点续传基础
+                    checkChunkUploadedByResponse : function (chunk, message) {
+                        debugger;
+                        console.log(chunk);
+                        console.log(message);
+                        if( message && message=="true"){
+                            return true; // return true 会忽略当前文件，不会再发送给后台
+                        }
+                    },
+                },
+                attrs: {
+                    accept: 'image/*'
+                },
+                statusText: {
+                    success: "上传成功",
+                    error: "上传出错了",
+                    uploading: "上传中...",
+                    paused: "暂停中...",
+                    waiting: "等待中...",
+                    cmd5: "计算文件MD5中...",
+                },
+            }
+        },
+
+        methods: {
+
+            // 单个上传成功的回调事件
+            fileSuccess(rootFile, file, response, chunk) {
+            },
+
+            // 单个上传失败的回调事件
+            fileError(rootFile, file, response, chunk) {
+                var res = JSON.parse(response)
+                toastr.error("上传失败: "+res.msg)
+            },
+
+            // 文件上传完毕
+            complete() {
+                toastr.success("上传成功");
+            },
+
+            allRemove() {
+                this.fileList.map((e) => {
+                    e.cancel();
+                });
+                this.fileList = [];
+            },
+
+            // 文件选择完成，进行文件分片处理
+            filesAdded(file, fileList, event) {
+                debugger;
+                console.log(file);
+                file.forEach((e) => {
+                    this.fileList.push(e);
+                    this.computeMD5(e);
+                });
+            },
+            // md5
+            computeMD5(file) {
+                debugger;
+                $.modal.loading("正在计算md5,请稍等...");
+                let fileReader = new FileReader();
+                let time = new Date().getTime();
+                let blobSlice =
+                    File.prototype.slice ||
+                    File.prototype.mozSlice ||
+                    File.prototype.webkitSlice;
+                let currentChunk = 0;
+                const chunkSize = 1024 * 1024;
+                let chunks = Math.ceil(file.size / chunkSize);
+                let spark = new SparkMD5.ArrayBuffer();
+                // 文件状态设为"计算MD5"
+                file.cmd5 = true; //文件状态为“计算md5...”
+                file.pause();
+                loadNext();
+                fileReader.onload = (e) => {
+                    spark.append(e.target.result);
+                    if (currentChunk < chunks) {
+                        currentChunk++;
+                        loadNext();
+                        // 实时展示MD5的计算进度
+                        console.log(
+                            `第${currentChunk}分片解析完成, 开始第${
+                                currentChunk + 1
+                            } / ${chunks}分片解析`
+                        );
+                    } else {
+                        let md5 = spark.end();
+                        console.log(
+                            `MD5计算完毕：${file.name} \nMD5：${md5} \n分片：${chunks} 大小:${
+                                file.size
+                            } 用时：${new Date().getTime() - time} ms`
+                        );
+                        spark.destroy(); //释放缓存
+                        file.uniqueIdentifier = md5; //将文件md5赋值给文件唯一标识
+                        file.cmd5 = false; //取消计算md5状态
+                        $.modal.closeLoading(); // 关闭计算MD5loading
+                        file.resume(); //开始上传
+                    }
+                };
+                fileReader.onerror = function () {
+                    this.error(`文件${file.name}读取出错，请检查该文件`);
+                    file.cancel();
+                };
+
+                function loadNext() {
+                    let start = currentChunk * chunkSize;
+                    let end =
+                        start + chunkSize >= file.size ? file.size : start + chunkSize;
+                    fileReader.readAsArrayBuffer(blobSlice.call(file.file, start, end));
+                }
+            },
+
+        },
+
+
+    })
+</script>
+</html>

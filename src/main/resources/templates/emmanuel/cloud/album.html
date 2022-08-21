@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>相册</title>
+    <link rel="stylesheet" th:href="@{/cloud/css/subpage.css}">
+    <link rel="stylesheet" th:href="@{/cloud/layui/css/layui.css}" media="all">
+    <th:block th:include="include :: viewer-css"/>
+    <style>
+        #nonullshow{
+            padding-left: 30px;
+        }
+        #nonullshow .files{
+            width: 165px;
+            height: 165px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border-radius: 0px;
+            overflow: hidden;
+        }
+        #nonullshow .files img{
+            padding: 0px;
+            width:100%;
+            overflow:hidden;
+        }
+        #nonullshow .files .rightsub{
+            margin-left: 137px;
+        }
+        #nonullshow .files .rightsub-list{
+            box-shadow: 0px 0px 0px #ffffff;
+            margin-left: 30px;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body class="layui-anim layui-anim-fadein;">
+<div id="curtain"></div>
+<!--    顶部导航-->
+<div class="eyebrows">
+    <div class="toptitle">相册</div>
+    <div class="topsearch" style="right: 0px">
+        <i id="layui-icon-search" class="layui-icon layui-icon-search"></i>
+        <i id="layui-icon-add-1" class="layui-icon layui-icon-add-1" style="display: none;"></i>
+    </div>
+    <!--        搜索弹出框-->
+    <div id="search-win" class="search-win layui-anim layui-anim-scale">
+        <div class="search-frame">
+            <form th:action="@{/cloud/file/findFilesByKey}" method="get">
+                <input id="search-input" name="keys" oninput="oninput01(this)" type="text" placeholder="请输入关键字" class="search-input">
+                <i id="layui-icon-close" class="layui-icon layui-icon-close"></i>
+                <div class="search-line"></div>
+                <ul id="tip-frame" class="layui-anim layui-anim-fadein" style="display: block">
+                    <li class="tip-list" onclick="onclick02(0)">
+                        <span><i class="layui-icon layui-icon-picture"></i></span>
+                        <span>图片</span>
+                    </li>
+                    <li class="tip-list" onclick="onclick02(1)">
+                        <span><i class="layui-icon layui-icon-video"></i></span>
+                        <span>视频</span>
+                    </li>
+                    <li class="tip-list" onclick="onclick02(2)">
+                        <span><i class="layui-icon layui-icon-headset"></i></span>
+                        <span>音频</span>
+                    </li>
+                    <li class="tip-list" onclick="onclick02(3)">
+                        <span><i class="layui-icon layui-icon-export"></i></span>
+                        <span>压缩文件</span>
+                    </li>
+                    <li class="tip-list" onclick="onclick02(4)">
+                        <span><i class="layui-icon layui-icon-form"></i></span>
+                        <span>文档</span>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+<!--    分享弹出框-->
+<div id="sharefiles" class="layui-anim layui-anim-scale">
+    <div class="title003">
+        <span>分享文件</span>
+        <i id="layui-icon-close03" class="layui-icon layui-icon-close"></i>
+    </div>
+    <div class="picture02">
+        <img id="avatar2" th:src="@{/cloud/img/maxfolder.png}" height="140" width="140"/>
+        <p id="filename2"></p>
+    </div>
+    <div class="linkinfo">
+        <p>通过链接分享<span>默认永久有效</span></p>
+        <div class="copylink">
+            <p id="linkid">https:www.baidu.com</p>
+            <input id="hidetext" type="text">
+            <p id="hidetext1" style="display: none"></p>
+            <a onclick="copylink()" lay-active="e1">复制链接口令</a>
+        </div>
+        <nav>二维码分享待开发</nav>
+    </div>
+</div>
+
+<!--    查看详细信息弹窗-->
+<div id="lookinfo" class="layui-anim layui-anim-scale">
+    <div class="title002">
+        <p id="filename"></p>
+        <p><i id="layui-icon-close02" class="layui-icon layui-icon-close"></i></p>
+    </div>
+    <div class="picture01">
+        <img id="avatar1" th:src="@{/cloud/img/maxfolder.png}" height="108" width="108"/>
+    </div>
+    <div class="datainfo">
+        <p>详细信息</p>
+        <div class="textnum">
+            <p><i class="layui-icon layui-icon-about"></i></p>
+            <p id="filename1"></p><br>
+        </div>
+        <div id="filesize1" class="filesize"></div>
+        <p style="margin-top: 12px">
+            <i class="layui-icon layui-icon-location"></i>
+            <span>文件位置</span><br>
+            <g id="filepath1"></g>
+        </p>
+        <p style="margin-top: 12px">
+            <i class="layui-icon layui-icon-time"></i>
+            <span>创建时间</span><br>
+            <g id="uploadtime1"></g>
+        </p>
+        <p style="margin-top: 12px">
+            <i class="layui-icon layui-icon-log"></i>
+            <span>修改时间</span><br>
+            <g id="changetime1"></g>
+        </p>
+        <p style="margin-top: 12px">
+            <i class="layui-icon layui-icon-download-circle"></i>
+            <span>下载次数</span><br>
+            <g id="downcounts1"></g>
+        </p>
+    </div>
+</div>
+<!--    顶部提示-->
+<div class="infoshow">
+    <div class="showcount">
+        <input id="allchoose" onclick="allchoose()" type="checkbox" name="" value="" title="写作">
+        <span>全</span>
+        <span>选</span>
+    </div>
+    <div class="showview">
+<!--        <div class="div01" id="div01">-->
+<!--            <p>-->
+<!--                <i class="layui-icon layui-icon-spread-left"></i>-->
+<!--                <span id="sortstatus" class="sortstatus" th:text="${sorttip}">按上传时间排序</span>-->
+<!--            </p>-->
+<!--        </div>-->
+<!--        <div class="div02">-->
+<!--            <i id="layui-icon-cols" class="layui-icon layui-icon-cols"></i>-->
+<!--        </div>-->
+        <!--顶部弹出框-->
+        <div id="sortlist" class="sortlist layui-anim layui-anim-scale" style="display: none">
+            <ul>
+                <li onclick="choosechecked(0)" th:style="'background-color:'+(${sort}=='oldfilename' ? '#ECECEE' : '')">
+                    <a href="/files/findallimages?sort=oldfilename">
+                        名称
+                    </a>
+                </li>
+                <li onclick="choosechecked(1)" th:style="'background-color:'+(${sort}=='uploadtime' ? '#ECECEE' : '')">
+                    <a href="/files/findallimages?sort=uploadtime">
+                        上传时间
+                    </a>
+                </li>
+                <li onclick="choosechecked(2)" th:style="'background-color:'+(${sort}=='changetime' ? '#ECECEE' : '')">
+                    <a href="/files/findallimages?sort=changetime">
+                        修改时间
+                    </a>
+                </li>
+                <li onclick="choosechecked(3)" th:style="'background-color:'+(${sort}=='size' ? '#ECECEE' : '')">
+                    <a href="/files/findallimages?sort=size">
+                        文件大小
+                    </a>
+                </li>
+                <li onclick="choosechecked(4)" th:style="'background-color:'+(${sort}=='downcounts' ? '#ECECEE' : '')">
+                    <a href="/files/findallimages?sort=downcounts">
+                        下载次数
+                    </a>
+                </li>
+                <li style="width: 118px;height: 1px;background-color: #f0f0f1;margin-top: 2px;margin-bottom: 2px"></li>
+                <li onclick="choosechecked(5)" th:style="'background-color:'+(${sortway}=='asc' ? '#ECECEE' : '')">
+                    <a href="/files/findallimages?sortway=asc">
+                        升序
+                    </a>
+                </li>
+                <li onclick="choosechecked(6)" th:style="'background-color:'+(${sortway}=='desc' ? '#ECECEE' : '')">
+                    <a href="/files/findallimages?sortway=desc">
+                        降序
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--    底部弹出导航-->
+<div id="downlist" class="downlist layui-anim layui-anim-up">
+    <div>
+        <a id="downloadall" style="margin-left: 0px"><i class="layui-icon layui-icon-download-circle"></i></a>
+        <a id="favoriteall"><i id="favoi" class="layui-icon layui-icon-star"></i></a>
+        <a id="moveinrecycle"><i class="layui-icon layui-icon-delete"></i></a>
+        <a id="setpublic"><i id="pubi" class="layui-icon layui-icon-website"></i></a>
+        <a onclick="closeallchoose()" href="#"><i class="layui-icon layui-icon-close-fill"></i></a>
+    </div>
+</div>
+<!--    ============================================-->
+<div id="nonullshow" class="nonullshow" th:style="'display:'+(${files.size()} != 0 ? 'block' : 'none')">
+    <div th:each="file:${files}" class="files layui-anim layui-anim-fadein">
+        <div class="rightsub-list layui-anim layui-anim-scale" style="display: none">
+            <ul>
+                <li style="margin-top: 3px"><a th:href='@{${"/cloud/file/downloadFile?fileId="+file.getId()}}'>下载</a></li>
+                <li th:onclick='shareimage([[${file.getUrlPath()}]],[[${file.getOldfilename()}]],[[${file.getNewfilename()}]],[[${file.getId()}]])'>
+                    <a class="setfavorites" th:style="'color:'+(${file.getIsShare()}==0 ? '#000000' : '#7fb80e')"
+                       th:text="${file.getIsShare()}==0?'分享':'已分享'">分享</a>
+                </li>
+                <li>
+                    <a class="setfavorites" th:style="'color:'+(${file.getIsCollect()}==0 ? '#000000' : '#FF6F66')" th:text="${file.getIsCollect()}==0?'收藏':'取消收藏'">收藏</a>
+                    <input style="display: none" type="text" th:value="${file.getId()}">
+                </li>
+                <li th:onclick='detailsdataimg([[${file.getNewfilename}]],[[${file.getOldfilename()}]],[[${file.getSize()}]],[[${file.getFilePath()}]],[[${file.getUrlPath()}]],[[${file.getUploadTime()}]],[[${file.getUpdateTime()}]],[[${file.getDowncounts()}]])'><a>查看详细信息</a></li>
+            </ul>
+        </div>
+        <i class="leftsub" style="display: none">
+            <input class="chooseone" onclick="chooseone()" type="checkbox">
+            <input type="text" style="display: none" th:value="${file.getId()}">
+            <input class="publicstatis" type="text" style="display: none" th:value="${file.getIsPublic()}">
+        </i>
+        <i class="rightsub layui-icon layui-icon-more" style="display: none"></i>
+
+        <img th:src='@{${#servletContext.contextPath+file.getUrlPath()}}' height="120" width="90"/>
+        <p th:text="${file.getOldfilename()}" style="display: none"></p>
+        <span class="datatip" style="display: none" th:text="${file.getUpdateTime()}"></span>
+    </div>
+</div>
+
+
+<!--    =================================================-->
+<div class="nullshow" th:style="'display:'+(${files.size()} != 0 ? 'none' : 'block')">
+    <ul>
+        <li id="add-folder011" style="opacity: 0">
+            <div>上传文件</div>
+            <p><img th:src="@{/cloud/img/createfolder.png}" height="72" width="72"/></p>
+        </li>
+        <li style="margin-left: 28px;">
+            <div>空空如也</div>
+            <p><img th:src="@{/cloud/img/uploadfile.png}" height="72" width="72"/></p>
+        </li>
+        <li style="margin-left: 28px;opacity: 0">
+            <div>欢迎使用</div>
+            <p><img th:src="@{/cloud/img/uploadfolder.png}" height="72" width="72"/></p>
+        </li>
+    </ul>
+</div>
+<!--<script th:src="@{/cloud/js/jquery-3.6.0.js}"></script>-->
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/cloud/layui/layui.js}"></script>
+<script th:src="@{/cloud/js/album.js}"></script>
+<th:block th:include="include :: viewer-js"/>
+<script>
+    // 官网 https://gitcode.net/mirrors/fengyuanchen/viewerjs
+    window.addEventListener('DOMContentLoaded', function () {
+        var galley = document.getElementById('nonullshow');
+        var viewer = new Viewer(galley, {
+            navbar: false,
+            loading: true,
+            title: false,
+            keyboard: false,
+            toolbar: {
+
+            },
+        });
+    });
+</script>
+</body>
+</html>

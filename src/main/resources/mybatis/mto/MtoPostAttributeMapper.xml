@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.emmanuel.mto.mapper.MtoPostAttributeMapper">
+
+    <resultMap type="com.ruoyi.project.emmanuel.mto.domain.MtoPostAttribute" id="MtoPostAttributeResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="editor"    column="editor"    />
+    </resultMap>
+
+    <sql id="selectMtoPostAttributeVo">
+        select id, content, editor from mto_post_attribute
+    </sql>
+
+    <select id="selectMtoPostAttributeList" parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoPostAttribute" resultMap="MtoPostAttributeResult">
+        <include refid="selectMtoPostAttributeVo"/>
+        <where>
+            <if test="editor != null  and editor != ''"> and editor = #{editor}</if>
+        </where>
+    </select>
+
+    <select id="selectMtoPostAttributeById" parameterType="Long" resultMap="MtoPostAttributeResult">
+        <include refid="selectMtoPostAttributeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertMtoPostAttribute" parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoPostAttribute">
+        insert into mto_post_attribute
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="content != null">content,</if>
+            <if test="editor != null">editor,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="content != null">#{content},</if>
+            <if test="editor != null">#{editor},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMtoPostAttribute"
+            parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoPostAttribute">
+        update mto_post_attribute
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null">content = #{content},</if>
+            <if test="editor != null">editor = #{editor},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMtoPostAttributeById" parameterType="Long">
+        delete from mto_post_attribute where id = #{id}
+    </delete>
+
+    <delete id="deleteMtoPostAttributeByIds" parameterType="String">
+        delete from mto_post_attribute where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

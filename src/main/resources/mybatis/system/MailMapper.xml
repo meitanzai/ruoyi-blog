@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mail.mapper.MailMapper">
+
+    <resultMap type="Mail" id="MailResult">
+        <result property="id" column="id"/>
+        <result property="mailTitle" column="mail_title"/>
+        <result property="mailContent" column="mail_content"/>
+        <result property="mailMessage" column="mail_message"/>
+        <result property="mailType" column="mail_type"/>
+        <result property="mailStatus" column="mail_status"/>
+        <result property="mailFrom" column="mail_from"/>
+        <result property="mailTo" column="mail_to"/>
+        <result property="mailSource" column="mail_source"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectMailVo">
+        select id,
+               mail_title,
+               mail_message,
+               mail_type,
+               mail_status,
+               mail_from,
+               mail_to,
+               mail_source,
+               del_flag,
+               create_by,
+               create_time
+        from sys_mail
+    </sql>
+
+    <select id="selectMailList" parameterType="Mail" resultMap="MailResult">
+        <include refid="selectMailVo"/>
+        <where>
+            del_flag = 0
+            <if test="mailTitle != null  and mailTitle != ''">and mail_title like concat('%',concat(#{mailTitle},'%'))
+            </if>
+            <if test="mailMessage != null  and mailMessage != ''">and mail_message = #{mailMessage}</if>
+            <if test="mailType != null ">and mail_type = #{mailType}</if>
+            <if test="mailStatus != null ">and mail_status = #{mailStatus}</if>
+            <if test="mailTo != null  and mailTo != ''">and mail_to like concat('%',concat(#{mailTo},'%'))</if>
+            <if test="mailSource != null  and mailSource != ''">and mail_source = #{mailSource}</if>
+
+        </where>
+    </select>
+
+    <select id="selectMailById" parameterType="Long" resultMap="MailResult">
+        select id,
+               mail_title,
+               mail_content,
+               mail_message,
+               mail_type,
+               mail_status,
+               mail_from,
+               mail_to,
+               mail_source,
+               del_flag,
+               create_by,
+               create_time
+        from sys_mail
+        where id = #{id}
+    </select>
+
+    <insert id="insertMail" parameterType="Mail" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_mail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mailTitle != null and mailTitle != ''">mail_title,</if>
+            <if test="mailContent != null">mail_content,</if>
+            <if test="mailMessage != null">mail_message,</if>
+            <if test="mailType != null">mail_type,</if>
+            <if test="mailStatus != null">mail_status,</if>
+            <if test="mailFrom != null">mail_from,</if>
+            <if test="mailTo != null">mail_to,</if>
+            <if test="mailSource != null">mail_source,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mailTitle != null and mailTitle != ''">#{mailTitle},</if>
+            <if test="mailContent != null">#{mailContent},</if>
+            <if test="mailMessage != null">#{mailMessage},</if>
+            <if test="mailType != null">#{mailType},</if>
+            <if test="mailStatus != null">#{mailStatus},</if>
+            <if test="mailFrom != null">#{mailFrom},</if>
+            <if test="mailTo != null">#{mailTo},</if>
+            <if test="mailSource != null">#{mailSource},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMail" parameterType="Mail">
+        update sys_mail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mailTitle != null and mailTitle != ''">mail_title = #{mailTitle},</if>
+            <if test="mailContent != null">mail_content = #{mailContent},</if>
+            <if test="mailMessage != null">mail_message = #{mailMessage},</if>
+            <if test="mailType != null">mail_type = #{mailType},</if>
+            <if test="mailStatus != null">mail_status = #{mailStatus},</if>
+            <if test="mailFrom != null">mail_from = #{mailFrom},</if>
+            <if test="mailTo != null">mail_to = #{mailTo},</if>
+            <if test="mailSource != null">mail_source = #{mailSource},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMailById" parameterType="Long">
+        delete
+        from sys_mail
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteMailByIds" parameterType="String">
+        update sys_mail set del_flag =1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

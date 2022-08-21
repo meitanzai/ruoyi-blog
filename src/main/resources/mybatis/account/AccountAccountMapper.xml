@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.emmanuel.account.mapper.AccountAccountMapper">
+    <resultMap type="com.ruoyi.project.emmanuel.account.domain.AccountAccount" id="AccountAccountResult">
+        <result property="id" column="id"/>
+        <result property="cover" column="cover"/>
+        <result property="accountName" column="account_name"/>
+        <result property="accountIntroduce" column="account_introduce"/>
+        <result property="visible" column="visible"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectAccountAccountVo">
+        select id,
+               cover,
+               account_name,
+               account_introduce,
+               visible,
+               order_num,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from account_account
+    </sql>
+
+    <select id="selectAccountAccountList" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountAccount"
+            resultMap="AccountAccountResult">
+        <include refid="selectAccountAccountVo"/>
+        <where>
+            <if test="cover != null  and cover != ''">
+                and cover = #{cover}
+            </if>
+            <if test="accountName != null  and accountName != ''">
+                and account_name like concat('%', #{accountName}, '%')
+            </if>
+            <if test="accountIntroduce != null  and accountIntroduce != ''">
+                and account_introduce = #{accountIntroduce}
+            </if>
+            <if test="visible != null  and visible != ''">
+                and visible = #{visible}
+            </if>
+            <if test="orderNum != null ">
+                and order_num = #{orderNum}
+            </if>
+        </where>
+        order by order_num
+    </select>
+
+    <select id="selectAccountAccountById" parameterType="Long" resultMap="AccountAccountResult">
+        <include refid="selectAccountAccountVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAccountAccount" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountAccount"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into account_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cover != null">
+                cover,
+            </if>
+            <if test="accountName != null and accountName != ''">
+                account_name,
+            </if>
+            <if test="accountIntroduce != null">
+                account_introduce,
+            </if>
+            <if test="visible != null and visible != ''">
+                visible,
+            </if>
+            <if test="orderNum != null">
+                order_num,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cover != null">
+                #{cover},
+            </if>
+            <if test="accountName != null and accountName != ''">
+                #{accountName},
+            </if>
+            <if test="accountIntroduce != null">
+                #{accountIntroduce},
+            </if>
+            <if test="visible != null and visible != ''">
+                #{visible},
+            </if>
+            <if test="orderNum != null">
+                #{orderNum},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateAccountAccount" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountAccount">
+        update account_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cover != null">
+                cover = #{cover},
+            </if>
+            <if test="accountName != null and accountName != ''">
+                account_name = #{accountName},
+            </if>
+            <if test="accountIntroduce != null">
+                account_introduce = #{accountIntroduce},
+            </if>
+            <if test="visible != null and visible != ''">
+                visible = #{visible},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAccountAccountById" parameterType="Long">
+        delete
+        from account_account
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteAccountAccountByIds" parameterType="String">
+        delete from account_account where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="isExist" resultMap="AccountAccountResult"
+            parameterType="com.ruoyi.project.emmanuel.account.domain.AccountAccount">
+        SELECT visible
+        FROM account_account
+        <where>
+            account_name = #{accountName,jdbcType=VARCHAR}
+            <if test="id != null and id != ''"  >AND id != #{id,jdbcType=BIGINT}</if>
+        </where>
+        LIMIT 1;
+    </select>
+
+    <select id="selectAccountNameById" resultMap="AccountAccountResult">
+        SELECT id,account_name,visible from account_account where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="isAccountVisible" resultType="java.lang.String">
+        SELECT visible from account_account WHERE id = #{accountId,jdbcType=BIGINT}
+    </select>
+</mapper>

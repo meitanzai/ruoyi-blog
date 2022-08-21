@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ruoyi.project.emmanuel.mto.mapper.MtoCategoryMapper">
+	<resultMap id="rm" type="com.ruoyi.project.emmanuel.mto.domain.MtoCategory">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="pid" jdbcType="INTEGER" column="pid"/>
+		<result property="name" jdbcType="VARCHAR" column="name"/>
+		<result property="description" jdbcType="VARCHAR" column="description"/>
+		<result property="sort" jdbcType="INTEGER" column="sort"/>
+		<result property="type" jdbcType="INTEGER" column="type"/>
+		<result property="pageUrl" jdbcType="VARCHAR" column="page_url"/>
+		<result property="status" jdbcType="INTEGER" column="status"/>
+		<result property="icon" jdbcType="VARCHAR" column="icon"/>
+		<result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+		<result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+		<association property="parent" javaType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory">
+			<result property="id" jdbcType="INTEGER" column="p_id"/>
+			<result property="pid" jdbcType="INTEGER" column="p_pid"/>
+			<result property="type" jdbcType="INTEGER" column="p_type"/>
+			<result property="pageUrl" jdbcType="INTEGER" column="p_page_url"/>
+			<result property="name" jdbcType="VARCHAR" column="p_name"/>
+			<result property="description" jdbcType="VARCHAR" column="p_description"/>
+			<result property="status" jdbcType="INTEGER" column="p_status"/>
+			<result property="icon" jdbcType="VARCHAR" column="p_icon"/>
+		</association>
+		<collection property="children" column="n_id" javaType="ArrayList" ofType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory">
+			<result property="id" jdbcType="INTEGER" column="n_id"/>
+			<result property="pid" jdbcType="INTEGER" column="n_pid"/>
+			<result property="type" jdbcType="INTEGER" column="n_type"/>
+			<result property="pageUrl" jdbcType="INTEGER" column="n_page_url"/>
+			<result property="name" jdbcType="VARCHAR" column="n_name"/>
+			<result property="description" jdbcType="VARCHAR" column="n_description"/>
+			<result property="status" jdbcType="INTEGER" column="n_status"/>
+			<result property="icon" jdbcType="VARCHAR" column="n_icon"/>
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,
+		pid,
+		name,
+		description,
+		sort,
+		status,
+		icon,
+		create_time,
+		update_time
+	</sql>
+
+	<select id="selectCategories"
+			parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory"
+			resultMap="rm"
+			useCache="true">
+		select
+		t.`id` ,
+		t.`pid`,
+		t.type ,
+		t.page_url,
+		t.`name` ,
+		t.description ,
+		t.`status` ,
+		t.icon   ,
+		t.sort,
+		p.id p_id,
+		p.`pid` p_pid,
+		p.type as p_type,
+		p.page_url as p_page_url,
+		p.`name` p_name,
+		p.description p_description,
+		p.`status` p_status,
+		p.icon p_icon,
+		n.`id` n_id,
+		n.`pid` n_pid,
+		n.type as n_type,
+		n.page_url as n_page_url,
+		n.`name` n_name,
+		n.description n_description,
+		n.`status` n_status,
+		n.icon n_icon
+		FROM
+		mto_category t
+		LEFT JOIN mto_category p ON t.pid = p.id
+		LEFT JOIN mto_category n ON n.pid = t.id
+		<where>
+			<if test="name !=null and name != ''">
+				AND t.`name` like concat('%', #{name}, '%')
+			</if>
+			<if test="description !=null and description != ''">
+				AND t.description like concat('%', #{description}, '%')
+			</if>
+			<if test="status !=null">
+				AND t.`status` = #{status}
+			</if>
+			<if test="pid !=null">
+				AND t.pid = #{pid}
+			</if>
+		</where>
+		ORDER BY t.sort ASC
+	</select>
+
+	<!--	新代码-->
+	<resultMap type="com.ruoyi.project.emmanuel.mto.domain.MtoCategory" id="MtoCategoryResult">
+		<result property="id"    column="id"    />
+		<result property="pid"    column="pid"    />
+		<result property="type"    column="type"    />
+		<result property="pageUrl"    column="page_url"    />
+		<result property="name"    column="name"    />
+		<result property="description"    column="description"    />
+		<result property="sort"    column="sort"    />
+		<result property="icon"    column="icon"    />
+		<result property="status"    column="status"    />
+		<result property="createTime"    column="create_time"    />
+		<result property="updateTime"    column="update_time"    />
+		<result property="parentName"    column="parent_name"    />
+	</resultMap>
+
+	<sql id="selectMtoCategoryVo">
+		select id, pid, name, description, sort, icon, status, create_time, update_time from mto_category
+	</sql>
+
+	<select id="selectMtoCategoryList" parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory" resultMap="MtoCategoryResult">
+		<include refid="selectMtoCategoryVo"/>
+		<where>
+			<if test="pid != null "> and pid = #{pid}</if>
+			<if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+			<if test="description != null  and description != ''"> and description = #{description}</if>
+			<if test="sort != null "> and sort = #{sort}</if>
+			<if test="icon != null  and icon != ''"> and icon = #{icon}</if>
+			<if test="status != null "> and status = #{status}</if>
+			<if test="type != null "> and `type` = #{type}</if>
+		</where>
+		order by sort
+	</select>
+
+	<select id="selectMtoCategoryById" parameterType="Long" resultMap="MtoCategoryResult">
+		select t.id, t.pid, t.type,t.page_url, t.name, t.description, t.sort, t.icon, t.status, t.create_time, t.update_time, p.name as parent_name
+		from mto_category t
+					 left join mto_category p on p.id = t.pid
+		where t.id = #{id}
+	</select>
+
+	<insert id="insertMtoCategory" parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory" useGeneratedKeys="true" keyProperty="id">
+		insert into mto_category
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="type != null">type,</if>
+			<if test="pageUrl != null">page_url,</if>
+			<if test="pid != null">pid,</if>
+			<if test="name != null">name,</if>
+			<if test="description != null">description,</if>
+			<if test="sort != null">sort,</if>
+			<if test="icon != null">icon,</if>
+			<if test="status != null">status,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateTime != null">update_time,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="type != null">#{type},</if>
+			<if test="pageUrl != null">#{pageUrl},</if>
+			<if test="pid != null">#{pid},</if>
+			<if test="name != null">#{name},</if>
+			<if test="description != null">#{description},</if>
+			<if test="sort != null">#{sort},</if>
+			<if test="icon != null">#{icon},</if>
+			<if test="status != null">#{status},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateMtoCategory" parameterType="com.ruoyi.project.emmanuel.mto.domain.MtoCategory">
+		update mto_category
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="type != null">type = #{type},</if>
+			<if test="pageUrl != null">page_url = #{pageUrl},</if>
+			<if test="pid != null">pid = #{pid},</if>
+			<if test="name != null">name = #{name},</if>
+			<if test="description != null">description = #{description},</if>
+			<if test="sort != null">sort = #{sort},</if>
+			<if test="icon != null">icon = #{icon},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="createTime != null">create_time = #{createTime},</if>
+			<if test="updateTime != null">update_time = #{updateTime},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteMtoCategoryById" parameterType="Long">
+		delete from mto_category where id = #{id}
+	</delete>
+
+	<delete id="deleteMtoCategoryByIds" parameterType="String">
+		delete from mto_category where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="exitLowerLevel" resultType="java.lang.Integer">
+		SELECT 1 FROM `mto_category` where pid = #{id,jdbcType=BIGINT} limit 1
+    </select>
+</mapper>
+

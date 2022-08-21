@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.emmanuel.mto.mapper.MtoPostTagMapper">
+
+    <resultMap type="com.ruoyi.project.emmanuel.mto.domain.MtoPostTag" id="MtoPostTagResult">
+        <result property="id"    column="id"    />
+        <result property="postId"    column="post_id"    />
+        <result property="tagId"    column="tag_id"    />
+    </resultMap>
+
+    <insert id="insertBatch">
+        insert into mto_post_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            tag_id,
+            post_id,
+        </trim>
+        values
+        <foreach collection="tagIdList" item="tagName" index="index" separator=",">
+            ( #{tagName},#{postId,jdbcType=BIGINT} )
+        </foreach>
+    </insert>
+
+    <select id="selectBlogByTagId" resultType="com.ruoyi.project.emmanuel.mto.domain.WebMtoPost">
+        SELECT p.id,p.create_time,p.summary,p.comments, p.title,p.thumbnail,p.views,p.featured  from mto_post_tag pt , mto_post p    WHERE pt.post_id = p.id and  p.status = 0 and pt.tag_id = #{tagId}
+    </select>
+</mapper>

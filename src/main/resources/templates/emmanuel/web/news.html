@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <!--        <th:block th:include="include :: header('博客管理')"/>-->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <meta name="keywords" th:content="${SITE_CONFIG.SITE_KWD}">-->
+    <!--    <meta name="description" th:content="${SITE_CONFIG.SITE_DESC}">-->
+    <!--    <title th:if="${categoryName == null}" th:text="${SITE_CONFIG.SITE_NAME}"></title>-->
+    <!--        <title th:if="${categoryName != null}" th:text="${categoryName} + ' - ' +'一粒麦子'"></title>-->
+    <title>新闻</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
+    <!--    自定义me-css -->
+    <!--    <th:block th:include="include :: me-css"/>-->
+    <!--semantic-->
+    <th:block th:include="include :: semantic-css"/>
+    <th:block th:include="include :: toastr-css"/>
+    <style type="text/css">
+        [v-cloak] {
+            display: none;
+        }
+
+        @media screen and (max-width: 1100px) {
+            .m-mobile-show-conten {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+                margin-left: -3em !important;
+                margin-right: 0em !important;
+                border: none !important;
+                min-height: 650px;
+            }
+
+            .m-mobile-show-right {
+                margin-right: -3em
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!--导航栏-->
+<header id="header">
+    <div th:replace="emmanuel/web/navbar :: navbar"></div>
+</header>
+
+<div v-cloak class="pb-container pb-content" id="app">
+    <div class="pb-main">
+
+        <!--        内容开始-->
+        <div class="m-container-small m-mobile-show-conten">
+            <div class="ui container">
+
+                <!-- 归档头部标题 -->
+                <span style="font-size:.8rem;font-weight:500;">微博热搜</span>
+
+                <!--      归档博客列表开始-->
+                <div class="m-mobile-show-right">
+                    <h2 class="ui center aligned header"></h2>
+                    <div class="ui fluid vertical menu">
+                        <a v-for="(item,index) in newList" href="#" :href="item.url" target="_blank" class="item">
+                            <span><font style="color:red">{{item.hot}} </font>{{item.title}}</span>
+                            <div class="ui orange basic label m-padded-mini">{{item.num}}</div>
+                        </a>
+                    </div>
+                    <br>
+                </div>
+                <!--    归档博客列表结束-->
+            </div>
+        </div>
+        <!--        内容结束-->
+    </div>
+
+    <!--    侧边信息-->
+    <div class="hidden-xs hidden-sm">
+        <div th:replace="emmanuel/web/sidebar :: sidebar"></div>
+    </div>
+
+</div>
+<!--底部-->
+<div th:replace="emmanuel/web/footer :: copyrightDark"></div>
+<div class="return_top"><a class=" fa fa-arrow-up"></a></div>
+</body>
+
+<th:block th:include="include :: vue-js"/>
+<th:block th:include="include :: axios-js"/>
+<!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.7}"></script>
+<script th:src="@{/blog/mblog/js/tagcloud.js}"></script>
+<script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
+<script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
+<!--semantic-->
+<th:block th:include="include :: semantic-js"/>
+<th:block th:include="include :: toastr-js"/>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            // 新闻列表
+            newList: [],
+        },
+        created() {
+            this.getNews();
+        },
+
+        mounted() {
+        },
+        beforeDestroy() {
+
+        },
+
+        methods: {
+            getNews() {
+                axios.get('https://weibo-top-api.vercel.app/api').then(res => {
+                    this.newList = res.data
+                })
+            },
+        }
+
+    })
+</script>
+
+
+</html>

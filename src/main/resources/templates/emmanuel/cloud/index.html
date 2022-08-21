@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <mate http-equiv="Content-Type" content="multipart/form-date; charset=utf-8"></mate>
+    <title>阿里云盘</title>
+    <link rel="icon" th:href="@{/cloud/ico/title.ico}" type="image/x-icon"/>
+    <link rel="bookmark" th:href="@{/cloud/ico/title.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/cloud/css/indexstyle.css}">
+    <link rel="stylesheet" th:href="@{/cloud/layui/css/layui.css}" media="all">
+</head>
+<body>
+<!--左侧导航栏-->
+<div id="curtain"></div>
+<div id="signoutwin" class="layui-anim layui-anim-down">
+    <p class="outtitle">退出登录</p>
+    <p class="outtip">确定要退出阿里网盘吗?</p>
+    <form class="btnchoose" method="post">
+        <a class="outbtn" id="cancelout">取消</a>
+        <input class="outbtn" type="submit" value="退出">
+    </form>
+</div>
+
+<div id="mainwin" class="left-navigation">
+    <div class="logo-title">
+        <h3>
+            <img th:src="@{/cloud/img/logo.png}" height="24" width="108"/>
+        </h3>
+    </div>
+    <ul class="topul">
+        <li class="navigation" onclick="onclick01(0)">
+            <a class="navigationlink" th:href="@{/cloud/file/findAllFile}"  target="showoff">
+                <span class="txtt"><i class="layui-icon layui-icon-file" style="font-size: 20px"></i></span>
+                <span class="txtd">文件</span>
+            </a>
+        </li>
+        <li class="navigation" onclick="onclick01(1)">
+            <a class="navigationlink" th:href="@{/cloud/file/findAllImg}"   target="showoff">
+                <span class="txtt"><i class="layui-icon layui-icon-picture" style="font-size: 20px"></i></span>
+                <span class="txtd">相册</span>
+            </a>
+        </li>
+<!--        <li class="navigation" onclick="onclick01(2)">-->
+<!--            <a class="navigationlink"   target="showoff">-->
+<!--                <span class="txtt"><i class="layui-icon layui-icon-star" style="font-size: 20px"></i></span>-->
+<!--                <span class="txtd">收藏夹</span>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--        <li class="navigation" onclick="onclick01(3)">-->
+<!--            <a class="navigationlink"   target="showoff">-->
+<!--                <span class="txtt"><i class="layui-icon layui-icon-website" style="font-size: 20px"></i></span>-->
+<!--                <span class="txtd">共享文件</span>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--        <li class="navigation" onclick="onclick01(4)">-->
+<!--            <a class="navigationlink"   target="showoff">-->
+<!--                <span class="txtt"><i class="layui-icon layui-icon-share" style="font-size: 20px"></i></span>-->
+<!--                <span class="txtd">我的分享</span>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--        <li class="navigation" onclick="onclick01(5)">-->
+<!--            <a class="navigationlink"   target="showoff">-->
+<!--                <span class="txtt"><i class="layui-icon layui-icon-delete" style="font-size: 20px"></i></span>-->
+<!--                <span class="txtd">回收站</span>-->
+<!--            </a>-->
+<!--        </li>-->
+    </ul>
+
+    <div id="setpage" class="layui-anim layui-anim-scale" style="height: 150px !important;">
+        <ul>
+            <div>
+                <p><img id="avatar1" th:src="@{/cloud/img/tou.jpg}" class="layui-nav-img"></p>
+                <p id="nickname1" class="nickname"></p>
+            </div>
+            <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="博客前台" href="/blog" target="_blank"> 博客前台</a></li>
+            <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="管理台" href="/" target="_blank"> 管理台</a></li>
+<!--            <li class="line01"></li>-->
+<!--            <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="锁定屏幕" href="#" id="lockScreen"><i class="fa fa-lock"></i> 锁屏</a></li>-->
+        </ul>
+    </div>
+
+    <div class="left-foot">
+        <div class="capacity">
+            <span id="usespace" style="padding-left: 24px;">0GB</span>
+            <span>/</span>
+            <span id="space">0GB</span>
+            <span id="percentage" style="color: #0d71bb">100%</span>
+            <div class="capacity-number">
+                <div id="usepoint" style="height: 100%;width: 0%;background-color: #796AEE"></div>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div id="personinfo" class="personinfo">
+            <div class="lefttou" style="width: 160px">
+                <p><img id="avatar" src="" class="layui-nav-img"></p>
+                <p id="nickname" class="nickname"></p>
+            </div>
+            <div class="rightbtn"><i id="setbtn" class="layui-icon layui-icon-more"></i></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="right-main">
+    <iframe name="showoff" th:src="@{/cloud/file/findAllFile}" overflow="no" scrolling="no" frameborder="0"></iframe>
+</div>
+<!--<script th:src="@{/cloud/js/jquery-3.6.0.js}"></script>-->
+<script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
+<script th:src="@{/cloud/js/index.js}"></script>
+<script th:src="@{/cloud/js/ajaxindex.js}"></script>
+<script th:src="@{/cloud/layui/layui.js}"></script>
+</body>
+</html>

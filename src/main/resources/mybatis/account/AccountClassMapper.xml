@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.emmanuel.account.mapper.AccountClassMapper">
+    <resultMap type="com.ruoyi.project.emmanuel.account.domain.AccountClass" id="AccountClassResult">
+        <result property="id" column="id"/>
+        <result property="className" column="class_name"/>
+        <result property="classType" column="class_type"/>
+        <result property="classIntroduce" column="class_introduce"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="classStatus" column="class_status"/>
+    </resultMap>
+
+    <sql id="selectAccountClassVo">
+        select id,
+               class_name,
+               class_type,
+               class_introduce,
+               order_num,
+               create_by,
+               create_time,
+               update_by,
+               update_time, class_status
+        from account_class
+    </sql>
+
+    <select id="selectAccountClassList" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountClass"
+            resultMap="AccountClassResult">
+        <include refid="selectAccountClassVo"/>
+        <where>
+            <if test="id != null ">
+                and id = #{id}
+            </if>
+            <if test="className != null  and className != ''">
+                and class_name like concat('%', #{className}, '%')
+            </if>
+            <if test="classType != null  and classType != ''">
+                and class_type = #{classType}
+            </if>
+            <if test="classStatus != null  and classStatus != ''">
+                and class_status = #{classStatus}
+            </if>
+            <if test="classIntroduce != null  and classIntroduce != ''">
+                and class_introduce = #{classIntroduce}
+            </if>
+            <if test="orderNum != null ">
+                and order_num = #{orderNum}
+            </if>
+        </where>
+         ORDER BY order_num
+    </select>
+
+    <select id="selectAccountClassById" parameterType="Long" resultMap="AccountClassResult">
+        <include refid="selectAccountClassVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAccountClass" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountClass"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into account_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="className != null and className != ''">
+                class_name,
+            </if>
+            <if test="classType != null and classType != ''">
+                class_type,
+            </if>
+            <if test="classIntroduce != null">
+                class_introduce,
+            </if>
+            <if test="orderNum != null">
+                order_num,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="classStatus != null and classStatus != ''">
+               class_status
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="className != null and className != ''">
+                #{className},
+            </if>
+            <if test="classType != null and classType != ''">
+                #{classType},
+            </if>
+            <if test="classIntroduce != null">
+                #{classIntroduce},
+            </if>
+            <if test="orderNum != null">
+                #{orderNum},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="classStatus != null and classStatus != ''">
+                #{classStatus,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateAccountClass" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountClass">
+        update account_class
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="className != null and className != ''">
+                class_name = #{className},
+            </if>
+            <if test="classType != null and classType != ''">
+                class_type = #{classType},
+            </if>
+            <if test="classIntroduce != null">
+                class_introduce = #{classIntroduce},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="classStatus != null and classStatus != ''">
+                class_status = #{classStatus,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAccountClassById" parameterType="Long">
+        delete
+        from account_class
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteAccountClassByIds" parameterType="String">
+        delete from account_class where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="isExist" resultType="java.lang.Integer" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountClass">
+        SELECT 1
+        FROM account_class
+        <where>
+        class_name = #{className,jdbcType=VARCHAR}
+          AND class_type = #{classType,jdbcType=VARCHAR}
+        <if test="id != null and id != ''"> and id != #{id,jdbcType=BIGINT} </if>
+        </where>
+        LIMIT 1
+    </select>
+</mapper>
