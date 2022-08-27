@@ -225,5 +225,16 @@ public class WebPostController extends BaseController {
         postService.searchByKeyword(modelMap,keyword,pageNum,pageSize);
         return prefix + "/search";
     }
+
+    /**
+     * 博客主页
+     * @param modelMap
+     * @return
+     */
+    @GetMapping("/homepage")
+    public String blogq(ModelMap modelMap) {
+
+        return prefix + "/homepage";
+    }
 }
 
