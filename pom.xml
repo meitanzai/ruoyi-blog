@@ -8,7 +8,7 @@
     <version>4.7.4</version>
     <packaging>jar</packaging>
 
-    <name>ruoyi</name>
+    <name>ruoyi-blog</name>
     <url>http://www.ruoyi.vip</url>
     <description>若依管理系统</description>
 
@@ -276,7 +276,7 @@
             <version>${mybatis.plus.boot.starter.version}</version>
         </dependency>
 
-        <!--     Mail依赖-->
+        <!-- Mail依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
@@ -290,7 +290,7 @@
             <version>${ip2region.version}</version>
         </dependency>
 
-        <!--        lombok-->
+        <!-- lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

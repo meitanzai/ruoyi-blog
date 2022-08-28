@@ -118,6 +118,12 @@ public class ShiroConfig
     private String loginUrl;
 
     /**
+     * 身份认证失败，跳转地址
+     */
+    @Value("${shiro.user.authFail}")
+    private String authFail;
+
+    /**
      * 权限认证失败地址
      */
     @Value("${shiro.user.unauthorizedUrl}")
@@ -271,8 +277,8 @@ public class ShiroConfig
         ShiroFilterFactoryBean shiroFilterFactoryBean = new CustomShiroFilterFactoryBean();
         // Shiro的核心安全接口,这个属性是必须的
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        // 身份认证失败，则跳转到登录页面的配置
-        shiroFilterFactoryBean.setLoginUrl(loginUrl);
+        // 身份认证失败，跳转页面
+        shiroFilterFactoryBean.setLoginUrl( /*loginUrl*/ authFail);
         // 权限认证失败，则跳转到指定页面
         shiroFilterFactoryBean.setUnauthorizedUrl(unauthorizedUrl);
         // Shiro连接约束配置，即过滤链的定义

@@ -31,6 +31,7 @@
 * 感谢 [hplus](https://gitee.com/hplus_admin/hplus) 后台主题 UI 框架。
 * 感谢 [LinZhaoguan/pb-cms](https://gitee.com/LinZhaoguan/pb-cms)  CMS建站系统 
 * 感谢 [SpringBoot开发一个小而美的个人博客](https://search.bilibili.com/all?keyword=SpringBoot%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%E5%B0%8F%E8%80%8C%E7%BE%8E%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2&from_source=webtop_search&spm_id_from=333.1007) 李仁密老师
+* 感谢 [無名の主页](https://github.com/imsyy/home)  無名の主页
 
 ### 💡技术选型
 

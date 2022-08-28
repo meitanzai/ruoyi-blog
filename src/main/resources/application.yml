@@ -137,6 +137,8 @@ shiro:
   user:
     # 登录地址
     loginUrl: /login
+    # 身份认证失败，跳转地址
+    authFail: /blog/homepage
     # 权限认证失败地址
     unauthorizedUrl: /unauth
     # 首页地址

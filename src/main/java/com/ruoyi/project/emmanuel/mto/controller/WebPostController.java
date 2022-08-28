@@ -2,6 +2,7 @@ package com.ruoyi.project.emmanuel.mto.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.utils.ToolUtils;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
@@ -9,7 +10,9 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.mto.domain.MtoPost;
 import com.ruoyi.project.emmanuel.mto.domain.WebMtoPost;
 import com.ruoyi.project.emmanuel.mto.service.IWebPostService;
+import com.ruoyi.project.system.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,14 @@ public class WebPostController extends BaseController {
 
     @Autowired
     private IWebPostService postService;
+
+    /*登录地址*/
+    @Value("${shiro.user.loginUrl}")
+    private String loginUrl;
+
+    /*首页*/
+    @Value("${shiro.user.indexUrl}")
+    private String indexUrl;
 
     /**
      * 根据id获取博客详情
@@ -120,7 +131,7 @@ public class WebPostController extends BaseController {
     public String articleById(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response,
                               @PathVariable("articleId") Long articleId) {
         String url = postService.articleById(request, response, modelMap, articleId);
-        return ToolUtils.isEmpty(url)?prefix + "/article":url;
+        return ToolUtils.isEmpty(url) ? prefix + "/article" : url;
     }
 
     /**
@@ -218,23 +229,32 @@ public class WebPostController extends BaseController {
 
     @GetMapping("/search")
     public String search(ModelMap modelMap,
-                       @RequestParam(value = "keyword", required = true) String keyword,
-                       @RequestParam(value = "currentPage", defaultValue = "1") Long pageNum,
-                       @RequestParam(value = "currentSize", defaultValue = "10") Long pageSize) {
+                         @RequestParam(value = "keyword", required = true) String keyword,
+                         @RequestParam(value = "currentPage", defaultValue = "1") Long pageNum,
+                         @RequestParam(value = "currentSize", defaultValue = "10") Long pageSize) {
         pageSize = pageSize > 50 ? 50 : pageSize;
-        postService.searchByKeyword(modelMap,keyword,pageNum,pageSize);
+        postService.searchByKeyword(modelMap, keyword, pageNum, pageSize);
         return prefix + "/search";
     }
 
     /**
      * 博客主页
+     *
      * @param modelMap
      * @return
      */
     @GetMapping("/homepage")
-    public String blogq(ModelMap modelMap) {
-
+    public String homepage(ModelMap modelMap) {
         return prefix + "/homepage";
+    }
+
+    /**
+     * 登录页面
+     */
+    @GetMapping("/blogToAdmin")
+    public String blogq(ModelMap modelMap) {
+        Boolean b = ShiroUtils.isLogin();
+        return b ? "redirect:" + indexUrl : "redirect:" + loginUrl;
     }
 }
 

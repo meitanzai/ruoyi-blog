@@ -82,5 +82,14 @@ public class ShiroUtils
         return String.valueOf(getSubject().getSession().getId());
     }
 
+    /**
+     * 判断用户是否登录
+     * @return true 登录，false 未登录
+     */
+    public static Boolean isLogin()
+    {
+        User currentUser = ShiroUtils.getSysUser();
+        return ToolUtils.isEmpty(currentUser) ? false : true;
+    }
 
 }
