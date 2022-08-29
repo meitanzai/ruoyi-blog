@@ -199,7 +199,7 @@
                     }
                     // 本月已点赞
                     if (data.code == 500) {
-                        toastr.error(data.msg)
+                        toastr.warning(data.msg)
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -281,5 +281,48 @@
     });
 </script>
 
+
+<script>
+
+    $(function(){
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
+            "onclick": null,
+            "showDuration": "400",
+            "hideDuration": "1000",
+            "timeOut": "7000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        $(".copy-to-clipboard-button").click(function() {
+            toastr.success("Code Copy succeeded","复制成功")
+            return;
+        })
+
+        document.querySelector('#content').addEventListener('copy', (e) => {
+                    // 取消默认事件，才能修改复制的值
+                    e.preventDefault();
+                    // 阻止冒泡
+                    e.stopPropagation();
+                    // 复制的内容
+                    var copyTxt = `${window.getSelection(0).toString()}\n————————————————\n原文链接：${window.location.href}\n本篇文章来源于一粒麦子( 源码：https://gitee.com/GiteeKey/ruoyi-blog)`;
+                    // 提醒复制成功
+                    toastr.success("Copy succeeded","复制成功");
+                    if(e.clipboardData) {
+                        return e.clipboardData.setData('text/plain',  copyTxt);
+                    }
+                    else if(window.clipboardData){
+                        return window.clipboardData.setData("text", copyTxt);
+                    }
+        });
+    } )
+</script>
 
 </html>
