@@ -51,7 +51,7 @@ pre{white-space:pre}
 .other-item-title{margin:10px 20px;padding:5px;line-height:30px;font-weight:400;border-bottom:1px solid #e8e9e7;color:#383937;position:relative;font-size:18px}
 .other-item .tags{margin:10px 15px}
 .other-item .tags a{display:inline-block;margin:5px 5px}
-.other-item .inner{margin:0 20px;padding-bottom:10px}
+.other-item .inner{margin:0 0 0 10px;padding-bottom:10px}
 .other-item .inner .special-list-article li{display:block;line-height:32px;position:relative;margin:3px 0;counter-increment:nums;padding-left:30px;overflow:hidden;word-wrap:normal!important;white-space:nowrap;text-overflow:ellipsis}
 .special-list-article li a{color:#787977}
 .special-list-article li:before{width:22px;height:22px;line-height:22px;text-align:center;content:counter(nums,decimal);position:absolute;left:0;top:5px;border-radius:100%;background-color:#edefee;text-shadow:0 1px 0 rgba(255,255,255,.5);font-family:SourceCodeProRegular,Menlo,Monaco,Consolas,"Courier New",monospace,'Helvetica Neue',Arial,sans-serif}

@@ -502,7 +502,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         // 专题，侧边栏显示专题文章
         List<WebMtoPost> specialPostList = new ArrayList<WebMtoPost>();
         if (Objects.equals("2", webMtoPost.getChannelType())) {
-            specialPostList = postMapper.selectSpecial();
+            specialPostList = postMapper.selectSpecial(webMtoPost.getChannelId());
         }
         modelMap.put("specialPostList", specialPostList);
 

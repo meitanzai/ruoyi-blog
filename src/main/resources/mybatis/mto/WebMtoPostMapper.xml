@@ -181,7 +181,7 @@
         FROM mto_post p
                  LEFT JOIN MTO_CHANNEL C ON C.ID = P.channel_id
         WHERE c.type = 2
-          AND C.id = 2
+          AND C.id = #{channelId}
           AND p.STATUS = 0
         ORDER BY P.create_time
     </select>

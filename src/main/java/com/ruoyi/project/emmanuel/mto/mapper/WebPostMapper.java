@@ -55,6 +55,6 @@ public interface WebPostMapper extends BaseMapper<WebMtoPost> {
      * 查询专题文章
      * @return
      */
-    List<WebMtoPost> selectSpecial();
+    List<WebMtoPost> selectSpecial(Long channelId);
 
 }

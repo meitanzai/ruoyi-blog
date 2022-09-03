@@ -144,7 +144,7 @@
                     <h3 class="panel-title">专栏内容</h3>
                 </div>
                 <div class="inner">
-                    <ul class="special-list-article">
+                    <ul class=" mt20 special-list-article" style="max-height: 300px; overflow:auto;">
                         <li th:each="specialPost : ${specialPostList}"><a
                                 th:href="@{/blog/article/{id}(id=${specialPost.id})}"
                                 th:text="${specialPost.title}"> </a></li>
