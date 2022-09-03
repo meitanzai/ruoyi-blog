@@ -253,19 +253,58 @@
         </dependency>
 
         <!--   markdown 转 html   官网 https://github.com/commonmark/commonmark-java  -->
+        <!--   markdown 转 html   核心依赖  -->
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark</artifactId>
             <version>${markdown.version}</version>
         </dependency>
+        <!--   markdown 转 html   表格  -->
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark-ext-gfm-tables</artifactId>
             <version>${markdown.version}</version>
         </dependency>
+        <!--   markdown 转 html   YAML格式数据解析插件  -->
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark-ext-yaml-front-matter</artifactId>
+            <version>${markdown.version}</version>
+        </dependency>
+        <!--   markdown 转 html    任务列表解析插件-->
+        <dependency>
+            <groupId>org.commonmark</groupId>
+            <artifactId>commonmark-ext-task-list-items</artifactId>
+            <version>${markdown.version}</version>
+        </dependency>
+        <!--   markdown 转 html    url格式的文本转成链接-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark-ext-autolink</artifactId>
+            <version>${markdown.version}</version>
+        </dependency>
+        <!--   markdown 转 html    删除线插件-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark-ext-gfm-strikethrough</artifactId>
+            <version>${markdown.version}</version>
+        </dependency>
+        <!--   markdown 转 html    图片解析插件-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark-ext-image-attributes</artifactId>
+            <version>${markdown.version}</version>
+        </dependency>
+        <!--   markdown 转 html    图片解析插件-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark-ext-heading-anchor</artifactId>
+            <version>${markdown.version}</version>
+        </dependency>
+        <!--   markdown 转 html    下划线解析插件-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark-ext-ins</artifactId>
             <version>${markdown.version}</version>
         </dependency>
 

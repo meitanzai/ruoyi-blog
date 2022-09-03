@@ -3120,12 +3120,11 @@
   background-color: #fff;
 }
 .editormd-preview-container blockquote, .editormd-html-preview blockquote {
-  color: #666;
-  border-left: 4px solid #ddd;
-  padding-left: 20px;
-  margin-left: 0;
-  font-size: 14px;
-  font-style: italic;
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  font-size: 17px;
+  background: #ebf9ed;
+  border-left: 5px solid #58e70f;
 }
 .editormd-preview-container p code, .editormd-html-preview p code {
   margin-left: 5px;
@@ -3333,6 +3332,7 @@ li.L9 {
 .editormd-preview-container pre.prettyprint, .editormd-html-preview pre.prettyprint {
   padding: 10px;
   border: 1px solid #ddd;
+  font-size: 15px;
   white-space: pre-wrap;
   word-wrap: break-word;
 }

@@ -3538,12 +3538,11 @@
 }
 
 .editormd-html-preview blockquote, .editormd-preview-container blockquote {
-    color: #666;
-    border-left: 4px solid #ddd;
-    padding-left: 20px;
-    margin-left: 0;
-    font-size: 14px;
-    font-style: italic
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 17.5px;
+    background: #ebf9ed;
+    border-left: 5px solid #58e70f;
 }
 
 .editormd-html-preview p code, .editormd-preview-container p code {

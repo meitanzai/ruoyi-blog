@@ -1784,7 +1784,8 @@ blockquote {
     padding: 10px 20px;
     margin: 0 0 20px;
     font-size: 17.5px;
-    border-left: 5px solid #eee
+    background: #ebf9ed;
+    border-left: 5px solid #58e70f;
 }
 
 blockquote ol:last-child, blockquote p:last-child, blockquote ul:last-child {
@@ -7033,6 +7034,10 @@ button.close {
 
 .affix {
     position: fixed
+}
+
+.markdown-body ol {
+    padding-left: 2em;
 }
 
 @-ms-viewport {
