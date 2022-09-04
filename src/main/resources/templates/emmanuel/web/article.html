@@ -7,13 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${mtoPost.title} + ' - ' + 一粒麦子"></title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.7}"/>
+    <th:block th:include="include :: toastr-css"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/icon.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/article.css}"/>
     <th:block th:include="include :: viewer-css"/>
     <th:block th:include="include :: tocbot-css"/>
-    <th:block th:include="include :: toastr-css"/>
+
 
     <style type="text/css">
         @media screen and (max-width: 1100px) {
@@ -163,7 +164,6 @@
 <!--底部-->
 <div th:replace="emmanuel/web/footer :: copyrightDark"></div>
 <div class="return_top"><a class=" fa fa-arrow-up"></a></div>
-</body>
 
 <th:block th:include="include :: prism-js"/>
 <script th:src="@{/js/jquery.min.js?v=3.6.0}"></script>
@@ -177,6 +177,7 @@
 <th:block th:include="include :: tocbot-js"/>
 <th:block th:include="include :: toastr-js"/>
 <th:block th:include="include :: echo-js"/>
+</body>
 
 <script>
     <!--    文章id，点赞-->
@@ -279,11 +280,8 @@
         offset: 100,//离可视区域多少像素的图片可以被加载
         throttle: 30 //图片延时多少毫秒加载
     });
-</script>
 
-
-<script>
-
+    // 复制提醒
     $(function(){
         toastr.options = {
             "closeButton": true,
@@ -302,25 +300,27 @@
         }
 
         $(".copy-to-clipboard-button").click(function() {
+            toastr.clear();
             toastr.success("Code Copy succeeded","复制成功")
             return;
         })
 
         document.querySelector('#content').addEventListener('copy', (e) => {
-                    // 取消默认事件，才能修改复制的值
-                    e.preventDefault();
-                    // 阻止冒泡
-                    e.stopPropagation();
-                    // 复制的内容
-                    var copyTxt = `${window.getSelection(0).toString()}\n————————————————\n原文链接：${window.location.href}\n本篇文章来源于一粒麦子( 源码：https://gitee.com/GiteeKey/ruoyi-blog)`;
-                    // 提醒复制成功
-                    toastr.success("Copy succeeded","复制成功");
-                    if(e.clipboardData) {
-                        return e.clipboardData.setData('text/plain',  copyTxt);
-                    }
-                    else if(window.clipboardData){
-                        return window.clipboardData.setData("text", copyTxt);
-                    }
+            // 取消默认事件，才能修改复制的值
+            e.preventDefault();
+            // 阻止冒泡
+            e.stopPropagation();
+            // 复制的内容
+            var copyTxt = `${window.getSelection(0).toString()}\n————————————————\n原文链接：${window.location.href}\n本篇文章来源于一粒麦子( 源码：https://gitee.com/GiteeKey/ruoyi-blog)`;
+            // 提醒复制成功
+            toastr.clear();
+            toastr.success("Copy succeeded","复制成功");
+            if(e.clipboardData) {
+                return e.clipboardData.setData('text/plain',  copyTxt);
+            }
+            else if(window.clipboardData){
+                return window.clipboardData.setData("text", copyTxt);
+            }
         });
     } )
 </script>

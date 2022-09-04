@@ -110,7 +110,7 @@
         p.views,
         p.weight,
         ifnull( p.update_time, p.create_time ) AS update_time,
-        c.name as channel_Name,
+        c.name as channelName,
         IF(ISNULL(p.thumbnail) || LENGTH(trim(p.thumbnail))=0,
         CONCAT('/blog/img/',(SELECT FLOOR(RAND()*22)),'.jpg'),
         p.thumbnail) as thumbnail

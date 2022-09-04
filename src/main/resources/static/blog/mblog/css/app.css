@@ -50,6 +50,8 @@
     font-weight: bold;
 }
 
+.dynamic-item:hover{ border-color: rgb(255, 193, 7);}
+
 .dynamic-item .info .content img.custom-img,
 .dynamic-item .info .content video,
 .dynamic-item .info .content iframe {

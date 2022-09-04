@@ -17,12 +17,27 @@
                 <div class="col-lg-8">
 
                     <!--            标题-->
-                    <div class="form-group">
-                        <h3>
-                            <input type="text" class="form-control" id="title" name="title" th:value="${mtoPost?.title}"
-                                   placeholder="请输入文章标题" required>
-                        </h3>
+                    <div class="input-group m-b">
+                        <div class="input-group-btn">
+                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">操作 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a >原创</a>
+                                </li>
+                                <li><a >转载</a>
+                                </li>
+                                <li><a >翻译</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <input type="text" class="form-control">
                     </div>
+<!--                    <div class="form-group">-->
+<!--                        <h3>-->
+<!--                            <input type="text" class="form-control" id="title" name="title" th:value="${mtoPost?.title}"-->
+<!--                                   placeholder="请输入文章标题" required>-->
+<!--                        </h3>-->
+<!--                    </div>-->
 
                     <!--markdown编辑器-->
                     <div class="form-group">

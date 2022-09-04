@@ -109,7 +109,7 @@
                     <div th:if="${not #strings.isEmpty(blog.thumbnail)}" class="five wide column">
                         <a href="#" th:href="@{/blog/article/{id}(id=${blog.id})}" target="_blank">
                             <img width="190" height="100"
-                                 src="/blog/img/load.gif"
+                                 src="/blog/img/loading.jpg"
                                  th:data-echo="${blog.thumbnail}"
                                  onerror="javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'"
                                  class="ui rounded image m-mobile-image">

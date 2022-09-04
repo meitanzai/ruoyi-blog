@@ -151,7 +151,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         String content = mtoPost.getContent();
         if (ToolUtils.isNotEmpty(content)) {
             String contentHtml = MarkdownUtils.renderMarkdown(content);
-            contentHtml = contentHtml.replaceAll("<img src=", "<img src=\"/blog/img/load.gif\" onerror=\"javascript:this.src='https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/279759ee3d6d55fbf09aae1e6b224f4a20a4ddae.jpg'\"  data-echo=");
+            contentHtml = contentHtml.replaceAll("<img src=", "<img src=\"/blog/img/loading.jpg\" onerror=\"javascript:this.src='/blog/img/404_img.jpg'\"  data-echo=");
             mtoPost.setContent(contentHtml);
         } else {
             mtoPost.setContent("<h1><b>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</b></h1><h1 style=\"text-align: left;\"><b>暂无文章内容</b><span style=\"font-weight: 700;\">&nbsp;&nbsp;</span><img src=\"/ajax/libs/summernote/tam-emoji/img/blank.gif\" class=\"img\" style=\"display:inline-block;width:25px;height:25px;background:url('/ajax/libs/summernote/tam-emoji/img/emoji_spritesheet_3.png') -75px -25px no-repeat;background-size:850px 75px;\" alt=\":rocket:\"></h1><h1><span style=\"font-weight: 700;\"> &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span></h1><h1><b><br></b></h1><h1><b><br></b></h1><h1><b><br></b></h1>");
