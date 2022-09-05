@@ -6,6 +6,7 @@ import com.ruoyi.project.emmanuel.account.mapper.AccountMoneyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,8 +28,7 @@ public class BillTask {
         Date preWeekMonday = DateUtils.getPreWeekMonday(new Date());
         Map<String, Integer> weekOfYear = DateUtils.getWeekOfYear(preWeekMonday);
 
-        DateUtils.addDays(preWeekMonday,6);
-        List<Map<String, Object>> preWeekBillList = moneyMapper.getPreWeekBill(preWeekMonday);
+        List<Map<String, Object>> preWeekBillList = moneyMapper.getPreWeekBill(preWeekMonday,DateUtils.addDays(preWeekMonday,6));
 
         Map<Object, List<Map<String, Object>>> groupByAccountId = preWeekBillList.stream().collect(Collectors.groupingBy(x -> x.get("accountId").toString()));
 

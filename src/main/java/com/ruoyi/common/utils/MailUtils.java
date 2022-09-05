@@ -101,35 +101,39 @@ public class MailUtils {
 
         fromEmail = ToolUtils.isEmpty(fromEmail) ? emailAccount : fromEmail;
 
-        // 校验是否发送邮件
-        Boolean sendMail = MailUtils.isSendMail(fromEmail, toEmail, subject, textHtml);
-        if (!sendMail) {
-            return false;
-        }
-
         Boolean b = false;
         String message = null;
 
         try {
-            MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMailMessage, true, "utf-8");
-            // 谁发送
-            messageHelper.setFrom(fromEmail);
-            // 谁接收
-            messageHelper.setTo(toEmail);
-            // 邮件标题
-            messageHelper.setSubject(subject);
-            // 邮件内容
-            messageHelper.setText(textHtml, true);
-            javaMailSender.send(mimeMailMessage);
-            b = true;
-            log.info("{} 邮件发送成功", subject);
+            // 校验是否发送邮件
+            Boolean sendMail = MailUtils.isSendMail(fromEmail, toEmail, subject, textHtml);
+            // true 发送邮件
+            if (sendMail) {
+                MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
+                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMailMessage, true, "utf-8");
+                // 谁发送
+                messageHelper.setFrom(fromEmail);
+                // 谁接收
+                messageHelper.setTo(toEmail);
+                // 邮件标题
+                messageHelper.setSubject(subject);
+                // 邮件内容
+                messageHelper.setText(textHtml, true);
+                javaMailSender.send(mimeMailMessage);
+                b = true;
+                log.info("{} 邮件发送成功", subject);
+            }
         } catch (MessagingException e) {
             e.printStackTrace();
-        } catch (MailException e) {
-            log.error("{} 发送简单邮件失败: {}", subject, e.getMessage());
+            log.error("{} 发送HTML邮件失败: {}", subject, e.getMessage());
             message = e.getMessage();
-        } finally {
+        } catch (MailException e) {
+            log.error("{} 发送HTML邮件失败: {}", subject, e.getMessage());
+            message = e.getMessage();
+        } catch (Exception e){
+            log.error("{} 发送HTML邮件失败: {}", subject, e.getMessage());
+            message = e.getMessage();
+        }finally {
             MailUtils.saveMail(subject, textHtml, 1, b ? 1 : -1, fromEmail, org.apache.commons.lang3.StringUtils.join(toEmail, ","), mailSource, message, mailCreateBy);
         }
         return true;
@@ -151,27 +155,26 @@ public class MailUtils {
 
         fromEmail = ToolUtils.isEmpty(fromEmail) ? emailAccount : fromEmail;
 
-        // 校验是否发送邮件
-        Boolean sendMail = MailUtils.isSendMail(fromEmail, toEmail, subject, text);
-        if (!sendMail) {
-            return false;
-        }
-
         Boolean b = false;
         String message = null;
 
         try {
-            SimpleMailMessage smm = new SimpleMailMessage();
-            // 谁发送
-            smm.setFrom(fromEmail);
-            // 谁接收
-            smm.setTo(toEmail);
-            // 邮件标题
-            smm.setSubject(subject);
-            // 邮件内容
-            smm.setText(text);
-            javaMailSender.send(smm);
-            b = true;
+            // 校验是否发送邮件
+            Boolean sendMail = MailUtils.isSendMail(fromEmail, toEmail, subject, text);
+            // true 发送邮件
+            if (sendMail) {
+                SimpleMailMessage smm = new SimpleMailMessage();
+                // 谁发送
+                smm.setFrom(fromEmail);
+                // 谁接收
+                smm.setTo(toEmail);
+                // 邮件标题
+                smm.setSubject(subject);
+                // 邮件内容
+                smm.setText(text);
+                javaMailSender.send(smm);
+                b = true;
+            }
         } catch (Exception e) {
             message = e.getMessage();
             log.error("{} 发送简单邮件失败: {}", subject, e.getMessage());
@@ -193,11 +196,10 @@ public class MailUtils {
      */
     public static Boolean isSendMail(String fromEmail, String[] toEmail, String subject, String text) {
         if (!enabled) {
-            log.info("{} 发送失败，未开启邮件发送", subject);
-            return false;
+            throw new RuntimeException(subject+"发送失败，未开启邮件发送");
         }
         if (ToolUtils.isOneEmpty(host, password, fromEmail, toEmail)) {
-            return false;
+            throw new RuntimeException(subject+"发送失败，请检查邮箱配置信息是否正确");
         }
         return true;
     }

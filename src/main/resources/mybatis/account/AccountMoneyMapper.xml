@@ -242,7 +242,7 @@
         FROM account_money m
                  INNER JOIN account_account a ON a.id = m.account_id
         WHERE m.deleted = 0
-           AND m.money_date BETWEEN DATE_FORMAT(#{preWeekMonday,jdbcType=TIMESTAMP},'%Y-%m-%d') AND date_add(DATE_FORMAT(#{preWeekMonday,jdbcType=TIMESTAMP},'%Y-%m-%d'), interval 6 day)
+           AND m.money_date BETWEEN #{startDate,jdbcType=TIMESTAMP} AND #{endtDate,jdbcType=TIMESTAMP}
         GROUP BY m.account_id,
                  m.money_date,
                  a.account_name

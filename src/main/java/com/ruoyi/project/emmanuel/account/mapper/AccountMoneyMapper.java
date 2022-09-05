@@ -65,10 +65,11 @@ public interface AccountMoneyMapper
 
     /**
      * 获取上周数据
-     * @param preWeekMonday 上周一
+     * @param startDate 开始时间
+     * @param endtDate 结束时间
      * @return
      */
-    List<Map<String, Object>> getPreWeekBill(@Param("preWeekMonday") Date preWeekMonday);
+    List<Map<String, Object>> getPreWeekBill(@Param("startDate") Date startDate ,@Param("endtDate") Date endtDate);
 
     List<String> getUserMail(@Param("accountId") String accountId,@Param("preWeekMonday") Date preWeekMonday);
 }
