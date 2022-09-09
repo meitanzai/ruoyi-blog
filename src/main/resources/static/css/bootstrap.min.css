@@ -7036,8 +7036,13 @@ button.close {
     position: fixed
 }
 
-.markdown-body ol {
+.markdown-body ul, .markdown-body ol {
     padding-left: 2em;
+}
+
+.markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre {
+    margin-top: 0;
+    margin-bottom: 16px;
 }
 
 @-ms-viewport {
