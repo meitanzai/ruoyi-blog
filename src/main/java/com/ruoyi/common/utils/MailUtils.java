@@ -15,10 +15,6 @@ import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -130,10 +126,10 @@ public class MailUtils {
         } catch (MailException e) {
             log.error("{} 发送HTML邮件失败: {}", subject, e.getMessage());
             message = e.getMessage();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("{} 发送HTML邮件失败: {}", subject, e.getMessage());
             message = e.getMessage();
-        }finally {
+        } finally {
             MailUtils.saveMail(subject, textHtml, 1, b ? 1 : -1, fromEmail, org.apache.commons.lang3.StringUtils.join(toEmail, ","), mailSource, message, mailCreateBy);
         }
         return true;
@@ -196,10 +192,10 @@ public class MailUtils {
      */
     public static Boolean isSendMail(String fromEmail, String[] toEmail, String subject, String text) {
         if (!enabled) {
-            throw new RuntimeException(subject+"发送失败，未开启邮件发送");
+            throw new RuntimeException(subject + "发送失败，未开启邮件发送");
         }
         if (ToolUtils.isOneEmpty(host, password, fromEmail, toEmail)) {
-            throw new RuntimeException(subject+"发送失败，请检查邮箱配置信息是否正确");
+            throw new RuntimeException(subject + "发送失败，请检查邮箱配置信息是否正确");
         }
         return true;
     }
@@ -241,7 +237,7 @@ public class MailUtils {
             return;
         }
 
-        MailUtils.sendMailHtml(fromEmail, new String[]{toEmail}, subject, text, "登陆邮件","系统邮件");
+        MailUtils.sendMailHtml(fromEmail, new String[]{toEmail}, subject, text, "登陆邮件", "系统邮件");
 
     }
 

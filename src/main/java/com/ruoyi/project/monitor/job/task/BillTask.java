@@ -1,12 +1,12 @@
 package com.ruoyi.project.monitor.job.task;
 
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.MailUtils;
+import com.ruoyi.framework.manager.AsyncManager;
+import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.project.emmanuel.account.mapper.AccountMoneyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,7 +28,7 @@ public class BillTask {
         Date preWeekMonday = DateUtils.getPreWeekMonday(new Date());
         Map<String, Integer> weekOfYear = DateUtils.getWeekOfYear(preWeekMonday);
 
-        List<Map<String, Object>> preWeekBillList = moneyMapper.getPreWeekBill(preWeekMonday,DateUtils.addDays(preWeekMonday,6));
+        List<Map<String, Object>> preWeekBillList = moneyMapper.getPreWeekBill(preWeekMonday, DateUtils.addDays(preWeekMonday, 6));
 
         Map<Object, List<Map<String, Object>>> groupByAccountId = preWeekBillList.stream().collect(Collectors.groupingBy(x -> x.get("accountId").toString()));
 
@@ -43,7 +43,7 @@ public class BillTask {
                         "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">" + map.getOrDefault("moneyIncome", 0.00) + "</td></tr>";
             }
 
-            String billContent = "<div><br></div><div><table border=\"1\" width=\"500\" cellpadding=\"10\" cellspacing=\"0\" align=\"center\" class=\"table table-bordered\"><tbody><tr></tr><tr><td style=\"text-align: center;\" colspan=\"4\">"+weekOfYear.get("iYear")+"年第"+weekOfYear.get("week")+"周"+"</td></tr><tr><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">账单名称</td><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">日期</td><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">支出</td><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">收入</td></tr><tr>" +
+            String billContent = "<div><br></div><div><table border=\"1\" width=\"500\" cellpadding=\"10\" cellspacing=\"0\" align=\"center\" class=\"table table-bordered\"><tbody><tr></tr><tr><td style=\"text-align: center;\" colspan=\"4\">" + weekOfYear.get("iYear") + "年第" + weekOfYear.get("week") + "周" + "</td></tr><tr><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">账单名称</td><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">日期</td><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">支出</td><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">收入</td></tr><tr>" +
                     table +
                     "</tr></tbody></table></div>";
 
@@ -51,7 +51,7 @@ public class BillTask {
             List<String> mailList = moneyMapper.getUserMail(entry.getKey().toString(), preWeekMonday);
             // 发送邮件
             if (mailList.size() > 0 && mailList != null) {
-                MailUtils.sendMailHtml(null, mailList.toArray(new String[mailList.size()]), weekOfYear.get("iYear")+"年第"+weekOfYear.get("week")+"周账单", billContent, "消费邮件", "系统邮件");
+                AsyncManager.me().execute(AsyncFactory.sendMailHtml(null, mailList.toArray(new String[mailList.size()]), weekOfYear.get("iYear") + "年第" + weekOfYear.get("week") + "周账单", billContent, "消费邮件", "系统邮件"));
             }
         }
 

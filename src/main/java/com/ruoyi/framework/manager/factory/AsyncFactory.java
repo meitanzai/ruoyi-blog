@@ -138,9 +138,9 @@ public class AsyncFactory {
         return new TimerTask() {
             @Override
             public void run() {
-                String address = AddressUtils.getRemoteAddressByIP((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr))?ipAddr:ip);
+                String address = AddressUtils.getRemoteAddressByIP((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr)) ? ipAddr : ip);
                 StringBuilder s = new StringBuilder();
-                s.append(LogUtils.getBlock((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr))?(ip + "("+ipAddr+")"):ip));
+                s.append(LogUtils.getBlock((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr)) ? (ip + "(" + ipAddr + ")") : ip));
                 s.append(address);
                 s.append(LogUtils.getBlock(username));
                 s.append(LogUtils.getBlock(status));
@@ -154,7 +154,7 @@ public class AsyncFactory {
                 // 封装对象
                 Logininfor logininfor = new Logininfor();
                 logininfor.setLoginName(username);
-                logininfor.setIpaddr((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr))?(ip + "("+ipAddr+")"):ip);
+                logininfor.setIpaddr((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr)) ? (ip + "(" + ipAddr + ")") : ip);
                 logininfor.setLoginLocation(address);
                 logininfor.setBrowser(browser);
                 logininfor.setOs(os);
@@ -171,9 +171,29 @@ public class AsyncFactory {
                 // 发送登录邮件
                 if (Objects.equals(status, Constants.LOGIN_SUCCESS) && ToolUtils.isNotEmpty(email)) {
 //                    String text = "<p><strong class=\"ql-size-large\">登录通知</strong></p><p><strong>您的账号：fastBlog( " + username + " )已登陆</strong></p><p><br></p><p><strong>登录时间：" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "</strong></p><p><strong>登录设备：" + os + "</strong></p><p><strong>登录IP：    " + ((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr))?(ip + "("+ipAddr+")"):ip)+"  "+address+ "</strong></p><p><strong>备注：如非本人操作，请立即访问网页版修改密码</strong></p>";
-                    String text = "<div><b>登陆通知</b></div><div><br></div><div>您的账号fastBlog：("+username+") 已登录</div><div>登录时间："+LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))+"</div><div>登录设备："+os+"</div><div>登录iP："+((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr))?(ip + "("+ipAddr+")"):ip)+"  "+address+"</div><div><font __editorwarp__=\"1\" style=\"display: inline; font-size: 14px; font-family: Verdana; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0); font-weight: 400; font-style: normal;\">如非本人操作，请立即访问网页版修改密码</font></div>";
+                    String text = "<div><b>登陆通知</b></div><div><br></div><div>您的账号fastBlog：(" + username + ") 已登录</div><div>登录时间：" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "</div><div>登录设备：" + os + "</div><div>登录iP：" + ((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr)) ? (ip + "(" + ipAddr + ")") : ip) + "  " + address + "</div><div><font __editorwarp__=\"1\" style=\"display: inline; font-size: 14px; font-family: Verdana; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0); font-weight: 400; font-style: normal;\">如非本人操作，请立即访问网页版修改密码</font></div>";
                     MailUtils.LoginSendMail(null, email, "Ry-blog 登录成功", text);
                 }
+            }
+        };
+    }
+
+    /**
+     * 发送HTML邮件
+     *
+     * @param fromEmail    邮件发送者
+     * @param toEmail      邮件接收者
+     * @param subject      邮件标题
+     * @param textHtml     邮件html内容
+     * @param mailSource   邮件来源
+     * @param mailCreateBy 发送邮件者
+     */
+    public static TimerTask sendMailHtml(final String fromEmail, final String[] toEmail, final String subject, final String textHtml, final String mailSource, final String mailCreateBy) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                MailUtils.sendMailHtml(fromEmail, toEmail, subject, textHtml, "消费邮件", "系统邮件");
+
             }
         };
     }
