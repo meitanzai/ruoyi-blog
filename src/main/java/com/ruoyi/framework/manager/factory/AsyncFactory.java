@@ -192,8 +192,7 @@ public class AsyncFactory {
         return new TimerTask() {
             @Override
             public void run() {
-                MailUtils.sendMailHtml(fromEmail, toEmail, subject, textHtml, "消费邮件", "系统邮件");
-
+                MailUtils.sendMailHtml(fromEmail, toEmail, subject, textHtml, mailSource, mailCreateBy);
             }
         };
     }
