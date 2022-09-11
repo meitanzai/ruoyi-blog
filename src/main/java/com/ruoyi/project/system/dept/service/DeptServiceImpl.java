@@ -1,7 +1,6 @@
 package com.ruoyi.project.system.dept.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import com.ruoyi.project.system.user.domain.User;
 
 /**
  * 部门管理 服务实现
- * 
+ *
  * @author ruoyi
  */
 @Service
@@ -33,7 +32,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 查询部门管理数据
-     * 
+     *
      * @param dept 部门信息
      * @return 部门信息集合
      */
@@ -46,7 +45,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 查询部门管理树
-     * 
+     *
      * @param dept 部门信息
      * @return 所有部门信息
      */
@@ -61,7 +60,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 查询部门管理树（排除下级）
-     * 
+     *
      * @param dept 部门
      * @return 所有部门信息
      */
@@ -70,18 +69,12 @@ public class DeptServiceImpl implements IDeptService
     public List<Ztree> selectDeptTreeExcludeChild(Dept dept)
     {
         Long excludeId = dept.getExcludeId();
-        List<Dept> deptList = deptMapper.selectDeptList(dept);
-        Iterator<Dept> it = deptList.iterator();
-        while (it.hasNext())
+        List<Dept> depts = deptMapper.selectDeptList(dept);
+        if (excludeId.intValue() > 0)
         {
-            Dept d = (Dept) it.next();
-            if (d.getDeptId().intValue() == excludeId
-                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), excludeId + ""))
-            {
-                it.remove();
-            }
+            depts.removeIf(d -> d.getDeptId().intValue() == excludeId || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), excludeId + ""));
         }
-        List<Ztree> ztrees = initZtree(deptList);
+        List<Ztree> ztrees = initZtree(depts);
         return ztrees;
     }
 
@@ -96,7 +89,7 @@ public class DeptServiceImpl implements IDeptService
     {
         Long roleId = role.getRoleId();
         List<Ztree> ztrees = new ArrayList<Ztree>();
-        List<Dept> deptList = selectDeptList(new Dept());
+        List<Dept> deptList = SpringUtils.getAopProxy(this).selectDeptList(new Dept());
         if (StringUtils.isNotNull(roleId))
         {
             List<String> roleDeptList = deptMapper.selectRoleDeptTree(roleId);
@@ -152,7 +145,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 查询部门人数
-     * 
+     *
      * @param parentId 部门ID
      * @return 结果
      */
@@ -166,7 +159,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 查询部门是否存在用户
-     * 
+     *
      * @param deptId 部门ID
      * @return 结果 true 存在 false 不存在
      */
@@ -179,7 +172,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 删除部门管理信息
-     * 
+     *
      * @param deptId 部门ID
      * @return 结果
      */
@@ -191,7 +184,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 新增保存部门信息
-     * 
+     *
      * @param dept 部门信息
      * @return 结果
      */
@@ -211,7 +204,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 修改保存部门信息
-     * 
+     *
      * @param dept 部门信息
      * @return 结果
      */
@@ -241,7 +234,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 修改该部门的父级部门状态
-     * 
+     *
      * @param dept 当前部门
      */
     private void updateParentDeptStatusNormal(Dept dept)
@@ -253,7 +246,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 修改子元素关系
-     * 
+     *
      * @param deptId 被修改的部门ID
      * @param newAncestors 新的父ID集合
      * @param oldAncestors 旧的父ID集合
@@ -273,7 +266,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 修改子元素关系
-     * 
+     *
      * @param deptId 部门ID
      * @param ancestors 元素列表
      */
@@ -294,7 +287,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 根据部门ID查询信息
-     * 
+     *
      * @param deptId 部门ID
      * @return 部门信息
      */
@@ -306,7 +299,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 根据ID查询所有子部门（正常状态）
-     * 
+     *
      * @param deptId 部门ID
      * @return 子部门数
      */
@@ -318,7 +311,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 校验部门名称是否唯一
-     * 
+     *
      * @param dept 部门信息
      * @return 结果
      */
@@ -336,7 +329,7 @@ public class DeptServiceImpl implements IDeptService
 
     /**
      * 校验部门是否有数据权限
-     * 
+     *
      * @param deptId 部门id
      */
     @Override

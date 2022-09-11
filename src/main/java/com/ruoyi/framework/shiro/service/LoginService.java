@@ -1,5 +1,8 @@
 package com.ruoyi.framework.shiro.service;
 
+import java.util.List;
+import java.util.Set;
+
 import com.ruoyi.common.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,10 +17,11 @@ import com.ruoyi.common.exception.user.UserPasswordNotMatchException;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
+import com.ruoyi.project.system.menu.service.IMenuService;
+import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.domain.UserStatus;
 import com.ruoyi.project.system.user.service.IUserService;
-import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * 登录校验方法
@@ -32,6 +36,9 @@ public class LoginService
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IMenuService menuService;
 
     /**
      * 登录
@@ -107,8 +114,28 @@ public class LoginService
 
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username,user.getEmail(), Constants.LOGIN_SUCCESS,ipAddr, MessageUtils.message("user.login.success")));
         // AsyncManager.me().execute(AsyncFactory.loginSuccessful(username, user.getEmail(),Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        setRolePermission(user);
         recordLoginInfo(user.getUserId(),ipAddr);
         return user;
+    }
+
+    /**
+     * 设置角色权限
+     *
+     * @param user 用户信息
+     */
+    public void setRolePermission(User user)
+    {
+        List<Role> roles = user.getRoles();
+        if (!roles.isEmpty() && roles.size() > 1)
+        {
+            // 多角色设置permissions属性，以便数据权限匹配权限
+            for (Role role : roles)
+            {
+                Set<String> rolePerms = menuService.selectPermsByRoleId(role.getRoleId());
+                role.setPermissions(rolePerms);
+            }
+        }
     }
 
     /**
@@ -159,6 +186,7 @@ public class LoginService
         }
 
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        setRolePermission(user);
         recordLoginInfo(user.getUserId(),null);
         return user;
     }
@@ -196,5 +224,11 @@ public class LoginService
         user.setLoginIp((IpUtils.internalIp(ip) && IpUtils.ipCheck(ipAddr))?(ip + "("+ipAddr+")"): ip);
         user.setLoginDate(DateUtils.getNowDate());
         userService.updateUserInfo(user);
+    }
+
+    public static void main(String[] args)
+    {
+        // 第一个参数为账户名 第二个参数为密码 第三个参数为盐对应用户表salt（如果没有可以不用填）
+        System.out.println(new PasswordService().encryptPassword("test", "admin123", "111111"));
     }
 }
