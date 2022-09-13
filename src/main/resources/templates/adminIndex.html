@@ -56,7 +56,7 @@
                 <div class="row">
                     <div class="col-xs-4 text-center">
                         <!--                        <i class="fa fa-trophy fa-5x"></i>-->
-<!--                        <span style="font-family: 黑体; text-align:left; font-size: 13px"> {{(dataInfo.nowDate || '').slice(0, 11)}}</span>-->
+                        <!--                        <span style="font-family: 黑体; text-align:left; font-size: 13px"> {{(dataInfo.nowDate || '').slice(0, 11)}}</span>-->
                         <span style="font-family: 黑体; text-align:left; font-size: 13px"> {{date}}</span> <br>
                         <span style="font-family: 黑体; text-align:left; font-size: 13px"> 星期{{"日一二三四五六".charAt(new Date().getDay())}}</span>
                     </div>
@@ -77,9 +77,9 @@
         <div class="col-sm-3">
             <div class="widget style1 yellow-bg" style="height:115px; overflow:hidden;">
                 <div class="row" style="overflow:auto;">
-<!--                    <div class="col-xs-4">-->
-<!--                        <i class="fa fa-music fa-5x"></i>-->
-<!--                    </div>-->
+                    <!--                    <div class="col-xs-4">-->
+                    <!--                        <i class="fa fa-music fa-5x"></i>-->
+                    <!--                    </div>-->
                     <div class="col-xs-12 text-right">
                         <span style="font-family: 黑体; text-align:left; float:left "> {{oneGolden.golden.length > 59 ? oneGolden.golden.slice(0,58) + '...' : oneGolden.golden }} </span>
                         <h6 class="font-bold">{{oneGolden.author}}</h6>
@@ -143,6 +143,46 @@
                     <div class="ibox-content no-padding">
                         <div class="panel-body">
                             <div class="panel-group" id="version">
+
+                                <!--4.0-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#version" href="#v40">v4.0 </a><code
+                                                class="pull-right">2022.09.12</code>
+                                        </h5>
+                                    </div>
+                                    <div id="v40" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <ol>
+                                                <li>注意:从下个版本起，升级版本号将于ruoyi版本号保持一致</li>
+                                                <li>升级到若依V4.7.5</li>
+                                                <li>新增邮件管理</li>
+                                                <li>新增我的主页</li>
+                                                <li>重写后台博客查看，支持markdown语法</li>
+                                                <li>登录支持邮件通知</li>
+                                                <li>新增邮件支持异步发送</li>
+                                                <li>定时任务周消费账单邮件提醒</li>
+                                                <li>新增文章复制提醒</li>
+                                                <li>添加数据库文档设计说明</li>
+                                                <li>美化博客文章显示</li>
+                                                <li>美化动态列表显示</li>
+                                                <li>优化前台页面支持有序列表</li>
+                                                <li>优化前台页面支持无序列表</li>
+                                                <li>优化前台页面支持删除线</li>
+                                                <li>优化前台页面支持TODO并美化</li>
+                                                <li>优化前台页面美化引用显示</li>
+                                                <li>更换前台文章列表懒加载load图片</li>
+                                                <li>更换前台文章error错误图片</li>
+                                                <li>修复文章列表左上角分类显示</li>
+                                                <li>修复博客文章分类显示</li>
+                                                <li>修复导航管理，文件管理等权限</li>
+                                                <li>其他细节优化，就不列出来了</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!--3.0-->
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
@@ -151,7 +191,7 @@
                                                 class="pull-right">2022.05.23</code>
                                         </h5>
                                     </div>
-                                    <div id="v30" class="panel-collapse collapse in">
+                                    <div id="v30" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <ol>
 
@@ -392,7 +432,7 @@
             this.timer = setInterval(() => {
                 // 修改数据date
                 _this.date = new Date().toLocaleString('chinese',{hour12:false});
-        }, 1000)
+            }, 1000)
         },
         beforeDestroy () {
             if (this.timer) {
@@ -466,7 +506,7 @@
             // 根据ip获取定位
             getLocationByIp() {
                 // console.log("111",Math.ceil(( new Date() - new Date(new Date().getFullYear().toString()))/(24*60*60*1000))+1)
-               var that = this;
+                var that = this;
                 $.ajax({
                     url: 'http://pv.sohu.com/cityjson?ie=utf-8',
                     dataType: "script",
