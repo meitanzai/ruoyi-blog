@@ -147,7 +147,7 @@ public interface IUserService
      * @param loginName 登录名称
      * @return 结果
      */
-    public String checkLoginNameUnique(String loginName);
+    public String checkLoginNameUnique(User user);
 
     /**
      * 校验手机号码是否唯一
