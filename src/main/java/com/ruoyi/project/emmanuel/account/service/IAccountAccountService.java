@@ -3,6 +3,7 @@ package com.ruoyi.project.emmanuel.account.service;
 import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -62,4 +63,6 @@ public interface IAccountAccountService
     public int deleteAccountAccountById(Long id);
 
     AccountAccount selectAccountNameById(Long id);
+
+    List<Map<String, Object>> accountCount(Long accountId);
 }

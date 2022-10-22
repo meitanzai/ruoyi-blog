@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
@@ -107,6 +108,17 @@ public class AccountBillController extends BaseController {
     public TableDataInfo billConuntByMonth(ModelMap modelMap, String month) {
         List<AccountBill> fullCalendarList = this.accountBillService.fullCalendarList(month);
         return getDataTable(fullCalendarList);
+    }
+
+    /**
+     * 记账账户分析
+     */
+    @RequiresPermissions("account:account:analysis")
+    @GetMapping("/accountAnalysis/{accountId}")
+    @ResponseBody
+    public Map<String, Object> accountAnalysis(@PathVariable("accountId") Long accountId, ModelMap modelMap) {
+        Map<String, Object> map = accountBillService.accountAnalysis(accountId, modelMap);
+        return map;
     }
 
 }

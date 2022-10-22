@@ -17,7 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 记账账户Controller
@@ -137,5 +140,25 @@ public class AccountAccountController extends BaseController {
         return prefix + "/money/money";
     }
 
+    /**
+     * 跳转到统计页面
+     */
+    @RequiresPermissions("account:account:analysis")
+    @GetMapping("/accountAnalysisPage/{accountId}")
+    public String accountAnalysisPage(@PathVariable("accountId") Long accountId, ModelMap modelMap) {
+        AccountAccount accountAccount = accountAccountService.selectAccountNameById(accountId);
+        // 收入支出列表
+        List<Map<String, Object>> accountClassList = accountAccountService.accountCount(accountId);
+        // 总收入，总支出
+        BigDecimal totalPay = accountClassList.stream().filter(e->Objects.equals("支出",e.get("classType"))).map(e->(BigDecimal)e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalIncome = accountClassList.stream().filter(e->Objects.equals("收入",e.get("classType"))).map(e->(BigDecimal)e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        modelMap.put("accountId",accountId);
+        modelMap.put("accountName", accountAccount.getAccountName());
+        modelMap.put("accountClassList",accountClassList);
+        modelMap.put("totalPay",totalPay);
+        modelMap.put("totalIncome",totalIncome);
+        return  "emmanuel/account/bill/analysis";
+    }
 
 }

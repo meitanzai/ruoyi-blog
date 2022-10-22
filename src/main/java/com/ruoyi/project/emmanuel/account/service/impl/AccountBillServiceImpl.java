@@ -1,6 +1,7 @@
 package com.ruoyi.project.emmanuel.account.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
 import com.ruoyi.project.emmanuel.account.domain.AccountBill;
@@ -12,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -92,5 +90,21 @@ public class AccountBillServiceImpl implements IAccountBillService {
 
         });
         return accountBillList;
+    }
+
+    /**
+     * 记账账户分析
+     */
+    @Override
+    public Map<String, Object> accountAnalysis(Long accountId, ModelMap modelMap) {
+        // 支出
+        List<Map<String, Object>> accountClassPay = accountBillMapper.accountAnalysis(accountId,"1");
+        // 收入
+        List<Map<String, Object>> accountClassIncome = accountBillMapper.accountAnalysis(accountId,"0");
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("accountClassPay",accountClassPay);
+        map.put("accountClassIncome",accountClassIncome);
+        return map;
     }
 }

@@ -1,6 +1,8 @@
 package com.ruoyi.project.emmanuel.account.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
 import com.ruoyi.project.emmanuel.account.domain.AccountMoney;
 
@@ -70,4 +72,6 @@ public interface AccountAccountMapper
     AccountAccount selectAccountNameById(Long id);
 
     String isAccountVisible(AccountMoney accountMoney);
+
+    List<Map<String, Object>> accountCount(Long accountId);
 }

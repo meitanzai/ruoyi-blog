@@ -1,6 +1,7 @@
 package com.ruoyi.project.emmanuel.account.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import com.ruoyi.common.utils.DateUtils;
@@ -122,5 +123,10 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
     @Override
     public AccountAccount selectAccountNameById(Long id) {
         return accountAccountMapper.selectAccountNameById(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> accountCount(Long accountId) {
+        return accountAccountMapper.accountCount(accountId);
     }
 }

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('百度ECharts')"/>
+    <th:block th:include="include :: toastr-css"/>
+    <!-- fullCalendar -->
+    <link href='/blog/fullcalendar/main.css' rel='stylesheet'/>
+
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight"
+     style="padding-left: 8px !important; padding-right: 8px; !important">
+
+    <div class="row" >
+
+        <!--支出-->
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="echarts" id="pay-line-chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!--收入-->
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="echarts" id="income-line-chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h5>收入支出详情</h5>
+
+            </div>
+            <div class="ibox-content">
+                <div>
+                    本账单共消费                    <strong class="text-danger"><span th:text="${totalPay}"></span></strong>，
+                    收入                    <strong class="text-success"><span th:text="${totalIncome}"></span></strong>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">账单名称</th>
+                            <th style="text-align: center">分类</th>
+                            <th style="text-align: center">类型</th>
+                            <th style="text-align: center">金额</th>
+                        </tr>
+                        </thead>
+                        <tbody  th:each="item,temp : ${accountClassList}">
+                        <tr>
+                            <td th:text="${accountName}"></td>
+                            <td th:text="${item.className}"></td>
+                            <td th:text="${item.classType}"></td>
+                            <td th:text="${item.money}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: echarts-js"/>
+<!-- fullCalendar 2.2.5 -->
+<script src='/blog/fullcalendar/main.js'></script>
+<th:block th:include="include :: toastr-js"/>
+<script type="text/javascript">
+
+    $.ajax({
+        type: "get",
+        url: "/account/bill/accountAnalysis/"+'[[${accountId}]]',
+        dataType: "json",
+        success: function (data) {
+            // 支出图
+            var pieChart = echarts.init(document.getElementById("pay-line-chart"));
+            var pieoption = {
+                title: {
+                    text: '[[${accountName}]]' + ' 支出统计',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left'
+                },
+                series: [
+                    {
+                        name: '支出',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: false,
+                                fontSize: '40',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data:
+                            data.accountClassPay
+
+                    }
+                ]
+            };
+            pieChart.setOption(pieoption);
+            $(window).resize(pieChart.resize);
+
+            // 收入图
+            var pieChart = echarts.init(document.getElementById("income-line-chart"));
+            var pieoption = {
+                title: {
+                    text: '[[${accountName}]]' + ' 收入统计',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left'
+                },
+                series: [
+                    {
+                        name: '收入',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: false,
+                                fontSize: '40',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data:
+                        data.accountClassIncome
+
+                    }
+                ]
+            };
+            pieChart.setOption(pieoption);
+            $(window).resize(pieChart.resize);
+        }
+    })
+</script>
+
+</body>
+</html>

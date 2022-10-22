@@ -186,4 +186,15 @@
     <select id="isAccountVisible" resultType="java.lang.String">
         SELECT visible from account_account WHERE id = #{accountId,jdbcType=BIGINT}
     </select>
+
+    <select id="accountCount" resultType="java.util.Map">
+        select c.id, c.class_name as className,
+               sum(if(c.class_type = 1,m.money_pay,m.money_income))  as money,
+               if(c.class_type = 1 ,'支出', '收入') as "classType"
+        from account_class c
+                 inner join account_money m on c.id = m.class_id
+        where m.account_id = #{accountId,jdbcType=BIGINT}
+          and m.deleted = 0
+        group by c.id, c.class_name
+    </select>
 </mapper>
