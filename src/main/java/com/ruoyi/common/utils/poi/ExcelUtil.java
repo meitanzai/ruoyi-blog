@@ -696,10 +696,18 @@ public class ExcelUtil<T>
             Collection<?> subList = null;
             if (isSubList())
             {
-                if (isSubListValue(vo))
+                if (isSubList())
                 {
-                    subList = getListCellValue(vo);
-                    subMergedLastRowNum = subMergedLastRowNum + subList.size();
+                    if (isSubListValue(vo))
+                    {
+                        subList = getListCellValue(vo);
+                        subMergedLastRowNum = subMergedLastRowNum + subList.size();
+                    }
+                    else
+                    {
+                        subMergedFirstRowNum++;
+                        subMergedLastRowNum++;
+                    }
                 }
                 else
                 {
