@@ -212,4 +212,24 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         map.put("week", week);
         return map;
     }
+
+    /**
+     * 根据日期获取星期几
+     * <p>
+     * //        方式一
+     * //        String[] weeks = {"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+     * //        Calendar cal = Calendar.getInstance();
+     * //        cal.setTime(date);
+     * //        int i = cal.get(Calendar.DAY_OF_WEEK) - 1;
+     * //        return weeks[i];
+     * //        以下是方式二
+     *
+     * @param date
+     * @return 星期几
+     */
+    public static String getWeek(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("EEEE");
+        String week = format.format(date);
+        return week;
+    }
 }
