@@ -18,12 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -402,6 +400,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
 
     /**
      * 清空静态页面
+     *
      * @return
      */
     @Override
@@ -414,6 +413,32 @@ public class MtoPostServiceImpl implements IMtoPostService {
         return 1;
     }
 
+    /**
+     * markdown 单文件导出
+     *
+     * @param postId
+     * @param request
+     * @param response
+     */
+    @Override
+    public void exportMd(Long postId, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            // 查询文章
+            MtoPost post = mtoPostMapper.selectMtoPostById(postId);
+            response.setContentType("text/plain; charset=utf-8");
+            request.setCharacterEncoding("UTF-8");
+            //解决response中writer乱码方案
+            response.setHeader("Content-Type", "text/html;charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            // 获取下载文件类型
+            response.setContentType("markdown");
+            PrintWriter writer = response.getWriter();
+            writer.write(post.getContent());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("下载文章失败");
+        }
+    }
 
     //删除File对象中抽象的路径方法
     private static void deleteAllFile(File dir) {

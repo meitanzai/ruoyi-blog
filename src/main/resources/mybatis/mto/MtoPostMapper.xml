@@ -315,18 +315,6 @@
         where user_id = #{authorId,jdbcType=BIGINT}
     </select>
 
-    <select id="copyBlog"  resultType="com.ruoyi.project.emmanuel.mto.domain.MtoPost">
-
-        SELECT author_id "authorId", channel_id "channelId", comments, created "createTime", favors, featured, status, summary, tags, thumbnail, title, views, weight, update_time "updateTime"
-               , content
-        FROM
-                list_mto_post_list l,
-                list_mto_post_attribute_list ll
-        WHERE
-                l.id = ll.id
-        order by l.id
-    </select>
-
     <select id="addOneViews" >
         update mto_post set views = views+1 where id = #{id,jdbcType=BIGINT}
     </select>

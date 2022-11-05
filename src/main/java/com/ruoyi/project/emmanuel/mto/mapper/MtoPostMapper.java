@@ -68,8 +68,6 @@ public interface MtoPostMapper
 
     User selectUserNameByAuthorId(Long authorId);
 
-    List<MtoPost> copyBlog();
-
     void addOneViews(Long id);
 
     List<MtoPost> selectIndexNewPostList();

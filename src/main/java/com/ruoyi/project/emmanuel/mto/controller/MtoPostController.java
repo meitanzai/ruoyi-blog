@@ -18,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -146,8 +146,15 @@ public class MtoPostController extends BaseController {
     @PostMapping("/exportData")
     @RequiresPermissions("mto:post:export")
     @ResponseBody
-    public AjaxResult exportSelected(String postIds, HttpServletResponse response) {
-        throw new RuntimeException("后期将会上线此功能");
+    public void exportMD(Long postId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        mtoPostService.exportMd(postId,request,response);
+    }
+
+    @PostMapping("/exportDataBatch")
+    @RequiresPermissions("mto:post:exportDataBatch")
+    @ResponseBody
+    public void exportDataBatch(String postIds, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        throw new RuntimeException("批量导出稍后上线，试试单个文章导出吧");
     }
 
     @RequiresPermissions("mto:post:cleasrStaticPage")

@@ -1331,7 +1331,8 @@ INSERT INTO `sys_menu` VALUES (1147, '【邮件】发送', 1145, 2, '#', '', 'F'
 INSERT INTO `sys_menu` VALUES (1148, '【邮件】查看', 1145, 3, '#', '', 'F', '0', '1', 'system:mail:detail', '#', 'admin', '2022-07-22 14:18:46', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1149, '【邮件】删除', 1145, 4, '#', '', 'F', '0', '1', 'system:mail:remove', '#', 'admin', '2022-07-22 14:18:46', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1150, '记账账单分析', 1091, 6, '#', 'menuItem', 'F', '0', '1', 'account:account:analysis', '#', '一粒麦子', '2022-10-22 12:47:41', '', NULL, '');-- ----------------------------
-
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1151, '单文章导出', 1078, 7, '#', 'menuItem', 'F', '0', '1', 'mto:post:export', '#', '一粒麦子', '2022-11-05 20:06:22', '', NULL, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1152, '批量文章导出', 1078, 8, '#', 'menuItem', 'F', '0', '1', 'mto:post:exportDataBatch', '#', '一粒麦子', '2022-11-05 20:06:46', '', NULL, '');
 -- Table structure for sys_notice
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_notice`;

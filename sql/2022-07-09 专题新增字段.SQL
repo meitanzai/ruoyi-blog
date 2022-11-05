@@ -41,3 +41,7 @@ UPDATE `sys_menu` SET `menu_name` = '文件管理', `parent_id` = 8, `order_num`
 
 -- 2022年10月22日新增账单分析功能
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1150, '记账账单分析', 1091, 6, '#', 'menuItem', 'F', '0', '1', 'account:account:analysis', '#', '一粒麦子', '2022-10-22 12:47:41', '', NULL, '');-- ----------------------------
+
+-- 2022年11月06日博客文章导出
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1151, '单文章导出', 1078, 7, '#', 'menuItem', 'F', '0', '1', 'mto:post:export', '#', '一粒麦子', '2022-11-05 20:06:22', '', NULL, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1152, '批量文章导出', 1078, 8, '#', 'menuItem', 'F', '0', '1', 'mto:post:exportDataBatch', '#', '一粒麦子', '2022-11-05 20:06:46', '', NULL, '');
