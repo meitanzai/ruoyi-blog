@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -141,13 +142,18 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 导出数据
+     * 导出博客
+     *
+     * @param postId   文章ID
+     * @param request
+     * @param response
+     * @throws Exception
      */
     @PostMapping("/exportData")
     @RequiresPermissions("mto:post:export")
     @ResponseBody
     public void exportMD(Long postId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        mtoPostService.exportMd(postId,request,response);
+        mtoPostService.exportMd(postId, request, response);
     }
 
     @PostMapping("/exportDataBatch")
