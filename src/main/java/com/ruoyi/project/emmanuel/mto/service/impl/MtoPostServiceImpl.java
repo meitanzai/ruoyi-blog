@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * 文章表题Service业务层处理
@@ -393,7 +396,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
     @PostConstruct
     private void getStatisticalAccountIpByDay() {
         List<String> list = mtoPostMapper.getStatisticalAccountIpByDay(DateUtils.getNowDate());
-        if (ToolUtils.isNotEmpty(list)){
+        if (ToolUtils.isNotEmpty(list)) {
             CacheUtils.put(Constants.WEB_STATISTICAL_IP, list);
         }
     }
@@ -405,18 +408,18 @@ public class MtoPostServiceImpl implements IMtoPostService {
      */
     @Override
     public int cleasrStaticPage() {
-        File directory = new File(RuoYiConfig.getHtmlPath() );
+        File directory = new File(RuoYiConfig.getHtmlPath());
         boolean exists = directory.exists();
-        if (exists){
+        if (exists) {
             FileUtils.deleteAllFile(directory);
         }
         return 1;
     }
 
     /**
-     * markdown 单文件导出
+     * markdown 导出博客之单文件
      *
-     * @param postId
+     * @param postId   博客id
      * @param request
      * @param response
      */
@@ -437,6 +440,47 @@ public class MtoPostServiceImpl implements IMtoPostService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("下载文章失败");
+        }
+    }
+
+    /**
+     * markdown 导出博客之多文件
+     *
+     * @param postIds  文章id
+     * @param request
+     * @param response
+     */
+    @Override
+    public void exportDataBatch(String postIds, HttpServletRequest request, HttpServletResponse response) {
+        if (StringUtils.isEmpty(postIds)) {
+            throw new RuntimeException("请选择需要导出的文章");
+        }
+
+        // 获取文章
+        List<MtoPost> postList = mtoPostMapper.selectMtoPostByIds(postIds.split(","));
+
+        // 下载
+        ZipOutputStream zipOutputStream = null;
+        try {
+            zipOutputStream = new ZipOutputStream(response.getOutputStream());
+            for (MtoPost post : postList) {
+                ZipEntry zipEntry = new ZipEntry(post.getTitle() + ".md");
+                zipOutputStream.putNextEntry(zipEntry);
+                zipOutputStream.write(post.getContent().getBytes());
+                zipOutputStream.closeEntry();
+                zipEntry.clone();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+                throw new RuntimeException("导出失败");
+        } finally {
+            if (zipOutputStream != null){
+                try {
+                    zipOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

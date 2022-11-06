@@ -142,7 +142,7 @@ public class MtoPostController extends BaseController {
     }
 
     /**
-     * 导出博客
+     * 导出博客之单文件
      *
      * @param postId   文章ID
      * @param request
@@ -156,13 +156,25 @@ public class MtoPostController extends BaseController {
         mtoPostService.exportMd(postId, request, response);
     }
 
+    /**
+     * 博客导出之多文件
+     *
+     * @param postIds  博客多个id字符
+     * @param request
+     * @param response
+     */
     @PostMapping("/exportDataBatch")
     @RequiresPermissions("mto:post:exportDataBatch")
     @ResponseBody
-    public void exportDataBatch(String postIds, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        throw new RuntimeException("批量导出稍后上线，试试单个文章导出吧");
+    public void exportDataBatch(String postIds, HttpServletRequest request, HttpServletResponse response) {
+        mtoPostService.exportDataBatch(postIds, request, response);
     }
 
+    /**
+     * 清空静态页面
+     *
+     * @return
+     */
     @RequiresPermissions("mto:post:cleasrStaticPage")
     @ResponseBody
     @Log(title = "清空静态页面", businessType = BusinessType.OTHER)
@@ -192,6 +204,12 @@ public class MtoPostController extends BaseController {
         return getDataTable(list);
     }
 
+    /**
+     * 首访博客记录
+     *
+     * @param ids
+     * @return
+     */
     @RequiresPermissions("mto:blog:first:remove")
     @ResponseBody
     @Log(title = "首访博客记录", businessType = BusinessType.DELETE)

@@ -357,4 +357,15 @@
         SELECT DISTINCT ip_addr from mto_look_ip_first where DATE_FORMAT(first_visit_date,'%Y-%m-%d') = DATE_FORMAT( #{nowDate},'%Y-%m-%d')
     </select>
 
+    <select id="selectMtoPostByIds" resultMap="MtoPostResult">
+        select p.id, p.title, pa.content
+        from mto_post p
+                 inner join mto_post_attribute pa on p.id = pa.id
+        <where>
+            <foreach collection="ids" item="id" open="p.id in (" close=")" separator=",">
+                #{id}
+            </foreach>
+            and status = 0
+        </where>
+    </select>
 </mapper>

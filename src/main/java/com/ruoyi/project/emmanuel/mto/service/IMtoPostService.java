@@ -5,6 +5,7 @@ import com.ruoyi.project.emmanuel.mto.domain.MtoPost;
 import com.ruoyi.project.emmanuel.mto.domain.MtoTag;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -125,11 +126,20 @@ public interface IMtoPostService {
     int cleasrStaticPage();
 
     /**
-     * markdown 但文件导出
+     * markdown 导出博客之单文件
      *
      * @param postId   文章ID
      * @param request
      * @param response
      */
     void exportMd(Long postId, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * markdown 导出博客之多文件
+     *
+     * @param postIds  文章id
+     * @param request
+     * @param response
+     */
+    void exportDataBatch(String postIds, HttpServletRequest request, HttpServletResponse response);
 }

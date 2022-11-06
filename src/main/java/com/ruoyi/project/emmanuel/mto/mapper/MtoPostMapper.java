@@ -14,8 +14,8 @@ import java.util.List;
  * @author 一粒麦子
  * @date 2021-11-13
  */
-public interface MtoPostMapper
-{
+public interface MtoPostMapper {
+
     /**
      * 查询文章表题
      *
@@ -74,6 +74,7 @@ public interface MtoPostMapper
 
     /**
      * 查询 title 标题是否存在
+     *
      * @param markdownName title
      * @return 主键id
      */
@@ -81,10 +82,19 @@ public interface MtoPostMapper
 
     /**
      * 首次访问博客记录
+     *
      * @param mtoLookIpFirst
      * @return
      */
     List<MtoLookIpFirst> selectLookIpFirstList(MtoLookIpFirst mtoLookIpFirst);
 
     List<String> getStatisticalAccountIpByDay(Date nowDate);
+
+    /**
+     * 根据ids查询文章
+     *
+     * @param ids 文章id数组
+     * @return
+     */
+    List<MtoPost> selectMtoPostByIds(String[] ids);
 }
