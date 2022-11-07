@@ -92,13 +92,16 @@ public class AdminIndexService {
         province = (array.length >= 1) ? array[0] : null;
         city = (array.length >= 2) ? array[1] : null;
         area =  (array.length >= 3) ? array[2] : null;
-        String weatherCity = ToolUtils.isNotEmpty(area) ? area : ToolUtils.isNotEmpty(city) ? city : province;
 
-        // 查询天气
-        String weatherStr = HttpUtils.sendGetIsGzip("http://wthrcdn.etouch.cn/weather_mini", "city=" + (ToolUtils.isEmpty(weatherCity) ? "北京" : weatherCity));
-        JSONObject weatherJson = (JSONObject) JSONObject.parse(weatherStr);
-        // weatherJson.put("ip",serviceIp);
-        // weatherJson.put("comeFrom", ToolUtils.isNotEmpty(city) ? province+ "  " +city : "获取定位失败");
+        JSONObject json = new JSONObject();
+        json.put("cip", serviceIp);
+        json.put("cname", address);
+
+//        // 查询天气
+//        String weatherStr = HttpUtils.sendGetIsGzip("http://wthrcdn.etouch.cn/weather_mini", "city=" + (ToolUtils.isEmpty(weatherCity) ? "北京" : weatherCity));
+//        JSONObject weatherJson = (JSONObject) JSONObject.parse(weatherStr);
+//        // weatherJson.put("ip",serviceIp);
+//        // weatherJson.put("comeFrom", ToolUtils.isNotEmpty(city) ? province+ "  " +city : "获取定位失败");
 
         // 记录日志
         BizRepeatLog bizRepeatLog = new BizRepeatLog();
@@ -111,7 +114,8 @@ public class AdminIndexService {
         bizRepeatLog.setUrl(request.getRequestURI());
         bizRepeatLog.setCreateTime(DateUtils.getNowDate());
         bizRepeatLogMapper.insert(bizRepeatLog);
-        return weatherJson;
+//        return weatherJson;
+        return json;
     }
 
 }

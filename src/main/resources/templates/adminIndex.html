@@ -29,7 +29,7 @@
                         <!--                        <span> 新消息 </span>-->
                         <!--                        <h6 class="font-bold">您来自: {{weather.ip}} <br>{{weather.comeFrom}}</h6>-->
                         <h5 class="font-bold">本次登录: {{returnLocation.cip}}
-                            <br>{{ returnLocation.cname.length == 0 ? '获取定位失败' : returnLocation.cname}}</h5>
+                            <br><br>{{ (returnLocation.cname == null || returnLocation.cname == '') ? '获取定位失败' : returnLocation.cname}}</h5>
                     </div>
                 </div>
             </div>
@@ -38,15 +38,17 @@
             <div class="widget style1 navy-bg" style="height:115px; overflow:hidden;">
                 <div class="row">
                     <div class="col-xs-3">
-                        <!--                        <i class="fa fa-cloud fa-5x"></i>-->
-                        <span style="font-family: 黑体; text-align:left; font-size: 20px"> {{weather.data.city}}</span>
+                                                <i class="fa fa-cloud fa-5x"></i>
+<!--                        <span style="font-family: 黑体; text-align:left; font-xsize: 20px"> {{weather.data.city}}</span>-->
                     </div>
                     <div class="col-xs-9 text-right">
-                        <span style="font-family: 黑体; text-align:left; float:left"> {{weather.data.ganmao}} </span>
-                        <h6 class="font-bold"><span
-                                style="color: yellow">  {{(weather.data.forecast[0].low || '').slice(2)}}/{{(weather.data.forecast[0].high || '').slice(2)}}</span>
-                            {{weather.data.forecast[0].type}} {{weather.data.forecast[0].fengxiang}}
-                            {{ weather.data.wendu }}'C</h6>
+                                                <h1 class="font-bold">预留位置</h1>
+
+                        <!--                        <span style="font-family: 黑体; text-align:left; float:left"> {{weather.data.ganmao}} </span>-->
+<!--                        <h6 class="font-bold"><span-->
+<!--                                style="color: yellow">  {{(weather.data.forecast[0].low || '').slice(2)}}/{{(weather.data.forecast[0].high || '').slice(2)}}</span>-->
+<!--                            {{weather.data.forecast[0].type}} {{weather.data.forecast[0].fengxiang}}-->
+<!--                            {{ weather.data.wendu }}'C</h6>-->
                     </div>
                 </div>
             </div>
@@ -444,26 +446,27 @@
         methods: {
             // 获取天气
             getWeather() {
-                var weather = Cookies.get('weather');
-                if (weather) {
-                    this.weather = JSON.parse(weather);
-                    return;
-                }
-                axios.get("http://api.ipify.org?format=xml").then((res) => {
-                    axios.get("/admin/index/getWeathe?ip=" + window.btoa(res.data)
-                    ).then(res => {  // 成功
-                        if (res && res.data) {
-                            this.weather = res.data.data;
-                            toastr.success(this.weather.data.city + " 天气：" + this.weather.data.forecast[0].type + "，现在温度" + this.weather.data.wendu + "'C 最低气温" + (this.weather.data.forecast[0].low || '').slice(2) + "，最高气温" + (this.weather.data.forecast[0].high || '').slice(2))
-                            // 设置为当天24点过期
-                            // Cookies.set('weather', JSON.stringify(this.weather), {expires: this.getNextDate()});
-                            // 设置为1小时后过期
-                            Cookies.set('weather', JSON.stringify(this.weather), {expires: new Date(new Date().getTime() + 60 * 1000 * 60)});
-                        }
-                    }).catch(error => { //失败
-                        toastr.error("获取天气失败")
-                    })
-                })
+                // var weather = Cookies.get('weather');
+                // if (weather) {
+                //     this.weather = JSON.parse(weather);
+                //     return;
+                // }
+                // axios.get("http://api.ipify.org?format=xml").then((res) => {
+                //     axios.get("/admin/index/getWeathe?ip=" + window.btoa(res.data)
+                //     ).then(res => {  // 成功
+                //         if (res && res.data) {
+                //             this.weather = res.data.data;
+                //             console.log(this.weather)
+                //             toastr.success(this.weather.data.city + " 天气：" + this.weather.data.forecast[0].type + "，现在温度" + this.weather.data.wendu + "'C 最低气温" + (this.weather.data.forecast[0].low || '').slice(2) + "，最高气温" + (this.weather.data.forecast[0].high || '').slice(2))
+                //             // 设置为当天24点过期
+                //             // Cookies.set('weather', JSON.stringify(this.weather), {expires: this.getNextDate()});
+                //             // 设置为1小时后过期
+                //             Cookies.set('weather', JSON.stringify(this.weather), {expires: new Date(new Date().getTime() + 60 * 1000 * 60)});
+                //         }
+                //     }).catch(error => { //失败
+                //         toastr.error("获取天气失败")
+                //     })
+                // })
             },
 
             // 获取天数
@@ -505,16 +508,40 @@
 
             // 根据ip获取定位
             getLocationByIp() {
-                // console.log("111",Math.ceil(( new Date() - new Date(new Date().getFullYear().toString()))/(24*60*60*1000))+1)
-                var that = this;
-                $.ajax({
-                    url: 'http://pv.sohu.com/cityjson?ie=utf-8',
-                    dataType: "script",
-                    method: 'GET',
-                }).done(function () {
-                    that.returnLocation = returnCitySN;
-                    toastr.success(that.returnLocation.cname);
-                });
+                // 获取IP方式一
+                // var that = this;
+                // $.ajax({
+                //     url: 'http://pv.sohu.com/cityjson?ie=utf-8',
+                //     dataType: "script",
+                //     method: 'GET',
+                // }).done(function () {
+                //     that.returnLocation = returnCitySN;
+                //     console.log(returnCitySN);
+                //     toastr.success(that.returnLocation.cname);
+                // });
+
+                // 获取IP方式二
+                var weather = Cookies.get('location');
+                debugger;
+                if (weather) {
+                    this.returnLocation = JSON.parse(weather);
+                    return;
+                }
+                axios.get("http://api.ipify.org?format=xml").then((res) => {
+                    axios.get("/admin/index/getWeathe?ip=" + window.btoa(res.data)
+                    ).then(res => {  // 成功
+                        if (res && res.data) {
+                            this.returnLocation = res.data.data;
+                            console.log(this.returnLocation)
+                            // 设置为当天24点过期
+                            Cookies.set('location', JSON.stringify(this.returnLocation), {expires: this.getNextDate()});
+                            // 设置为1小时后过期
+                            // Cookies.set('weather', JSON.stringify(this.weather), {expires: new Date(new Date().getTime() + 60 * 1000 * 60)});
+                        }
+                    }).catch(error => { //失败
+                        toastr.error("获取定位失败")
+                    })
+                })
             },
 
             /**
