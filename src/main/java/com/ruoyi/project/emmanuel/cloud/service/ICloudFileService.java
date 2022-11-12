@@ -6,6 +6,7 @@ import com.ruoyi.project.emmanuel.cloud.domain.FileDTO;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -62,4 +63,21 @@ public interface ICloudFileService extends IService<CloudFile> {
     int updateShareById(CloudFile cloudFile);
 
     List<CloudFile> selectCloudFileList(CloudFile cloudFile);
+
+    /**
+     * 文件管理 - 单文件下载
+     *
+     * @param request
+     * @param response
+     */
+    void downLoadFile(Long id, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * 文件管理- 多文件批量ZIP下载
+     *
+     * @param idListStr
+     * @param request
+     * @param response
+     */
+    void downloadBatch(String idListStr, HttpServletRequest request, HttpServletResponse response);
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -243,5 +244,32 @@ public class CloudFileController extends BaseController {
     public AjaxResult remove(String ids) {
         Integer[] idList = (Integer[]) ConvertUtils.convert(ids.split(","), Integer.class);
         return toAjax(cloudFileService.deleteCloudFileByIds(idList));
+    }
+
+    /**
+     * 文件管理 - 单文件下载
+     *
+     * @param request
+     * @param response
+     */
+    @RequiresPermissions("system:file:download")
+    @Log(title = "文件下载", businessType = BusinessType.OTHER)
+    @PostMapping("/downLoadOneFile")
+    public void downLoadFile(@RequestParam("id") Long id, HttpServletRequest request, HttpServletResponse response) {
+        cloudFileService.downLoadFile(id, request, response);
+    }
+
+    /**
+     * 文件管理- 多文件批量ZIP下载
+     *
+     * @param idListStr
+     * @param request
+     * @param response
+     */
+    @RequiresPermissions("system:file:downloadBatch")
+    @Log(title = "文件批量下载", businessType = BusinessType.OTHER)
+    @PostMapping("/downloadBatch")
+    public void downloadBatch(@RequestParam("idListStr") String idListStr, HttpServletRequest request, HttpServletResponse response) {
+        cloudFileService.downloadBatch(idListStr, request, response);
     }
 }

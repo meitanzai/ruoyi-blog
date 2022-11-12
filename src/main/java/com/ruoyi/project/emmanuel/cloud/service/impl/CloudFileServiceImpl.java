@@ -17,12 +17,15 @@ import com.ruoyi.project.emmanuel.cloud.mapper.CloudFileMapper;
 import com.ruoyi.project.emmanuel.cloud.service.ICloudFileService;
 import com.ruoyi.project.emmanuel.cloud.utils.FileTypeUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -32,6 +35,7 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -66,7 +70,7 @@ public class CloudFileServiceImpl extends ServiceImpl<CloudFileMapper, CloudFile
         //获取总空间
         float totalSpace = userInfo.getTotalSpace();
         //得到百分比
-        String percentage =  (totalSpace<=0) ? "无空间":String.format("%.2f", (usedSpace / (totalSpace * 1024 * 1024)) * 100) + "%";
+        String percentage = (totalSpace <= 0) ? "无空间" : String.format("%.2f", (usedSpace / (totalSpace * 1024 * 1024)) * 100) + "%";
         userInfo.setPercentage(percentage);
 
         //计算结果保留两位小数
@@ -174,7 +178,7 @@ public class CloudFileServiceImpl extends ServiceImpl<CloudFileMapper, CloudFile
         try {
             //获取文件信息
             CloudFile cloudFile = cloudFileMapper.selectById(fileId);
-            this.downloadFile(cloudFile.getUrlPath(), response,cloudFile.getOldfilename());
+            this.downloadFile(cloudFile.getUrlPath(), response, cloudFile.getOldfilename());
             //修改文件的下载次数
             cloudFile.setDowncounts(cloudFile.getDowncounts() + 1);
             cloudFileMapper.updateById(cloudFile);
@@ -232,12 +236,12 @@ public class CloudFileServiceImpl extends ServiceImpl<CloudFileMapper, CloudFile
     }
 
     /**
-     * @param resource 数据库文件地址
+     * @param resource     数据库文件地址
      * @param downloadName 下载名称
      * @param response
      * @throws Exception
      */
-    private void downloadFile(String resource, HttpServletResponse response,String downloadName) throws Exception {
+    private void downloadFile(String resource, HttpServletResponse response, String downloadName) throws Exception {
         if (StringUtils.isEmpty(resource)) {
             throw new RuntimeException("路径不能为空");
         }
@@ -301,18 +305,18 @@ public class CloudFileServiceImpl extends ServiceImpl<CloudFileMapper, CloudFile
     }
 
     @Override
-    public void findFileListByKey(String keys,  Model model) {
+    public void findFileListByKey(String keys, Model model) {
         // 获取用户id
         Long userId = ShiroUtils.getUserId();
         // 分析关键字
         List<String> keylist = FileTypeUtils.ParsingKeys(keys);
         // 搜索
         QueryWrapper<CloudFile> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(CloudFile::getUserId,userId)
-                .eq(CloudFile::getIsRecycle,0)
-                .like(CloudFile::getOldfilename,keylist.get(1));
-        if (StringUtils.isNotEmpty(keylist.get(0))){
-            queryWrapper.lambda().like(CloudFile::getType,keylist.get(0));
+        queryWrapper.lambda().eq(CloudFile::getUserId, userId)
+                .eq(CloudFile::getIsRecycle, 0)
+                .like(CloudFile::getOldfilename, keylist.get(1));
+        if (StringUtils.isNotEmpty(keylist.get(0))) {
+            queryWrapper.lambda().like(CloudFile::getType, keylist.get(0));
         }
         List<CloudFile> files = cloudFileMapper.selectList(queryWrapper);
         model.addAttribute("files", files);
@@ -321,18 +325,118 @@ public class CloudFileServiceImpl extends ServiceImpl<CloudFileMapper, CloudFile
     @Override
     public Integer setPublicList(Integer isPublic, List<Long> idList) {
         int i = cloudFileMapper.updatePublicByIdList(isPublic, idList);
-        return i>0?1:2;
+        return i > 0 ? 1 : 2;
     }
 
     @Override
     public int updateShareById(CloudFile cloudFile) {
-        return cloudFileMapper.updateShareById(cloudFile.getIsShare(),cloudFile.getId());
+        return cloudFileMapper.updateShareById(cloudFile.getIsShare(), cloudFile.getId());
     }
 
     @Override
-    public List<CloudFile> selectCloudFileList(CloudFile cloudFile)
-    {
+    public List<CloudFile> selectCloudFileList(CloudFile cloudFile) {
         return cloudFileMapper.selectCloudFileList(cloudFile);
     }
 
+    /**
+     * 文件管理 - 单文件下载
+     *
+     * @param request
+     * @param response
+     */
+    @Override
+    public void downLoadFile(Long id, HttpServletRequest request, HttpServletResponse response) {
+        FileInputStream inputStream = null;
+        ServletOutputStream outputStream = null;
+        try {
+            // 获取文件信息
+            CloudFile cloudFile = cloudFileMapper.selectById(id);
+            // 获取文件存放的位置
+            String filePath = cloudFile.getFilePath();
+            // 获取文件新名称
+            String newFileName = cloudFile.getNewfilename();
+            // 文件完整存放的位置
+            String downLoadFileURL = filePath + "/" + newFileName;
+            File file = new File(downLoadFileURL);
+            // 判断文件是否存在，如果不存在，反馈给用户
+            if (!file.exists()) {
+                throw new RuntimeException("文件丢失");
+            }
+            inputStream = new FileInputStream(file);
+            outputStream = response.getOutputStream();
+            // 将inputStream读取输入流 Copy到 outputStream输出流
+            IOUtils.copy(inputStream, outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != inputStream) {
+                    inputStream.close();
+                }
+                if (null != outputStream) {
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 文件管理- 多文件批量ZIP下载
+     *
+     * @param idListStr
+     * @param request
+     * @param response
+     */
+    @Override
+    public void downloadBatch(String idListStr, HttpServletRequest request, HttpServletResponse response) {
+
+        // 获取需要下载文件路径
+        List<CloudFile> fileList = cloudFileMapper.selectBatchIds(Arrays.asList(idListStr.split(",")));
+        ZipOutputStream zipOutputStream = null;
+        FileInputStream inputStream = null;
+        // 记录丢失的内容
+        String loseContent = "";
+        try {
+            // 最终ZIP压缩包的输出流
+            zipOutputStream = new ZipOutputStream(response.getOutputStream());
+            for (CloudFile cloudFile : fileList) {
+                // 获取文件存放的位置
+                String filePath = cloudFile.getFilePath();
+                // 获取文件新名称
+                String newFileName = cloudFile.getNewfilename();
+                // 文件完整存放的位置
+                String downLoadFileURL = filePath + "/" + newFileName;
+                File file = new File(downLoadFileURL);
+                if (!file.exists()) {
+                    loseContent += cloudFile.getOldfilename() + "\n";
+                    continue;
+                }
+                // 获取 inputStream 输入流
+                inputStream = new FileInputStream(file);
+                ZipEntry zipEntry = new ZipEntry(file.getName());
+                zipOutputStream.putNextEntry(zipEntry);
+                IOUtils.copy(inputStream, zipOutputStream);
+            }
+            // 如果存在文件丢失的现象，反馈给用户
+            if (StringUtils.isNotBlank(loseContent)) {
+                zipOutputStream.putNextEntry(new ZipEntry("部分文件丢失.txt"));
+                zipOutputStream.write(loseContent.getBytes());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != zipOutputStream) {
+                    zipOutputStream.close();
+                }
+                if (null != inputStream) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

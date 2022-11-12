@@ -26,15 +26,16 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-<!--            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"-->
-<!--               shiro:hasPermission="system:file:edit">-->
-<!--                <i class="fa fa-edit"></i> 修改-->
-<!--            </a>-->
+            <!--            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"-->
+            <!--               shiro:hasPermission="system:file:edit">-->
+            <!--                <i class="fa fa-edit"></i> 修改-->
+            <!--            </a>-->
             <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
                shiro:hasPermission="system:file:remove">
                 <i class="fa fa-remove"></i> 删除
             </a>
-            <a class="btn btn-info multiple disabled" id="downloadall" >
+            <a class="btn btn-warning multiple disabled" id="downloadall"
+               shiro:hasPermission="system:file:downloadBatch">
                 <i class="glyphicon glyphicon-download-alt"></i> 下载
             </a>
 
@@ -46,6 +47,7 @@
 </div>
 <th:block th:include="include :: footer"/>
 <script th:inline="javascript">
+    var download = [[${@permission.hasPermi('system:file:download')}]];
     var removeFlag = [[${@permission.hasPermi('system:file:remove')}]];
     var prefix = ctx + "cloud/file";
 
@@ -85,10 +87,10 @@
                     field: 'size',
                     title: '文件大小'
                 },
-                {
-                    field: 'downcounts',
-                    title: '下载次数'
-                },
+                // {
+                //     field: 'downcounts',
+                //     title: '下载次数'
+                // },
                 {
                     field: 'uploadTime',
                     title: '上传时间'
@@ -114,6 +116,7 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
+                        actions.push('<a class="btn btn-warning btn-xs ' + download + '" href="javascript:void(0)" onclick="downloadFile(\'' + row.id + '\',\'' + row.oldfilename + '\')">下载<i class="fa fa-download"></i>');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
@@ -130,9 +133,60 @@
             $.modal.alertWarning("请至少选择一条记录");
             return;
         }
-        const  split =  Array.from(rows);
-        window.location.href = "/cloud/file/downloadFileList?ids="+split;
+        const idListStr = Array.from(rows).toString();
+        var dataParam = {"idListStr": idListStr};
+        // window.location.href = "/cloud/file/downloadFileList?ids="+split;
+        var f1 = $.ajax({
+            url: prefix + '/downloadBatch',
+            type: 'POST',
+            data: dataParam,
+            xhrFields: {
+                responseType: 'blob'
+            },
+        })
+        $.when(f1).then(function (content) {
+            debugger
+            var a = document.createElement('a')
+            var blob = new Blob([content])
+            var url = window.URL.createObjectURL(blob)
+            a.href = url
+            a.download = "文件批量下载.zip";
+            a.click()
+            window.URL.revokeObjectURL(url)
+        }).catch((error) => {
+            $.modal.alertError("文件下载失败");
+        })
     };
+
+    /**
+     * 文件管理- 单文件下载
+     * @param id
+     * @param oldFileName
+     */
+    function downloadFile(id, oldFileName) {
+        var dataParam = {"id": id};
+        var url = prefix + "/downLoadOneFile";
+        var f1 = $.ajax({
+            url: url,
+            type: 'POST',
+            data: dataParam,
+            xhrFields: {
+                responseType: 'blob'
+            },
+        })
+        $.when(f1).then(function (content) {
+            debugger
+            var a = document.createElement('a')
+            var blob = new Blob([content])
+            var url = window.URL.createObjectURL(blob)
+            a.href = url
+            a.download = oldFileName;
+            a.click()
+            window.URL.revokeObjectURL(url)
+        }).catch((error) => {
+            $.modal.alertError("文件下载失败");
+        })
+    }
 </script>
 </body>
 </html>
