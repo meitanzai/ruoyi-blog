@@ -122,6 +122,7 @@
                p.tags,
                p.thumbnail,
                p.title,
+               p.pwd,
                p.views,
                p.weight,
                ifnull(p.update_time, p.create_time) as update_time,
@@ -174,6 +175,9 @@
             <if test="title != null">
                 title,
             </if>
+            <if test="pwd != null">
+                pwd,
+            </if>
             <if test="views != null">
                 views,
             </if>
@@ -223,6 +227,9 @@
             </if>
             <if test="title != null">
                 #{title},
+            </if>
+            <if test="pwd != null">
+                #{pwd},
             </if>
             <if test="views != null">
                 #{views},
@@ -277,6 +284,9 @@
             </if>
             <if test="title != null">
                 title = #{title},
+            </if>
+            <if test="pwd != null">
+                pwd = #{pwd},
             </if>
             <if test="views != null">
                 views = #{views},

@@ -10,7 +10,6 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.mto.domain.MtoPost;
 import com.ruoyi.project.emmanuel.mto.domain.WebMtoPost;
 import com.ruoyi.project.emmanuel.mto.service.IWebPostService;
-import com.ruoyi.project.system.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -127,10 +126,9 @@ public class WebPostController extends BaseController {
      * @param articleId 文章id
      * @return
      */
-    @GetMapping("/article/{articleId}")
-    public String articleById(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response,
-                              @PathVariable("articleId") Long articleId) {
-        String url = postService.articleById(request, response, modelMap, articleId);
+    @RequestMapping(value = "/article/{articleId}", method = {RequestMethod.GET, RequestMethod.POST})
+    public String articleById(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, @PathVariable("articleId") Long articleId, @RequestParam(value = "articlePwd", required = false) String articlePwd) {
+        String url = postService.articleById(request, response, modelMap, articleId, articlePwd);
         return ToolUtils.isEmpty(url) ? prefix + "/article" : url;
     }
 

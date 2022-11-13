@@ -44,6 +44,11 @@ public class WebMtoPost implements Serializable {
     private String channelName;
 
     /**
+     * 博客密码
+     */
+    private String pwd;
+
+    /**
      * 评论数
      */
     private Long comments;

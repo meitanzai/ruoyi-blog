@@ -506,6 +506,7 @@ CREATE TABLE `mto_post`  (
                              `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'title',
                              `views` int(11) NOT NULL DEFAULT 0 COMMENT '查看次数',
                              `weight` int(11) NOT NULL DEFAULT 0,
+                             `pwd` varchar (20) NULL DEFAULT null COMMENT '博客密码',
                              `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`id`) USING BTREE,
                              INDEX `IK_CHANNEL_ID`(`channel_id`) USING BTREE,

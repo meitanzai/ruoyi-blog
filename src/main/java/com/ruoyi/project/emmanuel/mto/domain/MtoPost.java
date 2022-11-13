@@ -72,7 +72,7 @@ public class MtoPost implements Serializable {
     private String summary;
 
     /**
-     *
+     * 标签
      */
     private String tags;
 
@@ -85,6 +85,11 @@ public class MtoPost implements Serializable {
      * 标题
      */
     private String title;
+
+    /**
+     * 博客密码
+     */
+    private String pwd;
 
     /**
      * 查看次数

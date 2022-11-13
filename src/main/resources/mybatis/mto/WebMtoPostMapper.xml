@@ -69,6 +69,7 @@
                p.tags,
                p.thumbnail,
                p.title,
+               p.pwd,
                p.views,
                p.weight,
                p.update_time,

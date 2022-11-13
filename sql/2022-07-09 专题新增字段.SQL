@@ -49,3 +49,6 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`,
 -- 2022年11月10日新增文件管理下载，批量下载
 INSERT INTO `sys_menu` ( `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ( '单文件下载', 1144, 7, '#', 'menuItem', 'F', '0', '1', 'system:file:download', '#', '一粒麦子', '2022-11-05 20:06:22', '', NULL, '');
 INSERT INTO `sys_menu` ( `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ( '多批量下载', 1144, 8, '#', 'menuItem', 'F', '0', '1', 'system:file:downloadBatch', '#', '一粒麦子', '2022-11-05 20:06:46', '', NULL, '');
+
+-- 2022年10月13日新增文章密码
+alter table mto_post add COLUMN pwd VARCHAR(20) DEFAULT NULL

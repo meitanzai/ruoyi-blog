@@ -480,7 +480,22 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * @param articleId postId,博客的id
      */
     @Override
-    public String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId) {
+    public String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId,String articlePwd) {
+
+        // 文章详情
+        WebMtoPost webMtoPost = this.selectMtoPostById(articleId);
+        modelMap.put("mtoPost", webMtoPost);
+
+        // 如果存在密码，输入密码
+        String blogPwd = webMtoPost.getPwd();
+        if (StringUtils.isNotBlank(blogPwd) && !Objects.equals(blogPwd, articlePwd)){
+            webMtoPost.setContent(null);
+            if (StringUtils.isNotBlank(articlePwd)){
+                webMtoPost.setTitle(webMtoPost.getTitle()+" (密码错误)");
+            }
+            return "emmanuel/web/auth";
+        }
+
         // 如果开启静态模板
         if (RuoYiConfig.isPageStaticEnabled()) {
             // 判断文件是否存在
@@ -493,11 +508,9 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
                 return "forward:" + currentDir;
             }
         }
+
         // 获取导航
         this.selectCategory(modelMap);
-        // 文章详情
-        WebMtoPost webMtoPost = this.selectMtoPostById(articleId);
-        modelMap.put("mtoPost", webMtoPost);
 
         // 专题，侧边栏显示专题文章
         List<WebMtoPost> specialPostList = new ArrayList<WebMtoPost>();

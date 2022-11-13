@@ -76,7 +76,7 @@ public interface IWebPostService extends IService<WebMtoPost> {
      * @param articleId 文章id
      * @return
      */
-    String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId);
+    String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId,String articlePwd);
 
     /**
      * 点赞
