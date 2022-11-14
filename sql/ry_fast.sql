@@ -489,41 +489,44 @@ INSERT INTO `mto_look_ip_first` VALUES (1, '127.0.0.1', '内网IP', '/blog', '20
 -- Table structure for mto_post
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_post`;
-CREATE TABLE `mto_post`  (
-                             `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-                             `author_id` bigint(20) NULL DEFAULT NULL COMMENT '作者id',
-                             `channel_id` bigint(11) NULL DEFAULT NULL COMMENT '栏目id',
-                             `category_Id` bigint(20) NULL DEFAULT NULL COMMENT '导航id',
-                             `comments` int(11) NOT NULL DEFAULT 0 COMMENT '评论数',
-                             `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-                             `slider` int(11) NULL DEFAULT 0 COMMENT '轮播图状态 (1是轮播图)',
-                             `favors` int(11) NOT NULL DEFAULT 0 COMMENT '收藏数(默认为0为推荐，1是推荐)',
-                             `featured` int(11) NOT NULL DEFAULT 0 COMMENT '推荐状态',
-                             `status` int(11) NOT NULL DEFAULT 0 COMMENT '文章状态',
-                             `summary` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '摘要',
-                             `tags` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标签',
-                             `thumbnail` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片',
-                             `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'title',
-                             `views` int(11) NOT NULL DEFAULT 0 COMMENT '查看次数',
-                             `weight` int(11) NOT NULL DEFAULT 0,
-                             `pwd` varchar (20) NULL DEFAULT null COMMENT '博客密码',
-                             `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-                             PRIMARY KEY (`id`) USING BTREE,
-                             INDEX `IK_CHANNEL_ID`(`channel_id`) USING BTREE,
-                             INDEX `index_title`(`title`) USING BTREE,
-                             INDEX `index_channel_id`(`channel_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客基本信息' ROW_FORMAT = Dynamic;
+CREATE TABLE `mto_post` (
+                            `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                            `author_id` bigint(20) DEFAULT NULL COMMENT '作者id',
+                            `channel_id` bigint(11) DEFAULT NULL COMMENT '栏目id',
+                            `category_Id` bigint(20) DEFAULT NULL COMMENT '导航id',
+                            `comments` int(11) NOT NULL DEFAULT '0' COMMENT '评论数',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `slider` int(11) DEFAULT '0' COMMENT '轮播图状态 (1是轮播图)',
+                            `favors` int(11) NOT NULL DEFAULT '0' COMMENT '收藏数(默认为0为推荐，1是推荐)',
+                            `featured` int(11) NOT NULL DEFAULT '0' COMMENT '推荐状态',
+                            `status` int(11) NOT NULL DEFAULT '0' COMMENT '文章状态',
+                            `summary` varchar(500) DEFAULT NULL COMMENT '摘要',
+                            `tags` varchar(100) DEFAULT NULL COMMENT '标签',
+                            `thumbnail` varchar(500) DEFAULT NULL COMMENT '图片',
+                            `title` varchar(64) DEFAULT NULL COMMENT 'title',
+                            `views` int(11) NOT NULL DEFAULT '0' COMMENT '查看次数',
+                            `weight` int(11) NOT NULL DEFAULT '0',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `pwd` varchar(20) DEFAULT NULL,
+                            PRIMARY KEY (`id`) USING BTREE,
+                            KEY `IK_CHANNEL_ID` (`channel_id`) USING BTREE,
+                            KEY `index_title` (`title`) USING BTREE,
+                            KEY `index_channel_id` (`channel_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='博客基本信息';
 
 -- ----------------------------
 -- Records of mto_post
 -- ----------------------------
-INSERT INTO `mto_post` VALUES (3, 1, 2, NULL, 0, '2022-05-29 13:44:56', 0, 0, 0, 0, '', 'java', '', '@Autowired注解', 0, 0, '2022-05-29 13:45:14');
-INSERT INTO `mto_post` VALUES (4, 1, 2, NULL, 0, '2022-05-29 13:44:56', 0, 0, 0, 0, '由于NumberFormat类的format()方法可以使用BigDecimal对象作为其参数，可以利用BigDecimal对超出16位有效数字的货币值，百分值，以及一般数值进行格式化控制。', 'java', '', 'BigDecimal常用方法详解', 0, 0, '2022-05-29 13:46:21');
-INSERT INTO `mto_post` VALUES (5, 1, 2, NULL, 0, '2022-05-29 13:44:56', 0, 0, 0, 0, '', 'java', '', 'IDEA设置与常用插件', 0, 0, '2022-05-29 13:46:35');
-INSERT INTO `mto_post` VALUES (6, 1, 2, NULL, 0, '2022-05-29 13:44:56', 0, 1, 0, 0, '', 'java, 多线程', '', 'Java多线程批量拆分List导入数据库', 1, 0, '2022-05-29 13:47:04');
-INSERT INTO `mto_post` VALUES (13, 1, 2, NULL, 0, '2022-05-29 13:47:32', 1, 0, 1, 0, '', '', '', '异步编程(异步调用)', 1, 0, '2022-05-29 13:47:46');
-INSERT INTO `mto_post` VALUES (14, 1, 4, NULL, 0, '2022-05-29 13:50:50', 1, 0, 0, 0, '', '', '', 'oracle数据库', 0, 0, '2022-05-29 13:51:08');
+BEGIN;
+INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `weight`, `update_time`, `pwd`) VALUES (3, 1, 2, NULL, 0, '2022-05-29 13:44:56', 0, 0, 0, 0, '', 'java', '', '@Autowired注解', 0, 0, '2022-05-29 13:45:14', NULL);
+INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `weight`, `update_time`, `pwd`) VALUES (4, 1, 2, NULL, 0, '2022-05-29 13:44:56', 0, 0, 0, 0, '由于NumberFormat类的format()方法可以使用BigDecimal对象作为其参数，可以利用BigDecimal对超出16位有效数字的货币值，百分值，以及一般数值进行格式化控制。', 'java', '', 'BigDecimal常用方法详解', 0, 0, '2022-05-29 13:46:21', NULL);
+INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `weight`, `update_time`, `pwd`) VALUES (5, 1, 2, NULL, 0, '2022-05-29 13:44:56', 0, 0, 0, 0, '', 'java', '', 'IDEA设置与常用插件', 0, 0, '2022-05-29 13:46:35', NULL);
+INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `weight`, `update_time`, `pwd`) VALUES (6, 1, 2, NULL, 0, '2022-05-29 13:44:56', 0, 1, 0, 0, '', 'java, 多线程', '', 'Java多线程批量拆分List导入数据库', 1, 0, '2022-05-29 13:47:04', NULL);
+INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `weight`, `update_time`, `pwd`) VALUES (13, 1, 2, NULL, 0, '2022-05-29 13:47:32', 1, 0, 1, 0, '', '', '', '异步编程(异步调用)', 1, 0, '2022-05-29 13:47:46', NULL);
+INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `weight`, `update_time`, `pwd`) VALUES (14, 1, 4, NULL, 0, '2022-05-29 13:50:50', 1, 0, 0, 0, '', '', '', 'oracle数据库', 0, 0, '2022-05-29 13:51:08', NULL);
+COMMIT;
 
+SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 -- Table structure for mto_post_attribute
 -- ----------------------------
