@@ -1,14 +1,10 @@
 package com.ruoyi.common.utils.file;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -313,5 +309,49 @@ public class FileUtils
             //删除全部文件后删除空文件夹,最后删除自己
             dir.delete();
         }
+    }
+
+    /**
+     * @param folder  文件/文件路径
+     * @param keyword 搜索关键字
+     * @param all     是否递归搜索，ture本路径下所有的文件夹中的文件，false只查询次文件夹中的文件
+     * @return 文件
+     */
+    public static List<File> searchLikeFiles(File folder, final String keyword, Boolean all) {
+
+        List<File> result = new ArrayList<File>();
+        if (folder.isFile()) {
+            result.add(folder);
+        }
+
+        File[] subFolders = folder.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                // 判断文件夹是否存在
+                if (file.isDirectory()) {
+                    return true;
+                }
+                if (file.getName().toLowerCase().contains(keyword)) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        if (subFolders != null) {
+            for (File file : subFolders) {
+                if (file.isFile()) {
+                    // 如果是文件则将文件添加到结果列表中
+                    result.add(file);
+                } else {
+                    // 如果是文件夹，则递归调用本方法，然后把所有的文件加到结果列表中
+                    if (all) {
+                        result.addAll(searchLikeFiles(file, keyword, true));
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 }
