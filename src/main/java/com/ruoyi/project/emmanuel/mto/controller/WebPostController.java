@@ -55,11 +55,21 @@ public class WebPostController extends BaseController {
         return blogInfoPrefix + "/detail";
     }
 
+    /**
+     * 获取博客首页
+     *
+     * @param modelMap
+     * @param request
+     * @param response
+     * @param currentPage 当前页
+     * @param currentSize 页大小
+     * @return
+     */
     @GetMapping({"/list", "/", "index", ""})
-    public String selectIndexInfo(ModelMap modelMap, @RequestParam(value = "currentPage", defaultValue = "1") Long currentPage, @RequestParam(value = "currentSize", defaultValue = "10") Long currentSize) {
+    public String selectIndexInfo(ModelMap modelMap, @RequestParam(value = "currentPage", defaultValue = "1") Long currentPage, @RequestParam(value = "currentSize", defaultValue = "10") Long currentSize, HttpServletRequest request, HttpServletResponse response) {
         currentSize = currentSize > 50 ? 50 : currentSize;
-        postService.selectIndexInfo(modelMap, currentPage, currentSize);
-        return prefix + "/index";
+        String url = postService.selectIndexInfo(modelMap, request, response, currentPage, currentSize);
+        return ToolUtils.isEmpty(url) ? prefix + "/index" : url;
     }
 
     /**

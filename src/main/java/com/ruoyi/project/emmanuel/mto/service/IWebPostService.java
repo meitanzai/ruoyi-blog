@@ -45,7 +45,17 @@ public interface IWebPostService extends IService<WebMtoPost> {
      */
     WebMtoPost selectMtoPostById(Long id);
 
-    void selectIndexInfo(ModelMap modelMap, Long currentPage, Long currentSize);
+    /**
+     * 前台博客文章列表
+     *
+     * @param modelMap
+     * @param request
+     * @param response
+     * @param currentPage 当前页
+     * @param currentSize 页大小
+     * @return
+     */
+    String selectIndexInfo(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, Long currentPage, Long currentSize);
 
     /**
      * 根据导航栏id查询
@@ -70,13 +80,16 @@ public interface IWebPostService extends IService<WebMtoPost> {
     void channelById(ModelMap modelMap, Long channelId, Long currentPage, Long currentSize);
 
     /**
-     * 文章详情
+     * * 文章详情
      *
      * @param modelMap
-     * @param articleId 文章id
+     * @param request
+     * @param response
+     * @param articleId  文章id
+     * @param articlePwd 文章密码
      * @return
      */
-    String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId,String articlePwd);
+    String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId, String articlePwd);
 
     /**
      * 点赞
@@ -156,9 +169,10 @@ public interface IWebPostService extends IService<WebMtoPost> {
 
     /**
      * 根据关键字搜索
-     * @param keyword 关键字
-     * @param pageNum 页码
+     *
+     * @param keyword  关键字
+     * @param pageNum  页码
      * @param pageSize 多少条数据
      */
-    void searchByKeyword(ModelMap modelMap,String keyword, Long pageNum, Long pageSize);
+    void searchByKeyword(ModelMap modelMap, String keyword, Long pageNum, Long pageSize);
 }

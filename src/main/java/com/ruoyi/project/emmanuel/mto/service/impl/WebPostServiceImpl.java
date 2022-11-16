@@ -66,10 +66,12 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
     /**
      * 获取首页文章
      *
-     * @param currentPage
-     * @param currentSize
+     * @param webMtoPost
+     * @param currentPage 当前页
+     * @param currentSize 页大小
      * @return
      */
+    @Override
     public TableDataInfo selectIndexPostList(WebMtoPost webMtoPost, Long currentPage, Long currentSize) {
 
         // 搜索关键字
@@ -106,7 +108,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
     @Override
     public List<WebMtoPost> selectIndexNewPostList() {
         QueryWrapper<WebMtoPost> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(WebMtoPost::getStatus,0);
+        queryWrapper.lambda().eq(WebMtoPost::getStatus, 0);
         queryWrapper.lambda().orderByDesc(WebMtoPost::getCreateTime).last("limit 10");
         List<WebMtoPost> webMtoPostList = postMapper.selectList(queryWrapper);
         return webMtoPostList;
@@ -164,9 +166,39 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * @param modelMap
      * @param currentPage 当前页
      * @param currentSize 当前页条数
+     * @param request
+     * @param response
      */
     @Override
-    public void selectIndexInfo(ModelMap modelMap, Long currentPage, Long currentSize) {
+    public String selectIndexInfo(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, Long currentPage, Long currentSize) {
+        // 如果开启静态模板
+        if (RuoYiConfig.isPageStaticEnabled()) {
+            String htmlName = "blog-" + currentPage + "-" + currentSize + ".html";
+            // 判断文件是否存在
+            File directory = new File(RuoYiConfig.getHtmlPath() + File.separator + htmlName);
+            if (directory.exists()) {
+                // 静态页面存在的路径
+                String currentHtmlDir = RuoYiConfig.getHtmlPath().substring(RuoYiConfig.getHtmlPath().lastIndexOf("/") + 1);
+                // 当前静态页面访问地址
+                String currentDir = Constants.RESOURCE_PREFIX + "/" + currentHtmlDir + "/" + htmlName;
+                return "forward:" + currentDir;
+            }
+            createBlogHtml(request, response, currentPage, currentSize, modelMap, htmlName);
+            return null;
+        }
+
+        this.getIndexData(modelMap, currentPage, currentSize);
+        return null;
+    }
+
+    /**
+     * 获取首页数据
+     *
+     * @param modelMap
+     * @param currentPage 当前页
+     * @param currentSize 当页数量
+     */
+    private void getIndexData(ModelMap modelMap, Long currentPage, Long currentSize) {
         // 获取文章列表
         this.loadMainPage(modelMap, new WebMtoPost(), currentPage, currentSize);
         // 获取导航
@@ -174,11 +206,10 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         // 获取侧边栏
         this.publicWeb(modelMap);
         // 获取轮播图
-        if (Objects.equals(1L,currentPage)) {
+        if (Objects.equals(1L, currentPage)) {
             this.sliderList(modelMap);
         }
     }
-
 
     /**
      * @param modelMap
@@ -235,7 +266,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
             modelMap.put("sliderDataInfo", sliderList);
 
             // 保存到缓存
-            CacheUtils.put(Constants.WEB_SLIDER,sliderList);
+            CacheUtils.put(Constants.WEB_SLIDER, sliderList);
         }, executor);
 
         try {
@@ -411,7 +442,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         }, executor);
 
         try {
-            CompletableFuture.allOf(channelFuture,tagFuture, newPostFuture, recommendPostFuture, hotPostFuture, linkFuture).get();
+            CompletableFuture.allOf(channelFuture, tagFuture, newPostFuture, recommendPostFuture, hotPostFuture, linkFuture).get();
         } catch (Exception e) {
             throw new RuntimeException("异步编程发生错误: " + e.getMessage());
         }
@@ -449,29 +480,12 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      */
     private List<WebMtoPost> selectIndexHotPostList() {
         QueryWrapper<WebMtoPost> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(WebMtoPost::getStatus,0);
+        queryWrapper.lambda().eq(WebMtoPost::getStatus, 0);
         queryWrapper.lambda().orderByDesc(WebMtoPost::getViews).last("limit 10");
         List<WebMtoPost> hotMtoPostList = postMapper.selectList(queryWrapper);
         return hotMtoPostList;
     }
 
-    /**
-     * 生成文章静态页面
-     *
-     * @param request
-     * @param response
-     * @param modelMap  页面内容
-     * @param articleId 文章ID
-     */
-    private void createArticleHtml(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId) {
-        Map<String, Object> paramMap = new LinkedHashMap<>();
-        // 生成静态页面的导航
-        paramMap.put("mtoCategoryList", modelMap.get("mtoCategoryList"));
-        // 生成静态页面的文章
-        paramMap.put("mtoPost", modelMap.get("mtoPost"));
-        // 创建静态页面
-        createHtml(request, response, true, paramMap, "emmanuel/web/article", String.valueOf(articleId));
-    }
 
     /**
      * 根据文章获取id
@@ -480,7 +494,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * @param articleId postId,博客的id
      */
     @Override
-    public String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId,String articlePwd) {
+    public String articleById(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId, String articlePwd) {
 
         // 文章详情
         WebMtoPost webMtoPost = this.selectMtoPostById(articleId);
@@ -488,10 +502,10 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
         // 如果存在密码，输入密码
         String blogPwd = webMtoPost.getPwd();
-        if (StringUtils.isNotBlank(blogPwd) && !Objects.equals(blogPwd, articlePwd)){
+        if (StringUtils.isNotBlank(blogPwd) && !Objects.equals(blogPwd, articlePwd)) {
             webMtoPost.setContent(null);
-            if (StringUtils.isNotBlank(articlePwd)){
-                webMtoPost.setTitle(webMtoPost.getTitle()+" (密码错误)");
+            if (StringUtils.isNotBlank(articlePwd)) {
+                webMtoPost.setTitle(webMtoPost.getTitle() + " (密码错误)");
             }
             return "emmanuel/web/auth";
         }
@@ -675,7 +689,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * @param pageSize 多少条数据
      */
     @Override
-    public void searchByKeyword(ModelMap modelMap,String keyword, Long pageNum, Long pageSize) {
+    public void searchByKeyword(ModelMap modelMap, String keyword, Long pageNum, Long pageSize) {
         // 获取导航
         this.selectCategory(modelMap);
         // 获取侧边栏
@@ -683,9 +697,9 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         // 获取博客
         WebMtoPost webMtoPost = new WebMtoPost();
         webMtoPost.setTitle(keyword);
-        this.loadMainPage(modelMap,webMtoPost, pageNum, pageSize);
+        this.loadMainPage(modelMap, webMtoPost, pageNum, pageSize);
         // 关键字
-        modelMap.put("keyword",keyword);
+        modelMap.put("keyword", keyword);
 
     }
 
@@ -762,6 +776,41 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
     }
 
     /**
+     * 生成前台博客静态页面
+     *
+     * @param request
+     * @param response
+     * @param currentPage
+     * @param currentSize
+     * @param modelMap
+     * @param htmlName
+     */
+    private void createBlogHtml(HttpServletRequest request, HttpServletResponse response, Long currentPage, Long currentSize, ModelMap modelMap, String htmlName) {
+        // 获取首页数据
+        this.getIndexData(modelMap, currentPage, currentSize);
+        // 创建静态页面
+        createHtml(request, response, true, modelMap, "emmanuel/web/index", htmlName);
+    }
+
+    /**
+     * 生成文章静态页面
+     *
+     * @param request
+     * @param response
+     * @param modelMap  页面内容
+     * @param articleId 文章ID
+     */
+    private void createArticleHtml(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap, Long articleId) {
+        Map<String, Object> paramMap = new LinkedHashMap<>();
+        // 生成静态页面的导航
+        paramMap.put("mtoCategoryList", modelMap.get("mtoCategoryList"));
+        // 生成静态页面的文章
+        paramMap.put("mtoPost", modelMap.get("mtoPost"));
+        // 创建静态页面
+        createHtml(request, response, true, paramMap, "emmanuel/web/article", articleId + ".html");
+    }
+
+    /**
      * 生成静态页面
      *
      * @param request
@@ -780,7 +829,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
             // 把数据放入上下文对象
             context.setVariables(paramMap);
             // 文件生成路径
-            String fileUrl = StringUtils.appendIfMissing(RuoYiConfig.getHtmlPath(), File.separator) + fileName + ".html";
+            String fileUrl = StringUtils.appendIfMissing(RuoYiConfig.getHtmlPath(), File.separator) + fileName;
             // 创建文件夹
             File directory = new File(StringUtils.substringBeforeLast(fileUrl, File.separator));
             if (!directory.exists()) {
@@ -796,7 +845,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
             // 执行页面静态化方法 (项目中生成模板的页面，上下文，流)
             templateEngine.process(templateUrl, context, printWriter);
         } catch (Exception e) {
-            e.getMessage();
+            e.printStackTrace();
         } finally {
             if (printWriter != null) {
                 printWriter.flush();
