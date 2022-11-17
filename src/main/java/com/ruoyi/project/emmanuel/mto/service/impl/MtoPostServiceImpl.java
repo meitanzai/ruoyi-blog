@@ -143,6 +143,8 @@ public class MtoPostServiceImpl implements IMtoPostService {
         // 删除缓存
         CacheUtils.remove(Constants.WEB_NEW_BLOG);
         CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
+        // 删除静态模板
+        this.deleteHtml();
         return i;
     }
 
@@ -199,6 +201,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
         if (RuoYiConfig.isPageStaticEnabled()) {
             File directory = new File(RuoYiConfig.getHtmlPath() + File.separator + postId + ".html");
             directory.delete();
+            this.deleteHtml();
         }
         // 删除缓存
         CacheUtils.remove(Constants.WEB_HOT_BLOG);
@@ -207,7 +210,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
     }
 
     /**
-     * 批量删除文章表题
+     * 批量删除文章
      *
      * @param ids 需要删除的文章表题主键
      * @return 结果
@@ -228,11 +231,13 @@ public class MtoPostServiceImpl implements IMtoPostService {
         CacheUtils.remove(Constants.WEB_NEW_BLOG);
         CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
         CacheUtils.remove(Constants.WEB_HOT_BLOG);
+        // 删除静态模板
+        this.deleteHtml();
         return i;
     }
 
     /**
-     * 删除文章表题信息
+     * 删除文章
      *
      * @param id 文章表题主键
      * @return 结果
@@ -244,6 +249,8 @@ public class MtoPostServiceImpl implements IMtoPostService {
         // 删除缓存
         CacheUtils.remove(Constants.WEB_HOT_BLOG);
         CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
+        // 删除静态模板
+        this.deleteHtml();
         return i;
     }
 
@@ -370,6 +377,8 @@ public class MtoPostServiceImpl implements IMtoPostService {
         // 删除缓存
         CacheUtils.remove(Constants.WEB_NEW_BLOG);
         CacheUtils.remove(Constants.WEB_HOT_BLOG);
+        // 删除静态模板
+        this.deleteHtml();
         return i > 0 ? "导入成功" : "导入失败";
     }
 
@@ -472,9 +481,9 @@ public class MtoPostServiceImpl implements IMtoPostService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-                throw new RuntimeException("导出失败");
+            throw new RuntimeException("导出失败");
         } finally {
-            if (zipOutputStream != null){
+            if (zipOutputStream != null) {
                 try {
                     zipOutputStream.close();
                 } catch (IOException e) {
@@ -484,10 +493,17 @@ public class MtoPostServiceImpl implements IMtoPostService {
         }
     }
 
-    //删除File对象中抽象的路径方法
-    private static void deleteAllFile(File dir) {
-
-
+    /**
+     * 删除静态页面
+     */
+    private void deleteHtml() {
+        if (RuoYiConfig.isPageStaticEnabled()) {
+            File directory = new File(RuoYiConfig.getHtmlPath() + File.separator);
+            List<File> fileList = FileUtils.searchLikeFiles(directory, "blog-", false);
+            for (File file : fileList) {
+                file.delete();
+            }
+        }
     }
 
 }
