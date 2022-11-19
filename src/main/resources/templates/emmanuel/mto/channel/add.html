@@ -8,15 +8,15 @@
     <div class="wrapper wrapper-content animated fadeInRight ">
         <form class="form-horizontal m" id="form-channel-add" th:width="100px">
             <div class="form-group">
-                <label class="col-sm-3 control-label" required>key：</label>
+                <label class="col-sm-3 control-label is-required">key：</label>
                 <div class="col-sm-4">
-                    <input name="key" class="form-control" type="text">
+                    <input name="key" class="form-control" type="text" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label" required>名称：</label>
+                <label class="col-sm-3 control-label is-required">名称：</label>
                 <div class="col-sm-4" >
-                    <input name="name" class="form-control" type="text">
+                    <input name="name" class="form-control" type="text" required>
                 </div>
             </div>
             <!--        类型：1分类,2专题-->
