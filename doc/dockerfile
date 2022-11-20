@@ -1,0 +1,14 @@
+# java 8镜像作为基础镜像，再次制作镜像，则不会再下载java 8镜像
+FROM java:8
+# 指定维护者信息
+MAINTAINER yilimaizi
+# 临时文件目录/tmp，该配置将在主机/var/lib/docker目录下创建临时文件，并链接到容器的/tmp；该配置可选，/tmp目录是Spring Boot内嵌Tomcat容器默认使用的工作目录
+VOLUME /tmp
+# 将jar包添加到容器中并更名为ruoyi-blog.jar
+ADD ruoyi.jar ruoyi-blog.jar
+# 运行jar包
+RUN bash -c 'touch /ruoyi-blog.jar'
+# entrypoint 进入点
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/ruoyi-blog.jar"]
+# 使用外置配置文件
+# ENTRYPOINT ["java","-jar","/ruoyi-blog.jar","--spring.config.location=/data/java/config/application.yml"]
