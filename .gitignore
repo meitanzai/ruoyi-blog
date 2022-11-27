@@ -36,6 +36,7 @@ nbdist/
 ######################################################################
 # Others
 /Users
+/home
 *.log
 *.xml.versionsBackup
 
