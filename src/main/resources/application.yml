@@ -13,7 +13,7 @@ ruoyi:
   # 获取ip地址开关
   addressEnabled: true
   # 开启页面静态化
-  pageStaticEnabled: false
+  pageStaticEnabled: true
 
 # 开发环境配置
 server:
