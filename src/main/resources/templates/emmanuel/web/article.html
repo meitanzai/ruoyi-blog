@@ -108,6 +108,16 @@
                  th:utext="${mtoPost.content}">
             </div>
 
+            <!-- 标签栏 -->
+            <div class="article_Lable" th:if="${not #strings.isEmpty(mtoPost.tags)}">
+                <!-- icon -->
+                <div class="article_Lable_Icon">
+                    <i class=" glyphicon glyphicon-tag"></i>
+                </div>
+                <a href="javascript:;" th:each="item,temp : ${(mtoPost.tags).split(',')}" th:text="${item}">var</a>
+            </div>
+
+            <!-- 点赞 打赏 -->
             <div class="thumbs-content">
                 <span class="thumbs-button fa fa-thumbs-up"> 点赞 <span id="loveCount" th:text="${mtoPost.favors}"></span></span>
                 <span class="reward-button fa fa-money"> 打赏
