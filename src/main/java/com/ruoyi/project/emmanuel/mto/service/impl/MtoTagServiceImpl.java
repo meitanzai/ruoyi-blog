@@ -19,6 +19,7 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.framework.web.page.TableSupport;
 import com.ruoyi.project.emmanuel.mto.domain.MtoTag;
 import com.ruoyi.project.emmanuel.mto.mapper.MtoTagMapper;
+import com.ruoyi.project.emmanuel.mto.service.IMtoPostService;
 import com.ruoyi.project.emmanuel.mto.service.IMtoTagService;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
 
     @Autowired
     private MtoTagMapper mtoTagMapper;
+
+    @Autowired
+    private IMtoPostService mtoPostService;
 
     /**
      * 查询mto
@@ -72,6 +76,7 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
         mtoTag.setCreateTime(DateUtils.getNowDate());
         int insert = mtoTagMapper.insert(mtoTag);
         CacheUtils.remove(Constants.WEB_TAG);
+        mtoPostService.clearHtml();
         return insert;
     }
 
@@ -86,6 +91,7 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
         mtoTag.setUpdateTime(DateUtils.getNowDate());
         int i = mtoTagMapper.updateById(mtoTag);
         CacheUtils.remove(Constants.WEB_TAG);
+        mtoPostService.clearHtml();
         return i;
     }
 
@@ -103,6 +109,9 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
         ArrayList<String> idList = new ArrayList<>(Arrays.asList(ids.split(",")));
         int i = mtoTagMapper.deleteBatchIds(idList);
         CacheUtils.remove(Constants.WEB_TAG);
+        mtoPostService.clearHtml();
         return i;
     }
+
+
 }

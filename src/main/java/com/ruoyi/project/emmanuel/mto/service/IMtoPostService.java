@@ -142,4 +142,6 @@ public interface IMtoPostService {
      * @param response
      */
     void exportDataBatch(String postIds, HttpServletRequest request, HttpServletResponse response);
+
+    void clearHtml();
 }

@@ -506,4 +506,14 @@ public class MtoPostServiceImpl implements IMtoPostService {
         }
     }
 
+    /**
+     * 删除静态页面文件夹
+     */
+    @Override
+    public void clearHtml(){
+        if (RuoYiConfig.isPageStaticEnabled()) {
+            this.cleasrStaticPage();
+        }
+    }
+
 }
