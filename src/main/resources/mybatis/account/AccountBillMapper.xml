@@ -79,7 +79,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="countFullCalendarList" resultType="com.ruoyi.project.emmanuel.account.domain.AccountMoney">
-        select IFNULL(sum(money_pay),0) "moneyPay",IFNULL(SUM(money_income),0) "moneyIncome", money_date as moneyDate from account_money WHERE is_total = 0 and  money_date like CONCAT( #{month,jdbcType=VARCHAR},'%') GROUP BY money_date
+        select sum(IF(c.class_type = 1, money_pay, 0))    as moneyPay,
+               sum(IF(c.class_type = 0, money_income, 0)) as moneyIncome,
+               money_date                                 as moneyDate
+        from account_money
+                 inner join account_class c on account_money.class_id = c.id
+        WHERE is_total = 0
+          and money_date like CONCAT( #{month,jdbcType=VARCHAR},'%') GROUP BY money_date
     </select>
 
     <select id="accountAnalysis" resultType="java.util.Map">
