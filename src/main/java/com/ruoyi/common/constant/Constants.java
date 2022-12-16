@@ -111,7 +111,7 @@ public class Constants
      * 定时任务违规的字符
      */
     public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
-            "org.springframework", "com.ruoyi.common.utils.file" };
+            "org.springframework", "com.ruoyi.common.utils.file", "com.ruoyi.framework.config" };
 
     /**
      * 前台导航 cache key
