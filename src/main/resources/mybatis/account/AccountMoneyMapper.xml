@@ -40,7 +40,7 @@
         m.id,
         m.account_id,
         m.class_id,
-        case when c.class_type = 1 then m.money_pay else m.money_pay end as money,
+        case when c.class_type = 1 then m.money_pay else m.money_income end as money,
         -- IFNULL(m.money_pay,m.money_income)as money, -- ifnull会导致精度丢失
         m.money_introduce,
         m.is_total,
