@@ -29,12 +29,12 @@
         <mybatis.spring.boot.starter.version>2.2.2</mybatis.spring.boot.starter.version>
         <pagehelper.spring.boot.starter.version>1.4.3</pagehelper.spring.boot.starter.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <druid.version>1.2.14</druid.version>
+        <druid.version>1.2.15</druid.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <bitwalker.version>1.21</bitwalker.version>
         <velocity.version>2.3</velocity.version>
-        <kaptcha.version>2.3.2</kaptcha.version>
+        <kaptcha.version>2.3.3</kaptcha.version>
         <swagger.version>3.0.0</swagger.version>
         <poi.version>4.1.2</poi.version>
         <oshi.version>6.3.2</oshi.version>
@@ -207,7 +207,7 @@
 
         <!-- 验证码 -->
         <dependency>
-            <groupId>com.github.penggle</groupId>
+            <groupId>pro.fessional</groupId>
             <artifactId>kaptcha</artifactId>
             <version>${kaptcha.version}</version>
             <exclusions>
