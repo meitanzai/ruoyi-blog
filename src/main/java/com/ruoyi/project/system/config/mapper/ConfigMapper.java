@@ -5,22 +5,30 @@ import java.util.List;
 
 /**
  * 参数配置 数据层
- * 
+ *
  * @author ruoyi
  */
 public interface ConfigMapper
 {
     /**
      * 查询参数配置信息
-     * 
+     *
      * @param config 参数配置信息
      * @return 参数配置信息
      */
     public Config selectConfig(Config config);
 
     /**
+     * 通过ID查询配置
+     *
+     * @param configId 参数ID
+     * @return 参数配置信息
+     */
+    public Config selectConfigById(Long configId);
+
+    /**
      * 查询参数配置列表
-     * 
+     *
      * @param config 参数配置信息
      * @return 参数配置集合
      */
@@ -28,7 +36,7 @@ public interface ConfigMapper
 
     /**
      * 根据键名查询参数配置信息
-     * 
+     *
      * @param configKey 参数键名
      * @return 参数配置信息
      */
@@ -36,7 +44,7 @@ public interface ConfigMapper
 
     /**
      * 新增参数配置
-     * 
+     *
      * @param config 参数配置信息
      * @return 结果
      */
@@ -44,7 +52,7 @@ public interface ConfigMapper
 
     /**
      * 修改参数配置
-     * 
+     *
      * @param config 参数配置信息
      * @return 结果
      */
@@ -52,7 +60,7 @@ public interface ConfigMapper
 
     /**
      * 删除参数配置
-     * 
+     *
      * @param configId 参数主键
      * @return 结果
      */
@@ -60,7 +68,7 @@ public interface ConfigMapper
 
     /**
      * 批量删除参数配置
-     * 
+     *
      * @param configIds 需要删除的数据ID
      * @return 结果
      */

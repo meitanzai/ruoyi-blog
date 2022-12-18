@@ -16,7 +16,7 @@ import com.ruoyi.project.system.config.mapper.ConfigMapper;
 
 /**
  * 参数配置 服务层实现
- * 
+ *
  * @author ruoyi
  */
 @Service
@@ -36,7 +36,7 @@ public class ConfigServiceImpl implements IConfigService
 
     /**
      * 查询参数配置信息
-     * 
+     *
      * @param configId 参数配置ID
      * @return 参数配置信息
      */
@@ -50,7 +50,7 @@ public class ConfigServiceImpl implements IConfigService
 
     /**
      * 根据键名查询参数配置信息
-     * 
+     *
      * @param configKey 参数名称
      * @return 参数键值
      */
@@ -75,7 +75,7 @@ public class ConfigServiceImpl implements IConfigService
 
     /**
      * 查询参数配置列表
-     * 
+     *
      * @param config 参数配置信息
      * @return 参数配置集合
      */
@@ -87,7 +87,7 @@ public class ConfigServiceImpl implements IConfigService
 
     /**
      * 新增参数配置
-     * 
+     *
      * @param config 参数配置信息
      * @return 结果
      */
@@ -105,7 +105,7 @@ public class ConfigServiceImpl implements IConfigService
 
     /**
      * 修改参数配置
-     * 
+     *
      * @param config 参数配置信息
      * @return 结果
      */
@@ -113,6 +113,12 @@ public class ConfigServiceImpl implements IConfigService
     public int updateConfig(Config config)
     {
         config.setUpdateBy(ShiroUtils.getLoginName());
+        Config temp = configMapper.selectConfigById(config.getConfigId());
+        if (!StringUtils.equals(temp.getConfigKey(), config.getConfigKey()))
+        {
+            CacheUtils.remove(getCacheName(), getCacheKey(temp.getConfigKey()));
+        }
+
         int row = configMapper.updateConfig(config);
         if (row > 0)
         {
@@ -123,7 +129,7 @@ public class ConfigServiceImpl implements IConfigService
 
     /**
      * 批量删除参数配置对象
-     * 
+     *
      * @param ids 需要删除的数据ID
      */
     @Override
@@ -176,7 +182,7 @@ public class ConfigServiceImpl implements IConfigService
 
     /**
      * 校验参数键名是否唯一
-     * 
+     *
      * @param config 参数配置信息
      * @return 结果
      */
@@ -194,7 +200,7 @@ public class ConfigServiceImpl implements IConfigService
 
     /**
      * 获取cache name
-     * 
+     *
      * @return 缓存名
      */
     private String getCacheName()
@@ -204,7 +210,7 @@ public class ConfigServiceImpl implements IConfigService
 
     /**
      * 设置cache key
-     * 
+     *
      * @param configKey 参数键
      * @return 缓存键key
      */
