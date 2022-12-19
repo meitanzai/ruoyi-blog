@@ -299,3 +299,15 @@ input[type=checkbox]:checked::after {
     .col-content,.col-other{padding:0 0}
     .article-item .content .cover{width:100%;height:auto;float:none;margin-bottom:10px}
 }
+
+
+.social-footer {
+    border-top: 1px solid #e7eaec;
+    padding: 10px 15px;
+    background: #f9f9f9;
+}
+
+.social-footer .social-comment img {
+    width: 32px;
+    margin-right: 10px;
+}

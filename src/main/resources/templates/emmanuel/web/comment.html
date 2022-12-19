@@ -218,11 +218,9 @@
             "pId": $("[name='parentComment.id']").val(),
             "nickName": $("[name='nickName']").val(),
             "email": $("[name='email']").val(),
-            "content": $("[name='content']").val()
+            "content": $("[name='content']").val(),
+            "postId": "0"
         }, function (responseTxt, statusTxt, xhr) {
-            console.log("responseTxt", responseTxt)
-            console.log("statusTxt", statusTxt)
-            console.log("xhr", xhr)
             if (responseTxt != '' && responseTxt != null) {
                 // 判断是否以 { 开头,以此判断是否是JSON字符串
                 if (responseTxt.substring(0, 1) == "{") {

@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComment> implements IMtoCommentService {
@@ -35,7 +37,7 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
     }
 
     /**
-     * 留言板新增留言
+     * 留言板新增留言，博客新增评论
      *
      * @param comment
      * @param request
@@ -43,14 +45,16 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
      */
     @Override
     public int insert(MtoComment comment, HttpServletRequest request) {
-        if (Objects.equals(0L, comment.getPId())) {
+        if (comment.getPId() == null ||Objects.equals(0L, comment.getPId())) {
             comment.setAncestors("0");
+            comment.setPId(0L);
         } else {
             // 查询上级信息
             MtoComment pInfo = commentMapper.selectById(comment.getPId());
             comment.setAncestors(pInfo.getAncestors() + "," + comment.getPId());
             comment.setParentNickName(pInfo.getNickName());
         }
+        comment.setStatus("1");
         String ipAddr = IpUtils.getIpAddr(request);
         comment.setIp(ToolUtils.isEmpty(IpUtils.inetAton(ipAddr))?null:String.valueOf(IpUtils.inetAton(ipAddr)));
         comment.setCreateTime(DateUtils.getNowDate());
@@ -66,7 +70,7 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
     public List<MtoComment> selectCommentList() {
         // 只查询一级
         QueryWrapper<MtoComment> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(MtoComment::getPId, 0L)
+        wrapper.lambda().eq(MtoComment::getPId, 0L).eq(MtoComment::getPostId, 0L)
         .orderByDesc(MtoComment::getCreateTime);
         List<MtoComment> allComment = commentMapper.selectList(wrapper);
 
@@ -75,5 +79,23 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
                 }
         );
         return allComment;
+    }
+
+    /**
+     * 查看博客评论
+     * @param comment
+     * @return
+     */
+    @Override
+    public List<MtoComment> getBlogMessage(MtoComment comment) {
+        Long postId = comment.getPostId();
+        List<MtoComment> commentList = new ArrayList<>();
+        if (null != postId ){
+            commentList = commentMapper.selectByPostId(postId);
+            commentList.stream().forEach(e->{
+                e.setReplyComments(commentMapper.selectByPid(e.getId()));
+            });
+        }
+        return commentList;
     }
 }

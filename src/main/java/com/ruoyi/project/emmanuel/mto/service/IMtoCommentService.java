@@ -29,5 +29,10 @@ public interface IMtoCommentService extends IService<MtoComment> {
      */
    List<MtoComment> selectCommentList();
 
-
+    /**
+     * 查看博客评论
+     * @param comment
+     * @return
+     */
+    List<MtoComment> getBlogMessage(MtoComment comment);
 }

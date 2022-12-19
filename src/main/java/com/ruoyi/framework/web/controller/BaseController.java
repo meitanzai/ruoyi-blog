@@ -90,6 +90,25 @@ public class BaseController
     }
 
     /**
+     * 响应请求分页数据
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected TableDataInfo getDataTableReturnPageInfo(List<?> list)
+    {
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setCode(0);
+        rspData.setRows(list);
+        rspData.setTotal(new PageInfo(list).getTotal());
+
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        Integer pageNum = pageDomain.getPageNum();
+        Integer pageSize = pageDomain.getPageSize();
+        rspData.setCurrentPage(pageNum);
+        rspData.setCurrentSize(pageSize);
+        return rspData;
+    }
+
+    /**
      * 响应返回结果
      *
      * @param rows 影响行数

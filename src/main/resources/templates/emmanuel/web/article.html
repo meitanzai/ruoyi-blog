@@ -12,6 +12,7 @@
     <link rel="stylesheet" th:href="@{/blog/mblog/css/web-common.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/web-blog.css}"/>
     <link rel="stylesheet" th:href="@{/blog/mblog/css/article.css}"/>
+    <link rel="stylesheet" th:href="@{/blog/mblog/css/simplemde.min.css}"/>
     <th:block th:include="include :: viewer-css"/>
     <th:block th:include="include :: tocbot-css"/>
 
@@ -132,6 +133,35 @@
         </div>
 
         <!--      评论-->
+        <div id="comment" class="comment comment-main">
+            <div class="comment-title">发表评论</div>
+            <form id="comment-form" class="form-horizontal mt-10">
+                <input id="articleId" name="postId" type="hidden" th:value="${mtoPost.id}">
+                <div id="user-name-content" class="user-name-content">欢迎您：<b id="user-name"></b></div>
+                <div class="form-group" id="user-info" style="display: none">
+                    <div class="col-sm-4">
+                        <input id="nickName" type="text" class="form-control" name="nickName" placeholder="昵称(必填)">
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="qq" type="text" class="form-control" name="qq" placeholder="QQ（可获取头像和昵称）">
+                    </div>
+                    <div class="col-sm-4">
+                        <input id="email" type="text" class="form-control" name="email" placeholder="邮箱">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <textarea name="content" id="comment-textarea"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <button id="submitCommentBtn" type="button" class="btn btn-pri">发表评论</button>
+                </div>
+            </form>
+            <hr class="hr0 mt-15"/>
+            <ul id="comment-ul" class="comment">
+            </ul>
+        </div>
         <!--      评论-->
 
 
@@ -187,6 +217,9 @@
 <th:block th:include="include :: tocbot-js"/>
 <th:block th:include="include :: toastr-js"/>
 <th:block th:include="include :: echo-js"/>
+<script th:src="@{/blog/mblog/js/simplemde.min.js}"></script>
+<script th:src="@{/blog/mblog/js/core.js}"></script>
+<script th:src="@{/blog/mblog/js/comment.js}"></script>
 </body>
 
 <script>
@@ -292,7 +325,7 @@
     });
 
     // 复制提醒
-    $(function(){
+    $(function () {
         toastr.options = {
             "closeButton": true,
             "debug": false,
@@ -309,9 +342,9 @@
             "hideMethod": "fadeOut"
         }
 
-        $(".copy-to-clipboard-button").click(function() {
+        $(".copy-to-clipboard-button").click(function () {
             toastr.clear();
-            toastr.success("Code Copy succeeded","复制成功")
+            toastr.success("Code Copy succeeded", "复制成功")
             return;
         })
 
@@ -324,15 +357,14 @@
             var copyTxt = `${window.getSelection(0).toString()}\n————————————————\n原文链接：${window.location.href}\n本篇文章来源于一粒麦子( 源码：https://gitee.com/GiteeKey/ruoyi-blog)`;
             // 提醒复制成功
             toastr.clear();
-            toastr.success("Copy succeeded","复制成功");
-            if(e.clipboardData) {
-                return e.clipboardData.setData('text/plain',  copyTxt);
-            }
-            else if(window.clipboardData){
+            toastr.success("Copy succeeded", "复制成功");
+            if (e.clipboardData) {
+                return e.clipboardData.setData('text/plain', copyTxt);
+            } else if (window.clipboardData) {
                 return window.clipboardData.setData("text", copyTxt);
             }
         });
-    } )
+    })
 </script>
 
 </html>
