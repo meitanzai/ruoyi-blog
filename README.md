@@ -1,19 +1,20 @@
 <p align="center">
 	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-dd77653d7c9f197dd9d93684f3c8dcfbab6.png">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi Blog 4.0</h1>
-<h4 align="center">基于RuoYi-fast v4.7.5开发的轻量级Java快速开发框架</h4>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi Blog 4.7.6</h1>
+<h4 align="center">若依RuoYi-fast v4.7.6开发的轻量级Java快速开发框架</h4>
 <p align="center">
 <a target="_blank" href="https://gitee.com/GiteeKey/ruoyi-blog">
     <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" ></img>
         <img src="https://img.shields.io/badge/mysql-5.7-yellow.svg" >
     <img src="https://img.shields.io/badge/springboot-2.5.12.RELEASE-green" ></img>
-    <img src="https://img.shields.io/badge/Blog-v1.0-brightgreen.svg">
+    <img src="https://img.shields.io/badge/Blog-v4.7.6-brightgreen.svg">
 	<img src="https://img.shields.io/badge/mybatis--plus-3.5.1-green" ></img>
 </a>
-	<a href="https://gitee.com/y_project/RuoYi"><img src="https://img.shields.io/badge/RuoYi-v4.7.5-brightgreen.svg"></a>
+	<a href="https://gitee.com/y_project/RuoYi"><img src="https://img.shields.io/badge/RuoYi-v4.7.6-brightgreen.svg"></a>
 	<a href="https://gitee.com/y_project/RuoYi/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
 </p>
+
 
 
 
@@ -101,6 +102,8 @@
 ![img.png](doc/homepage.png)
 
 ![image.png](https://s2.loli.net/2022/03/19/WBZ36KxVAqs5Ovf.png)
+
+![image-20221218131737670](doc/blog_auth.png)
 
 ![img.png](doc/article.png)
 
