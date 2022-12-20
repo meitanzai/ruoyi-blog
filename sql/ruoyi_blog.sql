@@ -355,22 +355,32 @@ COMMIT;
 -- Table structure for mto_comment
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_comment`;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for mto_comment
+-- ----------------------------
 CREATE TABLE `mto_comment` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `p_id` bigint(20) DEFAULT NULL COMMENT '父id',
-  `ancestors` varchar(255) DEFAULT NULL COMMENT '祖级列表',
-  `post_id` bigint(20) DEFAULT NULL COMMENT '博客id',
-  `email` varchar(64) DEFAULT NULL COMMENT '邮箱',
-  `nick_name` varchar(64) DEFAULT NULL COMMENT '昵称',
-  `content` varchar(255) DEFAULT NULL COMMENT '评论内容',
-  `avatar` varchar(255) DEFAULT NULL COMMENT '头像',
-  `love` char(4) DEFAULT NULL COMMENT '点赞',
-  `status` varchar(255) DEFAULT NULL COMMENT '状态',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `ip` varchar(64) DEFAULT NULL,
-  `parent_nick_name` varchar(255) DEFAULT NULL COMMENT '父级名称',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COMMENT='留言';
+                               `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                               `p_id` bigint(20) DEFAULT NULL COMMENT '父id',
+                               `ancestors` varchar(255) DEFAULT NULL COMMENT '祖级列表',
+                               `post_id` bigint(20) DEFAULT NULL COMMENT '博客id',
+                               `email` varchar(64) DEFAULT NULL COMMENT '邮箱',
+                               `nick_name` varchar(64) DEFAULT NULL COMMENT '昵称',
+                               `avatar` varchar(255) DEFAULT NULL COMMENT '头像',
+                               `love` char(4) DEFAULT NULL COMMENT '点赞',
+                               `status` varchar(255) DEFAULT NULL COMMENT '状态',
+                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               `ip` varchar(64) DEFAULT NULL,
+                               `parent_nick_name` varchar(255) DEFAULT NULL COMMENT '父级名称',
+                               `examine_by` varchar(60) DEFAULT NULL COMMENT '审核人',
+                               `examine_time` datetime DEFAULT NULL COMMENT '审核时间',
+                               `content` varchar(2000) DEFAULT NULL COMMENT '内容',
+                               PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8mb4 COMMENT='留言';
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- ----------------------------
 -- Records of mto_comment
@@ -1376,6 +1386,10 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`,
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1152, '批量文章导出', 1078, 8, '#', 'menuItem', 'F', '0', '1', 'mto:post:exportDataBatch', '#', '一粒麦子', '2022-11-05 20:06:46', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1153, '单文件下载', 1144, 7, '#', 'menuItem', 'F', '0', '1', 'system:file:download', '#', '一粒麦子', '2022-11-05 20:06:22', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1154, '多批量下载', 1144, 8, '#', 'menuItem', 'F', '0', '1', 'system:file:downloadBatch', '#', '一粒麦子', '2022-11-05 20:06:46', '', NULL, '');
+INSERT INTO `sys_menu` (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1155, '评论管理', 5, 3, 'mto/comment/view', 'menuItem', 'C', '0', '1', 'mto:comment:view', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO `sys_menu` (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1156, '评论管理列表', 1155, 1, 'mto/comment/list', 'menuItem', 'F', '0', '1', 'mto:comment:list', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO `sys_menu` (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1157, '评论管理审核', 1155, 2, 'mto/comment/examine', 'menuItem', 'F', '0', '1', 'mto:comment:examine', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO `sys_menu` (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1158, '评论管理删除', 1155, 3, 'mto/comment/remove', 'menuItem', 'F', '0', '1', 'mto:comment:remove', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
 COMMIT;
 
 -- ----------------------------

@@ -56,7 +56,7 @@ public class MtoComment {
     /**
      * 评论内容
      */
-    @Length(min=1, max=200,message = "评论内容不可以超过200个字符")
+    @Length(min=1, max=2000,message = "评论内容不可以超过2000个字符")
     private String content;
 
     /**
@@ -90,12 +90,36 @@ public class MtoComment {
      @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;
 
+    /**
+     * 审核人
+     */
+    private String examineBy;
+
+    /**
+     * 审核时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Date examineTime;
+
     @TableField(exist = false)
     private String adminComment;
 
-    //一个父评论包含多个子评论
+    /**
+     * 一个父评论包含多个子评论
+     */
     @TableField(exist = false)
     private List<MtoComment> replyComments = new ArrayList<>();
 
+    /**
+     * 评论文章标题
+     */
+    @TableField(exist = false)
+    private String title;
+
+    /**
+     * 回复评论内容
+     */
+    @TableField(exist = false)
+    private String parentContent;
 
 }

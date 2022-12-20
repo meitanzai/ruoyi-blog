@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('留言列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label>邮箱：</label>
+                            <input type="text" name="email"/>
+                        </li>
+                        <li>
+                            <label>昵称：</label>
+                            <input type="text" name="nickName"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+               shiro:hasPermission="mto:comment:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var examineFlag = [[${@permission.hasPermi('mto:comment:examine')}]];
+    var removeFlag = [[${@permission.hasPermi('mto:comment:remove')}]];
+    var prefix = ctx + "mto/comment";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            removeUrl: prefix + "/remove",
+            examineUrl: prefix + "/examine",
+            modalName: "留言",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'id',
+                    title: 'id',
+                    visible: false,  // 隐藏某列（列选项可见）
+                    ignore: true,    // 列选项不可见
+                },
+                {
+                    field: 'nickName',
+                    title: '昵称'
+                },
+                {
+                    field: 'email',
+                    title: '邮箱'
+                },
+                {
+                    field: 'title',
+                    title: '文章标题',
+                    width: '180',
+                },
+                {
+                    field: 'content',
+                    title: '评论内容',
+                    formatter: function (value, item, index) {
+                        if (item.parentContent != '' && item.parentContent != null) {
+                            return item.content + "</br> <strong ><font color='red'>原评论：</font></strong>" + item.parentContent;
+                        } else {
+                            return item.content;
+                        }
+
+                    }
+                },
+                {
+                    field: 'status',
+                    title: '状态',
+                    formatter: function (value, item, index) {
+                        if (item.status == 0) {
+                            return '<span class="label label-warning">未审核</span>';
+                        } else if (item.status == 1) {
+                            return '<span class="label  label-success">已审核</span>';
+                        }
+                    }
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间',
+                    sortable: true
+                },
+                {
+                    field: 'ip',
+                    title: 'ip地址',
+                },
+                {
+                    title: '操作',
+                    align: 'left',
+                    width: 130,
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        if (row.status != 1) {
+                            actions.push('<a class="btn btn-success btn-xs ' + examineFlag + '" href="javascript:void(0)" onclick="examine(\'' + row.id + '\')"><i class="fa fa-edit"></i>审核</a> ');
+                        }
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+
+
+    // 导出单个文章
+    function examine(commentId) {
+        table.set();
+        $.modal.confirm("确定审核该条" + table.options.modalName + "信息吗？", function () {
+            console.log(commentId);
+            var url = $.common.isEmpty(commentId) ? table.options.examineUrl : table.options.examineUrl.replace("{id}", commentId);
+            console.log(url)
+            if (table.options.type == table_type.bootstrapTreeTable) {
+                $.operate.get(url);
+            } else {
+                var data = {"ids": commentId};
+                $.operate.submit(url, "post", "json", data);
+            }
+        });
+    }
+</script>
+</body>
+</html>

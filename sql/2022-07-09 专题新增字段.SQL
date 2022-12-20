@@ -52,3 +52,15 @@ INSERT INTO `sys_menu` ( `menu_name`, `parent_id`, `order_num`, `url`, `target`,
 
 -- 2022年10月13日新增文章密码
 alter table mto_post add COLUMN pwd VARCHAR(20) DEFAULT NULL
+
+-- 2022年12月20日新增评论审核功能 (2022年12月20日之后执行了  ruoyi_blog.sql，则无需执行 )
+ALTER TABLE mto_comment DROP content;
+ALTER TABLE mto_comment ADD COLUMN  `examine_by` varchar(60) DEFAULT null COMMENT '审核人' ;
+ALTER TABLE mto_comment ADD COLUMN  `examine_time` datetime DEFAULT null COMMENT '审核时间' ;
+ALTER TABLE mto_comment ADD COLUMN  `content` varchar(2000) DEFAULT null COMMENT '内容' ;
+ALTER TABLE mto_comment ADD COLUMN  `ip_addr` varchar(60) DEFAULT null COMMENT 'ip地址' ;
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1155, '评论管理', 5, 3, 'mto/comment/view', 'menuItem', 'C', '0', '1', 'mto:comment:view', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1156, '评论管理列表', 1155, 1, 'mto/comment/list', 'menuItem', 'F', '0', '1', 'mto:comment:list', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1157, '评论管理审核', 1155, 2, 'mto/comment/examine', 'menuItem', 'F', '0', '1', 'mto:comment:examine', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1158, '评论管理删除', 1155, 3, 'mto/comment/remove', 'menuItem', 'F', '0', '1', 'mto:comment:remove', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+
