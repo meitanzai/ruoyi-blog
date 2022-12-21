@@ -90,7 +90,6 @@ layui.use(['upload', 'element', 'layer'], function(){
         }
         ,done: function(res, index, upload){ //成功的回调
             var that = this;
-            console.log(res);
             if(res.code === 0){ //上传成功
                 var tr = that.elemList.find('tr#upload-'+ index)
                     ,tds = tr.children();

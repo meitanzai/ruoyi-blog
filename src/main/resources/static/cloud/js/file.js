@@ -237,7 +237,6 @@ window.onload = function () {
             traditional: true,
             data: {"ids": ids},
             success: function (data) {
-                console.log(data)
                 if (data > 0) {
                     layer.msg("删除成功")
                 } else {

@@ -17,6 +17,9 @@ $(function () {
         autoDownloadFontAwesome: false,
         placeholder: "支持markdown语法",
         renderingConfig: {
+            markedOptions: {
+                sanitize: true
+            },
             codeSyntaxHighlighting: true
         },
         tabSize: 4,
@@ -183,7 +186,7 @@ $(function () {
                             layer.msg("说点什么吧")
                             return;
                         }
-                        $("#reply-comment-textarea").val(replySimplemde.markdown(replySimplemde.value()));
+                        $("#reply-comment-textarea").val(filterXSS(replySimplemde.markdown(replySimplemde.value())));
                         Core.postAjax("/blog/message/submitBlogMessage", $("#reply-comment-form").serialize(), function (data) {
                             if (Core.getCookie("blog-userName") == "") {
                                 Core.setCookie("blog-userName", $("#reply-nickName").val(), 30);
@@ -233,7 +236,7 @@ $(function () {
             layer.msg("说点什么吧")
             return;
         }
-        $("#comment-textarea").val(simplemde.markdown(simplemde.value()));
+        $("#comment-textarea").val(filterXSS(simplemde.markdown(simplemde.value())));
         Core.postAjax("/blog/message/submitBlogMessage", $("#comment-form").serialize(), function (data) {
             layer.msg(data.msg, {
                 offset: '30%',
