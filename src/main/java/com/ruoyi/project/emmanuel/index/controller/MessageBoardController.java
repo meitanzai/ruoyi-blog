@@ -56,7 +56,7 @@ public class MessageBoardController extends BaseController {
             mtoCommentService.insert(comment, request);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("留言失败,刷新页面后试试");
+            throw new RuntimeException(e.getMessage());
         }
         return "redirect:/blog/message/messageInfo";
     }
