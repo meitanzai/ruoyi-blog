@@ -55,10 +55,6 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
             comment.setAncestors(pInfo.getAncestors() + "," + comment.getPId());
             comment.setParentNickName(pInfo.getNickName());
         }
-        // 线暂停留言功能，后期升级
-        if ( Objects.equals(0L, comment.getPostId())){
-            throw new RuntimeException("留言升级功能中……，评论已上线，快去试试吧");
-        }
         comment.setStatus("0");
         String ipAddr = IpUtils.getIpAddr(request);
         comment.setIp(ToolUtils.isEmpty(IpUtils.inetAton(ipAddr)) ? null : String.valueOf(IpUtils.inetAton(ipAddr)));

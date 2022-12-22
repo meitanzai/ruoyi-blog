@@ -60,7 +60,7 @@
                                         <span class="date"
                                               th:text="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm:ss')}">2020年01月11日17:20:56</span>
                                 </div>
-                                <div class="text" th:text="${comment.content}">
+                                <div class="text" th:utext="${comment.content}">
                                     非常好
                                 </div>
                                 <div class="actions">
@@ -154,6 +154,8 @@
 <script th:src="@{/blog/mblog/js/hc-sticky.js}"></script>
 <script th:src="@{/blog/mblog/js/pb-blog.js}"></script>
 <th:block th:include="include :: toastr-js"/>
+<!-- https://github.com/leizongmin/js-xss -->
+<script th:src="@{/blog/mblog/js/xss.min.js}"></script>
 <script th:inline="javascript">
 
     //留言表单验证
@@ -218,7 +220,7 @@
             "pId": $("[name='parentComment.id']").val(),
             "nickName": $("[name='nickName']").val(),
             "email": $("[name='email']").val(),
-            "content": $("[name='content']").val(),
+            "content": filterXSS($("[name='content']").val()),
             "postId": "0"
         }, function (responseTxt, statusTxt, xhr) {
             if (responseTxt != '' && responseTxt != null) {
