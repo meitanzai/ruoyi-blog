@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -67,10 +64,9 @@ public class MessageBoardController extends BaseController {
      * @param modelMap
      * @return
      */
-    @GetMapping("/messageInfo")
-    public String messageInfo(ModelMap modelMap) {
-        List<MtoComment> comments = mtoCommentService.selectCommentList();
-        modelMap.put("comments", comments);
+    @PostMapping("/messageInfo")
+    public String messageInfo(ModelMap modelMap,@RequestParam(name = "pageNum")Integer pageNum,@RequestParam(name = "pageSize")Integer pageSize) {
+        mtoCommentService.selectCommentList(modelMap,pageNum,pageSize);
         return prefix + "/comment :: commentList";
     }
 

@@ -101,7 +101,28 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="ui bottom attached segment" th:if="${(total> pageSize)}">
+                        <div class="ui meddle aligned two column grid">
+                            <div class="column" th:if="${(pageNum>1) && total>pageSize}">
+                                <a href="#"
+                                   th:onclick="'javascript:getPageData('+(${pageNum} -1)+');'"
+                                   class="ui teal basic mini button"
+                                >上一页</a>
+
+                            </div>
+                            <div class="right aligned column">
+                                <a href="#"
+                                   th:if="${pageNum<totalPage}"
+                                   th:onclick="'javascript:getPageData('+(${pageNum} +1)+');'"
+                                   class="ui teal basic mini button"
+                                >下一页</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+
             </div>
             <!-- 提交留言 -->
             <div class="ui form">
@@ -255,10 +276,31 @@
     }
 
     //初始加载留言
-    $(function () {
-        $("#comment-container").load(/*[[@{/blog/message/messageInfo}]]*/"");
-    });
+    getPageData();
 
+    // 分页
+    function getPageData(pageNum) {
+        $(function () {
+            debugger;
+            $("#comment-container").load(/*[[@{/blog/message/messageInfo}]]*/"", {
+                "pageNum": (pageNum == null ? 1 : pageNum),
+                "pageSize": 10,
+            }, function (responseTxt, statusTxt, xhr) {
+                if (responseTxt != '' && responseTxt != null) {
+                    // 判断是否以 { 开头,以此判断是否是JSON字符串
+                    if (responseTxt.substring(0, 1) == "{") {
+                        var json = JSON.parse(responseTxt);
+                        if (json.code == 500) {
+                            toastr.error(json.msg)
+                        }
+                    } else {
+                        clearContent();
+                    }
+                }
+
+            });
+        });
+    }
 
 </script>
 

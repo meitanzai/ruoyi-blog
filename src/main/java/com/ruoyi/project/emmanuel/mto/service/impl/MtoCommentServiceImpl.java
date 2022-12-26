@@ -1,6 +1,7 @@
 package com.ruoyi.project.emmanuel.mto.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.IpUtils;
@@ -68,20 +69,24 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
      * @return
      */
     @Override
-    public List<MtoComment> selectCommentList() {
+    public void selectCommentList(ModelMap modelMap, Integer pageNum, Integer pageSize) {
         // 只查询一级
         QueryWrapper<MtoComment> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(MtoComment::getPId, 0L)
                 .eq(MtoComment::getPostId, 0L)
                 .eq(MtoComment::getStatus, "1")
                 .orderByDesc(MtoComment::getCreateTime);
-        List<MtoComment> allComment = commentMapper.selectList(wrapper);
-
-        allComment.stream().forEach(e -> {
+        Page<MtoComment> commentPage = commentMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+        List<MtoComment> allComment =commentPage.getRecords();
+                allComment.stream().forEach(e -> {
                     e.setReplyComments(commentMapper.selectAllLowerLevel(e.getId()));
                 }
         );
-        return allComment;
+        modelMap.put("comments", allComment);
+        modelMap.put("pageNum", commentPage.getCurrent());
+        modelMap.put("pageSize", commentPage.getSize());
+        modelMap.put("totalPage", commentPage.getPages());
+        modelMap.put("total", commentPage.getTotal());
     }
 
     /**
