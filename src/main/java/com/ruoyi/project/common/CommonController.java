@@ -166,7 +166,6 @@ public class CommonController
      * @param file @RequestParam(value = "editormd-image-file", required = false) 其中 value = "editormd-image-file" 固定写法不要改变
      * @return
      */
-
     @PostMapping({"/markdown/upload","/blog/blogPicture"})
     @ResponseBody
     public AjaxResult markdownUploadFile(@RequestParam(value = "editormd-image-file", required = false) MultipartFile file) throws Exception
@@ -179,9 +178,10 @@ public class CommonController
             String fileName = FileUploadUtils.upload(filePath, file);
             String url = serverConfig.getUrl() + fileName;
             AjaxResult ajax = AjaxResult.success();
-            /*editormd所需的返回结构*/
+            // editormd所需的返回结构
             ajax.put("message", "上传成功");
-            ajax.put("success", 1); //0表示上传失败;1表示上传成功
+            //0表示上传失败;1表示上传成功
+            ajax.put("success", 1);
             ajax.put("url", url);
             ajax.put("fileName", fileName);
             ajax.put("newFileName", FileUtils.getName(fileName));

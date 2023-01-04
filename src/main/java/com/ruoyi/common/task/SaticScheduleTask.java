@@ -13,20 +13,20 @@ import org.springframework.scheduling.annotation.Scheduled;
 import javax.annotation.Resource;
 import java.util.Date;
 
-@Configuration      //1.主要用于标记配置类，兼备Component的效果。
+@Configuration      // 1.主要用于标记配置类，兼备Component的效果。
 @EnableScheduling   // 2.开启定时任务
 public class SaticScheduleTask {
 
     @Resource
     private MtoLookIpMapper lookIpMapper;
 
-    //3.添加定时任务
+    // 3.添加定时任务
     @Scheduled(cron = "59 59 23 * * ?")
     private void configureTasks() {
         try {
             // 从缓存中后期访问量
             Object statisticalAccountIp = CacheUtils.get(Constants.WEB_STATISTICAL_IP);
-            if (ToolUtils.isEmpty(statisticalAccountIp)){
+            if (ToolUtils.isEmpty(statisticalAccountIp)) {
                 return;
             }
             // 保持到数据库

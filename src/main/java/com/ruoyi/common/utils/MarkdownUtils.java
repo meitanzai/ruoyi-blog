@@ -68,7 +68,6 @@ public class MarkdownUtils {
     }
 
     static class BlogAttributeProvider implements AttributeProvider {
-
         @Override
         public void setAttributes(Node node, String s, Map<String, String> map) {
             if (node instanceof TableBlock) {

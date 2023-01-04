@@ -18,16 +18,25 @@ public class AddressUtils {
 
     private static final Logger log = LoggerFactory.getLogger(AddressUtils.class);
 
-    // IP地址查询(太平洋IP地址查询)  http://whois.pconline.com.cn/ipJson.jsp?ip=xxx.xxx.xxx.xxx&json=true
+    /**
+     * IP地址查询(太平洋IP地址查询)  http://whois.pconline.com.cn/ipJson.jsp?ip=xxx.xxx.xxx.xxx&json=true
+     */
     public static final String WHOIS_URL = "http://whois.pconline.com.cn/ipJson.jsp";
 
-    // https://ip.useragentinfo.com/json?ip=xxx.xxx.xxx.xxx
+    /**
+     * https://ip.useragentinfo.com/json?ip=xxx.xxx.xxx.xxx
+     */
     public static final String IP_URL = "https://ip.useragentinfo.com/json";
 
     // 未知地址
     public static final String UNKNOWN = "XX XX";
 
-    // IP地址查询(太平洋IP地址查询)  http://whois.pconline.com.cn/ipJson.jsp?ip=xxx.xxx.xxx.xxx&json=true
+    /**
+     * IP地址查询(太平洋IP地址查询)  http://whois.pconline.com.cn/ipJson.jsp?ip=xxx.xxx.xxx.xxx&json=true
+     *
+     * @param ip
+     * @return
+     */
     public static String getWhoisAddressByIP(String ip) {
         // 内网不查询
         if (IpUtils.internalIp(ip)) {
@@ -51,7 +60,12 @@ public class AddressUtils {
         return UNKNOWN;
     }
 
-    // https://ip.useragentinfo.com/json?ip=xxx.xxx.xxx.xxx
+    /**
+     * https://ip.useragentinfo.com/json?ip=xxx.xxx.xxx.xxx
+     *
+     * @param ip
+     * @return
+     */
     public static String getRealAddressByIP(String ip) {
         // 内网不查询
         if (IpUtils.internalIp(ip)) {
