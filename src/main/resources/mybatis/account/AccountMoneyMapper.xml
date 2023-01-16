@@ -36,8 +36,7 @@
 
     <select id="selectAccountMoneyList" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountMoney"
             resultMap="AccountMoneyResult">
-        SELECT
-        m.id,
+        SELECT m.id,
         m.account_id,
         m.class_id,
         case when c.class_type = 1 then m.money_pay else m.money_income end as money,
@@ -45,9 +44,10 @@
         m.money_introduce,
         m.is_total,
         m.money_date,
-        m.deleted,c.class_type "classType",c.class_name "className"
-        FROM
-        account_class c
+        m.deleted,
+        c.class_type                                                           "classType",
+        c.class_name                                                           "className"
+        FROM account_class c
         LEFT JOIN account_money m ON c.id = m.class_id
         <where>
             <if test="accountId != null ">
@@ -69,7 +69,7 @@
                 and m.money_date = #{moneyDate,jdbcType=TIMESTAMP}
             </if>
         </where>
-        order by m.money_date desc
+        order by m.money_date desc,m.create_time
     </select>
 
     <select id="selectAccountMoneyById" parameterType="Long" resultMap="AccountMoneyResult">
