@@ -60,7 +60,10 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
      */
     @Override
     public  List<MtoTag> selectMtoTagList(MtoTag mtoTag) {
-        LambdaQueryWrapper<MtoTag> query = new QueryWrapper<MtoTag>().lambda().like(MtoTag::getName, mtoTag.getName());
+        LambdaQueryWrapper<MtoTag> query = new QueryWrapper<MtoTag>()
+                .lambda()
+                .like(MtoTag::getName, mtoTag.getName())
+                .orderByAsc(MtoTag::getOrderNum, MtoTag::getCreateTime);
         List<MtoTag> list = mtoTagMapper.selectList(query);
         return list;
     }
