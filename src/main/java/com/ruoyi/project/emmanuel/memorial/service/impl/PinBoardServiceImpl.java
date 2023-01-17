@@ -10,6 +10,7 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.memorial.domain.PinBoard;
 import com.ruoyi.project.emmanuel.memorial.mapper.PinBoardMapper;
 import com.ruoyi.project.emmanuel.memorial.service.IPinBoardService;
+import com.ruoyi.project.emmanuel.mto.domain.MtoTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,11 @@ public class PinBoardServiceImpl extends ServiceImpl<PinBoardMapper, PinBoard> i
     public void selectPinBoardList(ModelMap modelMap, Long currentPage, Long currentSize) {
 
         Page<PinBoard> page = new Page<>(currentPage, currentSize);
-        Page<PinBoard> pinBoardPage = this.page(page, null);
+        LambdaQueryWrapper<PinBoard> queryWrapper = new QueryWrapper<PinBoard>()
+                .lambda()
+                .orderByAsc(PinBoard::getOrderNum)
+                .orderByDesc(PinBoard::getCreateTime);
+        Page<PinBoard> pinBoardPage = this.page(page, queryWrapper);
 
         TableDataInfo dataInfo = new TableDataInfo();
         if (ToolUtils.isNotEmpty(pinBoardPage)){
