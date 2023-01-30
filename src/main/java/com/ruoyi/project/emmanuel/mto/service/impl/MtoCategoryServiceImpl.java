@@ -12,6 +12,8 @@ import com.ruoyi.framework.web.domain.Ztree;
 import com.ruoyi.project.emmanuel.mto.domain.MtoCategory;
 import com.ruoyi.project.emmanuel.mto.mapper.MtoCategoryMapper;
 import com.ruoyi.project.emmanuel.mto.service.IMtoCategoryService;
+import com.ruoyi.project.emmanuel.mto.service.IMtoPostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 @Service
 public class MtoCategoryServiceImpl extends ServiceImpl<MtoCategoryMapper, MtoCategory> implements IMtoCategoryService {
 
+    @Autowired
+    private IMtoPostService mtoPostService;
 
     private final MtoCategoryMapper mtoCategoryMapper;
 
@@ -98,6 +102,8 @@ public class MtoCategoryServiceImpl extends ServiceImpl<MtoCategoryMapper, MtoCa
         mtoCategory.setCreateTime(DateUtils.getNowDate());
         int i = mtoCategoryMapper.insertMtoCategory(mtoCategory);
         CacheUtils.remove(Constants.WEB_CATEGORY);
+        // 清空静态页面
+        mtoPostService.clearHtml();
         return i;
     }
 
@@ -112,6 +118,8 @@ public class MtoCategoryServiceImpl extends ServiceImpl<MtoCategoryMapper, MtoCa
         mtoCategory.setUpdateTime(DateUtils.getNowDate());
         int i = mtoCategoryMapper.updateMtoCategory(mtoCategory);
         CacheUtils.remove(Constants.WEB_CATEGORY);
+        // 清空静态页面
+        mtoPostService.clearHtml();
         return i;
     }
 
@@ -131,6 +139,8 @@ public class MtoCategoryServiceImpl extends ServiceImpl<MtoCategoryMapper, MtoCa
        }
         int i = mtoCategoryMapper.deleteMtoCategoryById(id);
         CacheUtils.remove(Constants.WEB_CATEGORY);
+        // 清空静态页面
+        mtoPostService.clearHtml();
         return i;
     }
 

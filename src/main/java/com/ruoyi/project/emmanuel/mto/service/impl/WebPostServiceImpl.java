@@ -316,10 +316,13 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
                 modelMap.put("mtoCategoryList", StringUtils.cast(categoryObj));
                 return;
             }
+
             // 否则查询数据库
             List<MtoCategory> mtoCategoryList = categoryMapper.selectCategories(null);
+
             // 过滤掉停用的(后台与前台用的同一个sql，所以不能在sql里where，会使后台导航管理列表不显示)
             List<MtoCategory> collect = mtoCategoryList.stream().filter(e -> Objects.equals(1, e.getStatus())).collect(Collectors.toList());
+            mtoCategoryList.forEach(e->e.setChildren(e.getChildren().stream().filter(k->Objects.equals(1, k.getStatus())).collect(Collectors.toList())));
 
             // 保存到缓存
             CacheUtils.put(Constants.WEB_CATEGORY, JSONObject.toJSON(collect));

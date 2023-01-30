@@ -79,6 +79,7 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
         mtoTag.setCreateTime(DateUtils.getNowDate());
         int insert = mtoTagMapper.insert(mtoTag);
         CacheUtils.remove(Constants.WEB_TAG);
+        // 清空静态页面
         mtoPostService.clearHtml();
         return insert;
     }
@@ -94,6 +95,7 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
         mtoTag.setUpdateTime(DateUtils.getNowDate());
         int i = mtoTagMapper.updateById(mtoTag);
         CacheUtils.remove(Constants.WEB_TAG);
+        // 清空静态页面
         mtoPostService.clearHtml();
         return i;
     }
@@ -112,6 +114,7 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
         ArrayList<String> idList = new ArrayList<>(Arrays.asList(ids.split(",")));
         int i = mtoTagMapper.deleteBatchIds(idList);
         CacheUtils.remove(Constants.WEB_TAG);
+        // 清空静态页面
         mtoPostService.clearHtml();
         return i;
     }

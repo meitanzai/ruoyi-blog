@@ -143,5 +143,8 @@ public interface IMtoPostService {
      */
     void exportDataBatch(String postIds, HttpServletRequest request, HttpServletResponse response);
 
+    /**
+     * 清空静态页面
+     */
     void clearHtml();
 }
