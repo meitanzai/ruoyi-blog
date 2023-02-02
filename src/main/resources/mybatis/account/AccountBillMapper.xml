@@ -28,20 +28,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="countMoneyByMonth" resultMap="AccountBillResult">
-        SELECT  left(money_date,7) "month",
-                IFNULL(SUM(money_pay),0) "pay",
-                IFNULL(sum(money_income),0)  "income"
-        from  account_money
+        SELECT
+            date_format(m.money_date,'%Y-%m') "month",
+            SUM(if(c.class_type = 1,m.money_pay,0)) "pay",
+            sum(IF(c.class_type = 0,m.money_income,0))  "income"
+        from account_class c
+            inner join account_money m on c.id = m.class_id
         <where>
-        deleted = 0 and is_total = 0
+            m.deleted = 0 and m.is_total = 0
             <if test="accountId != null and accountId != ''">
-                and account_id = #{accountId,jdbcType=BIGINT}
+                and m.account_id = #{accountId,jdbcType=BIGINT}
             </if>
         <if test="month != null and month != ''">
-            and money_date LIKE CONCAT(#{month,jdbcType=VARCHAR},'%')
+            and m.money_date LIKE CONCAT(#{month,jdbcType=VARCHAR},'%')
         </if>
     </where>
-        GROUP BY left(money_date,7)
+        GROUP BY date_format(m.money_date,'%Y-%m')
     </select>
 
     <select id="getAccount" resultType="com.ruoyi.project.emmanuel.account.domain.AccountAccount">
