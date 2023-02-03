@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <th:block th:include="include :: header('百度ECharts')"/>
     <th:block th:include="include :: toastr-css"/>
@@ -34,14 +35,17 @@
         <div class="ibox ">
             <div class="ibox-title">
                 <h5>收入支出详情</h5>
-
             </div>
             <div class="ibox-content">
+
                 <div>
                     本账单共消费                    <strong class="text-danger"><span th:text="${totalPay}"></span></strong>，
                     收入                    <strong class="text-success"><span th:text="${totalIncome}"></span></strong>
                 </div>
 
+                <br>
+                <!--分类账单-->
+                <h5>分类账单</h5>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -53,7 +57,7 @@
                         </tr>
                         </thead>
                         <tbody  th:each="item,temp : ${accountClassList}">
-                        <tr>
+                        <tr align="center">
                             <td th:text="${accountName}"></td>
                             <td th:text="${item.className}"></td>
                             <td th:text="${item.classType}"></td>
@@ -62,6 +66,30 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!--月账单-->
+                <h5>月账单</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">账单名称</th>
+                            <th style="text-align: center">日期</th>
+                            <th style="text-align: center">支出</th>
+                            <th style="text-align: center">收入</th>
+                        </tr>
+                        </thead>
+                        <tbody  th:each="item,temp : ${accountImonthList}">
+                        <tr align="center">
+                            <td th:text="${accountName}"></td>
+                            <td th:text="${item.moneyDate}"></td>
+                            <td th:text="${item.moneyPay}"></td>
+                            <td th:text="${item.moneyIncome}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
 

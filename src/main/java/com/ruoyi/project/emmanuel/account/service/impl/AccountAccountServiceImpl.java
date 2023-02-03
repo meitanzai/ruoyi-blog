@@ -1,5 +1,6 @@
 package com.ruoyi.project.emmanuel.account.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
 import com.ruoyi.project.emmanuel.account.service.IAccountAccountService;
 import com.ruoyi.common.utils.text.Convert;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 
 /**
  * 记账账户Service业务层处理
@@ -125,8 +127,28 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
         return accountAccountMapper.selectAccountNameById(id);
     }
 
+    /**
+     * 账单分析
+     * @param accountId 账单ID
+     * @param modelMap
+     */
     @Override
-    public List<Map<String, Object>> accountCount(Long accountId) {
-        return accountAccountMapper.accountCount(accountId);
+    public void accountAnalysisPage(Long accountId, ModelMap modelMap) {
+
+        AccountAccount accountAccount = accountAccountMapper.selectAccountNameById(accountId);
+        // 按月账单分析
+        List<Map<String, Object>>accountImonthList =  accountAccountMapper.accountCountByImonth(accountId);
+        // 收入支出列表
+        List<Map<String, Object>> accountClassList = accountAccountMapper.accountCount(accountId);
+        // 总收入，总支出
+        BigDecimal totalPay = accountClassList.stream().filter(e->Objects.equals("支出",e.get("classType"))).map(e->(BigDecimal)e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalIncome = accountClassList.stream().filter(e->Objects.equals("收入",e.get("classType"))).map(e->(BigDecimal)e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        modelMap.put("accountId",accountId);
+        modelMap.put("accountName", accountAccount.getAccountName());
+        modelMap.put("accountImonthList",accountImonthList);
+        modelMap.put("accountClassList",accountClassList);
+        modelMap.put("totalPay",totalPay);
+        modelMap.put("totalIncome",totalIncome);
     }
 }

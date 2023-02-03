@@ -146,18 +146,7 @@ public class AccountAccountController extends BaseController {
     @RequiresPermissions("account:account:analysis")
     @GetMapping("/accountAnalysisPage/{accountId}")
     public String accountAnalysisPage(@PathVariable("accountId") Long accountId, ModelMap modelMap) {
-        AccountAccount accountAccount = accountAccountService.selectAccountNameById(accountId);
-        // 收入支出列表
-        List<Map<String, Object>> accountClassList = accountAccountService.accountCount(accountId);
-        // 总收入，总支出
-        BigDecimal totalPay = accountClassList.stream().filter(e->Objects.equals("支出",e.get("classType"))).map(e->(BigDecimal)e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal totalIncome = accountClassList.stream().filter(e->Objects.equals("收入",e.get("classType"))).map(e->(BigDecimal)e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        modelMap.put("accountId",accountId);
-        modelMap.put("accountName", accountAccount.getAccountName());
-        modelMap.put("accountClassList",accountClassList);
-        modelMap.put("totalPay",totalPay);
-        modelMap.put("totalIncome",totalIncome);
+        accountAccountService.accountAnalysisPage(accountId,modelMap);
         return  "emmanuel/account/bill/analysis";
     }
 

@@ -74,4 +74,12 @@ public interface AccountAccountMapper
     String isAccountVisible(AccountMoney accountMoney);
 
     List<Map<String, Object>> accountCount(Long accountId);
+
+    /**
+     * 根据账户ID查询每月的支出，收入统计
+     *
+     * @param accountId 账户ID
+     * @return
+     */
+    List<Map<String, Object>> accountCountByImonth(Long accountId);
 }

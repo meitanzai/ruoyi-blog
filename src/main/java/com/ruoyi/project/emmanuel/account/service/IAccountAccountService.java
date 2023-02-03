@@ -1,6 +1,7 @@
 package com.ruoyi.project.emmanuel.account.service;
 
 import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
+import org.springframework.ui.ModelMap;
 
 import java.util.List;
 import java.util.Map;
@@ -64,5 +65,10 @@ public interface IAccountAccountService
 
     AccountAccount selectAccountNameById(Long id);
 
-    List<Map<String, Object>> accountCount(Long accountId);
+    /**
+     * 账单分析
+     * @param accountId 账单ID
+     * @param modelMap
+     */
+    void accountAnalysisPage(Long accountId, ModelMap modelMap);
 }
