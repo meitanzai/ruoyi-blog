@@ -46,6 +46,7 @@ public class MessageBoardController extends BaseController {
      * @param comment
      * @return
      */
+    @ResponseBody
     @PostMapping("/submitMessage")
     @RepeatSubmit(interval = 60000, message = "您手速太快啦")
     public AjaxResult submitMessageBoard(@Validated MtoComment comment, HttpServletRequest request) {
@@ -53,7 +54,7 @@ public class MessageBoardController extends BaseController {
             mtoCommentService.insert(comment, request);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("服务器异常，请联系管理员");
         }
         return AjaxResult.success("留言被精选后将公开");
     }

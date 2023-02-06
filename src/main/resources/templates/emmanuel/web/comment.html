@@ -237,26 +237,37 @@
 
     //提交数据方法
     function postData() {
-        $("#comment-container").load(/*[[@{/blog/message/submitMessage}]]*/"", {
-            "pId": $("[name='parentComment.id']").val(),
-            "nickName": $("[name='nickName']").val(),
-            "email": $("[name='email']").val(),
-            "content": filterXSS($("[name='content']").val()),
-            "postId": "0"
-        }, function (responseTxt, statusTxt, xhr) {
-            if (responseTxt != '' && responseTxt != null) {
-                // 判断是否以 { 开头,以此判断是否是JSON字符串
-                if (responseTxt.substring(0, 1) == "{") {
-                    var json = JSON.parse(responseTxt);
-                    if (json.code == 500) {
-                        toastr.error(json.msg)
-                    }
+        $.ajax({
+            url: '/blog/message/submitMessage',
+            cache: false,
+            data: {
+                "pId": $("[name='parentComment.id']").val(),
+                "nickName": $("[name='nickName']").val(),
+                "email": $("[name='email']").val(),
+                "content": filterXSS($("[name='content']").val()),
+                "postId": "0"
+            },
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (data) {
+                toastr.clear();
+                if (data.code == 0) {
+                    toastr.success(data.msg)
                 } else {
-                    toastr.success("留言被精选后将公开")
-                    clearContent();
+                    toastr.warning(data.msg)
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if (XMLHttpRequest.status == 403) {
+                    toastr.error("您没有权限访问，请联系管理员！")
+                } else if (XMLHttpRequest.status == 500) {
+                    toastr.error("服务器内部错误！")
+                } else if (XMLHttpRequest.status == 404) {
+                    toastr.error("您访问的内容不存在！")
+                } else {
+                    toastr.error("服务器未知异常！")
                 }
             }
-
         });
     }
 
@@ -281,7 +292,6 @@
     // 分页
     function getPageData(pageNum) {
         $(function () {
-            debugger;
             $("#comment-container").load(/*[[@{/blog/message/messageInfo}]]*/"", {
                 "pageNum": (pageNum == null ? 1 : pageNum),
                 "pageSize": 10,
