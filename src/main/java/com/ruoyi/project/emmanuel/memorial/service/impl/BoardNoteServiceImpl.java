@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ToolUtils;
+import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.memorial.domain.BoardNote;
 import com.ruoyi.project.emmanuel.memorial.mapper.BoardNoteMapper;
@@ -15,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote> implements IBoardNoteService {
@@ -57,6 +61,9 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
         boardNote.setAuthorId(ShiroUtils.getUserId());
         boardNote.setCreateBy(ShiroUtils.getLoginName());
         boardNote.setCreateTime(DateUtils.getNowDate());
+        if (Objects.equals("-1", boardNote.getNoteType())){
+            this.deleteDynamicHtml();
+        }
         return boardNoteMapper.insert(boardNote);
     }
 
@@ -69,12 +76,16 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
     public int updateBoardNote(BoardNote boardNote) {
         boardNote.setUpdateBy(ShiroUtils.getLoginName());
         boardNote.setUpdateTime(DateUtils.getNowDate());
+        // 删除静态模板
+        this.deleteDynamicHtml();
         return boardNoteMapper.updateById(boardNote);
     }
 
     @Override
     public int deleteBoardNoteByIds(String ids) {
         ArrayList<String> idList = new ArrayList<>(Arrays.asList(ids.split(",")));
+        // 删除静态模板
+        this.deleteDynamicHtml();
         return boardNoteMapper.deleteBatchIds(idList);
     }
 
@@ -104,5 +115,16 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
             dataInfo.setTotalPage(mtoDynamicPage.getPages());
         }
         return dataInfo;
+    }
+
+    /**
+     * 删除静态页面
+     */
+    private void deleteDynamicHtml() {
+        if (RuoYiConfig.isPageStaticEnabled()) {
+            File directory = new File(RuoYiConfig.getHtmlPath() + File.separator);
+            List<File> fileList = FileUtils.searchLikeFiles(directory, "dynamic-", false);
+            fileList.parallelStream().forEach(file -> file.delete());
+        }
     }
 }

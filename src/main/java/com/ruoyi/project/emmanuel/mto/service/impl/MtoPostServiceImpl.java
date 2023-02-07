@@ -500,9 +500,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
         if (RuoYiConfig.isPageStaticEnabled()) {
             File directory = new File(RuoYiConfig.getHtmlPath() + File.separator);
             List<File> fileList = FileUtils.searchLikeFiles(directory, "blog-", false);
-            for (File file : fileList) {
-                file.delete();
-            }
+            fileList.parallelStream().forEach(file -> file.delete());
         }
     }
 

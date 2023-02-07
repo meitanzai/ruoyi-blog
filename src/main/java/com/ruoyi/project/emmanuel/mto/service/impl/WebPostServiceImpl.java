@@ -322,7 +322,7 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
             // 过滤掉停用的(后台与前台用的同一个sql，所以不能在sql里where，会使后台导航管理列表不显示)
             List<MtoCategory> collect = mtoCategoryList.stream().filter(e -> Objects.equals(1, e.getStatus())).collect(Collectors.toList());
-            mtoCategoryList.forEach(e->e.setChildren(e.getChildren().stream().filter(k->Objects.equals(1, k.getStatus())).collect(Collectors.toList())));
+            mtoCategoryList.forEach(e -> e.setChildren(e.getChildren().stream().filter(k -> Objects.equals(1, k.getStatus())).collect(Collectors.toList())));
 
             // 保存到缓存
             CacheUtils.put(Constants.WEB_CATEGORY, JSONObject.toJSON(collect));
@@ -672,9 +672,31 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
      * @param pageNum  当前页
      * @param pageSize 页大小
      * @param modelMap
+     * @param request
+     * @param response
      */
     @Override
-    public void dynamicList(Long pageNum, Long pageSize, ModelMap modelMap) {
+    public String dynamicList(Long pageNum, Long pageSize, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
+        // 如果开启静态模板
+        if (RuoYiConfig.isPageStaticEnabled()) {
+            String htmlName = "dynamic-" + pageNum + "-" + pageSize + ".html";
+            // 判断文件是否存在
+            File directory = new File(RuoYiConfig.getHtmlPath() + File.separator + htmlName);
+            if (directory.exists()) {
+                // 静态页面存在的路径
+                String currentHtmlDir = RuoYiConfig.getHtmlPath().substring(RuoYiConfig.getHtmlPath().lastIndexOf("/") + 1);
+                // 当前静态页面访问地址
+                String currentDir = Constants.RESOURCE_PREFIX + "/" + currentHtmlDir + "/" + htmlName;
+                return "forward:" + currentDir;
+            }
+            createDynamicHtml(request, response, pageNum, pageSize, modelMap, htmlName);
+            return null;
+        }
+        this.getDynamicData(modelMap, pageNum, pageSize);
+        return null;
+    }
+
+    private void getDynamicData(ModelMap modelMap, Long pageNum, Long pageSize) {
         // 获取导航
         this.selectCategory(modelMap);
         // 获取侧边栏
@@ -811,6 +833,23 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         paramMap.put("mtoPost", modelMap.get("mtoPost"));
         // 创建静态页面
         createHtml(request, response, true, paramMap, "emmanuel/web/article", articleId + ".html");
+    }
+
+    /**
+     * 生成动态菜单静态页面
+     *
+     * @param request
+     * @param response
+     * @param pageNum
+     * @param pageSize
+     * @param modelMap
+     * @param htmlName
+     */
+    private void createDynamicHtml(HttpServletRequest request, HttpServletResponse response, Long pageNum, Long pageSize, ModelMap modelMap, String htmlName) {
+        this.getDynamicData(modelMap, pageNum, pageSize);
+        // 创建静态页面
+        createHtml(request, response, true, modelMap, "emmanuel/web/dynamic", htmlName);
+
     }
 
     /**

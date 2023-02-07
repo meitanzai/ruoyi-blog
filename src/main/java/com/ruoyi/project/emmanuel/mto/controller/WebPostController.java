@@ -219,9 +219,9 @@ public class WebPostController extends BaseController {
     @GetMapping(value = {"/dynamics"})
     public String dynamics(@RequestParam(value = "pageNum", defaultValue = "1") Long pageNum,
                            @RequestParam(value = "pageSize", defaultValue = "10") Long pageSize,
-                           ModelMap modelMap) {
-        postService.dynamicList(pageNum, pageSize, modelMap);
-        return prefix + "/dynamic";
+                           ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
+        String url = postService.dynamicList(pageNum, pageSize, modelMap, request, response);
+        return ToolUtils.isEmpty(url) ? prefix + "/dynamic" : url;
     }
 
     /**

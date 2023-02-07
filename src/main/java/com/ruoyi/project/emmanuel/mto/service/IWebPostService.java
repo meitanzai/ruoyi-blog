@@ -160,12 +160,13 @@ public interface IWebPostService extends IService<WebMtoPost> {
 
     /**
      * 获取动态
-     *
-     * @param pageNum  当前页
+     *  @param pageNum  当前页
      * @param pageSize 页大小
      * @param modelMap
+     * @param request
+     * @param response
      */
-    void dynamicList(Long pageNum, Long pageSize, ModelMap modelMap);
+    String dynamicList(Long pageNum, Long pageSize, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 根据关键字搜索
