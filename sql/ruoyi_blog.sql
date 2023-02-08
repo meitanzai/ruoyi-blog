@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127.0.0.1_3306
+ Source Server         : https://giteekey.gitee.io/blog-notes/_3306
  Source Server Type    : MySQL
  Source Server Version : 50736
- Source Host           : 127.0.0.1:3306
+ Source Host           : https://giteekey.gitee.io/blog-notes/:3306
  Source Schema         : ruoyi_blog
 
  Target Server Type    : MySQL
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 19/11/2022 13:24:15
+ Date: 08/02/2023 17:36:09
 */
 
 SET NAMES utf8mb4;
@@ -22,19 +22,19 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `account_account`;
 CREATE TABLE `account_account` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `cover` varbinary(300) DEFAULT NULL COMMENT '账户封面/图片',
-  `account_name` varchar(20) NOT NULL COMMENT '账户分类',
-  `account_introduce` varchar(60) DEFAULT NULL COMMENT '账本介绍',
-  `visible` char(1) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0' COMMENT '账本状态（0显示 1隐藏）',
-  `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建用户ID',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+                                   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+                                   `cover` varbinary(300) DEFAULT NULL COMMENT '账户封面/图片',
+                                   `account_name` varchar(20) NOT NULL COMMENT '账户分类',
+                                   `account_introduce` varchar(60) DEFAULT NULL COMMENT '账本介绍',
+                                   `visible` char(1) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0' COMMENT '账本状态（0显示 1隐藏）',
+                                   `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
+                                   `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
+                                   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                   `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
+                                   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                   `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建用户ID',
+                                   PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of account_account
@@ -47,18 +47,18 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `account_class`;
 CREATE TABLE `account_class` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `class_name` varchar(20) NOT NULL COMMENT '分类名称',
-  `class_type` varchar(100) DEFAULT NULL COMMENT '分类类型',
-  `class_introduce` varchar(60) DEFAULT NULL COMMENT '分类介绍',
-  `class_status` char(4) DEFAULT NULL COMMENT '分类状态（停用/启用）',
-  `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+                                 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                 `class_name` varchar(20) NOT NULL COMMENT '分类名称',
+                                 `class_type` varchar(100) DEFAULT NULL COMMENT '分类类型',
+                                 `class_introduce` varchar(60) DEFAULT NULL COMMENT '分类介绍',
+                                 `class_status` char(4) DEFAULT NULL COMMENT '分类状态（停用/启用）',
+                                 `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
+                                 `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
+                                 `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of account_class
@@ -71,22 +71,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `account_money`;
 CREATE TABLE `account_money` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `account_id` bigint(20) NOT NULL COMMENT '账本id',
-  `class_id` bigint(20) NOT NULL COMMENT '类型id',
-  `money_pay` decimal(20,2) DEFAULT NULL COMMENT '金额(支出金额)',
-  `money_income` decimal(20,2) DEFAULT NULL COMMENT '金额(收出金额)',
-  `money_date` date DEFAULT NULL COMMENT '花钱日期',
-  `money_introduce` varchar(60) DEFAULT NULL COMMENT '备注/金额说明',
-  `is_total` int(1) NOT NULL DEFAULT '0' COMMENT '是否记入总账（0记入，默认，1不记录）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `deleted` char(1) NOT NULL DEFAULT '0' COMMENT '0是正常，1是删除',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `account_id` (`account_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=707 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+                                 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+                                 `account_id` bigint(20) NOT NULL COMMENT '账本id',
+                                 `class_id` bigint(20) NOT NULL COMMENT '类型id',
+                                 `money_pay` decimal(20,2) DEFAULT NULL COMMENT '金额(支出金额)',
+                                 `money_income` decimal(20,2) DEFAULT NULL COMMENT '金额(收出金额)',
+                                 `money_date` date DEFAULT NULL COMMENT '花钱日期',
+                                 `money_introduce` varchar(2000) DEFAULT NULL COMMENT '备注/金额说明',
+                                 `is_total` int(1) NOT NULL DEFAULT '0' COMMENT '是否记入总账（0记入，默认，1不记录）',
+                                 `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                                 `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 `deleted` char(1) NOT NULL DEFAULT '0' COMMENT '0是正常，1是删除',
+                                 PRIMARY KEY (`id`) USING BTREE,
+                                 KEY `account_id` (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of account_money
@@ -99,10 +99,10 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `account_user_account`;
 CREATE TABLE `account_user_account` (
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `post_id` bigint(20) NOT NULL COMMENT '账户ID',
-  `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  PRIMARY KEY (`user_id`,`post_id`) USING BTREE
+                                        `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+                                        `post_id` bigint(20) NOT NULL COMMENT '账户ID',
+                                        `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                                        PRIMARY KEY (`user_id`,`post_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户与记账账户关联表';
 
 -- ----------------------------
@@ -116,24 +116,23 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `biz_repeat_log`;
 CREATE TABLE `biz_repeat_log` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `biz_id` int(11) unsigned DEFAULT NULL COMMENT '业务ID',
-  `biz_type` tinyint(1) NOT NULL COMMENT '业务类型：1.文章，2.评论,3.获取天气',
-  `user_id` varchar(20) DEFAULT NULL COMMENT '已登录用户ID',
-  `user_ip` varchar(50) DEFAULT NULL COMMENT '用户IP',
-  `user_agent` varchar(500) DEFAULT NULL COMMENT '客户端标识',
-  `url` varchar(100) DEFAULT NULL COMMENT '请求地址',
-  `status` char(1) NOT NULL COMMENT '状态（0正常 1失败）',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1341 DEFAULT CHARSET=utf8;
+                                  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                                  `biz_id` int(11) unsigned DEFAULT NULL COMMENT '业务ID',
+                                  `biz_type` tinyint(1) NOT NULL COMMENT '业务类型：1.文章，2.评论,3.获取天气',
+                                  `user_id` varchar(20) DEFAULT NULL COMMENT '已登录用户ID',
+                                  `user_ip` varchar(50) DEFAULT NULL COMMENT '用户IP',
+                                  `user_agent` varchar(500) DEFAULT NULL COMMENT '客户端标识',
+                                  `url` varchar(100) DEFAULT NULL COMMENT '请求地址',
+                                  `status` char(1) NOT NULL COMMENT '状态（0正常 1失败）',
+                                  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+                                  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of biz_repeat_log
 -- ----------------------------
 BEGIN;
-INSERT INTO `biz_repeat_log` (`id`, `biz_id`, `biz_type`, `user_id`, `user_ip`, `user_agent`, `url`, `status`, `create_time`, `remark`) VALUES (1340, NULL, 3, NULL, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36', '/admin/index/getWeathe', '0', '2022-11-19 11:56:44', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -141,17 +140,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `board_agile`;
 CREATE TABLE `board_agile` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
-  `agile_name` varchar(500) DEFAULT NULL COMMENT '任务名称',
-  `agile_status` int(1) NOT NULL COMMENT '状态',
-  `agile_date` datetime NOT NULL COMMENT '任务日期',
-  `user_id` bigint(20) NOT NULL COMMENT '用户id',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
+                               `agile_name` varchar(500) DEFAULT NULL COMMENT '任务名称',
+                               `agile_status` int(1) NOT NULL COMMENT '状态',
+                               `agile_date` datetime NOT NULL COMMENT '任务日期',
+                               `user_id` bigint(20) NOT NULL COMMENT '用户id',
+                               `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
+                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
+                               `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                               `remark` varchar(500) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '备注',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -165,22 +164,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `board_note`;
 CREATE TABLE `board_note` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
-  `note_title` varchar(60) NOT NULL COMMENT '标题',
-  `author_id` bigint(20) DEFAULT NULL COMMENT '作者id',
-  `note_image` varchar(255) DEFAULT NULL COMMENT '图片（预留字段，暂时不考虑）',
-  `note_content` longtext COMMENT '内容',
-  `note_summary` varchar(100) DEFAULT NULL COMMENT '摘要',
-  `note_type` varchar(10) DEFAULT NULL COMMENT '类型（数据字典，不写死）',
-  `note_status` char(1) DEFAULT '0' COMMENT '状态',
-  `is_Public` char(1) DEFAULT NULL COMMENT '是否公共，0公共，  1 私有',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4;
+                              `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
+                              `note_title` varchar(60) NOT NULL COMMENT '标题',
+                              `author_id` bigint(20) DEFAULT NULL COMMENT '作者id',
+                              `note_image` varchar(255) DEFAULT NULL COMMENT '图片（预留字段，暂时不考虑）',
+                              `note_content` longtext COMMENT '内容',
+                              `note_summary` varchar(100) DEFAULT NULL COMMENT '摘要',
+                              `note_type` varchar(10) DEFAULT NULL COMMENT '类型（数据字典，不写死）',
+                              `note_status` char(1) DEFAULT '0' COMMENT '状态',
+                              `is_Public` char(1) DEFAULT NULL COMMENT '是否公共，0公共，  1 私有',
+                              `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                              `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                              `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                              `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                              `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+                              PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of board_note
@@ -194,14 +193,14 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `cloud_file`;
 CREATE TABLE `cloud_file` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) DEFAULT NULL COMMENT '文件所属用户',
-  `oldfilename` varchar(255) DEFAULT NULL COMMENT '原文件名',
-  `newfilename` varchar(255) DEFAULT NULL COMMENT '新文件名',
-  `ext` varchar(255) DEFAULT NULL COMMENT '文件后缀',
-  `url_path` varchar(255) DEFAULT NULL COMMENT '访问文件url地址',
-  `file_path` varchar(255) DEFAULT NULL COMMENT '文件存放路径',
-  `size` float(11,1) DEFAULT NULL COMMENT '文件大小',
+                              `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                              `user_id` bigint(20) DEFAULT NULL COMMENT '文件所属用户',
+                              `oldfilename` varchar(255) DEFAULT NULL COMMENT '原文件名',
+                              `newfilename` varchar(255) DEFAULT NULL COMMENT '新文件名',
+                              `ext` varchar(255) DEFAULT NULL COMMENT '文件后缀',
+                              `url_path` varchar(255) DEFAULT NULL COMMENT '访问文件url地址',
+                              `file_path` varchar(255) DEFAULT NULL COMMENT '文件存放路径',
+                              `size` float(11,1) DEFAULT NULL COMMENT '文件大小',
   `type` varchar(255) DEFAULT NULL COMMENT '文件类型',
   `is_img` int(11) DEFAULT NULL COMMENT '是否是图片（0是，1否）',
   `downcounts` int(11) DEFAULT '0' COMMENT '下载次数',
@@ -213,7 +212,7 @@ CREATE TABLE `cloud_file` (
   `is_recycle` int(11) DEFAULT '0' COMMENT '是否在回收箱（0正常，1删除）',
   `icon` varchar(255) DEFAULT NULL COMMENT '文件显示图片',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='网盘文件';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网盘文件';
 
 -- ----------------------------
 -- Records of cloud_file
@@ -226,28 +225,28 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gen_table`;
 CREATE TABLE `gen_table` (
-  `table_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `table_name` varchar(200) DEFAULT '' COMMENT '表名称',
-  `table_comment` varchar(500) DEFAULT '' COMMENT '表描述',
-  `sub_table_name` varchar(64) DEFAULT NULL COMMENT '关联子表的表名',
-  `sub_table_fk_name` varchar(64) DEFAULT NULL COMMENT '子表关联的外键名',
-  `class_name` varchar(100) DEFAULT '' COMMENT '实体类名称',
-  `tpl_category` varchar(200) DEFAULT 'crud' COMMENT '使用的模板（crud单表操作 tree树表操作 sub主子表操作）',
-  `package_name` varchar(100) DEFAULT NULL COMMENT '生成包路径',
-  `module_name` varchar(30) DEFAULT NULL COMMENT '生成模块名',
-  `business_name` varchar(30) DEFAULT NULL COMMENT '生成业务名',
-  `function_name` varchar(50) DEFAULT NULL COMMENT '生成功能名',
-  `function_author` varchar(50) DEFAULT NULL COMMENT '生成功能作者',
-  `gen_type` char(1) DEFAULT '0' COMMENT '生成代码方式（0zip压缩包 1自定义路径）',
-  `gen_path` varchar(200) DEFAULT '/' COMMENT '生成路径（不填默认项目路径）',
-  `options` varchar(1000) DEFAULT NULL COMMENT '其它生成选项',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='代码生成业务表';
+                             `table_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+                             `table_name` varchar(200) DEFAULT '' COMMENT '表名称',
+                             `table_comment` varchar(500) DEFAULT '' COMMENT '表描述',
+                             `sub_table_name` varchar(64) DEFAULT NULL COMMENT '关联子表的表名',
+                             `sub_table_fk_name` varchar(64) DEFAULT NULL COMMENT '子表关联的外键名',
+                             `class_name` varchar(100) DEFAULT '' COMMENT '实体类名称',
+                             `tpl_category` varchar(200) DEFAULT 'crud' COMMENT '使用的模板（crud单表操作 tree树表操作 sub主子表操作）',
+                             `package_name` varchar(100) DEFAULT NULL COMMENT '生成包路径',
+                             `module_name` varchar(30) DEFAULT NULL COMMENT '生成模块名',
+                             `business_name` varchar(30) DEFAULT NULL COMMENT '生成业务名',
+                             `function_name` varchar(50) DEFAULT NULL COMMENT '生成功能名',
+                             `function_author` varchar(50) DEFAULT NULL COMMENT '生成功能作者',
+                             `gen_type` char(1) DEFAULT '0' COMMENT '生成代码方式（0zip压缩包 1自定义路径）',
+                             `gen_path` varchar(200) DEFAULT '/' COMMENT '生成路径（不填默认项目路径）',
+                             `options` varchar(1000) DEFAULT NULL COMMENT '其它生成选项',
+                             `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                             `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                             `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                             `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                             `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                             PRIMARY KEY (`table_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='代码生成业务表';
 
 -- ----------------------------
 -- Records of gen_table
@@ -260,30 +259,30 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gen_table_column`;
 CREATE TABLE `gen_table_column` (
-  `column_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `table_id` varchar(64) DEFAULT NULL COMMENT '归属表编号',
-  `column_name` varchar(200) DEFAULT NULL COMMENT '列名称',
-  `column_comment` varchar(500) DEFAULT NULL COMMENT '列描述',
-  `column_type` varchar(100) DEFAULT NULL COMMENT '列类型',
-  `java_type` varchar(500) DEFAULT NULL COMMENT 'JAVA类型',
-  `java_field` varchar(200) DEFAULT NULL COMMENT 'JAVA字段名',
-  `is_pk` char(1) DEFAULT NULL COMMENT '是否主键（1是）',
-  `is_increment` char(1) DEFAULT NULL COMMENT '是否自增（1是）',
-  `is_required` char(1) DEFAULT NULL COMMENT '是否必填（1是）',
-  `is_insert` char(1) DEFAULT NULL COMMENT '是否为插入字段（1是）',
-  `is_edit` char(1) DEFAULT NULL COMMENT '是否编辑字段（1是）',
-  `is_list` char(1) DEFAULT NULL COMMENT '是否列表字段（1是）',
-  `is_query` char(1) DEFAULT NULL COMMENT '是否查询字段（1是）',
-  `query_type` varchar(200) DEFAULT 'EQ' COMMENT '查询方式（等于、不等于、大于、小于、范围）',
-  `html_type` varchar(200) DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
-  `dict_type` varchar(200) DEFAULT '' COMMENT '字典类型',
-  `sort` int(11) DEFAULT NULL COMMENT '排序',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='代码生成业务表字段';
+                                    `column_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+                                    `table_id` varchar(64) DEFAULT NULL COMMENT '归属表编号',
+                                    `column_name` varchar(200) DEFAULT NULL COMMENT '列名称',
+                                    `column_comment` varchar(500) DEFAULT NULL COMMENT '列描述',
+                                    `column_type` varchar(100) DEFAULT NULL COMMENT '列类型',
+                                    `java_type` varchar(500) DEFAULT NULL COMMENT 'JAVA类型',
+                                    `java_field` varchar(200) DEFAULT NULL COMMENT 'JAVA字段名',
+                                    `is_pk` char(1) DEFAULT NULL COMMENT '是否主键（1是）',
+                                    `is_increment` char(1) DEFAULT NULL COMMENT '是否自增（1是）',
+                                    `is_required` char(1) DEFAULT NULL COMMENT '是否必填（1是）',
+                                    `is_insert` char(1) DEFAULT NULL COMMENT '是否为插入字段（1是）',
+                                    `is_edit` char(1) DEFAULT NULL COMMENT '是否编辑字段（1是）',
+                                    `is_list` char(1) DEFAULT NULL COMMENT '是否列表字段（1是）',
+                                    `is_query` char(1) DEFAULT NULL COMMENT '是否查询字段（1是）',
+                                    `query_type` varchar(200) DEFAULT 'EQ' COMMENT '查询方式（等于、不等于、大于、小于、范围）',
+                                    `html_type` varchar(200) DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+                                    `dict_type` varchar(200) DEFAULT '' COMMENT '字典类型',
+                                    `sort` int(11) DEFAULT NULL COMMENT '排序',
+                                    `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                                    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                    `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                                    `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                    PRIMARY KEY (`column_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='代码生成业务表字段';
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -296,19 +295,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_category`;
 CREATE TABLE `mto_category` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `pid` int(11) unsigned DEFAULT '0',
-  `name` varchar(50) DEFAULT NULL COMMENT '文章类型名',
-  `description` varchar(200) DEFAULT NULL COMMENT '类型介绍',
-  `sort` int(10) DEFAULT NULL COMMENT '排序',
-  `icon` varchar(100) DEFAULT NULL COMMENT '图标',
-  `status` tinyint(1) unsigned DEFAULT '1' COMMENT '是否可用',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  `type` int(1) DEFAULT '0' COMMENT '类型 （0分类/1页面）',
-  `page_url` varchar(255) DEFAULT NULL COMMENT '页面请求地址',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='前台导航';
+                                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                                `pid` int(11) unsigned DEFAULT '0',
+                                `name` varchar(50) DEFAULT NULL COMMENT '文章类型名',
+                                `description` varchar(200) DEFAULT NULL COMMENT '类型介绍',
+                                `sort` int(10) DEFAULT NULL COMMENT '排序',
+                                `icon` varchar(100) DEFAULT NULL COMMENT '图标',
+                                `status` tinyint(1) unsigned DEFAULT '1' COMMENT '是否可用',
+                                `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+                                `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                                `type` int(1) DEFAULT '0' COMMENT '类型 （0分类/1页面）',
+                                `page_url` varchar(255) DEFAULT NULL COMMENT '页面请求地址',
+                                PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='前台导航';
 
 -- ----------------------------
 -- Records of mto_category
@@ -326,6 +325,7 @@ INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, 
 INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (12, 0, '留言板', '', 100, 'fa fa-comments', 1, '2022-03-16 17:04:53', '2022-03-16 17:04:53', 1, '/blog/message/messageBoard');
 INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (13, 0, '新闻', '', 6, 'fa fa-hacker-news', 1, '2022-03-23 20:49:26', '2022-03-26 18:56:51', 1, '/blog/news');
 INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (15, 0, '主页', '我的主页', 0, 'fa fa-home', 1, '2022-09-02 16:24:24', '2022-09-02 16:24:24', 1, '/blog/homepage');
+INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (16, 0, 'vue博客', '', 101, 'glyphicon glyphicon-book', 1, '2023-01-15 14:05:00', '2023-01-15 14:05:54', 1, 'https://giteekey.gitee.io/blog-notes/');
 COMMIT;
 
 -- ----------------------------
@@ -333,15 +333,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_channel`;
 CREATE TABLE `mto_channel` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key_` varchar(32) DEFAULT NULL COMMENT 'key',
-  `name` varchar(32) DEFAULT NULL COMMENT '名称',
-  `status` int(5) NOT NULL COMMENT '状态：0正常，1隐藏',
-  `thumbnail` varchar(128) DEFAULT NULL COMMENT '图片链接',
-  `type` int(2) DEFAULT NULL COMMENT '类型：1分类，2专题',
-  `weight` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+                               `id` int(11) NOT NULL AUTO_INCREMENT,
+                               `key_` varchar(32) DEFAULT NULL COMMENT 'key',
+                               `name` varchar(32) DEFAULT NULL COMMENT '名称',
+                               `status` int(5) NOT NULL COMMENT '状态：0正常，1隐藏',
+                               `thumbnail` varchar(128) DEFAULT NULL COMMENT '图片链接',
+                               `type` int(2) DEFAULT NULL COMMENT '类型：1分类，2专题',
+                               `weight` int(11) NOT NULL DEFAULT '0',
+                               PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 -- Records of mto_channel
@@ -355,12 +355,6 @@ COMMIT;
 -- Table structure for mto_comment
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_comment`;
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for mto_comment
--- ----------------------------
 CREATE TABLE `mto_comment` (
                                `id` bigint(20) NOT NULL AUTO_INCREMENT,
                                `p_id` bigint(20) DEFAULT NULL COMMENT '父id',
@@ -372,15 +366,14 @@ CREATE TABLE `mto_comment` (
                                `love` char(4) DEFAULT NULL COMMENT '点赞',
                                `status` varchar(255) DEFAULT NULL COMMENT '状态',
                                `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               `examine_by` varchar(20) DEFAULT NULL COMMENT '审核人',
+                               `examine_time` datetime DEFAULT NULL COMMENT '审核时间',
                                `ip` varchar(64) DEFAULT NULL,
                                `parent_nick_name` varchar(255) DEFAULT NULL COMMENT '父级名称',
-                               `examine_by` varchar(60) DEFAULT NULL COMMENT '审核人',
-                               `examine_time` datetime DEFAULT NULL COMMENT '审核时间',
                                `content` varchar(2000) DEFAULT NULL COMMENT '内容',
+                               `ip_addr` varchar(60) DEFAULT NULL COMMENT 'ip地址',
                                PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=utf8mb4 COMMENT='留言';
-
-SET FOREIGN_KEY_CHECKS = 1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='留言';
 
 -- ----------------------------
 -- Records of mto_comment
@@ -393,10 +386,10 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_golden`;
 CREATE TABLE `mto_golden` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `golden` varchar(255) DEFAULT NULL COMMENT '金句',
-  `author` varchar(255) DEFAULT NULL COMMENT '名言',
-  PRIMARY KEY (`id`) USING BTREE
+                              `id` int(11) NOT NULL AUTO_INCREMENT,
+                              `golden` varchar(255) DEFAULT NULL COMMENT '金句',
+                              `author` varchar(255) DEFAULT NULL COMMENT '名言',
+                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='金句';
 
 -- ----------------------------
@@ -418,19 +411,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_link`;
 CREATE TABLE `mto_link` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `link_name` varchar(255) DEFAULT NULL COMMENT '名称',
-  `link_logo` varchar(255) DEFAULT NULL COMMENT 'logo',
-  `link_url` varchar(255) DEFAULT NULL COMMENT 'url地址',
-  `link_description` varchar(255) DEFAULT NULL COMMENT '链接描述',
-  `status` int(1) DEFAULT NULL COMMENT '状态：0正常，1隐藏',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                            `link_name` varchar(255) DEFAULT NULL COMMENT '名称',
+                            `link_logo` varchar(255) DEFAULT NULL COMMENT 'logo',
+                            `link_url` varchar(255) DEFAULT NULL COMMENT 'url地址',
+                            `link_description` varchar(255) DEFAULT NULL COMMENT '链接描述',
+                            `status` int(1) DEFAULT NULL COMMENT '状态：0正常，1隐藏',
+                            `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `remark` varchar(500) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '备注',
+                            PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of mto_link
@@ -444,13 +437,13 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_look_ip`;
 CREATE TABLE `mto_look_ip` (
-  `date` date NOT NULL COMMENT '日期',
-  `ip_list` varchar(1000) DEFAULT NULL COMMENT '当前访问IP',
-  `type` char(1) DEFAULT NULL COMMENT '类型',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8 DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`date`)
+                               `date` date NOT NULL COMMENT '日期',
+                               `ip_list` varchar(1000) DEFAULT NULL COMMENT '当前访问IP',
+                               `type` char(1) DEFAULT NULL COMMENT '类型',
+                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                               `remark` varchar(500) CHARACTER SET utf8 DEFAULT NULL COMMENT '备注',
+                               PRIMARY KEY (`date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='每日访问博客IP';
 
 -- ----------------------------
@@ -464,21 +457,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_look_ip_first`;
 CREATE TABLE `mto_look_ip_first` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `ip_addr` varchar(128) DEFAULT NULL COMMENT '当前访问IP',
-  `ip_location` varchar(255) DEFAULT NULL COMMENT 'ip地址',
-  `first_visit_url` varchar(255) DEFAULT NULL COMMENT '首次访问URL',
-  `first_visit_date` datetime DEFAULT NULL COMMENT '首次访问时间',
-  `remark` varchar(500) CHARACTER SET utf8 DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2398 DEFAULT CHARSET=utf8mb4 COMMENT='首次访问博客记录';
+                                     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                     `ip_addr` varchar(128) DEFAULT NULL COMMENT '当前访问IP',
+                                     `ip_location` varchar(255) DEFAULT NULL COMMENT 'ip地址',
+                                     `first_visit_url` varchar(255) DEFAULT NULL COMMENT '首次访问URL',
+                                     `first_visit_date` datetime DEFAULT NULL COMMENT '首次访问时间',
+                                     `remark` varchar(500) CHARACTER SET utf8 DEFAULT NULL COMMENT '备注',
+                                     PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='首次访问博客记录';
 
 -- ----------------------------
 -- Records of mto_look_ip_first
 -- ----------------------------
 BEGIN;
-INSERT INTO `mto_look_ip_first` (`id`, `ip_addr`, `ip_location`, `first_visit_url`, `first_visit_date`, `remark`) VALUES (2396, '127.0.0.1', '内网IP', '/blog/homepage', '2022-11-19 11:56:13', NULL);
-INSERT INTO `mto_look_ip_first` (`id`, `ip_addr`, `ip_location`, `first_visit_url`, `first_visit_date`, `remark`) VALUES (2397, '127.0.0.1', '内网IP', '/blog', '2022-11-19 12:27:14', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -486,28 +477,28 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_post`;
 CREATE TABLE `mto_post` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `author_id` bigint(20) DEFAULT NULL COMMENT '作者id',
-  `channel_id` bigint(11) DEFAULT NULL COMMENT '栏目id',
-  `category_Id` bigint(20) DEFAULT NULL COMMENT '导航id',
-  `comments` int(11) NOT NULL DEFAULT '0' COMMENT '评论数',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `slider` int(11) DEFAULT '0' COMMENT '轮播图状态 (1是轮播图)',
-  `favors` int(11) NOT NULL DEFAULT '0' COMMENT '收藏数(默认为0为推荐，1是推荐)',
-  `featured` int(11) NOT NULL DEFAULT '0' COMMENT '推荐状态',
-  `status` int(11) NOT NULL DEFAULT '0' COMMENT '文章状态',
-  `summary` varchar(500) DEFAULT NULL COMMENT '摘要',
-  `tags` varchar(100) DEFAULT NULL COMMENT '标签',
-  `thumbnail` varchar(500) DEFAULT NULL COMMENT '图片',
-  `title` varchar(64) DEFAULT NULL COMMENT 'title',
-  `views` int(11) NOT NULL DEFAULT '0' COMMENT '查看次数',
-  `pwd` varchar(20) DEFAULT NULL COMMENT '文章密码',
-  `weight` int(11) NOT NULL DEFAULT '0',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `IK_CHANNEL_ID` (`channel_id`) USING BTREE,
-  KEY `index_title` (`title`) USING BTREE,
-  KEY `index_channel_id` (`channel_id`) USING BTREE
+                            `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                            `author_id` bigint(20) DEFAULT NULL COMMENT '作者id',
+                            `channel_id` bigint(11) DEFAULT NULL COMMENT '栏目id',
+                            `category_Id` bigint(20) DEFAULT NULL COMMENT '导航id',
+                            `comments` int(11) NOT NULL DEFAULT '0' COMMENT '评论数',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `slider` int(11) DEFAULT '0' COMMENT '轮播图状态 (1是轮播图)',
+                            `favors` int(11) NOT NULL DEFAULT '0' COMMENT '收藏数(默认为0为推荐，1是推荐)',
+                            `featured` int(11) NOT NULL DEFAULT '0' COMMENT '推荐状态',
+                            `status` int(11) NOT NULL DEFAULT '0' COMMENT '文章状态',
+                            `summary` varchar(500) DEFAULT NULL COMMENT '摘要',
+                            `tags` varchar(100) DEFAULT NULL COMMENT '标签',
+                            `thumbnail` varchar(500) DEFAULT NULL COMMENT '图片',
+                            `title` varchar(64) DEFAULT NULL COMMENT 'title',
+                            `views` int(11) NOT NULL DEFAULT '0' COMMENT '查看次数',
+                            `pwd` varchar(20) DEFAULT NULL COMMENT '文章密码',
+                            `weight` int(11) NOT NULL DEFAULT '0',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            PRIMARY KEY (`id`) USING BTREE,
+                            KEY `IK_CHANNEL_ID` (`channel_id`) USING BTREE,
+                            KEY `index_title` (`title`) USING BTREE,
+                            KEY `index_channel_id` (`channel_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COMMENT='博客基本信息';
 
 -- ----------------------------
@@ -524,11 +515,11 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_post_attribute`;
 CREATE TABLE `mto_post_attribute` (
-  `id` bigint(20) NOT NULL,
-  `content` longtext,
-  `editor` varchar(16) DEFAULT 'tinymce',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `id` (`id`) USING BTREE
+                                      `id` bigint(20) NOT NULL,
+                                      `content` longtext,
+                                      `editor` varchar(16) DEFAULT 'tinymce',
+                                      PRIMARY KEY (`id`) USING BTREE,
+                                      KEY `id` (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='博客内容';
 
 -- ----------------------------
@@ -545,12 +536,12 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_post_tag`;
 CREATE TABLE `mto_post_tag` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `post_id` bigint(20) DEFAULT NULL,
-  `tag_id` varchar(64) DEFAULT NULL,
-  `weight` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `IK_TAG_ID` (`tag_id`) USING BTREE
+                                `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                `post_id` bigint(20) DEFAULT NULL,
+                                `tag_id` varchar(64) DEFAULT NULL,
+                                `weight` bigint(20) DEFAULT NULL,
+                                PRIMARY KEY (`id`) USING BTREE,
+                                KEY `IK_TAG_ID` (`tag_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8 COMMENT='博客标签';
 
 -- ----------------------------
@@ -567,16 +558,16 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mto_tag`;
 CREATE TABLE `mto_tag` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
-  `description` varchar(255) DEFAULT NULL COMMENT '描述',
-  `name` varchar(32) NOT NULL COMMENT '标签名',
-  `thumbnail` varchar(128) DEFAULT NULL COMMENT '图片',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `status` int(5) NOT NULL DEFAULT '0' COMMENT '状态(0为正常)',
-  `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UK_9ki38gg59bw5agwxsc4xtednf` (`name`) USING BTREE
+                           `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
+                           `description` varchar(255) DEFAULT NULL COMMENT '描述',
+                           `name` varchar(32) NOT NULL COMMENT '标签名',
+                           `thumbnail` varchar(128) DEFAULT NULL COMMENT '图片',
+                           `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                           `status` int(5) NOT NULL DEFAULT '0' COMMENT '状态(0为正常)',
+                           `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
+                           PRIMARY KEY (`id`) USING BTREE,
+                           UNIQUE KEY `UK_9ki38gg59bw5agwxsc4xtednf` (`name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='标签';
 
 -- ----------------------------
@@ -592,15 +583,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `pin_board`;
 CREATE TABLE `pin_board` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `board_title` varchar(255) DEFAULT NULL COMMENT '便签头',
-  `board_content` varchar(1200) DEFAULT NULL COMMENT '便签内容',
-  `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                             `board_title` varchar(255) DEFAULT NULL COMMENT '便签头',
+                             `board_content` varchar(1200) DEFAULT NULL COMMENT '便签内容',
+                             `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
+                             `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '创建者',
+                             `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                             `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
+                             `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -620,12 +611,12 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_blob_triggers`;
 CREATE TABLE `qrtz_blob_triggers` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
-  `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
-  `blob_data` blob COMMENT '存放持久化Trigger对象',
-  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
-  CONSTRAINT `QRTZ_BLOB_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
+                                      `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                      `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
+                                      `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
+                                      `blob_data` blob COMMENT '存放持久化Trigger对象',
+                                      PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
+                                      CONSTRAINT `QRTZ_BLOB_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='Blob类型的触发器表';
 
 -- ----------------------------
@@ -639,10 +630,10 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_calendars`;
 CREATE TABLE `qrtz_calendars` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `calendar_name` varchar(200) NOT NULL COMMENT '日历名称',
-  `calendar` blob NOT NULL COMMENT '存放持久化calendar对象',
-  PRIMARY KEY (`sched_name`,`calendar_name`) USING BTREE
+                                  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                  `calendar_name` varchar(200) NOT NULL COMMENT '日历名称',
+                                  `calendar` blob NOT NULL COMMENT '存放持久化calendar对象',
+                                  PRIMARY KEY (`sched_name`,`calendar_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='日历信息表';
 
 -- ----------------------------
@@ -656,13 +647,13 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_cron_triggers`;
 CREATE TABLE `qrtz_cron_triggers` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
-  `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
-  `cron_expression` varchar(200) NOT NULL COMMENT 'cron表达式',
-  `time_zone_id` varchar(80) DEFAULT NULL COMMENT '时区',
-  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
-  CONSTRAINT `QRTZ_CRON_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
+                                      `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                      `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
+                                      `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
+                                      `cron_expression` varchar(200) NOT NULL COMMENT 'cron表达式',
+                                      `time_zone_id` varchar(80) DEFAULT NULL COMMENT '时区',
+                                      PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
+                                      CONSTRAINT `QRTZ_CRON_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='Cron类型的触发器表';
 
 -- ----------------------------
@@ -676,20 +667,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_fired_triggers`;
 CREATE TABLE `qrtz_fired_triggers` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `entry_id` varchar(95) NOT NULL COMMENT '调度器实例id',
-  `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
-  `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
-  `instance_name` varchar(200) NOT NULL COMMENT '调度器实例名',
-  `fired_time` bigint(13) NOT NULL COMMENT '触发的时间',
-  `sched_time` bigint(13) NOT NULL COMMENT '定时器制定的时间',
-  `priority` int(11) NOT NULL COMMENT '优先级',
-  `state` varchar(16) NOT NULL COMMENT '状态',
-  `job_name` varchar(200) DEFAULT NULL COMMENT '任务名称',
-  `job_group` varchar(200) DEFAULT NULL COMMENT '任务组名',
-  `is_nonconcurrent` varchar(1) DEFAULT NULL COMMENT '是否并发',
-  `requests_recovery` varchar(1) DEFAULT NULL COMMENT '是否接受恢复执行',
-  PRIMARY KEY (`sched_name`,`entry_id`) USING BTREE
+                                       `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                       `entry_id` varchar(95) NOT NULL COMMENT '调度器实例id',
+                                       `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
+                                       `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
+                                       `instance_name` varchar(200) NOT NULL COMMENT '调度器实例名',
+                                       `fired_time` bigint(13) NOT NULL COMMENT '触发的时间',
+                                       `sched_time` bigint(13) NOT NULL COMMENT '定时器制定的时间',
+                                       `priority` int(11) NOT NULL COMMENT '优先级',
+                                       `state` varchar(16) NOT NULL COMMENT '状态',
+                                       `job_name` varchar(200) DEFAULT NULL COMMENT '任务名称',
+                                       `job_group` varchar(200) DEFAULT NULL COMMENT '任务组名',
+                                       `is_nonconcurrent` varchar(1) DEFAULT NULL COMMENT '是否并发',
+                                       `requests_recovery` varchar(1) DEFAULT NULL COMMENT '是否接受恢复执行',
+                                       PRIMARY KEY (`sched_name`,`entry_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='已触发的触发器表';
 
 -- ----------------------------
@@ -703,23 +694,26 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_job_details`;
 CREATE TABLE `qrtz_job_details` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `job_name` varchar(200) NOT NULL COMMENT '任务名称',
-  `job_group` varchar(200) NOT NULL COMMENT '任务组名',
-  `description` varchar(250) DEFAULT NULL COMMENT '相关介绍',
-  `job_class_name` varchar(250) NOT NULL COMMENT '执行任务类名称',
-  `is_durable` varchar(1) NOT NULL COMMENT '是否持久化',
-  `is_nonconcurrent` varchar(1) NOT NULL COMMENT '是否并发',
-  `is_update_data` varchar(1) NOT NULL COMMENT '是否更新数据',
-  `requests_recovery` varchar(1) NOT NULL COMMENT '是否接受恢复执行',
-  `job_data` blob COMMENT '存放持久化job对象',
-  PRIMARY KEY (`sched_name`,`job_name`,`job_group`) USING BTREE
+                                    `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                    `job_name` varchar(200) NOT NULL COMMENT '任务名称',
+                                    `job_group` varchar(200) NOT NULL COMMENT '任务组名',
+                                    `description` varchar(250) DEFAULT NULL COMMENT '相关介绍',
+                                    `job_class_name` varchar(250) NOT NULL COMMENT '执行任务类名称',
+                                    `is_durable` varchar(1) NOT NULL COMMENT '是否持久化',
+                                    `is_nonconcurrent` varchar(1) NOT NULL COMMENT '是否并发',
+                                    `is_update_data` varchar(1) NOT NULL COMMENT '是否更新数据',
+                                    `requests_recovery` varchar(1) NOT NULL COMMENT '是否接受恢复执行',
+                                    `job_data` blob COMMENT '存放持久化job对象',
+                                    PRIMARY KEY (`sched_name`,`job_name`,`job_group`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='任务详细信息表';
 
 -- ----------------------------
 -- Records of qrtz_job_details
 -- ----------------------------
 BEGIN;
+INSERT INTO qrtz_job_details (sched_name, job_name, job_group, description, job_class_name, is_durable, is_nonconcurrent, is_update_data, requests_recovery, job_data) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME1', 'DEFAULT', null, 'com.ruoyi.project.monitor.job.util.QuartzDisallowConcurrentExecution', '0', '1', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000F5441534B5F50524F5045525449455373720028636F6D2E72756F79692E70726F6A6563742E6D6F6E69746F722E6A6F622E646F6D61696E2E4A6F6200000000000000010200084C000A636F6E63757272656E747400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000C696E766F6B6554617267657471007E00094C00086A6F6247726F757071007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C00076A6F624E616D6571007E00094C000D6D697366697265506F6C69637971007E00094C000673746174757371007E000978720029636F6D2E72756F79692E6672616D65776F726B2E7765622E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E00094C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0006706172616D7371007E00034C000672656D61726B71007E00094C000B73656172636856616C756571007E00094C0008757064617465427971007E00094C000A75706461746554696D6571007E000C787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017D1768E49078707400007070707400013174000E302F3130202A202A202A202A203F74001172795461736B2E72794E6F506172616D7374000744454641554C547372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000001740018E7B3BBE7BB9FE9BB98E8AEA4EFBC88E697A0E58F82EFBC8974000133740001317800);
+INSERT INTO qrtz_job_details (sched_name, job_name, job_group, description, job_class_name, is_durable, is_nonconcurrent, is_update_data, requests_recovery, job_data) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME2', 'DEFAULT', null, 'com.ruoyi.project.monitor.job.util.QuartzDisallowConcurrentExecution', '0', '1', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000F5441534B5F50524F5045525449455373720028636F6D2E72756F79692E70726F6A6563742E6D6F6E69746F722E6A6F622E646F6D61696E2E4A6F6200000000000000010200084C000A636F6E63757272656E747400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000C696E766F6B6554617267657471007E00094C00086A6F6247726F757071007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C00076A6F624E616D6571007E00094C000D6D697366697265506F6C69637971007E00094C000673746174757371007E000978720029636F6D2E72756F79692E6672616D65776F726B2E7765622E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E00094C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0006706172616D7371007E00034C000672656D61726B71007E00094C000B73656172636856616C756571007E00094C0008757064617465427971007E00094C000A75706461746554696D6571007E000C787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017D1768E49078707400007070707400013174000E302F3135202A202A202A202A203F74001572795461736B2E7279506172616D7328277279272974000744454641554C547372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000002740018E7B3BBE7BB9FE9BB98E8AEA4EFBC88E69C89E58F82EFBC8974000133740001317800);
+INSERT INTO qrtz_job_details (sched_name, job_name, job_group, description, job_class_name, is_durable, is_nonconcurrent, is_update_data, requests_recovery, job_data) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME3', 'DEFAULT', null, 'com.ruoyi.project.monitor.job.util.QuartzDisallowConcurrentExecution', '0', '1', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000F5441534B5F50524F5045525449455373720028636F6D2E72756F79692E70726F6A6563742E6D6F6E69746F722E6A6F622E646F6D61696E2E4A6F6200000000000000010200084C000A636F6E63757272656E747400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000C696E766F6B6554617267657471007E00094C00086A6F6247726F757071007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C00076A6F624E616D6571007E00094C000D6D697366697265506F6C69637971007E00094C000673746174757371007E000978720029636F6D2E72756F79692E6672616D65776F726B2E7765622E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E00094C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0006706172616D7371007E00034C000672656D61726B71007E00094C000B73656172636856616C756571007E00094C0008757064617465427971007E00094C000A75706461746554696D6571007E000C787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017D1768E49078707400007070707400013174000E302F3230202A202A202A202A203F74003872795461736B2E72794D756C7469706C65506172616D7328277279272C20747275652C20323030304C2C203331362E3530442C203130302974000744454641554C547372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000003740018E7B3BBE7BB9FE9BB98E8AEA4EFBC88E5A49AE58F82EFBC8974000133740001317800);
 COMMIT;
 
 -- ----------------------------
@@ -727,15 +721,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_locks`;
 CREATE TABLE `qrtz_locks` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `lock_name` varchar(40) NOT NULL COMMENT '悲观锁名称',
-  PRIMARY KEY (`sched_name`,`lock_name`) USING BTREE
+                              `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                              `lock_name` varchar(40) NOT NULL COMMENT '悲观锁名称',
+                              PRIMARY KEY (`sched_name`,`lock_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='存储的悲观锁信息表';
 
 -- ----------------------------
 -- Records of qrtz_locks
 -- ----------------------------
 BEGIN;
+INSERT INTO qrtz_locks (sched_name, lock_name) VALUES ('RuoyiScheduler', 'STATE_ACCESS');
+INSERT INTO qrtz_locks (sched_name, lock_name) VALUES ('RuoyiScheduler', 'TRIGGER_ACCESS');
 COMMIT;
 
 -- ----------------------------
@@ -743,9 +739,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_paused_trigger_grps`;
 CREATE TABLE `qrtz_paused_trigger_grps` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
-  PRIMARY KEY (`sched_name`,`trigger_group`) USING BTREE
+                                            `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                            `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
+                                            PRIMARY KEY (`sched_name`,`trigger_group`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='暂停的触发器表';
 
 -- ----------------------------
@@ -759,17 +755,18 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_scheduler_state`;
 CREATE TABLE `qrtz_scheduler_state` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `instance_name` varchar(200) NOT NULL COMMENT '实例名称',
-  `last_checkin_time` bigint(13) NOT NULL COMMENT '上次检查时间',
-  `checkin_interval` bigint(13) NOT NULL COMMENT '检查间隔时间',
-  PRIMARY KEY (`sched_name`,`instance_name`) USING BTREE
+                                        `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                        `instance_name` varchar(200) NOT NULL COMMENT '实例名称',
+                                        `last_checkin_time` bigint(13) NOT NULL COMMENT '上次检查时间',
+                                        `checkin_interval` bigint(13) NOT NULL COMMENT '检查间隔时间',
+                                        PRIMARY KEY (`sched_name`,`instance_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='调度器状态表';
 
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
 BEGIN;
+INSERT INTO qrtz_scheduler_state (sched_name, instance_name, last_checkin_time, checkin_interval) VALUES ('RuoyiScheduler', 'root1645534794964', 1645777236815, 15000);
 COMMIT;
 
 -- ----------------------------
@@ -777,14 +774,14 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_simple_triggers`;
 CREATE TABLE `qrtz_simple_triggers` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
-  `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
-  `repeat_count` bigint(7) NOT NULL COMMENT '重复的次数统计',
-  `repeat_interval` bigint(12) NOT NULL COMMENT '重复的间隔时间',
-  `times_triggered` bigint(10) NOT NULL COMMENT '已经触发的次数',
-  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
-  CONSTRAINT `QRTZ_SIMPLE_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
+                                        `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                        `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
+                                        `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
+                                        `repeat_count` bigint(7) NOT NULL COMMENT '重复的次数统计',
+                                        `repeat_interval` bigint(12) NOT NULL COMMENT '重复的间隔时间',
+                                        `times_triggered` bigint(10) NOT NULL COMMENT '已经触发的次数',
+                                        PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
+                                        CONSTRAINT `QRTZ_SIMPLE_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='简单触发器的信息表';
 
 -- ----------------------------
@@ -798,22 +795,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_simprop_triggers`;
 CREATE TABLE `qrtz_simprop_triggers` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
-  `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
-  `str_prop_1` varchar(512) DEFAULT NULL COMMENT 'String类型的trigger的第一个参数',
-  `str_prop_2` varchar(512) DEFAULT NULL COMMENT 'String类型的trigger的第二个参数',
-  `str_prop_3` varchar(512) DEFAULT NULL COMMENT 'String类型的trigger的第三个参数',
-  `int_prop_1` int(11) DEFAULT NULL COMMENT 'int类型的trigger的第一个参数',
-  `int_prop_2` int(11) DEFAULT NULL COMMENT 'int类型的trigger的第二个参数',
-  `long_prop_1` bigint(20) DEFAULT NULL COMMENT 'long类型的trigger的第一个参数',
-  `long_prop_2` bigint(20) DEFAULT NULL COMMENT 'long类型的trigger的第二个参数',
-  `dec_prop_1` decimal(13,4) DEFAULT NULL COMMENT 'decimal类型的trigger的第一个参数',
-  `dec_prop_2` decimal(13,4) DEFAULT NULL COMMENT 'decimal类型的trigger的第二个参数',
-  `bool_prop_1` varchar(1) DEFAULT NULL COMMENT 'Boolean类型的trigger的第一个参数',
-  `bool_prop_2` varchar(1) DEFAULT NULL COMMENT 'Boolean类型的trigger的第二个参数',
-  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
-  CONSTRAINT `QRTZ_SIMPROP_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
+                                         `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                         `trigger_name` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_name的外键',
+                                         `trigger_group` varchar(200) NOT NULL COMMENT 'qrtz_triggers表trigger_group的外键',
+                                         `str_prop_1` varchar(512) DEFAULT NULL COMMENT 'String类型的trigger的第一个参数',
+                                         `str_prop_2` varchar(512) DEFAULT NULL COMMENT 'String类型的trigger的第二个参数',
+                                         `str_prop_3` varchar(512) DEFAULT NULL COMMENT 'String类型的trigger的第三个参数',
+                                         `int_prop_1` int(11) DEFAULT NULL COMMENT 'int类型的trigger的第一个参数',
+                                         `int_prop_2` int(11) DEFAULT NULL COMMENT 'int类型的trigger的第二个参数',
+                                         `long_prop_1` bigint(20) DEFAULT NULL COMMENT 'long类型的trigger的第一个参数',
+                                         `long_prop_2` bigint(20) DEFAULT NULL COMMENT 'long类型的trigger的第二个参数',
+                                         `dec_prop_1` decimal(13,4) DEFAULT NULL COMMENT 'decimal类型的trigger的第一个参数',
+                                         `dec_prop_2` decimal(13,4) DEFAULT NULL COMMENT 'decimal类型的trigger的第二个参数',
+                                         `bool_prop_1` varchar(1) DEFAULT NULL COMMENT 'Boolean类型的trigger的第一个参数',
+                                         `bool_prop_2` varchar(1) DEFAULT NULL COMMENT 'Boolean类型的trigger的第二个参数',
+                                         PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
+                                         CONSTRAINT `QRTZ_SIMPROP_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='同步机制的行锁表';
 
 -- ----------------------------
@@ -827,31 +824,34 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_triggers`;
 CREATE TABLE `qrtz_triggers` (
-  `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
-  `trigger_name` varchar(200) NOT NULL COMMENT '触发器的名字',
-  `trigger_group` varchar(200) NOT NULL COMMENT '触发器所属组的名字',
-  `job_name` varchar(200) NOT NULL COMMENT 'qrtz_job_details表job_name的外键',
-  `job_group` varchar(200) NOT NULL COMMENT 'qrtz_job_details表job_group的外键',
-  `description` varchar(250) DEFAULT NULL COMMENT '相关介绍',
-  `next_fire_time` bigint(13) DEFAULT NULL COMMENT '上一次触发时间（毫秒）',
-  `prev_fire_time` bigint(13) DEFAULT NULL COMMENT '下一次触发时间（默认为-1表示不触发）',
-  `priority` int(11) DEFAULT NULL COMMENT '优先级',
-  `trigger_state` varchar(16) NOT NULL COMMENT '触发器状态',
-  `trigger_type` varchar(8) NOT NULL COMMENT '触发器的类型',
-  `start_time` bigint(13) NOT NULL COMMENT '开始时间',
-  `end_time` bigint(13) DEFAULT NULL COMMENT '结束时间',
-  `calendar_name` varchar(200) DEFAULT NULL COMMENT '日程表名称',
-  `misfire_instr` smallint(2) DEFAULT NULL COMMENT '补偿执行的策略',
-  `job_data` blob COMMENT '存放持久化job对象',
-  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
-  KEY `sched_name` (`sched_name`,`job_name`,`job_group`) USING BTREE,
-  CONSTRAINT `QRTZ_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `job_name`, `job_group`) REFERENCES `qrtz_job_details` (`sched_name`, `job_name`, `job_group`)
+                                 `sched_name` varchar(120) NOT NULL COMMENT '调度名称',
+                                 `trigger_name` varchar(200) NOT NULL COMMENT '触发器的名字',
+                                 `trigger_group` varchar(200) NOT NULL COMMENT '触发器所属组的名字',
+                                 `job_name` varchar(200) NOT NULL COMMENT 'qrtz_job_details表job_name的外键',
+                                 `job_group` varchar(200) NOT NULL COMMENT 'qrtz_job_details表job_group的外键',
+                                 `description` varchar(250) DEFAULT NULL COMMENT '相关介绍',
+                                 `next_fire_time` bigint(13) DEFAULT NULL COMMENT '上一次触发时间（毫秒）',
+                                 `prev_fire_time` bigint(13) DEFAULT NULL COMMENT '下一次触发时间（默认为-1表示不触发）',
+                                 `priority` int(11) DEFAULT NULL COMMENT '优先级',
+                                 `trigger_state` varchar(16) NOT NULL COMMENT '触发器状态',
+                                 `trigger_type` varchar(8) NOT NULL COMMENT '触发器的类型',
+                                 `start_time` bigint(13) NOT NULL COMMENT '开始时间',
+                                 `end_time` bigint(13) DEFAULT NULL COMMENT '结束时间',
+                                 `calendar_name` varchar(200) DEFAULT NULL COMMENT '日程表名称',
+                                 `misfire_instr` smallint(2) DEFAULT NULL COMMENT '补偿执行的策略',
+                                 `job_data` blob COMMENT '存放持久化job对象',
+                                 PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
+                                 KEY `sched_name` (`sched_name`,`job_name`,`job_group`) USING BTREE,
+                                 CONSTRAINT `QRTZ_TRIGGERS_ibfk_1` FOREIGN KEY (`sched_name`, `job_name`, `job_group`) REFERENCES `qrtz_job_details` (`sched_name`, `job_name`, `job_group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='触发器详细信息表';
 
 -- ----------------------------
 -- Records of qrtz_triggers
 -- ----------------------------
 BEGIN;
+INSERT INTO qrtz_triggers (sched_name, trigger_name, trigger_group, job_name, job_group, description, next_fire_time, prev_fire_time, priority, trigger_state, trigger_type, start_time, end_time, calendar_name, misfire_instr, job_data) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME1', 'DEFAULT', 'TASK_CLASS_NAME1', 'DEFAULT', null, 1645534800000, -1, 5, 'PAUSED', 'CRON', 1645534795000, 0, null, 2, 0x);
+INSERT INTO qrtz_triggers (sched_name, trigger_name, trigger_group, job_name, job_group, description, next_fire_time, prev_fire_time, priority, trigger_state, trigger_type, start_time, end_time, calendar_name, misfire_instr, job_data) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME2', 'DEFAULT', 'TASK_CLASS_NAME2', 'DEFAULT', null, 1645534800000, -1, 5, 'PAUSED', 'CRON', 1645534796000, 0, null, 2, 0x);
+INSERT INTO qrtz_triggers (sched_name, trigger_name, trigger_group, job_name, job_group, description, next_fire_time, prev_fire_time, priority, trigger_state, trigger_type, start_time, end_time, calendar_name, misfire_instr, job_data) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME3', 'DEFAULT', 'TASK_CLASS_NAME3', 'DEFAULT', null, 1645534800000, -1, 5, 'PAUSED', 'CRON', 1645534796000, 0, null, 2, 0x);
 COMMIT;
 
 -- ----------------------------
@@ -859,18 +859,18 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_auth_user`;
 CREATE TABLE `sys_auth_user` (
-  `auth_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '授权ID',
-  `uuid` varchar(500) NOT NULL COMMENT '第三方平台用户唯一ID',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '系统用户ID',
-  `login_name` varchar(30) NOT NULL COMMENT '登录账号',
-  `user_name` varchar(30) DEFAULT '' COMMENT '用户昵称',
-  `avatar` varchar(500) DEFAULT '' COMMENT '头像地址',
-  `email` varchar(255) DEFAULT '' COMMENT '用户邮箱',
-  `source` varchar(255) DEFAULT '' COMMENT '用户来源',
-  `info` varchar(2000) DEFAULT NULL COMMENT '第三方返回的所有信息',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`auth_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='第三方授权表';
+                                 `auth_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '授权ID',
+                                 `uuid` varchar(500) NOT NULL COMMENT '第三方平台用户唯一ID',
+                                 `user_id` bigint(20) DEFAULT NULL COMMENT '系统用户ID',
+                                 `login_name` varchar(30) NOT NULL COMMENT '登录账号',
+                                 `user_name` varchar(30) DEFAULT '' COMMENT '用户昵称',
+                                 `avatar` varchar(500) DEFAULT '' COMMENT '头像地址',
+                                 `email` varchar(255) DEFAULT '' COMMENT '用户邮箱',
+                                 `source` varchar(255) DEFAULT '' COMMENT '用户来源',
+                                 `info` varchar(2000) DEFAULT NULL COMMENT '第三方返回的所有信息',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 PRIMARY KEY (`auth_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='第三方授权表';
 
 -- ----------------------------
 -- Records of sys_auth_user
@@ -883,17 +883,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_config`;
 CREATE TABLE `sys_config` (
-  `config_id` int(5) NOT NULL AUTO_INCREMENT COMMENT '参数主键',
-  `config_name` varchar(100) DEFAULT '' COMMENT '参数名称',
-  `config_key` varchar(100) DEFAULT '' COMMENT '参数键名',
-  `config_value` varchar(500) DEFAULT '' COMMENT '参数键值',
-  `config_type` char(1) DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`config_id`) USING BTREE
+                              `config_id` int(5) NOT NULL AUTO_INCREMENT COMMENT '参数主键',
+                              `config_name` varchar(100) DEFAULT '' COMMENT '参数名称',
+                              `config_key` varchar(100) DEFAULT '' COMMENT '参数键名',
+                              `config_value` varchar(500) DEFAULT '' COMMENT '参数键值',
+                              `config_type` char(1) DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
+                              `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                              `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                              `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                              `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                              `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                              PRIMARY KEY (`config_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='参数配置表';
 
 -- ----------------------------
@@ -917,21 +917,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
-  `dept_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门id',
-  `parent_id` bigint(20) DEFAULT '0' COMMENT '父部门id',
-  `ancestors` varchar(50) DEFAULT '' COMMENT '祖级列表',
-  `dept_name` varchar(30) DEFAULT '' COMMENT '部门名称',
-  `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
-  `leader` varchar(20) DEFAULT NULL COMMENT '负责人',
-  `phone` varchar(11) DEFAULT NULL COMMENT '联系电话',
-  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `status` char(1) DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
-  `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`dept_id`) USING BTREE
+                            `dept_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门id',
+                            `parent_id` bigint(20) DEFAULT '0' COMMENT '父部门id',
+                            `ancestors` varchar(50) DEFAULT '' COMMENT '祖级列表',
+                            `dept_name` varchar(30) DEFAULT '' COMMENT '部门名称',
+                            `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
+                            `leader` varchar(20) DEFAULT NULL COMMENT '负责人',
+                            `phone` varchar(11) DEFAULT NULL COMMENT '联系电话',
+                            `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
+                            `status` char(1) DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
+                            `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                            `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            PRIMARY KEY (`dept_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='部门表';
 
 -- ----------------------------
@@ -955,22 +955,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept_temp`;
 CREATE TABLE `sys_dept_temp` (
-  `dept_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门id',
-  `parent_id` bigint(20) DEFAULT '0' COMMENT '父部门id',
-  `ancestors` varchar(50) DEFAULT '' COMMENT '祖级列表',
-  `dept_name` varchar(30) DEFAULT '' COMMENT '部门名称',
-  `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
-  `leader` varchar(20) DEFAULT NULL COMMENT '负责人',
-  `phone` varchar(11) DEFAULT NULL COMMENT '联系电话',
-  `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `status` char(1) DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
-  `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=utf8mb4 COMMENT='部门表';
+                                 `dept_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门id',
+                                 `parent_id` bigint(20) DEFAULT '0' COMMENT '父部门id',
+                                 `ancestors` varchar(50) DEFAULT '' COMMENT '祖级列表',
+                                 `dept_name` varchar(30) DEFAULT '' COMMENT '部门名称',
+                                 `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
+                                 `leader` varchar(20) DEFAULT NULL COMMENT '负责人',
+                                 `phone` varchar(11) DEFAULT NULL COMMENT '联系电话',
+                                 `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
+                                 `status` char(1) DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
+                                 `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                                 `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                                 `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 PRIMARY KEY (`dept_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门表';
 
 -- ----------------------------
 -- Records of sys_dept_temp
@@ -983,21 +983,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_data`;
 CREATE TABLE `sys_dict_data` (
-  `dict_code` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典编码',
-  `dict_sort` int(4) DEFAULT '0' COMMENT '字典排序',
-  `dict_label` varchar(100) DEFAULT '' COMMENT '字典标签',
-  `dict_value` varchar(100) DEFAULT '' COMMENT '字典键值',
-  `dict_type` varchar(100) DEFAULT '' COMMENT '字典类型',
-  `css_class` varchar(100) DEFAULT NULL COMMENT '样式属性（其他样式扩展）',
-  `list_class` varchar(100) DEFAULT NULL COMMENT '表格回显样式',
-  `is_default` char(1) DEFAULT 'N' COMMENT '是否默认（Y是 N否）',
-  `status` char(1) DEFAULT '0' COMMENT '状态（0正常 1停用）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`dict_code`) USING BTREE
+                                 `dict_code` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典编码',
+                                 `dict_sort` int(4) DEFAULT '0' COMMENT '字典排序',
+                                 `dict_label` varchar(100) DEFAULT '' COMMENT '字典标签',
+                                 `dict_value` varchar(100) DEFAULT '' COMMENT '字典键值',
+                                 `dict_type` varchar(100) DEFAULT '' COMMENT '字典类型',
+                                 `css_class` varchar(100) DEFAULT NULL COMMENT '样式属性（其他样式扩展）',
+                                 `list_class` varchar(100) DEFAULT NULL COMMENT '表格回显样式',
+                                 `is_default` char(1) DEFAULT 'N' COMMENT '是否默认（Y是 N否）',
+                                 `status` char(1) DEFAULT '0' COMMENT '状态（0正常 1停用）',
+                                 `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                                 `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                 PRIMARY KEY (`dict_code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='字典数据表';
 
 -- ----------------------------
@@ -1045,17 +1045,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_type`;
 CREATE TABLE `sys_dict_type` (
-  `dict_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典主键',
-  `dict_name` varchar(100) DEFAULT '' COMMENT '字典名称',
-  `dict_type` varchar(100) DEFAULT '' COMMENT '字典类型',
-  `status` char(1) DEFAULT '0' COMMENT '状态（0正常 1停用）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`dict_id`) USING BTREE,
-  UNIQUE KEY `dict_type` (`dict_type`) USING BTREE
+                                 `dict_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典主键',
+                                 `dict_name` varchar(100) DEFAULT '' COMMENT '字典名称',
+                                 `dict_type` varchar(100) DEFAULT '' COMMENT '字典类型',
+                                 `status` char(1) DEFAULT '0' COMMENT '状态（0正常 1停用）',
+                                 `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                                 `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                                 PRIMARY KEY (`dict_id`) USING BTREE,
+                                 UNIQUE KEY `dict_type` (`dict_type`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='字典类型表';
 
 -- ----------------------------
@@ -1079,25 +1079,43 @@ INSERT INTO `sys_dict_type` (`dict_id`, `dict_name`, `dict_type`, `status`, `cre
 COMMIT;
 
 -- ----------------------------
+-- Table structure for sys_ip
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_ip`;
+CREATE TABLE `sys_ip` (
+                          `ip` varchar(50) NOT NULL,
+                          `ip_addr` varchar(200) DEFAULT NULL,
+                          `create_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                          `status` char(1) DEFAULT '1',
+                          PRIMARY KEY (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of sys_ip
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
 -- Table structure for sys_job
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_job`;
 CREATE TABLE `sys_job` (
-  `job_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务ID',
-  `job_name` varchar(64) NOT NULL DEFAULT '' COMMENT '任务名称',
-  `job_group` varchar(64) NOT NULL DEFAULT 'DEFAULT' COMMENT '任务组名',
-  `invoke_target` varchar(500) NOT NULL COMMENT '调用目标字符串',
-  `cron_expression` varchar(255) DEFAULT '' COMMENT 'cron执行表达式',
-  `misfire_policy` varchar(20) DEFAULT '3' COMMENT '计划执行错误策略（1立即执行 2执行一次 3放弃执行）',
-  `concurrent` char(1) DEFAULT '1' COMMENT '是否并发执行（0允许 1禁止）',
-  `status` char(1) DEFAULT '0' COMMENT '状态（0正常 1暂停）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT '' COMMENT '备注信息',
-  PRIMARY KEY (`job_id`,`job_name`,`job_group`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='定时任务调度表';
+                           `job_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务ID',
+                           `job_name` varchar(64) NOT NULL DEFAULT '' COMMENT '任务名称',
+                           `job_group` varchar(64) NOT NULL DEFAULT 'DEFAULT' COMMENT '任务组名',
+                           `invoke_target` varchar(500) NOT NULL COMMENT '调用目标字符串',
+                           `cron_expression` varchar(255) DEFAULT '' COMMENT 'cron执行表达式',
+                           `misfire_policy` varchar(20) DEFAULT '3' COMMENT '计划执行错误策略（1立即执行 2执行一次 3放弃执行）',
+                           `concurrent` char(1) DEFAULT '1' COMMENT '是否并发执行（0允许 1禁止）',
+                           `status` char(1) DEFAULT '0' COMMENT '状态（0正常 1暂停）',
+                           `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                           `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                           `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                           `remark` varchar(500) DEFAULT '' COMMENT '备注信息',
+                           PRIMARY KEY (`job_id`,`job_name`,`job_group`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='定时任务调度表';
 
 -- ----------------------------
 -- Records of sys_job
@@ -1114,22 +1132,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_job_log`;
 CREATE TABLE `sys_job_log` (
-  `job_log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务日志ID',
-  `job_name` varchar(64) NOT NULL COMMENT '任务名称',
-  `job_group` varchar(64) NOT NULL COMMENT '任务组名',
-  `invoke_target` varchar(500) NOT NULL COMMENT '调用目标字符串',
-  `job_message` varchar(500) DEFAULT NULL COMMENT '日志信息',
-  `status` char(1) DEFAULT '0' COMMENT '执行状态（0正常 1失败）',
-  `exception_info` varchar(2000) DEFAULT '' COMMENT '异常信息',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='定时任务调度日志表';
+                               `job_log_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务日志ID',
+                               `job_name` varchar(64) NOT NULL COMMENT '任务名称',
+                               `job_group` varchar(64) NOT NULL COMMENT '任务组名',
+                               `invoke_target` varchar(500) NOT NULL COMMENT '调用目标字符串',
+                               `job_message` varchar(500) DEFAULT NULL COMMENT '日志信息',
+                               `status` char(1) DEFAULT '0' COMMENT '执行状态（0正常 1失败）',
+                               `exception_info` varchar(2000) DEFAULT '' COMMENT '异常信息',
+                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               PRIMARY KEY (`job_log_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='定时任务调度日志表';
 
 -- ----------------------------
 -- Records of sys_job_log
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_job_log` (`job_log_id`, `job_name`, `job_group`, `invoke_target`, `job_message`, `status`, `exception_info`, `create_time`) VALUES (68, '获取上周账单详情', 'DEFAULT', 'billTask.getPreWeekBill()', '获取上周账单详情 总共耗时：56毫秒', '0', '', '2022-11-19 13:21:38');
 COMMIT;
 
 -- ----------------------------
@@ -1137,25 +1154,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_logininfor`;
 CREATE TABLE `sys_logininfor` (
-  `info_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '访问ID',
-  `login_name` varchar(50) DEFAULT '' COMMENT '登录账号',
-  `ipaddr` varchar(128) DEFAULT '' COMMENT '登录IP地址',
-  `login_location` varchar(255) DEFAULT '' COMMENT '登录地点',
-  `browser` varchar(50) DEFAULT '' COMMENT '浏览器类型',
-  `os` varchar(50) DEFAULT '' COMMENT '操作系统',
-  `status` char(1) DEFAULT '0' COMMENT '登录状态（0成功 1失败）',
-  `msg` varchar(255) DEFAULT '' COMMENT '提示消息',
-  `login_time` datetime DEFAULT NULL COMMENT '访问时间',
-  PRIMARY KEY (`info_id`) USING BTREE
+                                  `info_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '访问ID',
+                                  `login_name` varchar(50) DEFAULT '' COMMENT '登录账号',
+                                  `ipaddr` varchar(128) DEFAULT '' COMMENT '登录IP地址',
+                                  `login_location` varchar(255) DEFAULT '' COMMENT '登录地点',
+                                  `browser` varchar(50) DEFAULT '' COMMENT '浏览器类型',
+                                  `os` varchar(50) DEFAULT '' COMMENT '操作系统',
+                                  `status` char(1) DEFAULT '0' COMMENT '登录状态（0成功 1失败）',
+                                  `msg` varchar(255) DEFAULT '' COMMENT '提示消息',
+                                  `login_time` datetime DEFAULT NULL COMMENT '访问时间',
+                                  PRIMARY KEY (`info_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统访问记录';
 
 -- ----------------------------
 -- Records of sys_logininfor
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_logininfor` (`info_id`, `login_name`, `ipaddr`, `login_location`, `browser`, `os`, `status`, `msg`, `login_time`) VALUES (125, 'admin', '127.0.0.1', '内网IP', 'Chrome 10', 'Mac OS X', '1', '验证码错误', '2022-11-19 11:56:38');
-INSERT INTO `sys_logininfor` (`info_id`, `login_name`, `ipaddr`, `login_location`, `browser`, `os`, `status`, `msg`, `login_time`) VALUES (126, 'admin', '127.0.0.1', '北京市 海淀区 ', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-11-19 11:56:42');
-INSERT INTO `sys_logininfor` (`info_id`, `login_name`, `ipaddr`, `login_location`, `browser`, `os`, `status`, `msg`, `login_time`) VALUES (127, 'admin', '127.0.0.1', '北京市 海淀区 ', 'Chrome 10', 'Mac OS X', '0', '登录成功', '2022-11-19 12:37:14');
 COMMIT;
 
 -- ----------------------------
@@ -1163,22 +1177,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_mail`;
 CREATE TABLE `sys_mail` (
-  `id` int(20) NOT NULL AUTO_INCREMENT,
-  `mail_title` varchar(255) NOT NULL COMMENT '邮件标题',
-  `mail_content` longtext COMMENT '邮件内容',
-  `mail_message` varchar(800) DEFAULT NULL COMMENT '邮件info',
-  `mail_type` int(1) DEFAULT NULL COMMENT '邮件类型：0简单邮件，1复杂邮件',
-  `mail_status` int(1) DEFAULT NULL COMMENT '邮件状态(0草稿，1成功，-1失败)',
-  `mail_from` varchar(50) DEFAULT NULL COMMENT '谁发送',
-  `mail_to` varchar(50) DEFAULT NULL COMMENT '谁接受',
-  `mail_source` varchar(30) DEFAULT NULL COMMENT '邮件发送来源',
-  `del_flag` int(1) DEFAULT NULL COMMENT '删除标志（0代表存在, 1代表删除）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4;
+                            `id` int(20) NOT NULL AUTO_INCREMENT,
+                            `mail_title` varchar(255) NOT NULL COMMENT '邮件标题',
+                            `mail_content` longtext COMMENT '邮件内容',
+                            `mail_message` varchar(800) DEFAULT NULL COMMENT '邮件info',
+                            `mail_type` int(1) DEFAULT NULL COMMENT '邮件类型：0简单邮件，1复杂邮件',
+                            `mail_status` int(1) DEFAULT NULL COMMENT '邮件状态(0草稿，1成功，-1失败)',
+                            `mail_from` varchar(50) DEFAULT NULL COMMENT '谁发送',
+                            `mail_to` varchar(50) DEFAULT NULL COMMENT '谁接受',
+                            `mail_source` varchar(30) DEFAULT NULL COMMENT '邮件发送来源',
+                            `del_flag` int(1) DEFAULT NULL COMMENT '删除标志（0代表存在, 1代表删除）',
+                            `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_mail
@@ -1191,24 +1205,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
-  `menu_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `menu_name` varchar(50) NOT NULL COMMENT '菜单名称',
-  `parent_id` bigint(20) DEFAULT '0' COMMENT '父菜单ID',
-  `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
-  `url` varchar(200) DEFAULT '#' COMMENT '请求地址',
-  `target` varchar(20) DEFAULT '' COMMENT '打开方式（menuItem页签 menuBlank新窗口）',
-  `menu_type` char(1) DEFAULT '' COMMENT '菜单类型（M目录 C菜单 F按钮）',
-  `visible` char(1) DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
-  `is_refresh` char(1) DEFAULT '1' COMMENT '是否刷新（0刷新 1不刷新）',
-  `perms` varchar(100) DEFAULT NULL COMMENT '权限标识',
-  `icon` varchar(100) DEFAULT '#' COMMENT '菜单图标',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT '' COMMENT '备注',
-  PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1155 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='菜单权限表';
+                            `menu_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+                            `menu_name` varchar(50) NOT NULL COMMENT '菜单名称',
+                            `parent_id` bigint(20) DEFAULT '0' COMMENT '父菜单ID',
+                            `order_num` int(4) DEFAULT '0' COMMENT '显示顺序',
+                            `url` varchar(200) DEFAULT '#' COMMENT '请求地址',
+                            `target` varchar(20) DEFAULT '' COMMENT '打开方式（menuItem页签 menuBlank新窗口）',
+                            `menu_type` char(1) DEFAULT '' COMMENT '菜单类型（M目录 C菜单 F按钮）',
+                            `visible` char(1) DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
+                            `is_refresh` char(1) DEFAULT '1' COMMENT '是否刷新（0刷新 1不刷新）',
+                            `perms` varchar(100) DEFAULT NULL COMMENT '权限标识',
+                            `icon` varchar(100) DEFAULT '#' COMMENT '菜单图标',
+                            `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `remark` varchar(500) DEFAULT '' COMMENT '备注',
+                            PRIMARY KEY (`menu_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1159 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='菜单权限表';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -1218,7 +1232,7 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`,
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (2, '系统监控', 0, 11, '#', 'menuItem', 'M', '0', '1', '', 'fa fa-video-camera', 'admin', '2021-11-13 11:48:05', 'admin', '2021-11-21 09:09:53', '系统监控目录');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (3, '系统工具', 0, 10, '#', 'menuItem', 'M', '0', '1', '', 'fa fa-bars', 'admin', '2021-11-13 11:48:05', '一粒麦子', '2022-07-22 10:48:19', '系统工具目录');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (4, '若依官网', 0, 13, 'http://ruoyi.vip', 'menuBlank', 'C', '0', '1', '', 'fa fa-location-arrow', 'admin', '2021-11-13 11:48:05', '一粒麦子', '2022-09-01 15:48:33', '若依官网地址');
-INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (5, '博客管理', 0, 1, '#', 'menuItem', 'M', '0', '1', '', 'fa fa-keyboard-o', 'admin', '2021-11-13 11:48:05', 'admin', '2021-11-21 09:07:05', '博客管理目录');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (5, '博客管理', 0, 2, '#', 'menuItem', 'M', '0', '1', '', 'fa fa-keyboard-o', 'admin', '2021-11-13 11:48:05', '一粒麦子', '2022-12-22 13:41:41', '博客管理目录');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (6, '毅茹记账', 0, 3, '#', 'menuItem', 'M', '0', '1', '', 'fa fa-bank', 'admin', '2021-11-21 09:05:56', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (7, '备忘录', 0, 4, '#', 'menuItem', 'M', '0', '1', '', 'fa fa-address-card', 'admin', '2021-11-27 13:25:43', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (8, '文件管理', 0, 5, '#', 'menuItem', 'M', '0', '1', '', 'fa fa-map', 'admin', '2022-06-19 08:38:03', 'admin', '2022-06-19 08:38:11', '');
@@ -1309,7 +1323,7 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`,
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1073, '栏目管理修改', 1070, 3, '#', '', 'F', '0', '1', 'mto:channel:edit', '#', 'admin', '2021-11-13 12:14:52', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1074, '栏目管理删除', 1070, 4, '#', '', 'F', '0', '1', 'mto:channel:remove', '#', 'admin', '2021-11-13 12:14:52', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1075, '栏目管理导出', 1070, 5, '#', '', 'F', '0', '1', 'mto:channel:export', '#', 'admin', '2021-11-13 12:14:52', '', NULL, '');
-INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1078, '博客管理', 5, 3, '/mto/post', 'menuItem', 'C', '0', '1', 'mto:post:view', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1078, '博客管理', 5, 4, '/mto/post', 'menuItem', 'C', '0', '1', 'mto:post:view', '#', 'admin', '2021-11-13 15:23:07', '一粒麦子', '2022-12-22 13:41:57', '文章标题题菜单');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1079, '博客页面List查询', 1078, 1, '#', 'menuItem', 'F', '0', '1', 'mto:post:list', '#', 'admin', '2021-11-13 15:23:07', 'admin', '2021-11-21 08:48:26', '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1080, '博客新增', 1078, 3, '#', '', 'F', '0', '1', 'mto:post:add', '#', 'admin', '2021-11-13 15:23:07', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1081, '博客详情查看', 1078, 2, '#', '', 'F', '0', '1', 'mto:post:selectDetail', '#', 'admin', '2021-11-13 15:23:07', '', NULL, '');
@@ -1346,14 +1360,14 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`,
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1112, '任务清单', 7, 2, '/memorial/agileBoard', 'menuItem', 'C', '0', '1', 'memorial:agile_board:view', '#', 'admin', '2021-11-27 21:36:12', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1113, '任务清单删除', 1112, 3, '#', 'menuItem', 'F', '0', '1', 'memorial:agile:remov', '#', 'admin', '2021-12-01 17:25:21', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1114, '报表统计', 1103, 2, '#', 'menuItem', 'F', '0', '1', 'account:bill:count', '#', 'admin', '2021-12-04 13:20:42', '', NULL, '');
-INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1115, '博客前台', 5, 5, '/blog/list', 'menuBlank', 'C', '0', '1', '', '#', 'superAdmin', '2021-12-05 19:14:45', '一粒麦子', '2022-05-22 12:41:13', '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1115, '博客前台', 5, 6, '/blog/list', 'menuBlank', 'C', '0', '1', '', '#', 'superAdmin', '2021-12-05 19:14:45', '一粒麦子', '2022-12-22 13:41:16', '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1116, '导航管理', 5, 0, '/mto/category', 'menuItem', 'C', '0', '1', 'system:category:view', '#', 'admin', '2021-12-11 17:45:54', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1117, '导航管理查询', 1116, 1, '#', '', 'F', '0', '1', 'system:category:list', '#', 'admin', '2021-12-13 13:56:19', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1118, '导航管理新增', 1116, 2, '#', '', 'F', '0', '1', 'system:category:add', '#', 'admin', '2021-12-13 13:56:19', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1119, '导航管理修改', 1116, 3, '#', '', 'F', '0', '1', 'system:category:edit', '#', 'admin', '2021-12-13 13:56:19', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1120, '导航管理删除', 1116, 4, '#', '', 'F', '0', '1', 'system:category:remove', '#', 'admin', '2021-12-13 13:56:19', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1121, '导航管理导出', 1116, 5, '#', '', 'F', '0', '1', 'system:category:export', '#', 'admin', '2021-12-13 13:56:19', '', NULL, '');
-INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1122, '友情链接', 5, 4, '/mto/link', 'menuItem', 'C', '0', '1', 'mto:link:view', '#', 'admin', '2021-12-13 17:27:35', 'admin', '2021-12-17 21:23:22', 'mto菜单');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1122, '友情链接', 5, 5, '/mto/link', 'menuItem', 'C', '0', '1', 'mto:link:view', '#', 'admin', '2021-12-13 17:27:35', '一粒麦子', '2022-12-22 13:41:30', 'mto菜单');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1123, '友情链接查询', 1122, 1, '#', '', 'F', '0', '1', 'mto:link:list', '#', 'admin', '2021-12-13 17:27:35', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1124, '友情链接新增', 1122, 2, '#', '', 'F', '0', '1', 'mto:link:add', '#', 'admin', '2021-12-13 17:27:35', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1125, '友情链接修改', 1122, 3, '#', '', 'F', '0', '1', 'mto:link:edit', '#', 'admin', '2021-12-13 17:27:35', '', NULL, '');
@@ -1386,10 +1400,10 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`,
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1152, '批量文章导出', 1078, 8, '#', 'menuItem', 'F', '0', '1', 'mto:post:exportDataBatch', '#', '一粒麦子', '2022-11-05 20:06:46', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1153, '单文件下载', 1144, 7, '#', 'menuItem', 'F', '0', '1', 'system:file:download', '#', '一粒麦子', '2022-11-05 20:06:22', '', NULL, '');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1154, '多批量下载', 1144, 8, '#', 'menuItem', 'F', '0', '1', 'system:file:downloadBatch', '#', '一粒麦子', '2022-11-05 20:06:46', '', NULL, '');
-INSERT INTO `sys_menu` (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1155, '评论管理', 5, 3, 'mto/comment/view', 'menuItem', 'C', '0', '1', 'mto:comment:view', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
-INSERT INTO `sys_menu` (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1156, '评论管理列表', 1155, 1, 'mto/comment/list', 'menuItem', 'F', '0', '1', 'mto:comment:list', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
-INSERT INTO `sys_menu` (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1157, '评论管理审核', 1155, 2, 'mto/comment/examine', 'menuItem', 'F', '0', '1', 'mto:comment:examine', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
-INSERT INTO `sys_menu` (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1158, '评论管理删除', 1155, 3, 'mto/comment/remove', 'menuItem', 'F', '0', '1', 'mto:comment:remove', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1155, '评论管理', 5, 3, 'mto/comment/view', 'menuItem', 'C', '0', '1', 'mto:comment:view', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1156, '评论管理列表', 1155, 1, 'mto/comment/list', 'menuItem', 'F', '0', '1', 'mto:comment:list', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1157, '评论管理审核', 1155, 2, 'mto/comment/examine', 'menuItem', 'F', '0', '1', 'mto:comment:examine', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1158, '评论管理删除', 1155, 3, 'mto/comment/remove', 'menuItem', 'F', '0', '1', 'mto:comment:remove', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
 COMMIT;
 
 -- ----------------------------
@@ -1397,18 +1411,18 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_notice`;
 CREATE TABLE `sys_notice` (
-  `notice_id` int(4) NOT NULL AUTO_INCREMENT COMMENT '公告ID',
-  `notice_title` varchar(50) NOT NULL COMMENT '公告标题',
-  `notice_type` char(1) NOT NULL COMMENT '公告类型（1通知 2公告）',
-  `notice_content` longtext COMMENT '公告内容',
-  `status` char(1) DEFAULT '0' COMMENT '公告状态（0正常 1关闭）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`notice_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='通知公告表';
+                              `notice_id` int(4) NOT NULL AUTO_INCREMENT COMMENT '公告ID',
+                              `notice_title` varchar(50) NOT NULL COMMENT '公告标题',
+                              `notice_type` char(1) NOT NULL COMMENT '公告类型（1通知 2公告）',
+                              `notice_content` longtext COMMENT '公告内容',
+                              `status` char(1) DEFAULT '0' COMMENT '公告状态（0正常 1关闭）',
+                              `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                              `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                              `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                              `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                              `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+                              PRIMARY KEY (`notice_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='通知公告表';
 
 -- ----------------------------
 -- Records of sys_notice
@@ -1421,55 +1435,29 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_oper_log`;
 CREATE TABLE `sys_oper_log` (
-  `oper_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志主键',
-  `title` varchar(50) DEFAULT '' COMMENT '模块标题',
-  `business_type` int(2) DEFAULT '0' COMMENT '业务类型（0其它 1新增 2修改 3删除）',
-  `method` varchar(100) DEFAULT '' COMMENT '方法名称',
-  `request_method` varchar(10) DEFAULT '' COMMENT '请求方式',
-  `operator_type` int(1) DEFAULT '0' COMMENT '操作类别（0其它 1后台用户 2手机端用户）',
-  `oper_name` varchar(50) DEFAULT '' COMMENT '操作人员',
-  `dept_name` varchar(50) DEFAULT '' COMMENT '部门名称',
-  `oper_url` varchar(255) DEFAULT '' COMMENT '请求URL',
-  `oper_ip` varchar(128) DEFAULT '' COMMENT '主机地址',
-  `oper_location` varchar(255) DEFAULT '' COMMENT '操作地点',
-  `oper_param` varchar(2000) DEFAULT '' COMMENT '请求参数',
-  `json_result` varchar(2000) DEFAULT '' COMMENT '返回参数',
-  `status` int(1) DEFAULT '0' COMMENT '操作状态（0正常 1异常）',
-  `error_msg` varchar(2000) DEFAULT '' COMMENT '错误消息',
-  `oper_time` datetime DEFAULT NULL COMMENT '操作时间',
-  PRIMARY KEY (`oper_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=545 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='操作日志记录';
+                                `oper_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志主键',
+                                `title` varchar(50) DEFAULT '' COMMENT '模块标题',
+                                `business_type` int(2) DEFAULT '0' COMMENT '业务类型（0其它 1新增 2修改 3删除）',
+                                `method` varchar(100) DEFAULT '' COMMENT '方法名称',
+                                `request_method` varchar(10) DEFAULT '' COMMENT '请求方式',
+                                `operator_type` int(1) DEFAULT '0' COMMENT '操作类别（0其它 1后台用户 2手机端用户）',
+                                `oper_name` varchar(50) DEFAULT '' COMMENT '操作人员',
+                                `dept_name` varchar(50) DEFAULT '' COMMENT '部门名称',
+                                `oper_url` varchar(255) DEFAULT '' COMMENT '请求URL',
+                                `oper_ip` varchar(128) DEFAULT '' COMMENT '主机地址',
+                                `oper_location` varchar(255) DEFAULT '' COMMENT '操作地点',
+                                `oper_param` varchar(2000) DEFAULT '' COMMENT '请求参数',
+                                `json_result` varchar(2000) DEFAULT '' COMMENT '返回参数',
+                                `status` int(1) DEFAULT '0' COMMENT '操作状态（0正常 1异常）',
+                                `error_msg` varchar(2000) DEFAULT '' COMMENT '错误消息',
+                                `oper_time` datetime DEFAULT NULL COMMENT '操作时间',
+                                PRIMARY KEY (`oper_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='操作日志记录';
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (519, '角色管理', 4, 'com.ruoyi.project.system.role.controller.RoleController.selectAuthUserAll()', 'POST', 1, 'admin', NULL, '/system/role/authUser/selectAll', '127.0.0.1', '内网IP', '{\"roleId\":[\"2\"],\"userIds\":[\"2\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:07:03');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (520, '用户管理', 2, 'com.ruoyi.project.system.user.controller.UserController.editSave()', 'POST', 1, 'admin', NULL, '/system/user/edit', '127.0.0.1', '内网IP', '{\"userId\":[\"2\"],\"deptId\":[\"100\"],\"userName\":[\"若依\"],\"dept.deptName\":[\"若依科技\"],\"phonenumber\":[\"15666666666\"],\"email\":[\"ry@qq.com\"],\"loginName\":[\"ry\"],\"sex\":[\"1\"],\"role\":[\"2\"],\"remark\":[\"测试员\"],\"status\":[\"0\"],\"roleIds\":[\"2\"],\"postIds\":[\"4\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:07:32');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (521, '参数管理', 2, 'com.ruoyi.project.system.config.controller.ConfigController.editSave()', 'POST', 1, 'admin', NULL, '/system/config/edit', '127.0.0.1', '内网IP', '{\"configId\":[\"4\"],\"configName\":[\"账号自助-是否开启用户注册功能\"],\"configKey\":[\"sys.account.registerUser\"],\"configValue\":[\"true\"],\"configType\":[\"Y\"],\"remark\":[\"是否开启注册用户功能（true开启，false关闭）\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:08:52');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (522, '博客栏目', 1, 'com.ruoyi.project.emmanuel.mto.controller.MtoChannelController.addSave()', 'POST', 1, 'admin', NULL, '/mto/channel/add', '127.0.0.1', '内网IP', '{\"key\":[\"使用笔记\"],\"name\":[\"\"],\"type\":[\"1\"],\"status\":[\"0\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:14:07');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (523, '新增博客', 1, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.addSave()', 'POST', 1, 'admin', NULL, '/mto/post/add', '127.0.0.1', '内网IP', '{\"title\":[\"配置文件说明一\"],\"content\":[\"# 配置文件说明\\r\\n\\r\\n**1.推荐开启静态页面**\\r\\n\\r\\n>pageStaticEnabled: true\\r\\n\\r\\n**2.推荐配置邮件**\\r\\n\\r\\n```yaml\\r\\n  mail:\\r\\n\\t# true 开启邮件发送，为空或者false禁用发送邮件\\r\\n    enabled: true\\r\\n    host: QQ或者163或者其他\\r\\nmail邮箱只需要修改这两处地址即可\\r\\n    username: xxx你的邮箱地址（修改）\\r\\n    password: xxx你的mail秘钥（修改）\\r\\n```\\r\\n\\r\\n## application.yml\\r\\n\\r\\n```yaml\\r\\n# 项目相关配置\\r\\nruoyi:\\r\\n  # 名称\\r\\n  name: RuoYi\\r\\n  # 版本\\r\\n  version: 4.7.5\\r\\n  # 版权年份\\r\\n  copyrightYear: 2022\\r\\n  # 实例演示开关\\r\\n  demoEnabled: true\\r\\n  # 文件上传路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）\\r\\n  # home/ruoyi/uploadPath 则在项目中创建文件夹\\r\\n  profile: home/ruoyi/uploadPath\\r\\n  # 获取ip地址开关\\r\\n  addressEnabled: true\\r\\n  # 开启页面静态化\\r\\n  pageStaticEnabled: true\\r\\n\\r\\n# 开发环境配置\\r\\nserver:\\r\\n  # 服务器的HTTP端口，默认为10011\\r\\n  port: 10011\\r\\n  servlet:\\r\\n    # 应用的访问路径\\r\\n    context-path: /\\r\\n  tomcat:\\r\\n    # tomcat的URI编码\\r\\n    uri-encoding: UTF-8\\r\\n    # tomcat最大线程数，默认为200\\r\\n    max-threads: 800\\r\\n    # Tomcat启动初始化的线程数，默认值25\\r\\n    min-spare-threads: 30\\r\\n    # 连接数满后的排队数，默认为100\\r\\n    accept-count: 1000\\r\\n    threads:\\r\\n      # tomcat最大线程数，默认为200\\r\\n      max: 800\\r\\n      # Tomcat启动初始化的线程数，默认值10\\r\\n      min-spare: 100\\r\\n\\r\\n# 日志配置\\r\\nlogging:\\r\\n  level:\\r\\n    com.ruoyi: debug\\r\\n    org.springframework: warn\\r\\n\\r\\n# 用户配置\\r\\nuser:\\r\\n  password:\\r\\n    # 密码错误{maxRetryCount}次锁定10分钟\\r\\n    maxRetryCount: 5\\r\\n\\r\\n# Spring配置\\r\\nspring:\\r\\n  # 模板引擎\\r\\n  thymeleaf:\\r\\n#    mode: HTML\\r\\n    mode: HTML\\r\\n    prefix: classpath:/templates/  #prefix：指定模板所在的目录\\r\\n    check-template-location: true  #check-tempate-location: 检查模板路径是否存在\\r\\n    suffix:  .html\\r\\n    encoding: utf-8\\r\\n    # 禁用缓存： false为关闭，true为开启\\r\\n    cache: false\\r\\n  # 资源信息\\r\\n  messages:\\r\\n    # 国际化资源文件路径\\r\\n    basename: static/i18n/messages\\r\\n  jackson:  # 时间格式转换\\r\\n    time-zone: GMT+8\\r\\n    date-format: yyyy-MM-dd HH:mm:ss\\r\\n  profiles:\\r\\n    active: druid\\r\\n  # 文件上传\\r\\n  servlet:\\r\\n     multipart:\\r\\n       ', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:27:08');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (524, '博客栏目', 1, 'com.ruoyi.project.emmanuel.mto.controller.MtoChannelController.addSave()', 'POST', 1, 'admin', '研发部门', '/mto/channel/add', '127.0.0.1', '内网IP', '{\"key\":[\"mac\"],\"name\":[\"mac\"],\"type\":[\"2\"],\"status\":[\"0\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:39:00');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (525, '博客栏目', 2, 'com.ruoyi.project.emmanuel.mto.controller.MtoChannelController.editSave()', 'POST', 1, 'admin', '研发部门', '/mto/channel/edit', '127.0.0.1', '内网IP', '{\"id\":[\"15\"],\"key\":[\"使用笔记\"],\"name\":[\"使用笔记\"],\"type\":[\"1\"],\"status\":[\"0\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:42:11');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (526, '博客栏目', 3, 'com.ruoyi.project.emmanuel.mto.controller.MtoChannelController.remove()', 'POST', 1, 'admin', '研发部门', '/mto/channel/remove', '127.0.0.1', '内网IP', '{\"ids\":[\"16\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:42:14');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (527, '修改博客', 2, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.editSave()', 'POST', 1, 'admin', '研发部门', '/mto/post/edit', '127.0.0.1', '内网IP', '{\"id\":[\"134\"],\"title\":[\"配置文件说明一\"],\"content\":[\"# 配置文件说明\\r\\n\\r\\n**1.推荐开启静态页面**\\r\\n\\r\\n>pageStaticEnabled: true\\r\\n\\r\\n**2.推荐配置邮件**\\r\\n\\r\\n```yaml\\r\\n  mail:\\r\\n\\t# true 开启邮件发送，为空或者false禁用发送邮件\\r\\n    enabled: true\\r\\n    host: QQ或者163或者其他\\r\\nmail邮箱只需要修改这两处地址即可\\r\\n    username: xxx你的邮箱地址（修改）\\r\\n    password: xxx你的mail秘钥（修改）\\r\\n```\\r\\n\\r\\n## application.yml\\r\\n\\r\\n```yaml\\r\\n# 项目相关配置\\r\\nruoyi:\\r\\n  # 名称\\r\\n  name: RuoYi\\r\\n  # 版本\\r\\n  version: 4.7.5\\r\\n  # 版权年份\\r\\n  copyrightYear: 2022\\r\\n  # 实例演示开关\\r\\n  demoEnabled: true\\r\\n  # 文件上传路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）\\r\\n  # home/ruoyi/uploadPath 则在项目中创建文件夹\\r\\n  profile: home/ruoyi/uploadPath\\r\\n  # 获取ip地址开关\\r\\n  addressEnabled: true\\r\\n  # 开启页面静态化\\r\\n  pageStaticEnabled: true\\r\\n\\r\\n# 开发环境配置\\r\\nserver:\\r\\n  # 服务器的HTTP端口，默认为10011\\r\\n  port: 10011\\r\\n  servlet:\\r\\n    # 应用的访问路径\\r\\n    context-path: /\\r\\n  tomcat:\\r\\n    # tomcat的URI编码\\r\\n    uri-encoding: UTF-8\\r\\n    # tomcat最大线程数，默认为200\\r\\n    max-threads: 800\\r\\n    # Tomcat启动初始化的线程数，默认值25\\r\\n    min-spare-threads: 30\\r\\n    # 连接数满后的排队数，默认为100\\r\\n    accept-count: 1000\\r\\n    threads:\\r\\n      # tomcat最大线程数，默认为200\\r\\n      max: 800\\r\\n      # Tomcat启动初始化的线程数，默认值10\\r\\n      min-spare: 100\\r\\n\\r\\n# 日志配置\\r\\nlogging:\\r\\n  level:\\r\\n    com.ruoyi: debug\\r\\n    org.springframework: warn\\r\\n\\r\\n# 用户配置\\r\\nuser:\\r\\n  password:\\r\\n    # 密码错误{maxRetryCount}次锁定10分钟\\r\\n    maxRetryCount: 5\\r\\n\\r\\n# Spring配置\\r\\nspring:\\r\\n  # 模板引擎\\r\\n  thymeleaf:\\r\\n#    mode: HTML\\r\\n    mode: HTML\\r\\n    prefix: classpath:/templates/  #prefix：指定模板所在的目录\\r\\n    check-template-location: true  #check-tempate-location: 检查模板路径是否存在\\r\\n    suffix:  .html\\r\\n    encoding: utf-8\\r\\n    # 禁用缓存： false为关闭，true为开启\\r\\n    cache: false\\r\\n  # 资源信息\\r\\n  messages:\\r\\n    # 国际化资源文件路径\\r\\n    basename: static/i18n/messages\\r\\n  jackson:  # 时间格式转换\\r\\n    time-zone: GMT+8\\r\\n    date-format: yyyy-MM-dd HH:mm:ss\\r\\n  profiles:\\r\\n    active: druid\\r\\n  # 文件上传\\r\\n  servlet:\\r\\n     multipar', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:42:41');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (528, '修改博客', 2, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.editSave()', 'POST', 1, 'admin', '研发部门', '/mto/post/edit', '127.0.0.1', '内网IP', '{\"id\":[\"134\"],\"title\":[\"配置文件说明一\"],\"content\":[\"# 配置文件说明\\r\\n\\r\\n**1.推荐开启静态页面**\\r\\n\\r\\n>pageStaticEnabled: true\\r\\n\\r\\n**2.推荐配置邮件**\\r\\n\\r\\n```yaml\\r\\n  mail:\\r\\n\\t# true 开启邮件发送，为空或者false禁用发送邮件\\r\\n    enabled: true\\r\\n    host: QQ或者163或者其他\\r\\nmail邮箱只需要修改这两处地址即可\\r\\n    username: xxx你的邮箱地址（修改）\\r\\n    password: xxx你的mail秘钥（修改）\\r\\n```\\r\\n\\r\\n## application.yml\\r\\n\\r\\n```yaml\\r\\n# 项目相关配置\\r\\nruoyi:\\r\\n  # 名称\\r\\n  name: RuoYi\\r\\n  # 版本\\r\\n  version: 4.7.5\\r\\n  # 版权年份\\r\\n  copyrightYear: 2022\\r\\n  # 实例演示开关\\r\\n  demoEnabled: true\\r\\n  # 文件上传路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）\\r\\n  # home/ruoyi/uploadPath 则在项目中创建文件夹\\r\\n  profile: home/ruoyi/uploadPath\\r\\n  # 获取ip地址开关\\r\\n  addressEnabled: true\\r\\n  # 开启页面静态化\\r\\n  pageStaticEnabled: true\\r\\n\\r\\n# 开发环境配置\\r\\nserver:\\r\\n  # 服务器的HTTP端口，默认为10011\\r\\n  port: 10011\\r\\n  servlet:\\r\\n    # 应用的访问路径\\r\\n    context-path: /\\r\\n  tomcat:\\r\\n    # tomcat的URI编码\\r\\n    uri-encoding: UTF-8\\r\\n    # tomcat最大线程数，默认为200\\r\\n    max-threads: 800\\r\\n    # Tomcat启动初始化的线程数，默认值25\\r\\n    min-spare-threads: 30\\r\\n    # 连接数满后的排队数，默认为100\\r\\n    accept-count: 1000\\r\\n    threads:\\r\\n      # tomcat最大线程数，默认为200\\r\\n      max: 800\\r\\n      # Tomcat启动初始化的线程数，默认值10\\r\\n      min-spare: 100\\r\\n\\r\\n# 日志配置\\r\\nlogging:\\r\\n  level:\\r\\n    com.ruoyi: debug\\r\\n    org.springframework: warn\\r\\n\\r\\n# 用户配置\\r\\nuser:\\r\\n  password:\\r\\n    # 密码错误{maxRetryCount}次锁定10分钟\\r\\n    maxRetryCount: 5\\r\\n\\r\\n# Spring配置\\r\\nspring:\\r\\n  # 模板引擎\\r\\n  thymeleaf:\\r\\n#    mode: HTML\\r\\n    mode: HTML\\r\\n    prefix: classpath:/templates/  #prefix：指定模板所在的目录\\r\\n    check-template-location: true  #check-tempate-location: 检查模板路径是否存在\\r\\n    suffix:  .html\\r\\n    encoding: utf-8\\r\\n    # 禁用缓存： false为关闭，true为开启\\r\\n    cache: false\\r\\n  # 资源信息\\r\\n  messages:\\r\\n    # 国际化资源文件路径\\r\\n    basename: static/i18n/messages\\r\\n  jackson:  # 时间格式转换\\r\\n    time-zone: GMT+8\\r\\n    date-format: yyyy-MM-dd HH:mm:ss\\r\\n  profiles:\\r\\n    active: druid\\r\\n  # 文件上传\\r\\n  servlet:\\r\\n     multipar', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:44:16');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (529, '新增博客', 1, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.addSave()', 'POST', 1, 'admin', '研发部门', '/mto/post/add', '127.0.0.1', '内网IP', '{\"title\":[\"配置文件说明二\"],\"content\":[\"**有的人喜欢使用一个配置文件**：\\r\\n\\r\\n**可以删除application-druid.yml**\\r\\n\\r\\n**修改application.yml**\\r\\n\\r\\n### application.yml\\r\\n\\r\\n```yaml\\r\\n# 项目相关配置\\r\\nruoyi:\\r\\n  # 名称\\r\\n  name: RuoYi\\r\\n  # 版本\\r\\n  version: 4.7.4\\r\\n  # 版权年份\\r\\n  copyrightYear: 2022\\r\\n  # 实例演示开关\\r\\n  demoEnabled: true\\r\\n  # 文件上传路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）\\r\\n  # home/ruoyi/uploadPath 则在项目中创建文件夹\\r\\n  profile: home/ruoyi/uploadPath\\r\\n  # 获取ip地址开关\\r\\n  addressEnabled: true\\r\\n  # 开启页面静态化\\r\\n  pageStaticEnabled: true\\r\\n\\r\\n# 开发环境配置\\r\\nserver:\\r\\n  # 服务器的HTTP端口，默认为80\\r\\n  port: 10011\\r\\n  servlet:\\r\\n    # 应用的访问路径\\r\\n    context-path: /\\r\\n  tomcat:\\r\\n    # tomcat的URI编码\\r\\n    uri-encoding: UTF-8\\r\\n    # tomcat最大线程数，默认为200\\r\\n    max-threads: 800\\r\\n    # Tomcat启动初始化的线程数，默认值25\\r\\n    min-spare-threads: 30\\r\\n    # 连接数满后的排队数，默认为100\\r\\n    accept-count: 1000\\r\\n    threads:\\r\\n      # tomcat最大线程数，默认为200\\r\\n      max: 800\\r\\n      # Tomcat启动初始化的线程数，默认值10\\r\\n      min-spare: 100\\r\\n\\r\\n# 日志配置\\r\\nlogging:\\r\\n  level:\\r\\n    com.ruoyi: debug\\r\\n    org.springframework: warn\\r\\n\\r\\n# 用户配置\\r\\nuser:\\r\\n  password:\\r\\n    # 密码错误{maxRetryCount}次锁定10分钟\\r\\n    maxRetryCount: 5\\r\\n\\r\\n# Spring配置\\r\\nspring:\\r\\n  # 模板引擎\\r\\n  thymeleaf:\\r\\n#    mode: HTML\\r\\n    mode: LEGACYHTML5\\r\\n    prefix: classpath:/templates/  #prefix：指定模板所在的目录\\r\\n    check-template-location: true  #check-tempate-location: 检查模板路径是否存在\\r\\n    suffix:  .html\\r\\n    encoding: utf-8\\r\\n    # 禁用缓存： false为关闭，true为开启\\r\\n    cache: false\\r\\n  # 资源信息\\r\\n  messages:\\r\\n    # 国际化资源文件路径\\r\\n    basename: static/i18n/messages\\r\\n  jackson:  # 时间格式转换\\r\\n    time-zone: GMT+8\\r\\n    date-format: yyyy-MM-dd HH:mm:ss\\r\\n  profiles:\\r\\n    active: druid\\r\\n  # 文件上传\\r\\n  servlet:\\r\\n     multipart:\\r\\n       # 单个文件大小\\r\\n       max-file-size:  10MB\\r\\n       # 设置总上传的文件大小\\r\\n       max-request-size:  20MB\\r\\n  # 服务模块\\r\\n  devtools:\\r\\n    restart:\\r\\n      # 热部署开关\\r\\n      enabled: true\\r\\n  # 邮箱配置 h', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:51:11');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (530, '博客栏目', 1, 'com.ruoyi.project.emmanuel.mto.controller.MtoChannelController.addSave()', 'POST', 1, 'admin', '研发部门', '/mto/channel/add', '127.0.0.1', '内网IP', '{\"key\":[\"密码\"],\"name\":[\"密码\"],\"type\":[\"1\"],\"status\":[\"0\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:55:10');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (531, '博客标签', 1, 'com.ruoyi.project.emmanuel.mto.controller.MtoTagController.addSave()', 'POST', 1, 'admin', '研发部门', '/mto/tag/add', '127.0.0.1', '内网IP', '{\"name\":[\"密码\"],\"orderNum\":[\"2\"],\"status\":[\"0\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:55:18');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (532, '博客标签', 1, 'com.ruoyi.project.emmanuel.mto.controller.MtoTagController.addSave()', 'POST', 1, 'admin', '研发部门', '/mto/tag/add', '127.0.0.1', '内网IP', '{\"name\":[\"笔记\"],\"orderNum\":[\"1\"],\"status\":[\"0\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:55:27');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (533, '清空静态页面', 0, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.cleasrStaticPage()', 'POST', 1, 'admin', '研发部门', '/mto/post/cleasrStaticPage', '127.0.0.1', '内网IP', '', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:55:34');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (534, '新增博客', 1, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.addSave()', 'POST', 1, 'admin', '研发部门', '/mto/post/add', '127.0.0.1', '内网IP', '{\"title\":[\"密码测试\"],\"content\":[\"\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t   \\t\\t\\t成功解开密码\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\"],\"categoryId\":[\"\"],\"channelId\":[\"15\"],\"summary\":[\"密码：123456 ，\"],\"slider\":[\"0\"],\"featured\":[\"0\"],\"status\":[\"0\"],\"pwd\":[\"123456\"],\"thumbnail\":[\"\"],\"tags\":[\"\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:55:53');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (535, '修改博客', 2, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.editSave()', 'POST', 1, 'admin', '研发部门', '/mto/post/edit', '127.0.0.1', '内网IP', '{\"id\":[\"136\"],\"title\":[\"密码测试\"],\"content\":[\"\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t   \\t\\t\\t成功解开密码\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\r\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\"],\"categoryId\":[\"\"],\"channelId\":[\"17\"],\"summary\":[\"密码：123456 ，\"],\"slider\":[\"0\"],\"featured\":[\"0\"],\"status\":[\"0\"],\"pwd\":[\"123456\"],\"thumbnail\":[\"\"],\"tags\":[\"41\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:56:03');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (536, '修改博客', 2, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.editSave()', 'POST', 1, 'admin', '研发部门', '/mto/post/edit', '127.0.0.1', '内网IP', '{\"id\":[\"135\"],\"title\":[\"配置文件说明二\"],\"content\":[\"**有的人喜欢使用一个配置文件**：\\r\\n\\r\\n**可以删除application-druid.yml**\\r\\n\\r\\n**修改application.yml**\\r\\n\\r\\n### application.yml\\r\\n\\r\\n```yaml\\r\\n# 项目相关配置\\r\\nruoyi:\\r\\n  # 名称\\r\\n  name: RuoYi\\r\\n  # 版本\\r\\n  version: 4.7.4\\r\\n  # 版权年份\\r\\n  copyrightYear: 2022\\r\\n  # 实例演示开关\\r\\n  demoEnabled: true\\r\\n  # 文件上传路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）\\r\\n  # home/ruoyi/uploadPath 则在项目中创建文件夹\\r\\n  profile: home/ruoyi/uploadPath\\r\\n  # 获取ip地址开关\\r\\n  addressEnabled: true\\r\\n  # 开启页面静态化\\r\\n  pageStaticEnabled: true\\r\\n\\r\\n# 开发环境配置\\r\\nserver:\\r\\n  # 服务器的HTTP端口，默认为80\\r\\n  port: 10011\\r\\n  servlet:\\r\\n    # 应用的访问路径\\r\\n    context-path: /\\r\\n  tomcat:\\r\\n    # tomcat的URI编码\\r\\n    uri-encoding: UTF-8\\r\\n    # tomcat最大线程数，默认为200\\r\\n    max-threads: 800\\r\\n    # Tomcat启动初始化的线程数，默认值25\\r\\n    min-spare-threads: 30\\r\\n    # 连接数满后的排队数，默认为100\\r\\n    accept-count: 1000\\r\\n    threads:\\r\\n      # tomcat最大线程数，默认为200\\r\\n      max: 800\\r\\n      # Tomcat启动初始化的线程数，默认值10\\r\\n      min-spare: 100\\r\\n\\r\\n# 日志配置\\r\\nlogging:\\r\\n  level:\\r\\n    com.ruoyi: debug\\r\\n    org.springframework: warn\\r\\n\\r\\n# 用户配置\\r\\nuser:\\r\\n  password:\\r\\n    # 密码错误{maxRetryCount}次锁定10分钟\\r\\n    maxRetryCount: 5\\r\\n\\r\\n# Spring配置\\r\\nspring:\\r\\n  # 模板引擎\\r\\n  thymeleaf:\\r\\n#    mode: HTML\\r\\n    mode: LEGACYHTML5\\r\\n    prefix: classpath:/templates/  #prefix：指定模板所在的目录\\r\\n    check-template-location: true  #check-tempate-location: 检查模板路径是否存在\\r\\n    suffix:  .html\\r\\n    encoding: utf-8\\r\\n    # 禁用缓存： false为关闭，true为开启\\r\\n    cache: false\\r\\n  # 资源信息\\r\\n  messages:\\r\\n    # 国际化资源文件路径\\r\\n    basename: static/i18n/messages\\r\\n  jackson:  # 时间格式转换\\r\\n    time-zone: GMT+8\\r\\n    date-format: yyyy-MM-dd HH:mm:ss\\r\\n  profiles:\\r\\n    active: druid\\r\\n  # 文件上传\\r\\n  servlet:\\r\\n     multipart:\\r\\n       # 单个文件大小\\r\\n       max-file-size:  10MB\\r\\n       # 设置总上传的文件大小\\r\\n       max-request-size:  20MB\\r\\n  # 服务模块\\r\\n  devtools:\\r\\n    restart:\\r\\n      # 热部署开关\\r\\n      enabled: true\\', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:56:10');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (537, '修改博客', 2, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.editSave()', 'POST', 1, 'admin', '研发部门', '/mto/post/edit', '127.0.0.1', '内网IP', '{\"id\":[\"134\"],\"title\":[\"配置文件说明一\"],\"content\":[\"# 配置文件说明\\r\\n\\r\\n**1.推荐开启静态页面**\\r\\n\\r\\n>pageStaticEnabled: true\\r\\n\\r\\n**2.推荐配置邮件**\\r\\n\\r\\n```yaml\\r\\n  mail:\\r\\n\\t# true 开启邮件发送，为空或者false禁用发送邮件\\r\\n    enabled: true\\r\\n    host: QQ或者163或者其他\\r\\nmail邮箱只需要修改这两处地址即可\\r\\n    username: xxx你的邮箱地址（修改）\\r\\n    password: xxx你的mail秘钥（修改）\\r\\n```\\r\\n\\r\\n## application.yml\\r\\n\\r\\n```yaml\\r\\n# 项目相关配置\\r\\nruoyi:\\r\\n  # 名称\\r\\n  name: RuoYi\\r\\n  # 版本\\r\\n  version: 4.7.5\\r\\n  # 版权年份\\r\\n  copyrightYear: 2022\\r\\n  # 实例演示开关\\r\\n  demoEnabled: true\\r\\n  # 文件上传路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）\\r\\n  # home/ruoyi/uploadPath 则在项目中创建文件夹\\r\\n  profile: home/ruoyi/uploadPath\\r\\n  # 获取ip地址开关\\r\\n  addressEnabled: true\\r\\n  # 开启页面静态化\\r\\n  pageStaticEnabled: true\\r\\n\\r\\n# 开发环境配置\\r\\nserver:\\r\\n  # 服务器的HTTP端口，默认为10011\\r\\n  port: 10011\\r\\n  servlet:\\r\\n    # 应用的访问路径\\r\\n    context-path: /\\r\\n  tomcat:\\r\\n    # tomcat的URI编码\\r\\n    uri-encoding: UTF-8\\r\\n    # tomcat最大线程数，默认为200\\r\\n    max-threads: 800\\r\\n    # Tomcat启动初始化的线程数，默认值25\\r\\n    min-spare-threads: 30\\r\\n    # 连接数满后的排队数，默认为100\\r\\n    accept-count: 1000\\r\\n    threads:\\r\\n      # tomcat最大线程数，默认为200\\r\\n      max: 800\\r\\n      # Tomcat启动初始化的线程数，默认值10\\r\\n      min-spare: 100\\r\\n\\r\\n# 日志配置\\r\\nlogging:\\r\\n  level:\\r\\n    com.ruoyi: debug\\r\\n    org.springframework: warn\\r\\n\\r\\n# 用户配置\\r\\nuser:\\r\\n  password:\\r\\n    # 密码错误{maxRetryCount}次锁定10分钟\\r\\n    maxRetryCount: 5\\r\\n\\r\\n# Spring配置\\r\\nspring:\\r\\n  # 模板引擎\\r\\n  thymeleaf:\\r\\n#    mode: HTML\\r\\n    mode: HTML\\r\\n    prefix: classpath:/templates/  #prefix：指定模板所在的目录\\r\\n    check-template-location: true  #check-tempate-location: 检查模板路径是否存在\\r\\n    suffix:  .html\\r\\n    encoding: utf-8\\r\\n    # 禁用缓存： false为关闭，true为开启\\r\\n    cache: false\\r\\n  # 资源信息\\r\\n  messages:\\r\\n    # 国际化资源文件路径\\r\\n    basename: static/i18n/messages\\r\\n  jackson:  # 时间格式转换\\r\\n    time-zone: GMT+8\\r\\n    date-format: yyyy-MM-dd HH:mm:ss\\r\\n  profiles:\\r\\n    active: druid\\r\\n  # 文件上传\\r\\n  servlet:\\r\\n     multipar', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:56:18');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (538, '清空静态页面', 0, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.cleasrStaticPage()', 'POST', 1, 'admin', '研发部门', '/mto/post/cleasrStaticPage', '127.0.0.1', '内网IP', '', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:56:22');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (539, '修改博客', 2, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.editSave()', 'POST', 1, 'admin', '研发部门', '/mto/post/edit', '127.0.0.1', '内网IP', '{\"id\":[\"136\"],\"title\":[\"密码测试\"],\"content\":[\"\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n<font color = red>成功解开密码</font>\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n\"],\"categoryId\":[\"\"],\"channelId\":[\"17\"],\"summary\":[\"密码：123456 ，\"],\"slider\":[\"0\"],\"featured\":[\"0\"],\"status\":[\"0\"],\"pwd\":[\"123456\"],\"thumbnail\":[\"\"],\"tags\":[\"41\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:57:51');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (540, '修改博客', 2, 'com.ruoyi.project.emmanuel.mto.controller.MtoPostController.editSave()', 'POST', 1, 'admin', '研发部门', '/mto/post/edit', '127.0.0.1', '内网IP', '{\"id\":[\"134\"],\"title\":[\"配置文件说明一\"],\"content\":[\"# 配置文件说明\\r\\n\\r\\n**1.推荐开启静态页面**\\r\\n\\r\\n>pageStaticEnabled: true\\r\\n\\r\\n**2.推荐配置邮件**\\r\\n\\r\\n```yaml\\r\\n  mail:\\r\\n\\t# true 开启邮件发送，为空或者false禁用发送邮件\\r\\n    enabled: true\\r\\n    host: QQ或者163或者其他\\r\\nmail邮箱只需要修改这两处地址即可\\r\\n    username: xxx你的邮箱地址（修改）\\r\\n    password: xxx你的mail秘钥（修改）\\r\\n```\\r\\n\\r\\n## application.yml\\r\\n\\r\\n```yaml\\r\\n# 项目相关配置\\r\\nruoyi:\\r\\n  # 名称\\r\\n  name: RuoYi\\r\\n  # 版本\\r\\n  version: 4.7.5\\r\\n  # 版权年份\\r\\n  copyrightYear: 2022\\r\\n  # 实例演示开关\\r\\n  demoEnabled: true\\r\\n  # 文件上传路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）\\r\\n  # home/ruoyi/uploadPath 则在项目中创建文件夹\\r\\n  profile: home/ruoyi/uploadPath\\r\\n  # 获取ip地址开关\\r\\n  addressEnabled: true\\r\\n  # 开启页面静态化\\r\\n  pageStaticEnabled: true\\r\\n\\r\\n# 开发环境配置\\r\\nserver:\\r\\n  # 服务器的HTTP端口，默认为10011\\r\\n  port: 10011\\r\\n  servlet:\\r\\n    # 应用的访问路径\\r\\n    context-path: /\\r\\n  tomcat:\\r\\n    # tomcat的URI编码\\r\\n    uri-encoding: UTF-8\\r\\n    # tomcat最大线程数，默认为200\\r\\n    max-threads: 800\\r\\n    # Tomcat启动初始化的线程数，默认值25\\r\\n    min-spare-threads: 30\\r\\n    # 连接数满后的排队数，默认为100\\r\\n    accept-count: 1000\\r\\n    threads:\\r\\n      # tomcat最大线程数，默认为200\\r\\n      max: 800\\r\\n      # Tomcat启动初始化的线程数，默认值10\\r\\n      min-spare: 100\\r\\n\\r\\n# 日志配置\\r\\nlogging:\\r\\n  level:\\r\\n    com.ruoyi: debug\\r\\n    org.springframework: warn\\r\\n\\r\\n# 用户配置\\r\\nuser:\\r\\n  password:\\r\\n    # 密码错误{maxRetryCount}次锁定10分钟\\r\\n    maxRetryCount: 5\\r\\n\\r\\n# Spring配置\\r\\nspring:\\r\\n  # 模板引擎\\r\\n  thymeleaf:\\r\\n#    mode: HTML\\r\\n    mode: HTML\\r\\n    prefix: classpath:/templates/  #prefix：指定模板所在的目录\\r\\n    check-template-location: true  #check-tempate-location: 检查模板路径是否存在\\r\\n    suffix:  .html\\r\\n    encoding: utf-8\\r\\n    # 禁用缓存： false为关闭，true为开启\\r\\n    cache: false\\r\\n  # 资源信息\\r\\n  messages:\\r\\n    # 国际化资源文件路径\\r\\n    basename: static/i18n/messages\\r\\n  jackson:  # 时间格式转换\\r\\n    time-zone: GMT+8\\r\\n    date-format: yyyy-MM-dd HH:mm:ss\\r\\n  profiles:\\r\\n    active: druid\\r\\n  # 文件上传\\r\\n  servlet:\\r\\n     multipar', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 12:58:44');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (541, '博客栏目', 1, 'com.ruoyi.project.emmanuel.mto.controller.MtoChannelController.addSave()', 'POST', 1, 'admin', '研发部门', '/mto/channel/add', '127.0.0.1', '内网IP', '{\"key\":[\"\"],\"name\":[\"\"],\"type\":[\"1\"],\"status\":[\"0\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 13:12:15');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (542, '博客栏目', 3, 'com.ruoyi.project.emmanuel.mto.controller.MtoChannelController.remove()', 'POST', 1, 'admin', '研发部门', '/mto/channel/remove', '127.0.0.1', '内网IP', '{\"ids\":[\"18\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 13:13:15');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (543, '博客栏目', 2, 'com.ruoyi.project.emmanuel.mto.controller.MtoChannelController.editSave()', 'POST', 1, 'admin', '研发部门', '/mto/channel/edit', '127.0.0.1', '内网IP', '{\"id\":[\"15\"],\"key\":[\"使用笔记\"],\"name\":[\"使用笔记\"],\"type\":[\"1\"],\"status\":[\"1\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 13:20:20');
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`) VALUES (544, '定时任务', 2, 'com.ruoyi.project.monitor.job.controller.JobController.run()', 'POST', 1, 'admin', '研发部门', '/monitor/job/run', '127.0.0.1', '内网IP', '{\"jobId\":[\"5\"]}', '{\"msg\":\"操作成功\",\"code\":0}', 0, NULL, '2022-11-19 13:21:38');
 COMMIT;
 
 -- ----------------------------
@@ -1477,17 +1465,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_post`;
 CREATE TABLE `sys_post` (
-  `post_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '岗位ID',
-  `post_code` varchar(64) NOT NULL COMMENT '岗位编码',
-  `post_name` varchar(50) NOT NULL COMMENT '岗位名称',
-  `post_sort` int(4) NOT NULL COMMENT '显示顺序',
-  `status` char(1) NOT NULL COMMENT '状态（0正常 1停用）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`post_id`) USING BTREE
+                            `post_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '岗位ID',
+                            `post_code` varchar(64) NOT NULL COMMENT '岗位编码',
+                            `post_name` varchar(50) NOT NULL COMMENT '岗位名称',
+                            `post_sort` int(4) NOT NULL COMMENT '显示顺序',
+                            `status` char(1) NOT NULL COMMENT '状态（0正常 1停用）',
+                            `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                            PRIMARY KEY (`post_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='岗位信息表';
 
 -- ----------------------------
@@ -1505,20 +1493,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
-  `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
-  `role_name` varchar(30) NOT NULL COMMENT '角色名称',
-  `role_key` varchar(100) NOT NULL COMMENT '角色权限字符串',
-  `role_sort` int(4) NOT NULL COMMENT '显示顺序',
-  `data_scope` char(1) DEFAULT '1' COMMENT '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）',
-  `status` char(1) NOT NULL COMMENT '角色状态（0正常 1停用）',
-  `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色信息表';
+                            `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+                            `role_name` varchar(30) NOT NULL COMMENT '角色名称',
+                            `role_key` varchar(100) NOT NULL COMMENT '角色权限字符串',
+                            `role_sort` int(4) NOT NULL COMMENT '显示顺序',
+                            `data_scope` char(1) DEFAULT '1' COMMENT '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）',
+                            `status` char(1) NOT NULL COMMENT '角色状态（0正常 1停用）',
+                            `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                            `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                            PRIMARY KEY (`role_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色信息表';
 
 -- ----------------------------
 -- Records of sys_role
@@ -1533,9 +1521,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_dept`;
 CREATE TABLE `sys_role_dept` (
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
-  `dept_id` bigint(20) NOT NULL COMMENT '部门ID',
-  PRIMARY KEY (`role_id`,`dept_id`) USING BTREE
+                                 `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+                                 `dept_id` bigint(20) NOT NULL COMMENT '部门ID',
+                                 PRIMARY KEY (`role_id`,`dept_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色和部门关联表';
 
 -- ----------------------------
@@ -1549,9 +1537,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_menu`;
 CREATE TABLE `sys_role_menu` (
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
-  `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
-  PRIMARY KEY (`role_id`,`menu_id`) USING BTREE
+                                 `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+                                 `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
+                                 PRIMARY KEY (`role_id`,`menu_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色和菜单关联表';
 
 -- ----------------------------
@@ -1565,37 +1553,37 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
-  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
-  `login_name` varchar(30) NOT NULL COMMENT '登录账号',
-  `user_name` varchar(30) DEFAULT '' COMMENT '用户昵称',
-  `user_type` varchar(2) DEFAULT '00' COMMENT '用户类型（00系统用户 01注册用户）',
-  `email` varchar(50) DEFAULT '' COMMENT '用户邮箱',
-  `phonenumber` varchar(11) DEFAULT '' COMMENT '手机号码',
-  `sex` char(1) DEFAULT '0' COMMENT '用户性别（0男 1女 2未知）',
-  `avatar` varchar(100) DEFAULT '' COMMENT '头像路径',
-  `password` varchar(50) DEFAULT '' COMMENT '密码',
-  `salt` varchar(20) DEFAULT '' COMMENT '盐加密',
-  `status` char(1) DEFAULT '0' COMMENT '帐号状态（0正常 1停用）',
-  `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `login_ip` varchar(128) DEFAULT '' COMMENT '最后登录IP',
-  `login_date` datetime DEFAULT NULL COMMENT '最后登录时间',
-  `pwd_update_date` datetime DEFAULT NULL COMMENT '密码最后更新时间',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  `totalSpace` float(11,1) DEFAULT '0.0' COMMENT '网盘总空间',
+                            `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+                            `dept_id` bigint(20) DEFAULT NULL COMMENT '部门ID',
+                            `login_name` varchar(30) NOT NULL COMMENT '登录账号',
+                            `user_name` varchar(30) DEFAULT '' COMMENT '用户昵称',
+                            `user_type` varchar(2) DEFAULT '00' COMMENT '用户类型（00系统用户 01注册用户）',
+                            `email` varchar(50) DEFAULT '' COMMENT '用户邮箱',
+                            `phonenumber` varchar(11) DEFAULT '' COMMENT '手机号码',
+                            `sex` char(1) DEFAULT '0' COMMENT '用户性别（0男 1女 2未知）',
+                            `avatar` varchar(100) DEFAULT '' COMMENT '头像路径',
+                            `password` varchar(50) DEFAULT '' COMMENT '密码',
+                            `salt` varchar(20) DEFAULT '' COMMENT '盐加密',
+                            `status` char(1) DEFAULT '0' COMMENT '帐号状态（0正常 1停用）',
+                            `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+                            `login_ip` varchar(128) DEFAULT '' COMMENT '最后登录IP',
+                            `login_date` datetime DEFAULT NULL COMMENT '最后登录时间',
+                            `pwd_update_date` datetime DEFAULT NULL COMMENT '密码最后更新时间',
+                            `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                            `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                            `totalSpace` float(11,1) DEFAULT '0.0' COMMENT '网盘总空间',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户信息表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` (`user_id`, `dept_id`, `login_name`, `user_name`, `user_type`, `email`, `phonenumber`, `sex`, `avatar`, `password`, `salt`, `status`, `del_flag`, `login_ip`, `login_date`, `pwd_update_date`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `totalSpace`) VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2022-11-19 12:37:14', '2022-05-29 13:23:54', 'admin', '2022-05-29 13:23:54', '', '2022-11-19 12:37:14', '管理员', 10.0);
-INSERT INTO `sys_user` (`user_id`, `dept_id`, `login_name`, `user_name`, `user_type`, `email`, `phonenumber`, `sex`, `avatar`, `password`, `salt`, `status`, `del_flag`, `login_ip`, `login_date`, `pwd_update_date`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `totalSpace`) VALUES (2, 100, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '8e6d98b90472783cc73c17047ddccf36', '222222', '0', '0', '127.0.0.1', '2022-05-29 13:23:54', '2022-05-29 13:23:54', 'admin', '2022-05-29 13:23:54', 'admin', '2022-11-19 12:07:32', '测试员', 10.0);
+INSERT INTO `sys_user` (`user_id`, `dept_id`, `login_name`, `user_name`, `user_type`, `email`, `phonenumber`, `sex`, `avatar`, `password`, `salt`, `status`, `del_flag`, `login_ip`, `login_date`, `pwd_update_date`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `totalSpace`) VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2023-02-08 17:34:56', '2023-02-08 17:34:56', 'admin', '2023-02-08 17:34:56', '', '2023-02-08 17:34:56', '管理员', 10.0);
+INSERT INTO `sys_user` (`user_id`, `dept_id`, `login_name`, `user_name`, `user_type`, `email`, `phonenumber`, `sex`, `avatar`, `password`, `salt`, `status`, `del_flag`, `login_ip`, `login_date`, `pwd_update_date`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `totalSpace`) VALUES (2, 100, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '8e6d98b90472783cc73c17047ddccf36', '222222', '0', '0', '127.0.0.1', '2023-02-08 17:34:56', '2023-02-08 17:34:56', 'admin', '2023-02-08 17:34:56', 'admin', '2023-02-08 17:34:56', '测试员', 10.0);
 COMMIT;
 
 -- ----------------------------
@@ -1603,28 +1591,34 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_online`;
 CREATE TABLE `sys_user_online` (
-  `sessionId` varchar(50) NOT NULL DEFAULT '' COMMENT '用户会话id',
-  `login_name` varchar(50) DEFAULT '' COMMENT '登录账号',
-  `dept_name` varchar(50) DEFAULT '' COMMENT '部门名称',
-  `ipaddr` varchar(128) DEFAULT '' COMMENT '登录IP地址',
-  `login_location` varchar(255) DEFAULT '' COMMENT '登录地点',
-  `browser` varchar(50) DEFAULT '' COMMENT '浏览器类型',
-  `os` varchar(50) DEFAULT '' COMMENT '操作系统',
-  `status` varchar(10) DEFAULT '' COMMENT '在线状态on_line在线off_line离线',
-  `start_timestamp` datetime DEFAULT NULL COMMENT 'session创建时间',
-  `last_access_time` datetime DEFAULT NULL COMMENT 'session最后访问时间',
-  `expire_time` int(5) DEFAULT '0' COMMENT '超时时间，单位为分钟',
-  PRIMARY KEY (`sessionId`) USING BTREE
+                                   `sessionId` varchar(50) NOT NULL DEFAULT '' COMMENT '用户会话id',
+                                   `login_name` varchar(50) DEFAULT '' COMMENT '登录账号',
+                                   `dept_name` varchar(50) DEFAULT '' COMMENT '部门名称',
+                                   `ipaddr` varchar(128) DEFAULT '' COMMENT '登录IP地址',
+                                   `login_location` varchar(255) DEFAULT '' COMMENT '登录地点',
+                                   `browser` varchar(50) DEFAULT '' COMMENT '浏览器类型',
+                                   `os` varchar(50) DEFAULT '' COMMENT '操作系统',
+                                   `status` varchar(10) DEFAULT '' COMMENT '在线状态on_line在线off_line离线',
+                                   `start_timestamp` datetime DEFAULT NULL COMMENT 'session创建时间',
+                                   `last_access_time` datetime DEFAULT NULL COMMENT 'session最后访问时间',
+                                   `expire_time` int(5) DEFAULT '0' COMMENT '超时时间，单位为分钟',
+                                   PRIMARY KEY (`sessionId`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='在线用户记录';
+
+-- ----------------------------
+-- Records of sys_user_online
+-- ----------------------------
+BEGIN;
+COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_user_post
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_post`;
 CREATE TABLE `sys_user_post` (
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `post_id` bigint(20) NOT NULL COMMENT '岗位ID',
-  PRIMARY KEY (`user_id`,`post_id`) USING BTREE
+                                 `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+                                 `post_id` bigint(20) NOT NULL COMMENT '岗位ID',
+                                 PRIMARY KEY (`user_id`,`post_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户与岗位关联表';
 
 -- ----------------------------
@@ -1639,9 +1633,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
-  PRIMARY KEY (`user_id`,`role_id`) USING BTREE
+                                 `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+                                 `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+                                 PRIMARY KEY (`user_id`,`role_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户和角色关联表';
 
 -- ----------------------------
