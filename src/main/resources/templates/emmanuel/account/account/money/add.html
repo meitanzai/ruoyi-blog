@@ -45,7 +45,7 @@
             <label class="col-sm-3 control-label">消费日期：</label>
             <div class="col-sm-8">
                 <div class="input-group date" >
-                    <input name="moneyDate" class="form-control" placeholder="yyyy-MM-dd" type="text" readonly="readonly">
+                    <input name="moneyDate" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}"  class="form-control" placeholder="yyyy-MM-dd" type="text" readonly="readonly">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
             </div>
