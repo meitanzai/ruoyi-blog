@@ -72,6 +72,7 @@ public class AccountBillServiceImpl implements IAccountBillService {
             // 支出
             if (ToolUtils.isNotEmpty(e.getMoneyPay())){
                 AccountBill accountBill = new AccountBill();
+                accountBill.setOrder(1);
                 accountBill.setTitle(e.getMoneyPay());
                 accountBill.setStart(e.getMoneyDate());
                 accountBill.setBackgroundColor("#f3715c");
@@ -81,6 +82,7 @@ public class AccountBillServiceImpl implements IAccountBillService {
             // 收入
             if (ToolUtils.isNotEmpty(e.getMoneyIncome())){
                 AccountBill accountBill = new AccountBill();
+                accountBill.setOrder(2);
                 accountBill.setTitle(e.getMoneyIncome());
                 accountBill.setStart(e.getMoneyDate());
                 accountBill.setBackgroundColor("#b2d235");

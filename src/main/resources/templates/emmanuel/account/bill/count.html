@@ -133,9 +133,11 @@
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay'
             },
+            eventOrderStrict: true,
+            eventOrder: 'order',
 
             events: function (start, callback) {
-                debugger;
+
                 $.ajax({
                     type: "get",
                     url: '/account/bill/bullCount/billConuntByMonth',

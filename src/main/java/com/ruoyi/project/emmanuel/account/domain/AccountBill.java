@@ -65,6 +65,7 @@ public class AccountBill {
     private BigDecimal title;
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date start;
+    private Integer order;
     private String backgroundColor;
     private String borderColor;
 }
