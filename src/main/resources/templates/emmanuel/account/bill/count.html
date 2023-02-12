@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('百度ECharts')"/>
+    <th:block th:include="include :: header('账单详情')"/>
     <th:block th:include="include :: toastr-css"/>
-    <!-- fullCalendar -->
-    <link href='/blog/fullcalendar/main.css' rel='stylesheet'/>
-
 </head>
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight"
@@ -46,8 +43,8 @@
 </div>
 <th:block th:include="include :: footer"/>
 <th:block th:include="include :: echarts-js"/>
-<!-- fullCalendar 2.2.5 -->
-<script src='/blog/fullcalendar/main.js'></script>
+<!-- fullCalendar v6.1.1 -->
+<script th:src="@{/blog/fullcalendar/index.global.min.js}"></script>
 <th:block th:include="include :: toastr-js"/>
 <script type="text/javascript">
 
