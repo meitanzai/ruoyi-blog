@@ -26,7 +26,7 @@ import com.ruoyi.framework.web.page.TableSupport;
 
 /**
  * 表格相关
- * 
+ *
  * @author ruoyi
  */
 @Controller
@@ -99,13 +99,13 @@ public class DemoTableController extends BaseController
         areas.add(new AreaModel(30, 0, "北京市", "110000", "BJS", "BeiJingShi", 0));
         areas.add(new AreaModel(31, 0, "香港特别行政区", "810000", "XGTBXZQ", "XiangGangTeBieXingZhengQu", 0));
         areas.add(new AreaModel(32, 0, "澳门特别行政区", "820000", "AMTBXZQ", "AoMenTeBieXingZhengQu", 0));
-        
+
         areas.add(new AreaModel(100, 1, "深圳市", "440300", "SZS", "ShenZhenShi", 1));
         areas.add(new AreaModel(101, 1, "广州市", "440100", "GZS", "GuangZhouShi", 0));
         areas.add(new AreaModel(102, 1, "东莞市", "441900", "DGS", "DongGuanShi", 0));
         areas.add(new AreaModel(103, 2, "长沙市", "410005", "CSS", "ChangShaShi", 1));
         areas.add(new AreaModel(104, 2, "岳阳市", "414000", "YYS", "YueYangShi", 0));
-        
+
         areas.add(new AreaModel(1000, 100, "龙岗区", "518172", "LGQ", "LongGangQu", 0));
         areas.add(new AreaModel(1001, 100, "南山区", "518051", "NSQ", "NanShanQu", 0));
         areas.add(new AreaModel(1002, 100, "宝安区", "518101", "BAQ", "BaoAnQu", 0));
@@ -506,8 +506,8 @@ public class DemoTableController extends BaseController
             }
         }
         PageDomain pageDomain = TableSupport.buildPageRequest();
-        Integer pageNum = (pageDomain.getPageNum() - 1) * 10;
-        Integer pageSize = pageDomain.getPageNum() * 10;
+        Integer pageNum = (pageDomain.getPageNum() - 1) * pageDomain.getPageSize();
+        Integer pageSize = pageDomain.getPageNum() * pageDomain.getPageSize();
         if (pageSize > areaList.size())
         {
             pageSize = areaList.size();
