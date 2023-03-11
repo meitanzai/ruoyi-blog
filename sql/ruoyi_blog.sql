@@ -1448,6 +1448,7 @@ CREATE TABLE `sys_oper_log` (
                                 `status` int(1) DEFAULT '0' COMMENT '操作状态（0正常 1异常）',
                                 `error_msg` varchar(2000) DEFAULT '' COMMENT '错误消息',
                                 `oper_time` datetime DEFAULT NULL COMMENT '操作时间',
+                                 cost_time         bigint(20)      default 0                  comment '消耗时间',
                                 PRIMARY KEY (`oper_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='操作日志记录';
 

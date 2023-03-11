@@ -69,6 +69,7 @@ public class User extends BaseEntity
     private String password;
 
     /** 盐加密 */
+    @JsonIgnore
     private String salt;
 
     /** 帐号状态（0正常 1停用） */

@@ -85,6 +85,10 @@ public class OperLog extends BaseEntity
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date operTime;
 
+    /** 消耗时间 */
+    @Excel(name = "消耗时间", suffix = "毫秒")
+    private Long costTime;
+
     public Long getOperId()
     {
         return operId;
@@ -255,25 +259,36 @@ public class OperLog extends BaseEntity
         this.operTime = operTime;
     }
 
+    public Long getCostTime()
+    {
+        return costTime;
+    }
+
+    public void setCostTime(Long costTime)
+    {
+        this.costTime = costTime;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("operId", getOperId())
-            .append("title", getTitle())
-            .append("businessType", getBusinessType())
-            .append("businessTypes", getBusinessTypes())
-            .append("method", getMethod())
-            .append("requestMethod", getRequestMethod())
-            .append("operatorType", getOperatorType())
-            .append("operName", getOperName())
-            .append("deptName", getDeptName())
-            .append("operUrl", getOperUrl())
-            .append("operIp", getOperIp())
-            .append("operLocation", getOperLocation())
-            .append("operParam", getOperParam())
-            .append("status", getStatus())
-            .append("errorMsg", getErrorMsg())
-            .append("operTime", getOperTime())
-            .toString();
+                .append("operId", getOperId())
+                .append("title", getTitle())
+                .append("businessType", getBusinessType())
+                .append("businessTypes", getBusinessTypes())
+                .append("method", getMethod())
+                .append("requestMethod", getRequestMethod())
+                .append("operatorType", getOperatorType())
+                .append("operName", getOperName())
+                .append("deptName", getDeptName())
+                .append("operUrl", getOperUrl())
+                .append("operIp", getOperIp())
+                .append("operLocation", getOperLocation())
+                .append("operParam", getOperParam())
+                .append("status", getStatus())
+                .append("errorMsg", getErrorMsg())
+                .append("operTime", getOperTime())
+                .append("costTime", getCostTime())
+                .toString();
     }
 }
