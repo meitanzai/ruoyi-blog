@@ -61,8 +61,8 @@
                     <h2 class="ui center aligned header"></h2>
                     <div class="ui fluid vertical menu">
                         <a v-for="(item,index) in newList" href="#" :href="item.url" target="_blank" class="item">
-                            <span><font style="color:red">{{item.hot}} </font>{{item.title}}</span>
-                            <div class="ui orange basic label m-padded-mini">{{item.num}}</div>
+                            <span><font style="color:red">{{item.index}} </font>{{item.title}}</span>
+                            <div class="ui orange basic label m-padded-mini">{{item.hot}}</div>
                         </a>
                     </div>
                     <br>
@@ -115,8 +115,13 @@
 
         methods: {
             getNews() {
-                axios.get('https://weibo-top-api.vercel.app/api').then(res => {
-                    this.newList = res.data
+                axios.get('https://v2.api-m.com/api/weibohot').then(res => {
+                    if (res.data.code == 200){
+                        debugger;
+                        this.newList = res.data.data
+                    }
+                }).catch(err=>{
+                    console.log(err)
                 })
             },
         }
