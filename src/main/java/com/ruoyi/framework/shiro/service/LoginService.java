@@ -3,17 +3,14 @@ package com.ruoyi.framework.shiro.service;
 import java.util.List;
 import java.util.Set;
 
+import com.ruoyi.common.exception.user.*;
 import com.ruoyi.common.utils.*;
+import com.ruoyi.project.system.config.service.IConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.ShiroConstants;
 import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.common.exception.user.CaptchaException;
-import com.ruoyi.common.exception.user.UserBlockedException;
-import com.ruoyi.common.exception.user.UserDeleteException;
-import com.ruoyi.common.exception.user.UserNotExistsException;
-import com.ruoyi.common.exception.user.UserPasswordNotMatchException;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
@@ -39,6 +36,9 @@ public class LoginService
 
     @Autowired
     private IMenuService menuService;
+
+    @Autowired
+    private IConfigService configService;
 
     /**
      * 登录
@@ -75,6 +75,14 @@ public class LoginService
         {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
             throw new UserPasswordNotMatchException();
+        }
+
+        // IP黑名单校验
+        String blackStr = configService.selectConfigByKey("sys.login.blackIPList");
+        if (IpUtils.isMatchedIp(blackStr, ShiroUtils.getIp()))
+        {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("login.blocked")));
+            throw new BlackListException();
         }
 
         // 查询用户信息
@@ -162,6 +170,14 @@ public class LoginService
         {
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
             throw new UserPasswordNotMatchException();
+        }
+
+        // IP黑名单校验
+        String blackStr = configService.selectConfigByKey("sys.login.blackIPList");
+        if (IpUtils.isMatchedIp(blackStr, ShiroUtils.getIp()))
+        {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("login.blocked")));
+            throw new BlackListException();
         }
 
         // 查询用户信息

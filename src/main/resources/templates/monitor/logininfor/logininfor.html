@@ -89,8 +89,11 @@
 		            sortable: true
 		        },
 		        {
-		            field: 'ipaddr',
-		            title: '登录地址'
+					field: 'ipaddr',
+					title: '登录地址',
+					formatter: function(value, row, index) {
+						return $.table.tooltip(value);
+					}
 		        },
 		        {
 		            field: 'loginLocation',

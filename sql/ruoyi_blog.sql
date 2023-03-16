@@ -907,6 +907,7 @@ INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_valu
 INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (8, '主框架页-菜单导航显示风格', 'sys.index.menuStyle', 'default', 'Y', 'admin', '2021-11-13 11:48:10', '', NULL, '菜单导航显示风格（default为左侧导航菜单，topnav为顶部导航菜单）');
 INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (9, '主框架页-是否开启页脚', 'sys.index.footer', 'true', 'Y', 'admin', '2021-11-13 11:48:10', '', NULL, '是否开启底部页脚显示（true显示，false隐藏）');
 INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (10, '主框架页-是否开启页签', 'sys.index.tagsView', 'true', 'Y', 'admin', '2021-11-13 11:48:10', '', NULL, '是否开启菜单多页签显示（true显示，false隐藏）');
+insert into  sys_config values(11, '用户登录-黑名单列表',           'sys.login.blackIPList',            '',              'Y', 'admin', sysdate(), '', null, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
 COMMIT;
 
 -- ----------------------------

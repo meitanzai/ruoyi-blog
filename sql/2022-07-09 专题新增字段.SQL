@@ -64,3 +64,5 @@ INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, men
 INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1157, '评论管理审核', 1155, 2, 'mto/comment/examine', 'menuItem', 'F', '0', '1', 'mto:comment:examine', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
 INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1158, '评论管理删除', 1155, 3, 'mto/comment/remove', 'menuItem', 'F', '0', '1', 'mto:comment:remove', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
 
+-- 2023年3月16日 支持登录IP黑名单限制
+insert into sys_config values(11, '用户登录-黑名单列表',           'sys.login.blackIPList',            '',              'Y', 'admin', sysdate(), '', null, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
