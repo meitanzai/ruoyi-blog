@@ -17,11 +17,9 @@
 							<label>登录名称：</label><input type="text" name="loginName"/>
 						</li>
 						<li>
-							<label>登录状态：</label><select name="status"
-														th:with="type=${@dict.getType('sys_common_status')}">
+							<label>登录状态：</label><select name="status" th:with="type=${@dict.getType('sys_common_status')}">
 							<option value="">所有</option>
-							<option th:each="dict : ${type}" th:text="${dict.dictLabel}"
-									th:value="${dict.dictValue}"></option>
+							<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
 						</select>
 						</li>
 						<li class="select-time">
@@ -31,10 +29,8 @@
 							<input type="text" class="time-input" id="endTime" placeholder="结束时间"/>
 						</li>
 						<li>
-							<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
-									class="fa fa-search"></i>&nbsp;搜索</a>
-							<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
-									class="fa fa-refresh"></i>&nbsp;重置</a>
+							<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+							<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
 						</li>
 					</ul>
 				</div>
@@ -42,15 +38,13 @@
 		</div>
 
 		<div class="btn-group-sm" id="toolbar" role="group">
-			<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
-			   shiro:hasPermission="monitor:logininfor:remove">
+			<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="monitor:logininfor:remove">
 				<i class="fa fa-remove"></i> 删除
 			</a>
 			<a class="btn btn-danger" onclick="$.operate.clean()" shiro:hasPermission="monitor:logininfor:remove">
 				<i class="fa fa-trash"></i> 清空
 			</a>
-			<a class="btn btn-primary single disabled" onclick="unlock()"
-			   shiro:hasPermission="monitor:logininfor:unlock">
+			<a class="btn btn-primary single disabled" onclick="unlock()" shiro:hasPermission="monitor:logininfor:unlock">
 				<i class="fa fa-unlock"></i> 解锁
 			</a>
 			<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="monitor:logininfor:export">
@@ -138,8 +132,8 @@
 	function queryParams(params) {
 		var search = $.table.queryParams(params);
 		search.params = {
-			beginTime: beginOfTime($("#startTime").val()),
-			endTime: endOfTime($("#endTime").val())
+			beginTime : beginOfTime($("#startTime").val()),
+			endTime : endOfTime($("#endTime").val())
 		};
 		return search;
 	}
