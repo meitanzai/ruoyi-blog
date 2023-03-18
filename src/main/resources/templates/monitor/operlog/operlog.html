@@ -30,10 +30,10 @@
 							</li>
 							<li class="select-time">
 								<label>操作时间： </label>
-								<input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]"/>
-								<span>-</span>
-								<input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTime]"/>
-							</li>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间"/>
+                            </li>
 							<li>
 								<a class="btn btn-primary btn-rounded btn-sm" onclick="searchPre()"><i class="fa fa-search"></i>&nbsp;搜索</a>
 								<a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -42,7 +42,7 @@
 					</div>
 				</form>
 			</div>
-			
+
 			<div class="btn-group-sm" id="toolbar" role="group">
 				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="monitor:operlog:remove">
 		            <i class="fa fa-remove"></i> 删除
@@ -54,13 +54,13 @@
 		            <i class="fa fa-download"></i> 导出
 		        </a>
 	        </div>
-	        
+
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table"></table>
 			</div>
 		</div>
 	</div>
-	
+
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: bootstrap-select-js" />
 	<script th:inline="javascript">
@@ -92,14 +92,17 @@
 		        },
 		        {
 		            field: 'title',
-		            title: '系统模块'
+		            title: '系统模块',
+                    formatter: function(value, row, index) {
+                        return $.table.tooltip(value);
+                    }
 		        },
 		        {
 		            field: 'businessType',
 		            title: '操作类型',
 		            align: 'center',
 		            formatter: function(value, row, index) {
-		            	return $.table.selectDictLabel(datas, value);
+		                return $.table.selectDictLabel(datas, value);
 		            }
 		        },
 		        {
@@ -156,18 +159,23 @@
 		    };
 		    $.table.init(options);
 		});
-		
+
 		function queryParams(params) {
 			var search = $.table.queryParams(params);
+            search.params = {
+                beginTime : beginOfTime($("#startTime").val()),
+                endTime : endOfTime($("#endTime").val())
+            };
 			search.businessTypes = $.common.join($('#businessTypes').selectpicker('val'));
 			return search;
 		}
-		
+
 		function searchPre() {
 		    $.table.search('operlog-form', 'bootstrap-table');
 		}
-		
+
 		function resetPre() {
+            resetDate();
 			$("#operlog-form")[0].reset();
 			$("#businessTypes").selectpicker('refresh');
 			$.table.search('operlog-form', 'bootstrap-table');

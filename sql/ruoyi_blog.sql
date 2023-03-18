@@ -1150,19 +1150,21 @@ COMMIT;
 -- ----------------------------
 -- Table structure for sys_logininfor
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_logininfor`;
-CREATE TABLE `sys_logininfor` (
-                                  `info_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '访问ID',
-                                  `login_name` varchar(50) DEFAULT '' COMMENT '登录账号',
-                                  `ipaddr` varchar(128) DEFAULT '' COMMENT '登录IP地址',
-                                  `login_location` varchar(255) DEFAULT '' COMMENT '登录地点',
-                                  `browser` varchar(50) DEFAULT '' COMMENT '浏览器类型',
-                                  `os` varchar(50) DEFAULT '' COMMENT '操作系统',
-                                  `status` char(1) DEFAULT '0' COMMENT '登录状态（0成功 1失败）',
-                                  `msg` varchar(255) DEFAULT '' COMMENT '提示消息',
-                                  `login_time` datetime DEFAULT NULL COMMENT '访问时间',
-                                  PRIMARY KEY (`info_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统访问记录';
+drop table if exists sys_logininfor;
+create table sys_logininfor (
+                                info_id        bigint(20)     not null auto_increment   comment '访问ID',
+                                login_name     varchar(50)    default ''                comment '登录账号',
+                                ipaddr         varchar(128)   default ''                comment '登录IP地址',
+                                login_location varchar(255)   default ''                comment '登录地点',
+                                browser        varchar(50)    default ''                comment '浏览器类型',
+                                os             varchar(50)    default ''                comment '操作系统',
+                                status         char(1)        default '0'               comment '登录状态（0成功 1失败）',
+                                msg            varchar(255)   default ''                comment '提示消息',
+                                login_time     datetime                                 comment '访问时间',
+                                primary key (info_id),
+                                key idx_sys_logininfor_s  (status),
+                                key idx_sys_logininfor_lt (login_time)
+) engine=innodb auto_increment=100 comment = '系统访问记录';
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -1431,27 +1433,30 @@ COMMIT;
 -- ----------------------------
 -- Table structure for sys_oper_log
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_oper_log`;
-CREATE TABLE `sys_oper_log` (
-                                `oper_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志主键',
-                                `title` varchar(50) DEFAULT '' COMMENT '模块标题',
-                                `business_type` int(2) DEFAULT '0' COMMENT '业务类型（0其它 1新增 2修改 3删除）',
-                                `method` varchar(100) DEFAULT '' COMMENT '方法名称',
-                                `request_method` varchar(10) DEFAULT '' COMMENT '请求方式',
-                                `operator_type` int(1) DEFAULT '0' COMMENT '操作类别（0其它 1后台用户 2手机端用户）',
-                                `oper_name` varchar(50) DEFAULT '' COMMENT '操作人员',
-                                `dept_name` varchar(50) DEFAULT '' COMMENT '部门名称',
-                                `oper_url` varchar(255) DEFAULT '' COMMENT '请求URL',
-                                `oper_ip` varchar(128) DEFAULT '' COMMENT '主机地址',
-                                `oper_location` varchar(255) DEFAULT '' COMMENT '操作地点',
-                                `oper_param` varchar(2000) DEFAULT '' COMMENT '请求参数',
-                                `json_result` varchar(2000) DEFAULT '' COMMENT '返回参数',
-                                `status` int(1) DEFAULT '0' COMMENT '操作状态（0正常 1异常）',
-                                `error_msg` varchar(2000) DEFAULT '' COMMENT '错误消息',
-                                `oper_time` datetime DEFAULT NULL COMMENT '操作时间',
-                                 cost_time         bigint(20)      default 0                  comment '消耗时间',
-                                PRIMARY KEY (`oper_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='操作日志记录';
+drop table if exists sys_oper_log;
+create table sys_oper_log (
+                              oper_id           bigint(20)      not null auto_increment    comment '日志主键',
+                              title             varchar(50)     default ''                 comment '模块标题',
+                              business_type     int(2)          default 0                  comment '业务类型（0其它 1新增 2修改 3删除）',
+                              method            varchar(100)    default ''                 comment '方法名称',
+                              request_method    varchar(10)     default ''                 comment '请求方式',
+                              operator_type     int(1)          default 0                  comment '操作类别（0其它 1后台用户 2手机端用户）',
+                              oper_name         varchar(50)     default ''                 comment '操作人员',
+                              dept_name         varchar(50)     default ''                 comment '部门名称',
+                              oper_url          varchar(255)    default ''                 comment '请求URL',
+                              oper_ip           varchar(128)    default ''                 comment '主机地址',
+                              oper_location     varchar(255)    default ''                 comment '操作地点',
+                              oper_param        varchar(2000)   default ''                 comment '请求参数',
+                              json_result       varchar(2000)   default ''                 comment '返回参数',
+                              status            int(1)          default 0                  comment '操作状态（0正常 1异常）',
+                              error_msg         varchar(2000)   default ''                 comment '错误消息',
+                              oper_time         datetime                                   comment '操作时间',
+                              cost_time         bigint(20)      default 0                  comment '消耗时间',
+                              primary key (oper_id),
+                              key idx_sys_oper_log_bt (business_type),
+                              key idx_sys_oper_log_s  (status),
+                              key idx_sys_oper_log_ot (oper_time)
+) engine=innodb auto_increment=100 comment = '操作日志记录';
 
 -- ----------------------------
 -- Records of sys_oper_log

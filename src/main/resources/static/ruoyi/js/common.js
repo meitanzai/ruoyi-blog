@@ -68,6 +68,7 @@ $(function() {
                         endLayDate.config.min.month = '';
                         endLayDate.config.min.date = '';
                     }
+                    $('#endTime').trigger('click');
                 }
             });
             endLayDate = laydate.render({
@@ -383,6 +384,32 @@ function checkpwd(chrtype, password) {
     return true;
 }
 
+/** 开始时间/时分秒 */
+function beginOfTime(date) {
+    if($.common.isNotEmpty(date)) {
+        return $.common.sprintf("%s 00:00:00", date);
+    }
+}
+
+/** 结束时间/时分秒 */
+function endOfTime(date) {
+    if($.common.isNotEmpty(date)) {
+        return $.common.sprintf("%s 23:59:59", date);
+    }
+}
+
+/** 重置日期/年月日 */
+function resetDate() {
+    if ($.common.isNotEmpty(startLayDate) && $.common.isNotEmpty(endLayDate)) {
+        endLayDate.config.min.year = '';
+        endLayDate.config.min.month = '';
+        endLayDate.config.min.date = '';
+        startLayDate.config.max.year = '2099';
+        startLayDate.config.max.month = '12';
+        startLayDate.config.max.date = '31';
+    }
+}
+
 // 日志打印封装处理
 var log = {
     log: function(msg) {
@@ -415,7 +442,6 @@ var storage = {
     }
 };
 
-// 主子表操作封装处理
 // 主子表操作封装处理
 var sub = {
     editRow: function() {
