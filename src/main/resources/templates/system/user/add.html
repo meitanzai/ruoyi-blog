@@ -163,9 +163,6 @@
                         	"loginName": function() {
                                 return $.common.trim($("#loginName").val());
                             }
-                        },
-                        dataFilter: function(data, type) {
-                        	return $.validate.unique(data);
                         }
                     }
         		},
@@ -183,9 +180,6 @@
                             "email": function () {
                                 return $.common.trim($("#email").val());
                             }
-                        },
-                        dataFilter: function (data, type) {
-                        	return $.validate.unique(data);
                         }
                     }
         		},
@@ -199,9 +193,6 @@
                             "phonenumber": function () {
                                 return $.common.trim($("#phonenumber").val());
                             }
-                        },
-                        dataFilter: function (data, type) {
-                        	return $.validate.unique(data);
                         }
                     }
         		},
@@ -239,7 +230,7 @@
         function selectDeptTree() {
         	var treeId = $("#treeId").val();
         	var deptId = $.common.isEmpty(treeId) ? "100" : $("#treeId").val();
-            var url = ctx + "system/user/selectDeptTree/" + deptId;
+        	var url = ctx + "system/user/selectDeptTree/" + deptId;
 			var options = {
 				title: '选择部门',
 				width: "380",

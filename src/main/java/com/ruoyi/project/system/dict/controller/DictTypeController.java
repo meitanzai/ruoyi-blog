@@ -83,7 +83,7 @@ public class DictTypeController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@Validated DictType dict)
     {
-        if (UserConstants.DICT_TYPE_NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict)))
+        if (!dictTypeService.checkDictTypeUnique(dict))
         {
             return error("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
@@ -110,7 +110,7 @@ public class DictTypeController extends BaseController
     @ResponseBody
     public AjaxResult editSave(@Validated DictType dict)
     {
-        if (UserConstants.DICT_TYPE_NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict)))
+        if (!dictTypeService.checkDictTypeUnique(dict))
         {
             return error("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
@@ -157,7 +157,7 @@ public class DictTypeController extends BaseController
      */
     @PostMapping("/checkDictTypeUnique")
     @ResponseBody
-    public String checkDictTypeUnique(DictType dictType)
+    public Boolean checkDictTypeUnique(DictType dictType)
     {
         return dictTypeService.checkDictTypeUnique(dictType);
     }

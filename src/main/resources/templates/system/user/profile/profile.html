@@ -2,7 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
 	<th:block th:include="include :: header('用户个人信息')" />
-    <style type="text/css">.user-info-head{position:relative;display:inline-block;}.user-info-head:hover:after{content:'\f030';position:absolute;left:0;right:0;top:0;bottom:0;color:#eee;background:rgba(0,0,0,0.5);font-family:FontAwesome;font-size:24px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;cursor:pointer;line-height:110px;border-radius:50%;}.user-bind .third-app{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:center;-ms-flex-align:center;align-items:center;min-width:80px;float:left}.user-bind{font-size:1rem;text-align:start;height:50px;margin-top:10px}.git-other-login-icon>img{height:32px}a{text-decoration:none;cursor:pointer;color:#005980}.provider-desc{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Liberation Sans","PingFang SC","Microsoft YaHei","Hiragino Sans GB","Wenquanyi Micro Hei","WenQuanYi Zen Hei","ST Heiti",SimHei,SimSun,"WenQuanYi Zen Hei Sharp",sans-serif;font-size:1.071rem}td>img{height:20px;width:20px;display:inline-block;border-radius:50%;margin-right:5px}</style>
+    <style type="text/css">.user-info-head{position:relative;display:inline-block;}.user-info-head:hover:after{content:'\f030';position:absolute;left:0;right:0;top:0;bottom:0;color:#eee;background:rgba(0,0,0,0.5);font-family:FontAwesome;font-size:24px;font-style:normal;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;cursor:pointer;line-height:110px;border-radius:50%;}</style>
 </head>
 
 <body class="gray-bg" style="font: 14px Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif !important;">
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="col-sm-9 about">
             <div class="ibox float-e-margins">
                 <div class="ibox-title ibox-title-gray dashboard-header">
@@ -55,7 +55,6 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#user_info" data-toggle="tab" aria-expanded="true">基本资料</a></li>
                             <li><a href="#modify_password" data-toggle="tab" aria-expanded="false">修改密码</a></li>
-                            <li><a href="#third_party_binding" data-toggle="tab" aria-expanded="false">帐号绑定</a></li>
                         </ul>
                         <div class="tab-content">
                             <!--用户信息-->
@@ -102,7 +101,7 @@
                                     </div>
                                 </form>
                             </div>
-
+                            
                             <!--修改密码-->
                             <div class="tab-pane" id="modify_password">
                                 <form class="form-horizontal" id="form-user-resetPwd">
@@ -116,7 +115,7 @@
                                         <label class="col-sm-2 control-label">新密码：</label>
                                         <div class="col-sm-10">
                                             <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="请输入新密码">
-                                            <th:block th:with="chrtype=${@config.getKey('sys.account.chrtype')}">
+                                            <th:block th:with="chrtype=${@config.getKey('sys.account.chrtype')}"> 
 						                        <th:block th:if="${chrtype != '0'}">
 						                            <span class="help-block m-b-none">
 								                        <th:block th:if="${chrtype == '1'}"><i class="fa fa-info-circle" style="color: red;"></i>  密码只能为0-9数字 </th:block>
@@ -142,44 +141,6 @@
                                     </div>
                                 </form>
                             </div>
-
-                            <!--绑定第三方账号登录-->
-                            <div class="tab-pane" id="third_party_binding">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <div class="col-sm-12 select-table table-striped">
-                                                <table id="bootstrap-table"></table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div id="git-user-binding">
-                                                <h4 class="provider-desc">你可以绑定以下第三方帐号用于RuoYi系统</h4>
-                                                <div id="authlist" class="user-bind">
-                                                    <a class="third-app" href="#" onclick="authUrl('gitee');" title="使用 Gitee 账号授权登录">
-                                                        <div class="git-other-login-icon"><img th:src="@{/img/gitee.svg}"></div>
-                                                        <span class="app-name">Gitee</span></a>
-
-                                                    <a class="third-app" href="#" onclick="authUrl('github');" title="使用 GitHub 账号授权登录">
-                                                        <div class="git-other-login-icon"><img th:src="@{/img/github.svg}"></div>
-                                                        <span class="app-name">Github</span></a>
-
-                                                    <a class="third-app" href="#" onclick="authUrl('weixin');" title="使用 微信 账号授权登录">
-                                                        <div class="git-other-login-icon"><img th:src="@{/img/weixin.svg}"></div>
-                                                        <span class="app-name">WeiXin</span></a>
-
-                                                    <a class="third-app" href="#" onclick="authUrl('qq');" title="使用 QQ 账号授权登录">
-                                                        <div class="git-other-login-icon"><img th:src="@{/img/qq.svg}"></div>
-                                                        <span class="app-name">QQ</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -187,9 +148,9 @@
         </div>
     </div>
 	</section>
-
+    
     <th:block th:include="include :: footer" />
-    <script th:inline="javascript">
+    <script>
 	    /*用户管理-头像*/
 	    function avatar() {
 	        var url = ctx + 'system/user/profile/avatar';
@@ -236,9 +197,6 @@
 		        			"email": function() {
 		                        return $.common.trim($("#email").val());
 		                    }
-		                },
-		                dataFilter: function (data, type) {
-		                	return $.validate.unique(data);
 		                }
 		            }
 				},
@@ -256,9 +214,6 @@
 		        			"phonenumber": function() {
 		                        return $.common.trim($("#phonenumber").val());
 		                    }
-		                },
-		                dataFilter: function (data, type) {
-		                	return $.validate.unique(data);
 		                }
 		            }
 				},
@@ -278,13 +233,13 @@
 		    },
 		    focusCleanup: true
 		});
-
+		
 		function submitUserInfo() {
 	        if ($.validate.form()) {
 	        	$.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize());
 	        }
 	    }
-
+	    
 	    /*用户管理-修改密码*/
 	    $("#form-user-resetPwd").validate({
 	    	onkeyup: false,
@@ -330,7 +285,7 @@
 	        },
 	        focusCleanup: true
 		});
-
+		
 		function submitChangPassword () {
 			var chrtype = [[${#strings.defaultString(@config.getKey('sys.account.chrtype'), 0)}]];
 			var password = $("#newPassword").val();
@@ -338,92 +293,6 @@
 	        	$.operate.saveModal(ctx + "system/user/profile/resetPwd", $('#form-user-resetPwd').serialize());
 	        }
 	    }
-
-        // 第三方授权列表
-        $(function() {
-            var auths = [[${auths}]]
-            var options = {
-                data: auths,
-                sidePagination: "client",
-                showSearch: false,
-                showRefresh: false,
-                showToggle: false,
-                showColumns: false,
-                pagination: false,
-                columns: [{
-                    title: "序号",
-                    formatter: function (value, row, index) {
-                        return $.table.serialNumber(index);
-                    }
-                },
-                    {
-                        field: 'source',
-                        title: '平台'
-                    },
-                    {
-                        field: 'avatar',
-                        title: '头像',
-                        formatter: function(value, row, index) {
-                            return $.table.imageView(value);
-                        }
-                    },
-                    {
-                        field: 'loginName',
-                        title: '账号'
-                    },
-                    {
-                        field: 'createTime',
-                        title: '绑定时间'
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        formatter: function(value, row, index) {
-                            var actions = [];
-                            actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="unlockAuth(this, \'' + row.authId + '\', \'' + row.source + '\')"><i class="fa fa-remove"></i>解除绑定</a>');
-                            return actions.join('');
-                        }
-                    }]
-            };
-            $.table.init(options);
-        });
-
-        // 解除绑定
-        function unlockAuth(obj, authId, source) {
-            $.modal.confirm("您确定要解除" + source + "的账号绑定吗？", function() {
-                $.ajax({
-                    type: "post",
-                    url: ctx + "oauth/unlock",
-                    data: { "authId": authId },
-                    success: function(r) {
-                        if (r.code == web_status.SUCCESS) {
-                            $(obj).parents("tr").remove();
-                            $.modal.msgSuccess("解绑成功");
-                        } else {
-                            $.modal.msgError(r.msg);
-                        }
-                    }
-                });
-            });
-        }
-
-        // 第三方登录授权
-        function authUrl(source) {
-            $.ajax({
-                type: "post",
-                url: ctx + "oauth/checkAuthUser",
-                data: { "source": source },
-                success: function(r) {
-                    if (r.code == web_status.SUCCESS) {
-                        var  url =  ctx + "oauth/authorize/" + source;
-                        top.location.href =url;
-                    } else {
-                        $.modal.msgError(r.msg);
-                    }
-                }
-            });
-        }
-
-    </script>
+	</script>
 </body>
 </html>

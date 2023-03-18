@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
+import com.ruoyi.common.utils.file.MimeTypeUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.config.RuoYiConfig;
@@ -51,7 +51,6 @@ public class ProfileController extends BaseController
     {
         User user = getSysUser();
         mmap.put("user", user);
-        mmap.put("auths", userService.selectAuthUserListByUserId(user.getUserId()));
         mmap.put("roleGroup", userService.selectUserRoleGroup(user.getUserId()));
         mmap.put("postGroup", userService.selectUserPostGroup(user.getUserId()));
         return prefix + "/profile";
@@ -132,13 +131,11 @@ public class ProfileController extends BaseController
         currentUser.setEmail(user.getEmail());
         currentUser.setPhonenumber(user.getPhonenumber());
         currentUser.setSex(user.getSex());
-        if (StringUtils.isNotEmpty(user.getPhonenumber())
-                && UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(currentUser)))
+        if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(currentUser))
         {
             return error("修改用户'" + currentUser.getLoginName() + "'失败，手机号码已存在");
         }
-        else if (StringUtils.isNotEmpty(user.getEmail())
-                && UserConstants.USER_EMAIL_NOT_UNIQUE.equals(userService.checkEmailUnique(currentUser)))
+        else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(currentUser))
         {
             return error("修改用户'" + currentUser.getLoginName() + "'失败，邮箱账号已存在");
         }
@@ -163,7 +160,7 @@ public class ProfileController extends BaseController
         {
             if (!file.isEmpty())
             {
-                String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file);
+                String avatar = FileUploadUtils.upload(RuoYiConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
                 currentUser.setAvatar(avatar);
                 if (userService.updateUserInfo(currentUser) > 0)
                 {

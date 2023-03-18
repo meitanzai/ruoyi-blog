@@ -84,7 +84,7 @@ public class ConfigController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@Validated Config config)
     {
-        if (UserConstants.CONFIG_KEY_NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config)))
+        if (!configService.checkConfigKeyUnique(config))
         {
             return error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
@@ -111,7 +111,7 @@ public class ConfigController extends BaseController
     @ResponseBody
     public AjaxResult editSave(@Validated Config config)
     {
-        if (UserConstants.CONFIG_KEY_NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config)))
+        if (!configService.checkConfigKeyUnique(config))
         {
             return error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
@@ -149,7 +149,7 @@ public class ConfigController extends BaseController
      */
     @PostMapping("/checkConfigKeyUnique")
     @ResponseBody
-    public String checkConfigKeyUnique(Config config)
+    public Boolean checkConfigKeyUnique(Config config)
     {
         return configService.checkConfigKeyUnique(config);
     }
