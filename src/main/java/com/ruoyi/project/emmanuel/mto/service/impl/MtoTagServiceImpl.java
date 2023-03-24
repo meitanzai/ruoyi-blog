@@ -76,6 +76,13 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
      */
     @Override
     public int insertMtoTag(MtoTag mtoTag) {
+
+        // 查询改标签是否已存在，已存在则不允许添加
+        String e = mtoTagMapper.tagIsExistByName(mtoTag.getName());
+        if (ToolUtils.isNotEmpty(e)) {
+            throw new RuntimeException("当前标签名已存在");
+        }
+
         mtoTag.setCreateTime(DateUtils.getNowDate());
         int insert = mtoTagMapper.insert(mtoTag);
         CacheUtils.remove(Constants.WEB_TAG);
@@ -92,6 +99,13 @@ public class MtoTagServiceImpl extends ServiceImpl<MtoTagMapper, MtoTag> impleme
      */
     @Override
     public int updateMtoTag(MtoTag mtoTag) {
+
+        // 查询改标签是否已存在，已存在则不允许添加
+        String e = mtoTagMapper.tagIsExistByNameAndId(mtoTag.getName(),mtoTag.getId());
+        if (ToolUtils.isNotEmpty(e)) {
+            throw new RuntimeException("当前标签名已存在");
+        }
+
         mtoTag.setUpdateTime(DateUtils.getNowDate());
         int i = mtoTagMapper.updateById(mtoTag);
         CacheUtils.remove(Constants.WEB_TAG);

@@ -13,4 +13,10 @@ import java.util.List;
  * @date 2021-11-27
  */
 public interface MtoTagMapper extends BaseMapper<MtoTag> {
+
+    @Select("select 1 from mto_tag where name = #{name}  limit 1")
+    String tagIsExistByName(String name);
+
+    @Select("select 1 from mto_tag where name = #{name} and  id != #{id} limit 1")
+    String tagIsExistByNameAndId(String name,Long id);
 }
