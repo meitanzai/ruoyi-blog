@@ -69,7 +69,7 @@
                 and m.money_date = #{moneyDate,jdbcType=TIMESTAMP}
             </if>
         </where>
-        order by m.money_date desc,m.create_time
+        order by m.money_date desc,m.create_time desc
     </select>
 
     <select id="selectAccountMoneyById" parameterType="Long" resultMap="AccountMoneyResult">

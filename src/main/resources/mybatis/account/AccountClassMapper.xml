@@ -52,7 +52,7 @@
                 and order_num = #{orderNum}
             </if>
         </where>
-         ORDER BY order_num
+         ORDER BY  class_type, order_num
     </select>
 
     <select id="selectAccountClassById" parameterType="Long" resultMap="AccountClassResult">
