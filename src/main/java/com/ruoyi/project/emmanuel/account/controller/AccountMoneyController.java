@@ -67,8 +67,8 @@ public class AccountMoneyController extends BaseController {
     /**
      * 导出记账详情列表
      */
-    @RequiresPermissions("")
-    @Log(title = "记账详情", businessType = BusinessType.EXPORT)
+    @RequiresPermissions("account:money:export")
+    @Log(title = "记账详情导出", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(AccountMoney accountMoney) {

@@ -16,16 +16,8 @@ import com.ruoyi.framework.web.domain.BaseEntity;
  */
 @Data
 public class AccountMoney extends BaseEntity {
-    private static final long serialVersionUID = 1L;
 
-    /**
-     * 分类类型 非数据库字段
-     */
-    private String classType;
-    /**
-     * 分类名称 非数据库字段
-     */
-    private String className;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 主键id
@@ -35,38 +27,22 @@ public class AccountMoney extends BaseEntity {
     /**
      * 账本id
      */
-    @Excel(name = "账本id")
     private Long accountId;
 
     /**
      * 类型id
      */
-    @Excel(name = "类型id")
     private Long classId;
 
     /**
-     * 金额
+     * 收入金额
      */
-    @Excel(name = "收入金额")
     private BigDecimal moneyIncome;
 
     /**
-     * 金额
+     * 支出金额
      */
-    @Excel(name = "支出金额")
     private BigDecimal moneyPay;
-
-    /**
-     * 备注/金额说明
-     */
-    @Excel(name = "备注/金额说明")
-    private String moneyIntroduce;
-
-    /**
-     * 是否记入总账（0记入，默认，1不记录）
-     */
-    @Excel(name = "是否记入总账", readConverterExp = "0=记入，默认，1不记录")
-    private Integer isTotal;
 
     /**
      * 0是正常，1是删除
@@ -74,21 +50,46 @@ public class AccountMoney extends BaseEntity {
     private String deleted;
 
     /**
-     * 消费日期（用户选择不选择默认为当天）
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
-    private Date moneyDate;
-
-    /**
      * 非数据库字段，1是支出,0是收入
      */
     private String type;
+
+    /**
+     * 分类名称 非数据库字段
+     */
+    @Excel(name = "类型")
+    private String className;
 
     /**
      * 非数据库字段，用于页面显示金额
      */
     @Excel(name = "金额")
     private BigDecimal money;
+
+    /**
+     * 消费日期（用户选择不选择默认为当天）
+     */
+    @Excel(name = "消费日期", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date moneyDate;
+
+    /**
+     * 是否记入总账（0记入，默认，1不记录）
+     */
+    @Excel(name = "是否记入总账", readConverterExp = "0=是,1=否")
+    private Integer isTotal;
+
+    /**
+     * 分类类型 非数据库字段
+     */
+    @Excel(name = "收支状态", readConverterExp = "0=收入,1=支出")
+    private String classType;
+
+    /**
+     * 备注/金额说明
+     */
+    @Excel(name = "备注")
+    private String moneyIntroduce;
 
 
 }
