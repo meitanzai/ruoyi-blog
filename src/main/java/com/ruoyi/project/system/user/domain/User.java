@@ -1,11 +1,5 @@
 package com.ruoyi.project.system.user.domain;
 
-import java.util.Date;
-import java.util.List;
-import javax.validation.constraints.*;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruoyi.common.xss.Xss;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
@@ -15,6 +9,15 @@ import com.ruoyi.framework.aspectj.lang.annotation.Excels;
 import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.project.system.dept.domain.Dept;
 import com.ruoyi.project.system.role.domain.Role;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 用户对象 sys_user
@@ -395,5 +398,19 @@ public class User extends BaseEntity
             .append("dept", getDept())
             .append("roles", getRoles())
             .toString();
+    }
+
+    /**
+     * 非数据库字段：账户ID
+     */
+    private Long accountId;
+
+    @JsonIgnore
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 }
