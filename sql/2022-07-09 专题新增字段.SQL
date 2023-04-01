@@ -66,3 +66,20 @@ INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, men
 
 -- 2023年3月16日 支持登录IP黑名单限制
 insert into sys_config values(11, '用户登录-黑名单列表',           'sys.login.blackIPList',            '',              'Y', 'admin', sysdate(), '', null, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
+
+-- 2023年4月1日  记账账户新增用户分配功能
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for account_user_account
+-- ----------------------------
+DROP TABLE IF EXISTS `account_user_account`;
+CREATE TABLE `account_user_account` (
+                                        `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+                                        `account_id` bigint(20) NOT NULL COMMENT '账户ID',
+                                        `administrators` char(1) DEFAULT '0' COMMENT '管理员（1管理员 ,0非管理员）',
+                                        PRIMARY KEY (`user_id`,`account_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户与记账账户关联表';
+
+SET FOREIGN_KEY_CHECKS = 1;

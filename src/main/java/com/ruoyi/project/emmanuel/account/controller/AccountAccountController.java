@@ -1,6 +1,7 @@
 package com.ruoyi.project.emmanuel.account.controller;
 
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
@@ -9,18 +10,17 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
 import com.ruoyi.project.emmanuel.account.domain.AccountClass;
+import com.ruoyi.project.emmanuel.account.domain.UserAccount;
 import com.ruoyi.project.emmanuel.account.service.IAccountAccountService;
 import com.ruoyi.project.emmanuel.account.service.IAccountClassService;
+import com.ruoyi.project.system.user.domain.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * 记账账户Controller
@@ -146,8 +146,79 @@ public class AccountAccountController extends BaseController {
     @RequiresPermissions("account:account:analysis")
     @GetMapping("/accountAnalysisPage/{accountId}")
     public String accountAnalysisPage(@PathVariable("accountId") Long accountId, ModelMap modelMap) {
-        accountAccountService.accountAnalysisPage(accountId,modelMap);
-        return  "emmanuel/account/bill/analysis";
+        accountAccountService.accountAnalysisPage(accountId, modelMap);
+        return "emmanuel/account/bill/analysis";
     }
+
+    /**
+     * 分配用户
+     */
+    @GetMapping("/authUser/{id}")
+    public String authUser(@PathVariable("id") Long accountId, ModelMap mmap) {
+        mmap.put("account", accountAccountService.selectUserAccount(ShiroUtils.getUserId(), accountId));
+        return prefix + "/authUser";
+    }
+
+    /**
+     * 查询已分配用户账户列表
+     */
+    @PostMapping("/authUser/allocatedList")
+    @ResponseBody
+    public TableDataInfo allocatedList(User user) {
+        startPage();
+        List<User> list = accountAccountService.selectAllocatedList(user);
+        return getDataTable(list);
+    }
+
+    /**
+     * 取消授权
+     */
+    @Log(title = "账户授权取消", businessType = BusinessType.GRANT)
+    @PostMapping("/authUser/cancel")
+    @ResponseBody
+    public AjaxResult cancelAuthUser(UserAccount userAccount) {
+        return toAjax(accountAccountService.deleteAuthUser(userAccount));
+    }
+
+    /**
+     * 批量取消授权
+     */
+    @Log(title = "账户授权批量取消", businessType = BusinessType.GRANT)
+    @PostMapping("/authUser/cancelAll")
+    @ResponseBody
+    public AjaxResult cancelAuthUserAll(Long accountId, String userIds) {
+        return toAjax(accountAccountService.deleteAuthUsers(accountId, userIds));
+    }
+
+    /**
+     * 选择用户
+     */
+    @GetMapping("/authUser/selectUser/{accountId}")
+    public String selectUser(@PathVariable("accountId") Long accountId, ModelMap mmap) {
+        mmap.put("accountId", accountId);
+        return prefix + "/selectUser";
+    }
+
+    /**
+     * 查询未分配用户账户列表
+     */
+    @PostMapping("/authUser/unallocatedList")
+    @ResponseBody
+    public TableDataInfo unallocatedList(User user) {
+        startPage();
+        List<User> list = accountAccountService.selectUnallocatedList(user);
+        return getDataTable(list);
+    }
+
+    /**
+     * 批量选择用户授权
+     */
+    @Log(title = "账户管理", businessType = BusinessType.GRANT)
+    @PostMapping("/authUser/selectAll")
+    @ResponseBody
+    public AjaxResult selectAuthUserAll(Long accountId, String userIds) {
+        return toAjax(accountAccountService.insertAuthUsers(accountId, userIds));
+    }
+
 
 }

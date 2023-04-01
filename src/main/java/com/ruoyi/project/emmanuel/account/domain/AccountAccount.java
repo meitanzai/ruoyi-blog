@@ -108,4 +108,30 @@ public class AccountAccount extends BaseEntity
             .append("updateTime", getUpdateTime())
             .toString();
     }
+
+    /**
+     * 非数据库字段 用户ID
+     */
+    private Long userId;
+
+    /**
+     * 非数据库字段 账户管理员：0非管理员，1管理员
+     */
+    private String administrators;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getAdministrators() {
+        return administrators;
+    }
+
+    public void setAdministrators(String administrators) {
+        this.administrators = administrators;
+    }
 }

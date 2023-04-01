@@ -1,10 +1,11 @@
 package com.ruoyi.project.emmanuel.account.service;
 
 import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
+import com.ruoyi.project.emmanuel.account.domain.UserAccount;
+import com.ruoyi.project.system.user.domain.User;
 import org.springframework.ui.ModelMap;
 
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -13,8 +14,7 @@ import java.util.Map;
  * @author ruoyi
  * @date 2022-01-21
  */
-public interface IAccountAccountService
-{
+public interface IAccountAccountService {
     /**
      * 查询记账账户
      *
@@ -67,8 +67,61 @@ public interface IAccountAccountService
 
     /**
      * 账单分析
+     *
      * @param accountId 账单ID
      * @param modelMap
      */
     void accountAnalysisPage(Long accountId, ModelMap modelMap);
+
+    /**
+     * 查询已分配用户账户列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    List<User> selectAllocatedList(User user);
+
+    /**
+     * 取消授权用户账户
+     *
+     * @param userAccount 用户和账户关联信息
+     * @return 结果
+     */
+    public int deleteAuthUser(UserAccount userAccount);
+
+    /**
+     * 批量取消授权用户账户
+     *
+     * @param accountId 账户ID
+     * @param userIds   需要删除的用户数据ID
+     * @return 结果
+     */
+    public int deleteAuthUsers(Long accountId, String userIds);
+
+    /**
+     * 根据条件分页查询未分配用户账户列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    List<User> selectUnallocatedList(User user);
+
+    /**
+     * 批量选择授权用户账户
+     *
+     * @param accountId 账户ID
+     * @param userIds   需要删除的用户数据ID
+     * @return 结果
+     */
+    int insertAuthUsers(Long accountId, String userIds);
+
+
+    /**
+     * 获取用户账户管理
+     *
+     * @param userId    用户id
+     * @param accountId 账户ID
+     * @return
+     */
+    public UserAccount selectUserAccount(Long userId, Long accountId);
 }

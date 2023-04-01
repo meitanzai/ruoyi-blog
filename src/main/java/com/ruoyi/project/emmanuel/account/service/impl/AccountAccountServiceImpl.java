@@ -1,21 +1,24 @@
 package com.ruoyi.project.emmanuel.account.service.impl;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
+import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
+import com.ruoyi.project.emmanuel.account.domain.UserAccount;
+import com.ruoyi.project.emmanuel.account.mapper.AccountAccountMapper;
+import com.ruoyi.project.emmanuel.account.service.IAccountAccountService;
+import com.ruoyi.project.system.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.emmanuel.account.mapper.AccountAccountMapper;
-import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
-import com.ruoyi.project.emmanuel.account.service.IAccountAccountService;
-import com.ruoyi.common.utils.text.Convert;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 记账账户Service业务层处理
@@ -47,6 +50,7 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
      */
     @Override
     public List<AccountAccount> selectAccountAccountList(AccountAccount accountAccount) {
+        accountAccount.setUserId(ShiroUtils.getUserId());
         return accountAccountMapper.selectAccountAccountList(accountAccount);
     }
 
@@ -60,9 +64,16 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
     @Transactional(rollbackFor = Exception.class)
     public int insertAccountAccount(AccountAccount accountAccount) {
         this.isExist(accountAccount);
+        // 添加账户
         accountAccount.setCreateTime(DateUtils.getNowDate());
         accountAccount.setCreateBy(ShiroUtils.getLoginName());
-        return accountAccountMapper.insertAccountAccount(accountAccount);
+        accountAccountMapper.insertAccountAccount(accountAccount);
+        // 添加账户-用户管理
+        UserAccount ua = new UserAccount();
+        ua.setAccountId(accountAccount.getId());
+        ua.setUserId(ShiroUtils.getUserId());
+        ua.setAdministrators("1");
+        return accountAccountMapper.insertUserAccount(ua);
     }
 
     /**
@@ -78,10 +89,10 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
             return;
         }
         // 1为隐藏
-        if (Objects.equals("1",accountAccount.getVisible())){
-            throw new RuntimeException(accountName+"已存在,且为隐藏状态");
+        if (Objects.equals("1", accountAccount.getVisible())) {
+            throw new RuntimeException(accountName + "已存在,且为隐藏状态");
         }
-        throw new RuntimeException(accountName+"已存在,换个名字试试");
+        throw new RuntimeException(accountName + "已存在,换个名字试试");
 
     }
 
@@ -129,6 +140,7 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
 
     /**
      * 账单分析
+     *
      * @param accountId 账单ID
      * @param modelMap
      */
@@ -137,18 +149,112 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
 
         AccountAccount accountAccount = accountAccountMapper.selectAccountNameById(accountId);
         // 按月账单分析
-        List<Map<String, Object>>accountImonthList =  accountAccountMapper.accountCountByImonth(accountId);
+        List<Map<String, Object>> accountImonthList = accountAccountMapper.accountCountByImonth(accountId);
         // 收入支出列表
         List<Map<String, Object>> accountClassList = accountAccountMapper.accountCount(accountId);
         // 总收入，总支出
-        BigDecimal totalPay = accountClassList.stream().filter(e->Objects.equals("支出",e.get("classType"))).map(e->(BigDecimal)e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal totalIncome = accountClassList.stream().filter(e->Objects.equals("收入",e.get("classType"))).map(e->(BigDecimal)e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalPay = accountClassList.stream().filter(e -> Objects.equals("支出", e.get("classType"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalIncome = accountClassList.stream().filter(e -> Objects.equals("收入", e.get("classType"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        modelMap.put("accountId",accountId);
+        modelMap.put("accountId", accountId);
         modelMap.put("accountName", accountAccount.getAccountName());
-        modelMap.put("accountImonthList",accountImonthList);
-        modelMap.put("accountClassList",accountClassList);
-        modelMap.put("totalPay",totalPay);
-        modelMap.put("totalIncome",totalIncome);
+        modelMap.put("accountImonthList", accountImonthList);
+        modelMap.put("accountClassList", accountClassList);
+        modelMap.put("totalPay", totalPay);
+        modelMap.put("totalIncome", totalIncome);
+    }
+
+    /**
+     * 查询已分配用户账户列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    @Override
+    public List<User> selectAllocatedList(User user) {
+        return accountAccountMapper.selectAllocatedList(user);
+    }
+
+    /**
+     * 取消授权用户账户
+     *
+     * @param userAccount 用户和账户关联信息
+     * @return 结果
+     */
+    @Override
+    public int deleteAuthUser(UserAccount userAccount) {
+        administrators(ShiroUtils.getUserId(), userAccount.getAccountId());
+        return accountAccountMapper.deleteUserRoleInfo(userAccount);
+    }
+
+    /**
+     * 批量取消授权用户账户
+     *
+     * @param accountId 账户ID
+     * @param userIds   需要删除的用户数据ID
+     * @return 结果
+     */
+    @Override
+    public int deleteAuthUsers(Long accountId, String userIds) {
+        administrators(ShiroUtils.getUserId(), accountId);
+        return accountAccountMapper.deleteUserRoleInfos(accountId, Convert.toLongArray(userIds));
+    }
+
+    /**
+     * 根据条件分页查询未分配用户账户列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    @Override
+    public List<User> selectUnallocatedList(User user) {
+        return accountAccountMapper.selectUnallocatedList(user);
+    }
+
+    /**
+     * 批量选择授权用户账户
+     *
+     * @param accountId 账户ID
+     * @param userIds   需要删除的用户数据ID
+     * @return 结果
+     */
+    @Override
+    public int insertAuthUsers(Long accountId, String userIds) {
+        administrators(ShiroUtils.getUserId(), accountId);
+        Long[] users = Convert.toLongArray(userIds);
+        // 新增用户与账户管理
+        List<UserAccount> list = new ArrayList<UserAccount>();
+        for (Long userId : users) {
+            UserAccount ua = new UserAccount();
+            ua.setUserId(userId);
+            ua.setAccountId(accountId);
+            list.add(ua);
+        }
+        return accountAccountMapper.batchUserAccount(list);
+    }
+
+    /**
+     * 校验用户账户管理员
+     *
+     * @param userId    用户ID
+     * @param accountId 账户ID
+     */
+    private void administrators(Long userId, Long accountId) {
+        UserAccount userAccount = accountAccountMapper.selectUserAccount(userId, accountId);
+        if (!Objects.equals("1", userAccount.getAdministrators())) {
+            throw new RuntimeException("非账户管理员，禁止修改");
+        }
+    }
+
+    /**
+     * 获取用户账户管理
+     *
+     * @param userId    用户id
+     * @param accountId 账户ID
+     * @return
+     */
+    @Override
+    public UserAccount selectUserAccount(Long userId, Long accountId) {
+        return accountAccountMapper.selectUserAccount(userId, accountId);
     }
 }

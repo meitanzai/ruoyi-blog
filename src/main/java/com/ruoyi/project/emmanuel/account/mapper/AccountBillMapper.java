@@ -12,18 +12,41 @@ public interface AccountBillMapper {
 
     List<AccountAccount> getAccount();
 
-    List<AccountBill> countMoneyByMonth(AccountBill accountBill);
+    /**
+     * 账单详情统计列表
+     *
+     * @param accountBill
+     * @return
+     */
+    List<AccountBill> countMoneyByMonth(@Param("accountBill") AccountBill accountBill, @Param("userId") Long userId);
 
+    /**
+     * 支出统计
+     *
+     * @param month 年-月
+     * @return
+     */
+    List<AccountBill> billPayConunt(@Param("month") String month, @Param("userId") Long userId);
 
-    List<AccountBill> billPayConunt(String month);
+    /**
+     * 收入统计
+     *
+     * @param month 年-月
+     * @return
+     */
+    List<AccountBill> billIncomeConunt(@Param("month") String month, @Param("userId") Long userId);
 
-    List<AccountBill> billIncomeConunt(String month);
-
-    List<AccountMoney> countFullCalendarList(@Param("month") String month);
+    /**
+     * 账单详情-按月统计
+     *
+     * @param month 年-月
+     * @return
+     */
+    List<AccountMoney> countFullCalendarList(@Param("month") String month, @Param("userId") Long userId);
 
     /**
      * 记账账户分析
      */
-    List<Map<String, Object>> accountAnalysis(@Param("accountId") Long accountId,@Param("classType")String classType);
+    List<Map<String, Object>> accountAnalysis(@Param("accountId") Long accountId, @Param("classType") String classType);
 
 }

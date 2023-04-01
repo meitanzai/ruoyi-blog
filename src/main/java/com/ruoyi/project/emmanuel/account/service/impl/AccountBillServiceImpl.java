@@ -1,8 +1,8 @@
 package com.ruoyi.project.emmanuel.account.service.impl;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.utils.ToolUtils;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
 import com.ruoyi.project.emmanuel.account.domain.AccountBill;
 import com.ruoyi.project.emmanuel.account.domain.AccountMoney;
@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +38,7 @@ public class AccountBillServiceImpl implements IAccountBillService {
 
     @Override
     public List<AccountBill> countMoneyByMonth(AccountBill accountBill) {
-        List<AccountBill> accountBillList = accountBillMapper.countMoneyByMonth(accountBill);
+        List<AccountBill> accountBillList = accountBillMapper.countMoneyByMonth(accountBill,ShiroUtils.getUserId());
         accountBillList.stream().forEach(e -> {
             e.setBalance(e.getIncome().subtract(e.getPay()));
         });
@@ -44,9 +47,10 @@ public class AccountBillServiceImpl implements IAccountBillService {
 
     @Override
     public HashMap<String, Object> billConunt(String month) {
+        Long userId = ShiroUtils.getUserId();
         HashMap<String, Object> map = new HashMap<>();
         // 支出统计
-        List<AccountBill> accountPayBillList = accountBillMapper.billPayConunt(month);
+        List<AccountBill> accountPayBillList = accountBillMapper.billPayConunt(month,userId);
         if (ToolUtils.isNotEmpty(accountPayBillList)) {
             List<String> payTypeList = accountPayBillList.stream().map(AccountBill::getName).collect(Collectors.toList());
             map.put("payTypeList", payTypeList);
@@ -56,7 +60,7 @@ public class AccountBillServiceImpl implements IAccountBillService {
         }
 
         // 收入统计
-        List<AccountBill> accountIncomeBillList = accountBillMapper.billIncomeConunt(month);
+        List<AccountBill> accountIncomeBillList = accountBillMapper.billIncomeConunt(month,userId);
         List<String> incomeTypeList = accountIncomeBillList.stream().map(AccountBill::getName).collect(Collectors.toList());
         List<BigDecimal> incomeMoneyList = accountIncomeBillList.stream().map(AccountBill::getIncome).collect(Collectors.toList());
         map.put("incomeTypeList", incomeTypeList);
@@ -64,9 +68,14 @@ public class AccountBillServiceImpl implements IAccountBillService {
         return map;
     }
 
+    /**
+     * 账单详情-按月统计
+     * @param month 年-月
+     * @return
+     */
     @Override
     public List<AccountBill> fullCalendarList(String month) {
-        List<AccountMoney> accountMonies = accountBillMapper.countFullCalendarList(month);
+        List<AccountMoney> accountMonies = accountBillMapper.countFullCalendarList(month,ShiroUtils.getUserId());
         List<AccountBill> accountBillList = new ArrayList<>();
         accountMonies.stream().forEach(e -> {
             // 支出

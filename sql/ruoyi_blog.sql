@@ -100,11 +100,12 @@ COMMIT;
 DROP TABLE IF EXISTS `account_user_account`;
 CREATE TABLE `account_user_account` (
                                         `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-                                        `post_id` bigint(20) NOT NULL COMMENT '账户ID',
-                                        `del_flag` char(1) DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-                                        PRIMARY KEY (`user_id`,`post_id`) USING BTREE
+                                        `account_id` bigint(20) NOT NULL COMMENT '账户ID',
+                                        `administrators` char(1) DEFAULT '0' COMMENT '管理员（1管理员 ,0非管理员）',
+                                        PRIMARY KEY (`user_id`,`account_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户与记账账户关联表';
 
+SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 -- Records of account_user_account
 -- ----------------------------

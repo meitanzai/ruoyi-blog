@@ -109,8 +109,15 @@
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + detailFlag + '" href="javascript:void(0)" onclick="detail(\'' + row.id + '\')"><i class="fa fa-edit"></i>详情</a> ');
                         actions.push('<a class="btn btn-success btn-xs ' + analysisFlag + '" href="javascript:void(0)" onclick="analysis(\'' + row.id + '\')"><i class="fa fa-bar-chart-o"></i>分析</a> ');
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        var more = [];
+                        if (row.administrators === '1' ) {
+                            more.push("<a class='btn btn-default btn-xs " + editFlag + "' href='javascript:void(0)' onclick='authUser(" + row.id + ")'><i class='fa fa-user'></i> 分配用户</a>");
+                        }else{
+                            more.push("<a class='btn btn-default btn-xs " + editFlag + "' href='javascript:void(0)' onclick='authUser(" + row.id + ")'><i class='fa fa-user'></i>查看用户</a>");
+                        }
+                        more.push("<a class='btn btn-default btn-xs " + removeFlag + "' href='javascript:void(0)' onclick='$.operate.remove(" + row.id + ")'><i class='fa fa-remove'></i>删除</a>");
+                        more.push("<a class='btn btn-default btn-xs " + editFlag + "' href='javascript:void(0)' onclick='$.operate.edit(" + row.id + ")'><i class='fa fa-edit'></i>编辑</a>");
+                        actions.push('<a tabindex="0" class="btn btn-info btn-xs" role="button" data-container="body" data-placement="left" data-toggle="popover" data-html="true" data-trigger="hover" data-content="' + more.join('') + '"><i class="fa fa-chevron-circle-right"></i>更多操作</a>');
                         return actions.join('');
                     }
                 }]
@@ -128,6 +135,12 @@
     function analysis(id) {
         var url = prefix+'/accountAnalysisPage/' + id;
         $.modal.openTab("账目明细", url);
+    }
+
+    /* 账户管理-分配用户 */
+    function authUser(id) {
+        var url = prefix + '/authUser/' + id;
+        $.modal.openTab("分配用户", url);
     }
 </script>
 </body>
