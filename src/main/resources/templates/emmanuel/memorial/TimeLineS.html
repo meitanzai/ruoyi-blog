@@ -35,7 +35,7 @@
                         <a th:onclick="openTimeLineSDetail([[${item.id}]])" shiro:hasPermission="timeline:s:detail" class="btn btn-sm btn-primary"> 更多信息</a>
 <!--                        <span class="vertical-date">-->
 <!--                         	今天 <br>-->
-                         <small th:text="${#dates.format(item.createTime,'yyyy-MM-dd HH:mm:ss')}">2月3日</small>
+                         发布时间：<small th:text="${#dates.format(item.createTime,'yyyy-MM-dd HH:mm:ss')}">2月3日</small>
                      </span>
                     </div>
                 </div>
@@ -117,7 +117,6 @@
     function addTimeLineS() {
         var mId = [[${mId}]]
         var url = '/memorial/TimeLineS/add/' + mId;
-        // $.modal.openTab("账目明细", url);
         $.modal.openFull("新增时间轴", url);
     }
 

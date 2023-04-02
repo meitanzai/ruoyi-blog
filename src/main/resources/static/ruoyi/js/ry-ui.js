@@ -1341,8 +1341,7 @@ var table = {
                 $.ajax(config)
             },
             // 保存选项卡信息
-            // openTabName（标题），openTabUrl（地址）保存之后选卡页方式打开指定路径  $.modal.openTab(openTabName,openTabUrl);
-            saveTab: function(url, data, callback,openTabName,openTabUrl) {
+            saveTab: function(url, data, callback) {
                 var config = {
                     url: url,
                     type: "post",
@@ -1355,7 +1354,7 @@ var table = {
                         if (typeof callback == "function") {
                             callback(result);
                         }
-                        $.operate.successTabCallback(result,openTabName,openTabUrl);
+                        $.operate.successTabCallback(result);
                     }
                 };
                 $.ajax(config)
@@ -1412,7 +1411,7 @@ var table = {
                 $.modal.enable();
             },
             // 选项卡成功回调执行事件（父窗体静默更新）
-            successTabCallback: function(result,openTabName,openTabUrl) {
+            successTabCallback: function(result) {
                 if (result.code == web_status.SUCCESS) {
                     var topWindow = $(window.parent.document);
                     var currentId = $('.page-tabs-content', topWindow).find('.active').attr('data-panel');
@@ -1437,10 +1436,6 @@ var table = {
                     $.modal.alertError(result.msg);
                 }
                 $.modal.closeLoading();
-                if (openTabName != null && openTabUrl != null){
-                    $.modal.openTab(openTabName,openTabUrl);
-                    $.modal.closeLoading();
-                }
             }
         },
         // 校验封装处理
