@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Validator;
-
-import com.ruoyi.project.system.user.domain.AuthUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -512,7 +510,7 @@ public class UserServiceImpl implements IUserService
                     BeanValidators.validateWithException(validator, user);
                     user.setPassword(password);
                     user.setCreateBy(operName);
-                    this.insertUser(user);
+                    userMapper.insertUser(user);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + user.getLoginName() + " 导入成功");
                 }
@@ -523,7 +521,7 @@ public class UserServiceImpl implements IUserService
                     checkUserDataScope(u.getUserId());
                     user.setUserId(u.getUserId());
                     user.setUpdateBy(operName);
-                    this.updateUser(user);
+                    userMapper.updateUser(user);
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + user.getLoginName() + " 更新成功");
                 }
@@ -564,5 +562,4 @@ public class UserServiceImpl implements IUserService
     {
         return userMapper.updateUser(user);
     }
-
 }
