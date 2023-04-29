@@ -80,6 +80,11 @@ public class MtoComment {
     private String ip;
 
     /**
+     * ip地址
+     */
+    private String ipAddr;
+
+    /**
      * 父级名称
      */
     private String parentNickName;

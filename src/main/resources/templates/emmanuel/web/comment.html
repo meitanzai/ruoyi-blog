@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <style>
+        .comment_address {
+            padding: 3px 5px;
+            color: #fd7e14;
+            background-color: #fff4e6;
+            border-radius: 5px;
+        }
+    </style>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--    <meta name="keywords" th:content="${SITE_CONFIG.SITE_KWD}">-->
@@ -59,6 +67,8 @@
                                 <div class="metadata">
                                         <span class="date"
                                               th:text="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm:ss')}">2020年01月11日17:20:56</span>
+                                        <div class="comment_address"
+                                              th:if="${not #strings.isEmpty(comment.ipAddr)}"> <span th:text="${comment.ipAddr}"></span> </div>
                                 </div>
                                 <div class="text" th:utext="${comment.content}">
                                     非常好

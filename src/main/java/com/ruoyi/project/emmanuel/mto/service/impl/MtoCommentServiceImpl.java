@@ -3,6 +3,7 @@ package com.ruoyi.project.emmanuel.mto.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.utils.AddressUtils;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.IpUtils;
 import com.ruoyi.common.utils.ToolUtils;
@@ -59,6 +60,11 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
         comment.setStatus("0");
         String ipAddr = IpUtils.getIpAddr(request);
         comment.setIp(ToolUtils.isEmpty(IpUtils.inetAton(ipAddr)) ? null : String.valueOf(IpUtils.inetAton(ipAddr)));
+        try {
+            comment.setIpAddr(AddressUtils.getRemoteAddressByIP(ipAddr));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         comment.setCreateTime(DateUtils.getNowDate());
         return commentMapper.insert(comment);
     }
