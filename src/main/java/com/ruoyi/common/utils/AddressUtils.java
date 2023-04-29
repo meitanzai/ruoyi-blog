@@ -79,6 +79,10 @@ public class AddressUtils {
                     return UNKNOWN;
                 }
                 JSONObject obj = JSONObject.parseObject(rspStr);
+                if (!Objects.equals(obj.getInteger("code"), 200)){
+                    log.error("获取地理位置异常 {}", obj);
+                    return UNKNOWN;
+                }
                 String province = obj.getString("province");
                 String city = obj.getString("city");
                 String area = obj.getString("area");
