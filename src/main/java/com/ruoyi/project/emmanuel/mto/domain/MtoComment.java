@@ -130,4 +130,10 @@ public class MtoComment {
     @TableField(exist = false)
     private String createTimeFormt;
 
+    /**
+     * 是否存在下级，1存在下级
+     */
+    @TableField(exist = false)
+    private String below;
+
 }

@@ -111,7 +111,9 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
         if (null != postId) {
             commentList = commentMapper.selectByPostId(postId);
             commentList.stream().forEach(e -> {
-                e.setReplyComments(commentMapper.selectByPid(e.getId()));
+                if (Objects.equals("1",e.getBelow())) {
+                    e.setReplyComments(commentMapper.selectByPid(e.getId()));
+                }
             });
         }
         return commentList;

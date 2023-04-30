@@ -62,8 +62,9 @@ $(function () {
                         '			<div class="comment-top">' +
                         '				<span class="comment-nickName">' +
                         '					<a href="javascript:void(0)">' + value.nickName + '</a>' +
+                        '				<span class="comment-time" >' + value.createTime +
                         '				</span>' +
-                        '				<span class="comment-time">' + value.createTime +
+                        '                   <span style="padding: 3px 5px; color: #fd7e14; background-color: #fff4e6; border-radius: 5px;"> '+value.ipAddr +'</span>'
                         '				</span>' +
                         '			</div>' +
                         '           <div class="comment-content">';
@@ -87,7 +88,8 @@ $(function () {
                                 '       </a>' +
                                 '       <div class="media-body">' +
                                 '           <a href="#">' + reply.nickName +
-                                '                   </a> <small class="text-muted">'+ reply.createTime +'</small> ' + reply.content +
+                                '                   </a> <small style="padding: 3px 5px; color: #fd7e14; background-color: #fff4e6; border-radius: 5px;">' +reply.ipAddr+ '</small>' +
+                                ' <small >'+ reply.createTime +'</small> '+ reply.content +
                                 '       </div>' +
                                 '    </div> </br>' ;
                         }
