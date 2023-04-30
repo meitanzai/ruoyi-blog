@@ -127,4 +127,7 @@ public class MtoComment {
     @TableField(exist = false)
     private String parentContent;
 
+    @TableField(exist = false)
+    private String createTimeFormt;
+
 }

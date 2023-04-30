@@ -66,7 +66,7 @@
                                 </a>
                                 <div class="metadata">
                                         <span class="date"
-                                              th:text="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm:ss')}">2020年01月11日17:20:56</span>
+                                              th:text="${comment.createTimeFormt}">2020年01月11日17:20:56</span>
                                         <div class="comment_address"
                                               th:if="${not #strings.isEmpty(comment.ipAddr)}"> <span th:text="${comment.ipAddr}"></span> </div>
                                 </div>
@@ -96,7 +96,9 @@
                                         </a>
                                         <div class="metadata">
                                                 <span class="date"
-                                                      th:text="${#dates.format(reply.createTime,'yyyy-MM-dd HH:mm:ss')}">2020年01月11日17:23:20</span>
+                                                      th:text="${reply.createTimeFormt}">2020年01月11日17:23:20</span>
+                                            <div class="comment_address"
+                                                 th:if="${not #strings.isEmpty(reply.ipAddr)}"> <span th:text="${reply.ipAddr}"></span> </div>
                                         </div>
                                         <div class="text" th:text="${reply.content}">
                                             这个我喜欢

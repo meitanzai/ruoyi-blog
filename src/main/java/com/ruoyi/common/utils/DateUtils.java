@@ -259,4 +259,33 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         String week = format.format(date);
         return week;
     }
+
+    /**
+     * 时间转换为几小时前，几天前
+     * @param dateTime 时间
+     */
+    public static String getShortTime(Date dateTime){
+        String shortstring = null;
+        if (ToolUtils.isEmpty(dateTime)){
+          return shortstring = "未知时间";
+        }
+        long now = Calendar.getInstance().getTimeInMillis();
+        long deltime = (now -  dateTime.getTime()) / 1000;
+        if (deltime > 365 * 24 * 60 * 60) {
+            shortstring = (int) (deltime / (365 * 24 * 60 * 60)) + "年前";
+        } else if (deltime > 30 * 24 * 60 * 60 ) {
+            shortstring = (int) (deltime / (30 * 24 * 60 * 60)) + "月前";
+        } else if (deltime > 24 * 60 * 60) {
+            shortstring = (int) (deltime / (24 * 60 * 60)) + "天前";
+        } else if (deltime > 60 * 60) {
+            shortstring = (int) (deltime / (60 * 60)) + "小时前";
+        } else if (deltime > 60) {
+            shortstring = (int) (deltime / (60)) + "分前";
+        } else if (deltime > 1) {
+            shortstring = deltime + "秒前";
+        } else {
+            shortstring = "1秒前";
+        }
+        return shortstring;
+    }
 }

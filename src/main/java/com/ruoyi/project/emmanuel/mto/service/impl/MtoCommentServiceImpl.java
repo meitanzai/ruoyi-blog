@@ -85,7 +85,10 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
         Page<MtoComment> commentPage = commentMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
         List<MtoComment> allComment =commentPage.getRecords();
                 allComment.stream().forEach(e -> {
-                    e.setReplyComments(commentMapper.selectAllLowerLevel(e.getId()));
+                    e.setCreateTimeFormt(DateUtils.getShortTime(e.getCreateTime()));
+                    List<MtoComment> sonCommentList = commentMapper.selectAllLowerLevel(e.getId());
+                    sonCommentList.forEach(k->k.setCreateTimeFormt(DateUtils.getShortTime(k.getCreateTime())));
+                    e.setReplyComments(sonCommentList);
                 }
         );
         modelMap.put("comments", allComment);
