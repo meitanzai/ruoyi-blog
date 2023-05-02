@@ -73,4 +73,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </update>
+
+    <delete id="deleteMtoCommentRecursion" parameterType="String">
+        delete
+        mto_c
+from mto_comment mto_c
+         right join (select T3.id
+                     FROM (SELECT @codes                            as _ids,
+                                  (SELECT @codes := GROUP_CONCAT(id)
+                                   FROM mto_comment
+                                   WHERE FIND_IN_SET(p_id, @codes)) as T1,
+                                  @l := @l + 1                      as level_
+                           FROM mto_comment,
+                                (SELECT @codes := #{id}, @l := 0) T4
+                           WHERE @codes IS NOT NULL) T2,
+                          mto_comment T3
+                     WHERE FIND_IN_SET(T3.id, T2._ids)) mto_l on mto_l.id = mto_c.id
+    </delete>
 </mapper>

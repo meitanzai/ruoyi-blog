@@ -1,5 +1,6 @@
 package com.ruoyi.project.emmanuel.mto.mapper;
 
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.project.emmanuel.mto.domain.MtoComment;
 import org.apache.ibatis.annotations.Param;
@@ -37,10 +38,21 @@ public interface MtoCommentMapper extends BaseMapper<MtoComment> {
 
     /**
      * 批量审核留言
+     *
      * @param ids
      * @param loginName
      * @param nowDate
      * @return
      */
-    int examineMtoCommentByIds(@Param("ids") String[] ids, @Param("loginName")String loginName,@Param("nowDate") Date nowDate);
+    int examineMtoCommentByIds(@Param("ids") String[] ids, @Param("loginName") String loginName, @Param("nowDate") Date nowDate);
+
+    /**
+     * 递归删除
+     *
+     * @param id id
+     * @return
+     * @InterceptorIgnore(blockAttack = "true") Prohibition of full table deletion 禁止完整表删除
+     */
+    @InterceptorIgnore(blockAttack = "true")
+    int deleteMtoCommentRecursion(String id);
 }

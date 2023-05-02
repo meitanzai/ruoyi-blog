@@ -138,7 +138,12 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
      */
     @Override
     public int deleteMtoCommentByIds(String ids) {
-        return commentMapper.deleteMtoCommentByIds(Convert.toStrArray(ids));
+        String[] idArr = Convert.toStrArray(ids);
+        int i = 0;
+        for (String id : idArr) {
+           i = i+ commentMapper.deleteMtoCommentRecursion(id);
+        }
+        return i;
     }
 
     /**
