@@ -55,4 +55,26 @@ public interface MtoCommentMapper extends BaseMapper<MtoComment> {
      */
     @InterceptorIgnore(blockAttack = "true")
     int deleteMtoCommentRecursion(String id);
+
+    /**
+     * 根据评论ID获取所属文章ID
+     * @param idArr
+     * @return
+     */
+    List<Long> selectCommentPostId(String[] idArr);
+
+    /**
+     * 更新博客评论数
+     * @param postIdList 文章id集合
+     */
+    void updatePostCommentsByPostId(@Param("postIdList") List<Long> postIdList);
+
+    /**
+     * 更新博客评论数
+     *
+     * @param ids 评论id集合
+     * @return
+     */
+    int updatePostCommentsByCommentId(@Param("ids") String[] ids);
+
 }

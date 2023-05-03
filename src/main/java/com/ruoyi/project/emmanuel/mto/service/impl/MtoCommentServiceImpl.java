@@ -15,6 +15,7 @@ import com.ruoyi.project.emmanuel.mto.service.IMtoCommentService;
 import com.ruoyi.project.emmanuel.mto.service.IWebPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -137,11 +138,17 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteMtoCommentByIds(String ids) {
         String[] idArr = Convert.toStrArray(ids);
+        // 查询被删除评论所属文章
+        List<Long> postIdList =  commentMapper.selectCommentPostId(idArr);
         int i = 0;
         for (String id : idArr) {
            i = i+ commentMapper.deleteMtoCommentRecursion(id);
+        }
+        if (ToolUtils.isNotEmpty(postIdList)){
+            commentMapper.updatePostCommentsByPostId(postIdList);
         }
         return i;
     }
@@ -153,7 +160,10 @@ public class MtoCommentServiceImpl extends ServiceImpl<MtoCommentMapper, MtoComm
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int examineMtoCommentByIds(String ids) {
-        return commentMapper.examineMtoCommentByIds(Convert.toStrArray(ids), ShiroUtils.getLoginName(),DateUtils.getNowDate());
+        int i = commentMapper.examineMtoCommentByIds(Convert.toStrArray(ids), ShiroUtils.getLoginName(), DateUtils.getNowDate());
+        commentMapper.updatePostCommentsByCommentId(Convert.toStrArray(ids));
+        return i;
     }
 }

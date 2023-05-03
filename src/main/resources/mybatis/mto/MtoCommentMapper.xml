@@ -90,4 +90,35 @@ from mto_comment mto_c
                           mto_comment T3
                      WHERE FIND_IN_SET(T3.id, T2._ids)) mto_l on mto_l.id = mto_c.id
     </delete>
+
+    <select id="selectCommentPostId" resultType="java.lang.Long">
+        select distinct post_id from mto_comment where id in
+        <foreach item="id" collection="idArr" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <update id="updatePostCommentsByPostId">
+        update mto_post p left join mto_comment c on p.id = c.post_id
+        set p.comments = ifnull((select count(cx.id) from mto_comment cx where cx.post_id = c.post_id and cx.status = 1
+        group by
+        cx.post_id),0)
+        where p.id in
+        <foreach item="id" collection="postIdList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="updatePostCommentsByCommentId" parameterType="arraylist">
+        update mto_post p left join mto_comment c on p.id = c.post_id
+        set p.comments = (select count(cx.id)
+        from mto_comment cx
+        where cx.post_id = c.post_id
+        and cx.status = 1
+        group by cx.post_id)
+        where c.id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 </mapper>
