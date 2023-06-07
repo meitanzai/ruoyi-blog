@@ -501,7 +501,6 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
 
         // 文章详情
         WebMtoPost webMtoPost = this.selectMtoPostById(articleId);
-        modelMap.put("mtoPost", webMtoPost);
 
         // 如果存在密码，输入密码
         String blogPwd = webMtoPost.getPwd();
@@ -530,11 +529,13 @@ public class WebPostServiceImpl extends ServiceImpl<WebPostMapper, WebMtoPost> i
         this.selectCategory(modelMap);
 
         // 专题，侧边栏显示专题文章
-        List<WebMtoPost> specialPostList = new ArrayList<WebMtoPost>();
         if (Objects.equals("2", webMtoPost.getChannelType())) {
-            specialPostList = postMapper.selectSpecial(webMtoPost.getChannelId());
+            List<WebMtoPost> specialPostList = postMapper.selectSpecial(webMtoPost.getChannelId());
+            webMtoPost.setSpecialPostList(specialPostList);
         }
-        modelMap.put("specialPostList", specialPostList);
+
+        modelMap.put("mtoPost", webMtoPost);
+
 
         // 是否开启文章页面静态化(true开启)
         if (RuoYiConfig.isPageStaticEnabled()) {

@@ -178,13 +178,13 @@
             </div>
 
             <!--    专栏开始        -->
-            <div class="other-item" th:if="${not #lists.isEmpty(specialPostList)}">
+            <div class="other-item" th:if="${not #lists.isEmpty(mtoPost.specialPostList)}">
                 <div class="panel-heading" style="background-color: #e8e3e3">
                     <h3 class="panel-title">专栏内容</h3>
                 </div>
                 <div class="inner">
                     <ul class=" mt20 special-list-article" style="max-height: 300px; overflow:auto;">
-                        <li th:each="specialPost : ${specialPostList}"><a
+                        <li th:each="specialPost : ${mtoPost.specialPostList}"><a
                                 th:href="@{/blog/article/{id}(id=${specialPost.id})}"
                                 th:text="${specialPost.title}"> </a></li>
                     </ul>

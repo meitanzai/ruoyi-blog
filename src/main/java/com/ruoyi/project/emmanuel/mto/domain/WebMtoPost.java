@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 文章表题对象 mto_post
@@ -143,5 +144,11 @@ public class WebMtoPost implements Serializable {
      */
     @TableField(exist = false)
     private String channelType;
+
+    /**
+     * 专题目录  侧边栏显示
+     */
+    @TableField(exist = false)
+    private List<WebMtoPost> specialPostList;
 
 }
