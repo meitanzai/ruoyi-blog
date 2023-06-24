@@ -28,6 +28,11 @@ public class AddressUtils {
      */
     public static final String IP_URL = "https://ip.useragentinfo.com/json";
 
+    /**
+     * https://api.vore.top/api/IPv4?v4=123.121.179.195
+     */
+    public static final String VORE_URL = "https://api.vore.top/api/IPv4";
+
     // 未知地址
     public static final String UNKNOWN = "XX XX";
 
@@ -94,6 +99,35 @@ public class AddressUtils {
         return UNKNOWN;
     }
 
+    private static String getVoreAddressByIP(String ip){
+        // 内网不查询
+        if (IpUtils.internalIp(ip)) {
+            return "内网IP";
+        }
+        if (RuoYiConfig.isAddressEnabled()) {
+            try {
+                String rspStr = HttpUtils.sendGet(VORE_URL, "v4=" + ip , Constants.UTF8);
+                if (StringUtils.isEmpty(rspStr)) {
+                    log.error("获取地理位置异常 {}", ip);
+                    return UNKNOWN;
+                }
+                JSONObject obj = JSONObject.parseObject(rspStr);
+                if (!Objects.equals(obj.getInteger("code"), 200)){
+                    log.error("获取地理位置异常 {}", obj);
+                    return UNKNOWN;
+                }
+                JSONObject ipData = obj.getJSONObject("ipdata");
+                String province = ipData.getString("info1"); //
+                String city = ipData.getString("info2");
+                String area = ipData.getString("info3");
+                return String.format("%s %s %s", province, city, area);
+            } catch (Exception e) {
+                log.error("获取地理位置异常 {}", e);
+            }
+        }
+        return UNKNOWN;
+    }
+
     /**
      * 以最优的方式根据IP获取地址
      *
@@ -107,7 +141,8 @@ public class AddressUtils {
         }
         String address = null;
         if (RuoYiConfig.isAddressEnabled()) {
-            address = AddressUtils.getRealAddressByIP(ip);
+            address = AddressUtils.getVoreAddressByIP(ip);
+            address = Objects.equals(UNKNOWN, address) ?  AddressUtils.getRealAddressByIP(ip) :address;
             address = Objects.equals(UNKNOWN, address) ? AddressUtils.getWhoisAddressByIP(ip) : address;
             address = Objects.equals(UNKNOWN, address) ? RegionUtil.getRegionFormat(ip) : address;
         }
