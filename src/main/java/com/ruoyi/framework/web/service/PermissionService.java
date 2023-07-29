@@ -1,14 +1,15 @@
 package com.ruoyi.framework.web.service;
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import com.ruoyi.common.utils.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import com.ruoyi.common.utils.StringUtils;
+
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 
 /**
  * RuoYi首创 js调用 thymeleaf 实现按钮权限可见性
@@ -52,7 +53,7 @@ public class PermissionService
     /**
      * 验证用户是否具有以下任意一个权限，无权限返回hidden用于隐藏（如需返回Boolean使用hasAnyPermissions）
      *
-     * @param permissions 以 PERMISSION_NAMES_DELIMETER 为分隔符的权限列表
+     * @param permissions 以 PERMISSION_DELIMETER 为分隔符的权限列表
      * @return 用户是否具有以下任意一个权限
      */
     public String hasAnyPermi(String permissions)
@@ -129,7 +130,7 @@ public class PermissionService
     /**
      * 验证用户是否具有以下任意一个权限。
      *
-     * @param permissions 以 PERMISSION_NAMES_DELIMETER 为分隔符的权限列表
+     * @param permissions 以 PERMISSION_DELIMETER 为分隔符的权限列表
      * @return 用户是否具有以下任意一个权限
      */
     public boolean hasAnyPermissions(String permissions)

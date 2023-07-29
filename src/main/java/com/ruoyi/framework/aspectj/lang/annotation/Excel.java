@@ -1,17 +1,18 @@
 package com.ruoyi.framework.aspectj.lang.annotation;
 
+import com.ruoyi.common.utils.poi.ExcelHandlerAdapter;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.math.BigDecimal;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import com.ruoyi.common.utils.poi.ExcelHandlerAdapter;
 
 /**
  * 自定义导出Excel数据注解
- *
+ * 
  * @author ruoyi
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -59,12 +60,12 @@ public @interface Excel
     public int roundingMode() default BigDecimal.ROUND_HALF_EVEN;
 
     /**
-     * 导出时在excel中每个列的高度 单位为字符
+     * 导出时在excel中每个列的高度
      */
     public double height() default 14;
 
     /**
-     * 导出时在excel中每个列的宽 单位为字符
+     * 导出时在excel中每个列的宽度
      */
     public double width() default 16;
 

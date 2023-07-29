@@ -1,8 +1,8 @@
 package com.ruoyi.framework.web.domain;
 
+import com.ruoyi.common.utils.StringUtils;
 import java.util.HashMap;
 import java.util.Objects;
-import com.ruoyi.common.utils.StringUtils;
 
 /**
  * 操作消息提醒
@@ -188,7 +188,17 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public boolean isSuccess()
     {
-        return !isError();
+        return Objects.equals(Type.SUCCESS.value, this.get(CODE_TAG));
+    }
+
+    /**
+     * 是否为警告消息
+     *
+     * @return 结果
+     */
+    public boolean isWarn()
+    {
+        return Objects.equals(Type.WARN.value, this.get(CODE_TAG));
     }
 
     /**
