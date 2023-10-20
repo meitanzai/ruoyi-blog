@@ -26,4 +26,10 @@ public @interface RepeatSubmit
      * 提示消息
      */
     public String message() default "不允许重复提交，请稍后再试";
+
+    /**
+     * 是否校验相同数据
+     * @return
+     */
+    public boolean repeatDate() default false;
 }

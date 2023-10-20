@@ -1,7 +1,6 @@
 package com.ruoyi.project.emmanuel.mto.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
@@ -153,7 +152,7 @@ public class WebPostController extends BaseController {
      */
     @PostMapping("love")
     @ResponseBody
-    @RepeatSubmit(interval = 10000, message = "您手速真快")
+    @RepeatSubmit(interval = 60000, message = "本月已点赞",repeatDate = true)
     public AjaxResult loveFavors(HttpServletRequest request,
                                  Long postId,
                                  Integer favorsType) {

@@ -1,13 +1,14 @@
 package com.ruoyi.framework.interceptor.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.framework.interceptor.RepeatSubmitInterceptor;
 import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 判断请求url和数据是否和上一次相同， 
@@ -45,7 +46,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
             if (sessionMap.containsKey(url))
             {
                 Map<String, Object> preDataMap = (Map<String, Object>) sessionMap.get(url);
-                if (compareParams(nowDataMap, preDataMap) && compareTime(nowDataMap, preDataMap, annotation.interval()))
+                if (compareParams(nowDataMap, preDataMap, annotation.repeatDate()) && compareTime(nowDataMap, preDataMap, annotation.interval()))
                 {
                     return true;
                 }
@@ -60,11 +61,11 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor
     /**
      * 判断参数是否相同
      */
-    private boolean compareParams(Map<String, Object> nowMap, Map<String, Object> preMap)
+    private boolean compareParams(Map<String, Object> nowMap, Map<String, Object> preMap, boolean repeatDate)
     {
         String nowParams = (String) nowMap.get(REPEAT_PARAMS);
         String preParams = (String) preMap.get(REPEAT_PARAMS);
-        return nowParams.equals(preParams);
+        return repeatDate ? true : nowParams.equals(preParams);
     }
 
     /**
