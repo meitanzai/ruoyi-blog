@@ -329,6 +329,7 @@ INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, 
 INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (13, 0, '新闻', '', 6, 'fa fa-hacker-news', 1, '2022-03-23 20:49:26', '2022-03-26 18:56:51', 1, '/blog/news');
 INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (15, 0, '主页', '我的主页', 0, 'fa fa-home', 1, '2022-09-02 16:24:24', '2022-09-02 16:24:24', 1, '/blog/homepage');
 INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (16, 0, 'vue博客', '', 101, 'glyphicon glyphicon-book', 1, '2023-01-15 14:05:00', '2023-01-15 14:05:54', 1, 'https://giteekey.gitee.io/blog-notes/');
+INSERT INTO `mto_category` ( id, pid, name, description, sort, icon, status, create_time, update_time, type, page_url) VALUES (17, 0, '聊天室', '', 7, 'glyphicon glyphicon-comment', 1, '2023-10-21 13:00:41', '2023-10-21 13:00:41', 1, 'http://localhost:10011/blog/websocket/chatRoom');
 COMMIT;
 
 -- ----------------------------

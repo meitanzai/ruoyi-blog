@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>登录界面</title>
+    <script id="jqbb" th:src="@{/js/jquery.min.js?v=3.6.3}"></script>
+    <th:block th:include="include :: toastr-css"/>
+    <style type="text/css">
+        body {
+            background-color: #fff
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        .login-bg {
+            height: 100%;
+            background-image: linear-gradient(160deg, #b100ff 20%, #00b3ff 80%);
+            position: relative;
+        }
+
+        .content {
+            position: absolute;
+            width: 320px;
+            height: 400px;
+            background: rgba(255, 255, 255, .9);
+            border-radius: 10px;
+            top: 50%;
+            left: 50%;
+            margin-left: -160px;
+            margin-top: -230px;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        .title h2 {
+            font-size: 22px;
+            line-height: 60px;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .login-center {
+            height: 50px;
+            border-radius: 5px;
+            border: 1px solid #00ACED;
+            margin-bottom: 30px;
+            line-height: 50px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .login-center .t-name {
+            font-size: 14px;
+            float: left;
+            height: 100%;
+            width: 58px;
+        }
+
+        .login-center .inp {
+            font-size: 14px;
+            float: left;
+            border: none;
+            background: transparent;
+            height: 100%;
+            outline: none;
+        }
+
+        .login-center .inp.code-inp {
+            width: 120px;
+        }
+
+        .login-center .get-code {
+            float: right;
+            height: 100%;
+        }
+
+        .login-center .get-code .code-btn {
+            color: #a07941;
+            font-size: 12px;
+            border: 1px solid #a07941;
+            border-radius: 5px;
+            padding: 5px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .login-button {
+            background-color: #1e90ff;
+            height: 50px;
+            border-radius: 5px;
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="login-bg">
+    <div class="content">
+        <div class="title">
+            <h2>聊天室</h2>
+        </div>
+        <div class="form-box">
+            <div class="login-center">
+                <span class="t-name">昵称：</span><input type="text" name="" id="nickName" class="inp nickname-inp"
+                                                        maxlength="8" value=""
+                                                        placeholder="请输入您的昵称">
+            </div>
+            <div class="login-center">
+                <span class="t-name">邮箱：</span><input type="email" name="" id="mailBox" class="inp phone-inp"
+                                                        maxlength="20" value="" placeholder="请输入您的邮箱">
+            </div>
+            <div class="login-center">
+                <span class="t-name">验证码：</span><input type="text" name="" id="codeNum" class="inp code-inp"
+                                                          maxlength="8" value=""
+                                                          onkeyup="value=value.replace(/[^\d]/g,'')"
+                                                          placeholder="请输入验证码">
+                <div class="get-code">
+                    <span class="code-btn">获取验证码</span>
+                </div>
+            </div>
+            <div class="login-button">登陆</div>
+        </div>
+    </div>
+</div>
+<script>
+    var code_time = 60;
+
+    function time_inter() {
+        $('.code-btn').addClass('code-btn-gray');
+        var timeflag = setInterval(function () {
+            $('.code-btn-gray').html("" + code_time + "s后获取").css({
+                "cursor": "no-",
+                "color": "#999"
+            });
+            code_time--;
+            if (code_time == 0) {
+                clearInterval(timeflag);
+                $('.code-btn-gray').html("获取验证码").css({
+                    "cursor": "pointer",
+                    "color": "#a07941"
+                });
+                $('.code-btn').removeClass('code-btn-gray');
+            }
+        }, 1000)
+        code_time = 60;
+    }
+
+    //获取验证码点击事件
+    $('.code-btn').on('click', function () {
+        if ($(this).hasClass('code-btn-gray')) {
+            return false;
+        }
+        var mailBox = $('#mailBox').val();
+        var nickName = $('#nickName').val();
+        var uuid = [[${uuid}]];
+        if (nickName.trim().length == 0) {
+            alert('请输入昵称')
+            return;
+        }
+        if (mailBox.trim().length == 0) {
+            alert('请输入邮箱')
+            return;
+        }
+        //按钮倒计时
+        time_inter();
+        // 发送请求
+        $.ajax({
+            url: '/blog/websocket/verifyCode',
+            cache: false,
+            data: {"mailBox": mailBox, "uuid": uuid},
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (data) {
+                console.log(data)
+                debugger
+                if (typeof d == "function") {
+                    d(data);
+                }
+                if (data.code == 0) {
+                    toastr.success(data.msg)
+                }
+                if (data.code == 500) {
+                    toastr.error(data.msg)
+                }
+            },
+        });
+
+    })
+
+    //给整个浏览器窗口添加键盘按下事件
+    $(window).keydown(function (event) {
+        //如果按的是回车键，则提交登录请求
+        if (event.keyCode == 13) {
+            $(".login-button").click();
+        }
+    })
+
+
+    //登录事件
+    $('.login-button').on('click', function () {
+        var uuid = [[${uuid}]];
+        var nickName = $('#nickName').val();
+        var mailBox = $('#mailBox').val();
+        var codeNum = $('#codeNum').val();
+        if (nickName.trim().length == 0) {
+            alert('请输入昵称')
+            return;
+        }
+        if (mailBox.trim().length == 0) {
+            alert('请输入邮箱')
+            return;
+        }
+        if (codeNum.trim().length == 0) {
+            alert('验证码不能为空')
+            return;
+        }
+
+
+        // 发送请求
+        $.ajax({
+            url: '/blog/websocket/loginChatRoom',
+            cache: false,
+            data: {"nickName": nickName, "target": mailBox, "codeNum": codeNum, "uuid": uuid},
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (r) {
+                console.log(r)
+                if (r.code == 0) {
+                    location.href = '/blog/websocket/chatRoom';
+                } else {
+                    $("#codeNum").val("");
+                    toastr.error(r.msg);
+                }
+                $.modal.closeLoading();
+            }
+        });
+    })
+
+</script>
+<th:block th:include="include :: toastr-js"/>
+
+<script type="text/javascript" src="https://idm-su.baidu.com/su.js"></script>
+</body>
+
+</html>

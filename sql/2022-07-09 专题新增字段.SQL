@@ -83,3 +83,6 @@ CREATE TABLE `account_user_account` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户与记账账户关联表';
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- 聊天室
+INSERT INTO `mto_category` ( id, pid, name, description, sort, icon, status, create_time, update_time, type, page_url) VALUES (17, 0, '聊天室', '', 7, 'glyphicon glyphicon-comment', 1, '2023-10-21 13:00:41', '2023-10-21 13:00:41', 1, 'http://localhost:10011/blog/websocket/chatRoom');
