@@ -1,16 +1,15 @@
 package com.ruoyi.common.utils;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
 import java.lang.management.ManagementFactory;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.*;
-
-import org.apache.commons.lang3.time.DateFormatUtils;
+import java.time.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 时间工具类
@@ -147,18 +146,18 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     /**
      * 计算时间差
      *
-     * @param endTime 最后时间
+     * @param endDate   最后时间
      * @param startTime 开始时间
      * @return 时间差（天/小时/分钟）
      */
-    public static String timeDistance(Date endTime, Date startTime)
+    public static String timeDistance(Date endDate, Date startTime)
     {
         long nd = 1000 * 24 * 60 * 60;
         long nh = 1000 * 60 * 60;
         long nm = 1000 * 60;
         // long ns = 1000;
         // 获得两个时间的毫秒时间差异
-        long diff = endTime.getTime() - startTime.getTime();
+        long diff = endDate.getTime() - startTime.getTime();
         // 计算差多少天
         long day = diff / nd;
         // 计算差多少小时
