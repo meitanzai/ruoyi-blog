@@ -748,6 +748,7 @@ var table = {
                     if ($.common.isNotEmpty(pageNumber)) {
                         params.pageNumber = pageNumber;
                     }
+                    params.pageNumber = 1;
                     if ($.common.isNotEmpty(pageSize)) {
                         params.pageSize = pageSize;
                     }
