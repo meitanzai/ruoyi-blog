@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ruoyi.common.utils.CookieUtils;
 import com.ruoyi.common.utils.MailUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.ToolUtils;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.uuid.SnowFlake;
 import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
 import com.ruoyi.framework.web.controller.BaseController;
@@ -12,7 +14,6 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.emmanuel.mto.domain.MtoSecurityCode;
 import com.ruoyi.project.emmanuel.mto.mapper.MtoSecurityCodeMapper;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -126,12 +127,21 @@ public class WebSocketController extends BaseController {
 
         String chatToken = CookieUtils.getCookie(request, response, webChatTokenName);
 
-        // 未登录
-        if (StringUtils.isBlank(chatToken)) {
-            modelMap.put("uuid", String.valueOf(SnowFlake.getNextId()));
-            return prefix + "/loginChatRoom";
+        // 登录聊天室用户
+        if (StringUtils.isNotBlank(chatToken)) {
+            return prefix + "/chatRoom";
         }
-        return prefix + "/chatRoom";
+
+        // 登录系统用户
+        if (ShiroUtils.isLogin()) {
+            // 生成 chatToken
+            String chatToke = ShiroUtils.getSysUser().getUserName() + "," + SnowFlake.getNextId();
+            CookieUtils.setCookie(response, webChatTokenName, Base64.encodeBase64String(chatToke.getBytes()));
+            return prefix + "/chatRoom";
+        }
+
+        modelMap.put("uuid", String.valueOf(SnowFlake.getNextId()));
+        return prefix + "/loginChatRoom";
     }
 
     /**
