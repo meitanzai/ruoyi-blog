@@ -206,6 +206,7 @@ public class MtoPostServiceImpl implements IMtoPostService {
         // 删除缓存
         CacheUtils.remove(Constants.WEB_HOT_BLOG);
         CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
+        CacheUtils.remove(Constants.WEB_SLIDER);
         return i;
     }
 

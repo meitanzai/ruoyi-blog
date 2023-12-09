@@ -52,7 +52,7 @@ public class WebMtoPost implements Serializable {
     /**
      * 评论数
      */
-    private Long comments;
+    private Integer comments;
 
     /**
      * 创建时间
@@ -63,7 +63,7 @@ public class WebMtoPost implements Serializable {
     /**
      * 点赞
      */
-    private Long favors;
+    private Integer favors;
 
     /**
      * 轮播状态
@@ -73,12 +73,12 @@ public class WebMtoPost implements Serializable {
     /**
      * 推荐状态
      */
-    private Long featured;
+    private Integer featured;
 
     /**
      * 文章状态  0 发布
      */
-    private Long status;
+    private Integer status;
 
     /**
      * 摘要
@@ -103,12 +103,12 @@ public class WebMtoPost implements Serializable {
     /**
      * 查看次数
      */
-    private Long views;
+    private Integer views;
 
     /**
      * 总数量
      */
-    private Long weight;
+    private Integer weight;
 
     /**
      * 导航id

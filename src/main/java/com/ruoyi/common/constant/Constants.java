@@ -144,7 +144,7 @@ public class Constants
     public static final String WEB_HOT_BLOG = "web:hotBlog";
 
     /**
-     * 前台首页 轮播图
+     * 前台首页 推荐文章
      */
     public static final String WEB_RECOMMEND_BLOG = "web:recommendBlog";
 
