@@ -185,7 +185,7 @@
                     data: $.extend(parms, options.ajaxParams),
                     dataType: "json",
                     success: function(data, textStatus, jqXHR) {
-                        data = calculateObjectValue(options, options.responseHandler, [data], data);
+                    	data = calculateObjectValue(options, options.responseHandler, [data], data);
                         renderTable(data);
                         calculateObjectValue(options, options.onLoadSuccess, [data], data);
                     },
@@ -202,13 +202,13 @@
         var renderTable = function(data) {
             var list, totalPage = 0, currPage = 0;
             if (options.pagination) {
-                list = data.rows;  // 数据
+            	list = data.rows;  // 数据
                 currPage = options.pageNumber; // 当前页
                 totalPage = ~~((data.total - 1) / options.pageSize) + 1 // 总页数
                 target.totalPages  = totalPage;
                 target.totalRows = data.total; // 总记录数
             } else {
-                list = data;
+            	list = data;
             }
             data = list;
             var $tbody = target.find("tbody");
@@ -217,6 +217,8 @@
             if (!data || data.length <= 0) {
                 var _empty = '<tr><td colspan="' + options.columns.length + '"><div style="display: block;text-align: center;">没有找到匹配的记录</div></td></tr>'
                 $tbody.html(_empty);
+                options.pageNumber = 1;
+                initPagination(0, 0);
                 return;
             }
             // 缓存并格式化数据
@@ -271,6 +273,9 @@
             var pageTo = options.pageNumber * options.pageSize;
             if (pageTo > target.totalRows) {
                 pageTo = target.totalRows;
+            }
+            if (pageFrom > pageTo) {
+                pageFrom = pageTo;
             }
             html.push('<div class="pull-left pagination-detail">');
             html.push('<span class="pagination-info">' + formatShowingRows(pageFrom, pageTo, target.totalRows) + '</span>');
@@ -398,7 +403,7 @@
             $this.parent().addClass('active').siblings().removeClass('active');
             var $pagination = target.find(".fixed-table-pagination");
             options.pageSize = $this.text().toUpperCase() === target.totalRows ? target.totalRows : + $this.text();
-
+            
             if(target.totalRows < options.pageSize * options.pageNumber){
                 options.pageNumber = 1;
             }
@@ -442,7 +447,7 @@
                 var $thead = target.find("thead");
                 var $tbody = target.find("tbody");
                 var borderWidth = parseInt(target.css("border-left-width")) + parseInt(target.css("border-right-width"))
-
+                
                 $thead.css("width", $tbody.children(":first").width());
                 if(initFlag){
                     var resizeWaiter = false;
@@ -469,8 +474,8 @@
             var parentCodes = [];
             var rootFlag = false;
             $.each(data, function(index, item) {
-                if($.inArray(item[options.parentCode], parentCodes) == -1){
-                    parentCodes.push(item[options.parentCode]);
+            	if($.inArray(item[options.parentCode], parentCodes) == -1){
+            		parentCodes.push(item[options.parentCode]);
                 }
             });
             $.each(data, function(index, item) {
@@ -486,13 +491,13 @@
                 }
                 // 顶级节点校验判断，兼容0,'0','',null
                 var _defaultRootFlag = item[options.parentCode] == '0' ||
-                    item[options.parentCode] == 0 ||
-                    item[options.parentCode] == null ||
-                    item[options.parentCode] == '' ||
-                    $.inArray(item[options.code], parentCodes) > 0 && !rootFlag;
+                item[options.parentCode] == 0 ||
+                item[options.parentCode] == null ||
+                item[options.parentCode] == '' ||
+                $.inArray(item[options.code], parentCodes) > 0 && !rootFlag;
                 if (!item[options.parentCode] || (_root ? (item[options.parentCode] == options.rootIdValue) : _defaultRootFlag)) {
-                    rootFlag = true;
-                    if (!target.data_list["_root_"]) {
+                	rootFlag = true;
+                	if (!target.data_list["_root_"]) {
                         target.data_list["_root_"] = [];
                     }
                     if (!target.data_obj["id_" + item[options.code]]) {
@@ -594,20 +599,20 @@
                         $td.text(getItemField(item, column.field));
                     }
                     if (options.expandColumn == index) {
-                        if (_pagination) {
-                            if (item["isTreeLeaf"]) {
-                                $td.prepend('<span class="treetable-expander ' + _icon + '"></span>');
-                            } else {
-                                $td.prepend('<span class="treetable-expander"></span>')
-                            }
-                        } else {
-                            if (!isP) {
-                                $td.prepend('<span class="treetable-expander"></span>')
-                            } else {
-                                $td.prepend('<span class="treetable-expander ' + _icon + '"></span>');
-                            }
-                        }
-                        for (var int = 0; int < (lv - options.expandColumn); int++) {
+                    	if (_pagination) {
+                    	    if (item["isTreeLeaf"]) {
+                    	        $td.prepend('<span class="treetable-expander ' + _icon + '"></span>');
+                    	    } else {
+                    	        $td.prepend('<span class="treetable-expander"></span>')
+                    	    }
+                    	} else {
+	                        if (!isP) {
+	                            $td.prepend('<span class="treetable-expander"></span>')
+	                        } else {
+	                            $td.prepend('<span class="treetable-expander ' + _icon + '"></span>');
+	                        }
+                    	}
+                    	for (var int = 0; int < (lv - options.expandColumn); int++) {
                             $td.prepend('<span class="treetable-indent"></span>')
                         }
                     }
@@ -650,14 +655,14 @@
                         target.find("tbody").find("tr").removeClass("treetable-selected");
                         $(this).addClass("treetable-selected");
                     } else if (_ipt.attr("type") == "checkbox") {
-                        if (_ipt.prop('checked')) {
-                            _ipt.prop('checked', true);
-                            target.find("tbody").find("tr").removeClass("treetable-selected");
-                            $(this).addClass("treetable-selected");
-                        } else {
-                            _ipt.prop('checked', false);
-                            target.find("tbody").find("tr").removeClass("treetable-selected");
-                        }
+                    	if (_ipt.prop('checked')) {
+                    		_ipt.prop('checked', true);
+                    		target.find("tbody").find("tr").removeClass("treetable-selected");
+                    		$(this).addClass("treetable-selected");
+                    	} else {
+                    		_ipt.prop('checked', false);
+                    		target.find("tbody").find("tr").removeClass("treetable-selected");
+                    	}
                     } else {
                         if (_ipt.prop('checked')) {
                             _ipt.prop('checked', false);
@@ -684,27 +689,27 @@
                     var _id = tr.attr("data-id");
                     var _ls = target.find("tbody").find("tr[id^='" + row_id + "_']");
                     if (!options.pagination) {
-                        if (_isExpanded) {
-                            $(this).removeClass(options.expanderExpandedClass);
-                            $(this).addClass(options.expanderCollapsedClass);
-                            if (_ls && _ls.length > 0) {
-                                $.each(_ls, function(index, item) {
-                                    $(item).css("display", "none");
-                                });
-                            }
-                        } else {
-                            $(this).removeClass(options.expanderCollapsedClass);
-                            $(this).addClass(options.expanderExpandedClass);
-                            if (_ls && _ls.length > 0) {
-                                $.each(_ls, function(index, item) {
-                                    var _p_icon = $("#" + $(item).attr("pid")).children().eq(options.expandColumn).find(".treetable-expander");
-                                    var _p_display = $("#" + $(item).attr("pid")).css('display');
-                                    if (_p_icon.hasClass(options.expanderExpandedClass) && _p_display == 'table') {
-                                        $(item).css("display", "table");
-                                    }
-                                });
-                            }
-                        }
+	                    if (_isExpanded) {
+	                        $(this).removeClass(options.expanderExpandedClass);
+	                        $(this).addClass(options.expanderCollapsedClass);
+	                        if (_ls && _ls.length > 0) {
+	                            $.each(_ls, function(index, item) {
+	                                $(item).css("display", "none");
+	                            });
+	                        }
+	                    } else {
+	                        $(this).removeClass(options.expanderCollapsedClass);
+	                        $(this).addClass(options.expanderExpandedClass);
+	                        if (_ls && _ls.length > 0) {
+	                            $.each(_ls, function(index, item) {
+	                                var _p_icon = $("#" + $(item).attr("pid")).children().eq(options.expandColumn).find(".treetable-expander");
+	                                var _p_display = $("#" + $(item).attr("pid")).css('display');
+	                                if (_p_icon.hasClass(options.expanderExpandedClass) && _p_display == 'table') {
+	                                    $(item).css("display", "table");
+	                                }
+	                            });
+	                        }
+	                    }
                     } else {
                         var _ls = target.find("tbody").find("tr[id^='" + row_id + "_']");
                         if (_ls && _ls.length > 0) {
@@ -947,7 +952,7 @@
             return '每页显示 ' + pageNumber + ' 条记录';
         };
         var formatShowingRows = function (pageFrom, pageTo, totalRows) {
-            return '显示第 ' + pageFrom + ' 到第 ' + pageTo + ' 条记录，总共 ' + totalRows + ' 条记录。';
+        	return '显示第 ' + pageFrom + ' 到第 ' + pageTo + ' 条记录，总共 ' + totalRows + ' 条记录。';
         };
         // 初始化
         init();
