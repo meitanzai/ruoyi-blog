@@ -72,7 +72,12 @@
             columns: [{
                 checkbox: true
             },
-
+                {
+                    field: 'id',
+                    title: '唯一id',
+                    visible: false,  // 隐藏某列（列选项可见）
+                    ignore: true,    // 列选项不可见
+                },
                 {
                     field: 'key',
                     title: 'key'
