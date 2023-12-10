@@ -407,7 +407,6 @@ var table = {
             },
             // 导入Excel数据
             importExcel: function(formId, width, height) {
-                debugger;
                 table.set();
                 var currentId = $.common.isEmpty(formId) ? 'importTpl' : formId;
                 var _width = $.common.isEmpty(width) ? "400" : width;
@@ -600,10 +599,14 @@ var table = {
                 $.each(datas, function(index, dict) {
                     if (dict.dictValue == ('' + value)) {
                         var listClass = $.common.equals("default", dict.listClass) || $.common.isEmpty(dict.listClass) ? "" : "badge badge-" + dict.listClass;
-                        actions.push($.common.sprintf("<span class='%s'>%s</span>", listClass, dict.dictLabel));
+                        var cssClass = $.common.isNotEmpty(dict.cssClass) ? dict.cssClass : listClass;
+                        actions.push($.common.sprintf("<span class='%s'>%s</span>", cssClass, dict.dictLabel));
                         return false;
                     }
                 });
+                if (actions.length === 0) {
+                    actions.push($.common.sprintf("<span>%s</span>", value))
+                }
                 return actions.join('');
             },
             // 回显数据字典（字符串数组）
@@ -614,13 +617,18 @@ var table = {
                 var currentSeparator = $.common.isEmpty(separator) ? "," : separator;
                 var actions = [];
                 $.each(value.split(currentSeparator), function(i, val) {
+                    var match = false
                     $.each(datas, function(index, dict) {
                         if (dict.dictValue == ('' + val)) {
                             var listClass = $.common.equals("default", dict.listClass) || $.common.isEmpty(dict.listClass) ? "" : "badge badge-" + dict.listClass;
-                            actions.push($.common.sprintf("<span class='%s'>%s </span>", listClass, dict.dictLabel));
+                            actions.push($.common.sprintf("<span class='%s'>%s</span>", listClass, dict.dictLabel));
+                            match = true
                             return false;
                         }
                     });
+                    if (!match) {
+                        actions.push($.common.sprintf("<span> %s </span>", val));
+                    }
                 });
                 return actions.join('');
             },
@@ -747,9 +755,6 @@ var table = {
                 var tableId = $.common.isEmpty(tableId) ? table.options.id : tableId;
                 if (table.options.type == table_type.bootstrapTable) {
                     var params = $("#" + tableId).bootstrapTable('getOptions');
-                    if ($.common.isNotEmpty(pageNumber)) {
-                        params.pageNumber = pageNumber;
-                    }
                     params.pageNumber = 1;
                     if ($.common.isNotEmpty(pageSize)) {
                         params.pageSize = pageSize;
@@ -1042,6 +1047,26 @@ var table = {
                 createMenuItem(url, title);
                 closeItem(dataId);
             },
+            // 右侧弹出窗口打开
+            popupRight: function(title, url){
+                var width = 150;
+                if (top.location !== self.location) {
+                    if ($(top.window).outerWidth() < 400) {
+                        width = 50;
+                    }
+                }
+                top.layer.open({
+                    type: 2,
+                    offset: 'r',
+                    anim: 'slideLeft',
+                    move: false,
+                    title: title,
+                    shade: 0.3,
+                    shadeClose: true,
+                    area: [($(window).outerWidth() - width) + 'px', '100%'],
+                    content: url
+                });
+            },
             // 关闭选项卡
             closeTab: function (dataId) {
                 closeItem(dataId);
@@ -1109,8 +1134,7 @@ var table = {
                     width: width,
                     height: height,
                     url: _url,
-                    skin: 'layui-layer-gray',
-                    btn: ['关闭'],
+                    btn: 0,
                     yes: function (index, layero) {
                         $.modal.close(index);
                     }
@@ -1297,6 +1321,12 @@ var table = {
                 }
                 return url;
             },
+            // 右侧弹出详情
+            view: function(id){
+                table.set();
+                var url = table.options.viewUrl.replace("{id}", id);
+                $.modal.popupRight(table.options.modalName + "信息详情", url);
+            },
             // 保存信息 刷新表格
             save: function(url, data, callback) {
                 var config = {
@@ -1443,7 +1473,6 @@ var table = {
         },
         // 校验封装处理
         validate: {
-
             // 表单验证
             form: function (formId) {
                 var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
@@ -1714,12 +1743,12 @@ var table = {
                 if (!date) return;
                 if (!format) format = "yyyy-MM-dd";
                 switch (typeof date) {
-                    case "string":
-                        date = new Date(date.replace(/-/g, "/"));
-                        break;
-                    case "number":
-                        date = new Date(date);
-                        break;
+                case "string":
+                    date = new Date(date.replace(/-/g, "/"));
+                    break;
+                case "number":
+                    date = new Date(date);
+                    break;
                 }
                 if (!date instanceof Date) return;
                 var dict = {
