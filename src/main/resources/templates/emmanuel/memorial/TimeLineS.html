@@ -33,6 +33,8 @@
                         <p th:text="${item.summary}">上一年的销售业绩发布会。总结产品营销和销售趋势及销售的现状。
                         </p>
                         <a th:onclick="openTimeLineSDetail([[${item.id}]])" shiro:hasPermission="timeline:s:detail" class="btn btn-sm btn-primary"> 更多信息</a>
+                        <a th:onclick="removeTimeLineS([[${item.id}]])" shiro:hasPermission="timeline:s:remove" class="btn btn-sm btn-danger">删除 </a>
+
 <!--                        <span class="vertical-date">-->
 <!--                         	今天 <br>-->
                          发布时间：<small th:text="${#dates.format(item.createTime,'yyyy-MM-dd HH:mm:ss')}">2月3日</small>
@@ -124,7 +126,44 @@
         debugger
         var url = '/memorial/TimeLineS/detail/' + id;
         $.modal.openTab("详情",url,true);
+    }
+    // function removeTimeLineS(id) {
+    //     table.set();
+    //     debugger
+    //     $.modal.confirm("确定删除该条信息吗？", function() {
+    //         var url = "/memorial/TimeLineS/remove";
+    //         debugger
+    //         var data = { "ids": id };
+    //         $.operate.submit(url, "post", "json", data);
+    //         // $.modal.msgSuccessReload();
+    //         location.replace(location.href);
+    //     });
+    // }
+    function removeTimeLineS(id) {
+        table.set();
+        debugger
+        $.modal.confirm("确定删除该条信息吗？", function() {
+            var url = "/memorial/TimeLineS/remove";
+            debugger
+            var data = { "ids": id };
+            // $.operate.submit(url, "post", "json", data);
+            $.ajax({
+                type: "post",
+                url: url,
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data,"data");
+                    location.replace(location.href);
 
+                },
+                error: function(xhr, textStatus) {
+                    debugger
+                    console.log(xhr);
+                    console.log(textStatus);
+                }
+            });
+        });
     }
 </script>
 </body>
