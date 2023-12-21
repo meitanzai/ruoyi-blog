@@ -5,7 +5,7 @@
 	<th:block th:include="include :: jsonview-css" />
 </head>
 <body class="white-bg">
-<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 	<form class="form-horizontal m-t" id="signupForm">
 		<div class="form-group">
 			<label class="col-sm-2 control-label">操作模块：</label>
@@ -46,24 +46,24 @@
 			</div>
 		</div>
 	</form>
-</div>
-<th:block th:include="include :: footer" />
-<th:block th:include="include :: jsonview-js" />
-<script th:inline="javascript">
-	$(function() {
-		var operParam = [[${operLog.operParam}]];
-		if ($.common.isNotEmpty(operParam) && operParam.length < 2000) {
-			$("#operParam").JSONView(operParam);
-		} else {
-			$("#operParam").text(operParam);
-		}
-		var jsonResult = [[${operLog.jsonResult}]];
-		if ($.common.isNotEmpty(jsonResult) && jsonResult.length < 2000) {
-			$("#jsonResult").JSONView(jsonResult);
-		} else {
-			$("#jsonResult").text(jsonResult);
-		}
-	});
-</script>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: jsonview-js" />
+    <script th:inline="javascript">
+	    $(function() {
+	    	var operParam = [[${operLog.operParam}]];
+	    	if ($.common.isNotEmpty(operParam) && operParam.length < 2000) {
+	    		$("#operParam").JSONView(operParam);
+	    	} else {
+	    		$("#operParam").text(operParam);
+	    	}
+	    	var jsonResult = [[${operLog.jsonResult}]];
+	    	if ($.common.isNotEmpty(jsonResult) && jsonResult.length < 2000) {
+	    		$("#jsonResult").JSONView(jsonResult);
+	    	} else {
+	    		$("#jsonResult").text(jsonResult);
+	    	}
+	    });
+    </script>
 </body>
 </html>
