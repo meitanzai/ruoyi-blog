@@ -1,19 +1,5 @@
 package com.ruoyi.project.system.user.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.utils.security.AuthorizationUtils;
@@ -32,6 +18,17 @@ import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.role.service.IRoleService;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.service.IUserService;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户信息
@@ -153,6 +150,20 @@ public class UserController extends BaseController
         mmap.put("roles", User.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
         mmap.put("posts", postService.selectPostsByUserId(userId));
         return prefix + "/edit";
+    }
+
+    /**
+     * 查询用户详细
+     */
+    @RequiresPermissions("system:user:list")
+    @GetMapping("/view/{userId}")
+    public String view(@PathVariable("userId") Long userId, ModelMap mmap)
+    {
+        userService.checkUserDataScope(userId);
+        mmap.put("user", userService.selectUserById(userId));
+        mmap.put("roleGroup", userService.selectUserRoleGroup(userId));
+        mmap.put("postGroup", userService.selectUserPostGroup(userId));
+        return prefix + "/view";
     }
 
     /**
