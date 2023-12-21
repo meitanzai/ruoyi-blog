@@ -67,19 +67,30 @@
                 },
                 {
                     field: 'timeTitle',
-                    title: '名称'
+                    title: '名称',
+                    width: '250',
+                    formatter: function (value, row, index) {
+                        return '<a  detailFlag + href="javascript:void(0)" onclick="detail(\'' + row.id + '\')">' + value + '</a>';
+                    }
                 },
                 {
                     field: 'createBy',
-                    title: '创建者'
+                    title: '创建者',
+                    sortable: true,
+                    width: '50',
                 },
                 {
                     field: 'createTime',
-                    title: '创建时间'
+                    title: '创建时间',
+                    sortable: true,
+                    width: '50',
                 },
                 {
                     field: 'remark',
-                    title: '备注'
+                    title: '备注',
+                    formatter: function (value, row, index) {
+                        return $.table.tooltip(value, 18, "open");
+                    }
                 },
                 {
                     title: '操作',

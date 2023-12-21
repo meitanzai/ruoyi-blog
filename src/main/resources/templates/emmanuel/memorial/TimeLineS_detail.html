@@ -32,6 +32,8 @@
                     </div>
                     <div th:utext="${timeLineS.content}"></div>
                     <hr>
+                    <div style="text-align:right;">发布人: <span th:text="${timeLineS.createBy}"></span></div>
+                    <div style="text-align:right;"><span th:text="${#dates.format(timeLineS.createTime,'yyyy-MM-dd HH:mm:ss')}"></span></div>
                 </div>
             </div>
         </div>

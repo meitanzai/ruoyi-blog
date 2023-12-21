@@ -1653,4 +1653,45 @@ BEGIN;
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (2, 2);
 COMMIT;
 
+create table time_line_m
+(
+    id          bigint auto_increment comment '主键id'
+        primary key,
+    time_title  varchar(50)            null comment '时间轴名称',
+    create_by   varchar(64) default '' null comment '创建者',
+    create_time datetime               null comment '创建时间',
+    update_by   varchar(64) default '' null comment '更新者',
+    update_time datetime               null comment '更新时间',
+    remark      varchar(500)           null comment '备注'
+);
+
+create table time_line_s
+(
+    id          bigint auto_increment comment '主键id'
+        primary key,
+    summary     varchar(500)            null comment '摘要',
+    content     longtext                null,
+    status      char        default '0' not null comment '状态（0正常 1停用）',
+    create_by   varchar(64) default ''  null comment '创建者',
+    create_time datetime                null comment '创建时间',
+    time_title  varchar(50)             null comment '时间轴名称',
+    update_by   varchar(64) default ''  null comment '更新者',
+    update_time datetime                null comment '更新时间',
+    remark      varchar(500)            null comment '备注',
+    m_id        bigint                  null comment 'time_line_m主表id'
+);
+
+
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1159, '时间轴', 7, 1, '/memorial/TimeLineM', '', 'C', '0', '1', 'timeline:m:view', '#', 'admin', '2023-02-25 20:03:18', '', null, '时间轴主表菜单');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1160, '时间轴查询', 1159, 1, '#', '', 'F', '0', '1', 'timeline:m:list', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1161, '时间轴新增', 1159, 2, '#', '', 'F', '0', '1', 'timeline:m:add', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1162, '时间轴修改', 1159, 3, '#', '', 'F', '0', '1', 'timeline:m:edit', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1163, '时间轴删除', 1159, 4, '#', '', 'F', '0', '1', 'timeline:m:remove', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1164, '时间轴详情', 1159, 5, '#', '', 'F', '0', '1', 'timeline:m:detail', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1165, '时间轴详情新增', 1164, 6, '#', '', 'F', '0', '1', 'timeline:s:add', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1166, '时间轴详情查看更多', 1164, 7, '#', '', 'F', '0', '1', 'timeline:s:detail', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
+
+commit;
+
 SET FOREIGN_KEY_CHECKS = 1;
+

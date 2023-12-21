@@ -1,20 +1,19 @@
 package com.ruoyi.project.emmanuel.memorial.service.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.emmanuel.memorial.domain.TimeLineM;
 import com.ruoyi.project.emmanuel.memorial.mapper.TimeLineMMapper;
 import com.ruoyi.project.emmanuel.memorial.service.ITimeLineMService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.common.utils.text.Convert;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 时间轴主表Service业务层处理
@@ -49,7 +48,7 @@ public class TimeLineMServiceImpl extends ServiceImpl<TimeLineMMapper, TimeLineM
     public List<TimeLineM> selectTimeLineMList(TimeLineM timeLineM) {
         QueryWrapper<TimeLineM> qw = new QueryWrapper<>();
         if (ToolUtils.isNotEmpty(timeLineM.getTimeTitle())) {
-            qw.lambda().eq(TimeLineM::getTimeTitle, timeLineM.getTimeTitle());
+            qw.lambda().like(TimeLineM::getTimeTitle, timeLineM.getTimeTitle());
         }
          qw.lambda().orderByDesc(TimeLineM::getCreateTime);
         return timeLineMMapper.selectList(qw);

@@ -1,18 +1,18 @@
 package com.ruoyi.project.emmanuel.memorial.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.emmanuel.memorial.domain.TimeLineS;
 import com.ruoyi.project.emmanuel.memorial.mapper.TimeLineSMapper;
 import com.ruoyi.project.emmanuel.memorial.service.ITimeLineSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.common.utils.text.Convert;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 时间轴Service业务层处理
@@ -59,6 +59,7 @@ public class TimeLineSServiceImpl extends ServiceImpl<TimeLineSMapper, TimeLineS
     @Override
     public int insertTimeLineS(TimeLineS timeLineS) {
         timeLineS.setCreateTime(DateUtils.getNowDate());
+        timeLineS.setCreateBy(ShiroUtils.getLoginName());
         return timeLineSMapper.insert(timeLineS);
     }
 
@@ -71,6 +72,7 @@ public class TimeLineSServiceImpl extends ServiceImpl<TimeLineSMapper, TimeLineS
     @Override
     public int updateTimeLineS(TimeLineS timeLineS) {
         timeLineS.setUpdateTime(DateUtils.getNowDate());
+        timeLineS.setUpdateBy(ShiroUtils.getLoginName());
         return timeLineSMapper.updateById(timeLineS);
     }
 

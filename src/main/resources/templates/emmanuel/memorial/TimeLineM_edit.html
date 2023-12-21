@@ -16,7 +16,8 @@
         <div class="form-group">
             <label class="col-sm-3 control-label is-required">备注：</label>
             <div class="col-sm-8">
-                <textarea name="remark" class="form-control" required>[[*{remark}]]</textarea>
+                <textarea name="remark" id="myTextarea" placeholder="备注，建议不超过50个字字符" class="form-control" required maxlength="250"
+                          style="resize:none;color: #b3b3b3;border-radius: 0;border: none;height: 135px;background-color: #F8F8F8;">[[*{remark}]]</textarea>
             </div>
         </div>
     </form>

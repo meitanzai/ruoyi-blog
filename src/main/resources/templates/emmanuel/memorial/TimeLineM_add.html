@@ -15,7 +15,10 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label is-required">备注：</label>
                 <div class="col-sm-8">
-                    <textarea name="remark" class="form-control" required></textarea>
+                    <textarea name="remark" placeholder="备注，建议不超过50个字字符" class="form-control" required maxlength="250"
+                              style="resize:none;color: #b3b3b3;border-radius: 0;border: none;height: 135px;background-color: #F8F8F8;"
+                              onkeyup="textareaLength(this,250,'textareaMaxLength');"></textarea>
+                    <span id="textareaMaxLength" style="font-size:12px;float:right;right:0px;top:-5px;">0/250</span>
                 </div>
             </div>
         </form>
@@ -32,6 +35,18 @@
                 $.operate.save(prefix + "/add", $('#form-m-add').serialize());
             }
         }
+
+        // 限制文本框字数
+        function textareaLength(obj,maxlength,id){
+            var num=maxlength-obj.value.length;//获取文本框输入内容的长度
+            if(num<0){
+                num=0;//如果文本框文字小于零则让它显示为零
+            }
+            // document.getElementById(leng).innerHTML="/50";
+            //通过id获取到span标签在页面上的显示并对它的值进行拼接,就是把计算出来的结果+最大限制字数
+            document.getElementById(id).innerHTML=num+"/"+maxlength;
+        }
+
     </script>
 </body>
 </html>
