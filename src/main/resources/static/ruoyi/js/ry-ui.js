@@ -1134,6 +1134,8 @@ var table = {
                     width: width,
                     height: height,
                     url: _url,
+                    skin: 'layui-layer-gray',
+                    btn: ['关闭'],
                     btn: 0,
                     yes: function (index, layero) {
                         $.modal.close(index);
