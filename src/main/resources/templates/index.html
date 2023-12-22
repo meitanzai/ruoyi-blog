@@ -41,7 +41,7 @@
 				        </a>
 				        <div class="pull-left info">
 				          <p>[[${user.loginName}]]</p>
-				          <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+				          <a href="javascript:;"><i class="fa fa-circle text-success"></i> 在线</a>
 				          <a th:href="@{logout}" style="padding-left:5px;"><i class="fa fa-sign-out text-danger"></i> 注销</a>
 				        </div>
 				    </div>
@@ -58,11 +58,11 @@
                     <ul class="nav nav-second-level collapse">
 						<li th:each="cmenu : ${menu.children}">
 							<a th:if="${#lists.isEmpty(cmenu.children)}" th:class="${#strings.isEmpty(cmenu.target)} ? |menuItem| : ${cmenu.target}" th:utext="${cmenu.menuName}" th:href="@{${cmenu.url}}" th:data-refresh="${cmenu.isRefresh == '0'}">二级菜单</a>
-							<a th:if="${not #lists.isEmpty(cmenu.children)}" href="#">[[${cmenu.menuName}]]<span class="fa arrow"></span></a>
+							<a th:if="${not #lists.isEmpty(cmenu.children)}" href="javascript:;">[[${cmenu.menuName}]]<span class="fa arrow"></span></a>
 							<ul th:if="${not #lists.isEmpty(cmenu.children)}" class="nav nav-third-level">
 								<li th:each="emenu : ${cmenu.children}">
 								    <a th:if="${#lists.isEmpty(emenu.children)}" th:class="${#strings.isEmpty(emenu.target)} ? |menuItem| : ${emenu.target}" th:text="${emenu.menuName}" th:href="@{${emenu.url}}" th:data-refresh="${emenu.isRefresh == '0'}">三级菜单</a>
-								    <a th:if="${not #lists.isEmpty(emenu.children)}" href="#">[[${emenu.menuName}]]<span class="fa arrow"></span></a>
+								    <a th:if="${not #lists.isEmpty(emenu.children)}" href="javascript:;">[[${emenu.menuName}]]<span class="fa arrow"></span></a>
 								    <ul th:if="${not #lists.isEmpty(emenu.children)}" class="nav nav-four-level">
 								      	<li th:each="fmenu : ${emenu.children}"><a th:if="${#lists.isEmpty(fmenu.children)}" th:class="${#strings.isEmpty(fmenu.target)} ? |menuItem| : ${fmenu.target}" th:text="${fmenu.menuName}" th:href="@{${fmenu.url}}" th:data-refresh="${fmenu.isRefresh == '0'}">四级菜单</a></li>
 								    </ul>
@@ -72,7 +72,7 @@
 					</ul>
                 </li>
                 <li th:if="${demoEnabled}">
-                    <a href="#"><i class="fa fa-desktop"></i><span class="nav-label">实例演示</span><span class="fa arrow"></span></a>
+                    <a href="javascript:;"><i class="fa fa-desktop"></i><span class="nav-label">实例演示</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li> <a>表单<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
@@ -161,20 +161,20 @@
 							</ul>
                         </li>
                         <li>
-	                        <a href="#"><i class="fa fa-sitemap"></i>四层菜单<span class="fa arrow"></span></a>
+	                        <a href="javascript:;"><i class="fa fa-sitemap"></i>四层菜单<span class="fa arrow"></span></a>
 	                        <ul class="nav nav-third-level collapse">
 	                            <li>
 	                                <a href="#" id="damian">三级菜单1<span class="fa arrow"></span></a>
 	                                <ul class="nav nav-third-level">
 	                                    <li>
-	                                        <a href="#">四级菜单1</a>
+	                                        <a href="javascript:;">四级菜单1</a>
 	                                    </li>
 	                                    <li>
-	                                        <a href="#">四级菜单2</a>
+	                                        <a href="javascript:;">四级菜单2</a>
 	                                    </li>
 	                                </ul>
 	                            </li>
-	                            <li><a href="#">三级菜单2</a></li>
+	                            <li><a href="javascript:;">三级菜单2</a></li>
 	                        </ul>
 	                    </li>
                     </ul>
