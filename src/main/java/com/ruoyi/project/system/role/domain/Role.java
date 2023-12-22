@@ -10,7 +10,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
  * 角色表 sys_role
- *
+ * 
  * @author ruoyi
  */
 public class Role extends BaseEntity
@@ -194,18 +194,18 @@ public class Role extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-                .append("roleId", getRoleId())
-                .append("roleName", getRoleName())
-                .append("roleKey", getRoleKey())
-                .append("roleSort", getRoleSort())
-                .append("dataScope", getDataScope())
-                .append("status", getStatus())
-                .append("delFlag", getDelFlag())
-                .append("createBy", getCreateBy())
-                .append("createTime", getCreateTime())
-                .append("updateBy", getUpdateBy())
-                .append("updateTime", getUpdateTime())
-                .append("remark", getRemark())
-                .toString();
+            .append("roleId", getRoleId())
+            .append("roleName", getRoleName())
+            .append("roleKey", getRoleKey())
+            .append("roleSort", getRoleSort())
+            .append("dataScope", getDataScope())
+            .append("status", getStatus())
+            .append("delFlag", getDelFlag())
+            .append("createBy", getCreateBy())
+            .append("createTime", getCreateTime())
+            .append("updateBy", getUpdateBy())
+            .append("updateTime", getUpdateTime())
+            .append("remark", getRemark())
+            .toString();
     }
 }

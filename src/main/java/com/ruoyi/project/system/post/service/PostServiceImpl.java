@@ -14,7 +14,7 @@ import com.ruoyi.project.system.user.mapper.UserPostMapper;
 
 /**
  * 岗位信息 服务层处理
- * 
+ *
  * @author ruoyi
  */
 @Service
@@ -28,7 +28,7 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 查询岗位信息集合
-     * 
+     *
      * @param post 岗位信息
      * @return 岗位信息集合
      */
@@ -40,7 +40,7 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 查询所有岗位
-     * 
+     *
      * @return 岗位列表
      */
     @Override
@@ -51,7 +51,7 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 根据用户ID查询岗位
-     * 
+     *
      * @param userId 用户ID
      * @return 岗位列表
      */
@@ -76,7 +76,7 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 通过岗位ID查询岗位信息
-     * 
+     *
      * @param postId 岗位ID
      * @return 角色对象信息
      */
@@ -88,7 +88,7 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 批量删除岗位信息
-     * 
+     *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
@@ -109,7 +109,7 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 新增保存岗位信息
-     * 
+     *
      * @param post 岗位信息
      * @return 结果
      */
@@ -122,7 +122,7 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 修改保存岗位信息
-     * 
+     *
      * @param post 岗位信息
      * @return 结果
      */
@@ -135,7 +135,7 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 通过岗位ID查询岗位使用数量
-     * 
+     *
      * @param postId 岗位ID
      * @return 结果
      */
@@ -147,12 +147,12 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 校验岗位名称是否唯一
-     * 
+     *
      * @param post 岗位信息
      * @return 结果
      */
     @Override
-    public Boolean checkPostNameUnique(Post post)
+    public boolean checkPostNameUnique(Post post)
     {
         Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
         Post info = postMapper.checkPostNameUnique(post.getPostName());
@@ -165,12 +165,12 @@ public class PostServiceImpl implements IPostService
 
     /**
      * 校验岗位编码是否唯一
-     * 
+     *
      * @param post 岗位信息
      * @return 结果
      */
     @Override
-    public Boolean checkPostCodeUnique(Post post)
+    public boolean checkPostCodeUnique(Post post)
     {
         Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
         Post info = postMapper.checkPostCodeUnique(post.getPostCode());

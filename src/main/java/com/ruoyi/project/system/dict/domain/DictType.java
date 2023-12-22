@@ -9,7 +9,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
  * 字典类型表 sys_dict_type
- *
+ * 
  * @author ruoyi
  */
 public class DictType extends BaseEntity

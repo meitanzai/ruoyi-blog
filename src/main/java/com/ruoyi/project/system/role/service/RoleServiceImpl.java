@@ -280,7 +280,7 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
-    public Boolean checkRoleNameUnique(Role role)
+    public boolean checkRoleNameUnique(Role role)
     {
         Long roleId = StringUtils.isNull(role.getRoleId()) ? -1L : role.getRoleId();
         Role info = roleMapper.checkRoleNameUnique(role.getRoleName());
@@ -298,7 +298,7 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
-    public Boolean checkRoleKeyUnique(Role role)
+    public boolean checkRoleKeyUnique(Role role)
     {
         Long roleId = StringUtils.isNull(role.getRoleId()) ? -1L : role.getRoleId();
         Role info = roleMapper.checkRoleKeyUnique(role.getRoleKey());

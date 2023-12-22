@@ -53,22 +53,22 @@
     this.$element.find('[data-dismiss="fileinput"]').on('click.bs.fileinput', $.proxy(this.clear, this))
   },
 
-      Fileinput.prototype.verifySizes = function(files) {
-        if (typeof this.options.maxSize === 'undefined') return true
+  Fileinput.prototype.verifySizes = function(files) {
+    if (typeof this.options.maxSize === 'undefined') return true
 
-        var max = parseFloat(this.options.maxSize)
-        if (max !== this.options.maxSize) return true
+    var max = parseFloat(this.options.maxSize)
+    if (max !== this.options.maxSize) return true
 
-        for (var i = 0; i < files.length; i++) {
-          var size = typeof files[i].size !== 'undefined' ? files[i].size : null
-          if (size === null) continue
+    for (var i = 0; i < files.length; i++) {
+      var size = typeof files[i].size !== 'undefined' ? files[i].size : null
+      if (size === null) continue
 
-          size = size / 1000 / 1000 /* convert from bytes to MB */
-          if (size > max) return false
-        }
+      size = size / 1000 / 1000 /* convert from bytes to MB */
+      if (size > max) return false
+    }
 
-        return true
-      }
+    return true
+  }
 
   Fileinput.prototype.change = function(e) {
     var files = e.target.files === undefined ? (e.target && e.target.value ? [{ name: e.target.value.replace(/^.+\\/, '')}] : []) : e.target.files
@@ -147,20 +147,20 @@
     }
   },
 
-      Fileinput.prototype.setImageTransform = function($img, file) {
-        var Fileinput = this;
-        var reader = new FileReader();
-        reader.onload = function(me) {
-          var transform = false;
-          var view = new DataView(reader.result);
-          var exif = Fileinput.getImageExif(view);
-          if (exif) {
+  Fileinput.prototype.setImageTransform = function($img, file) {
+      var Fileinput = this;
+      var reader = new FileReader();
+      reader.onload = function(me) {
+        var transform = false;
+        var view = new DataView(reader.result);
+        var exif = Fileinput.getImageExif(view);
+        if (exif) {
             Fileinput.resetOrientation($img, exif);
-          }
         }
-
-        reader.readAsArrayBuffer(file);
       }
+
+      reader.readAsArrayBuffer(file);
+  }
 
   Fileinput.prototype.getImageExif = function(view) {
     if (view.getUint16(0, false) != 0xFFD8) {
@@ -169,15 +169,15 @@
     var length = view.byteLength, offset = 2;
     while (offset < length) {
       var marker = view.getUint16(offset, false);
-      offset += 2;
+          offset += 2;
       if (marker == 0xFFE1) {
         if (view.getUint32(offset += 2, false) != 0x45786966) {
           return -1;
         }
         var little = view.getUint16(offset += 6, false) == 0x4949;
-        offset += view.getUint32(offset + 4, little);
+            offset += view.getUint32(offset + 4, little);
         var tags = view.getUint16(offset, little);
-        offset += 2;
+            offset += 2;
         for (var i = 0; i < tags; i++)   {
           if (view.getUint16(offset + (i * 12), little) == 0x0112) {
             return view.getUint16(offset + (i * 12) + 8, little);
@@ -185,7 +185,7 @@
         }
       }
       else if ((marker & 0xFF00) != 0xFF00){
-        break;
+         break;
       } else {
         offset += view.getUint16(offset, false);
       }
@@ -195,44 +195,44 @@
   }
 
   Fileinput.prototype.resetOrientation = function($img, transform) {
-    var img = new Image();
+  var img = new Image();
 
-    img.onload = function() {
-      var width = img.width,
-          height = img.height,
-          canvas = document.createElement('canvas'),
-          ctx = canvas.getContext("2d");
+  img.onload = function() {
+    var width = img.width,
+        height = img.height,
+        canvas = document.createElement('canvas'),
+        ctx = canvas.getContext("2d");
 
-      // set proper canvas dimensions before transform & export
-      if ([5,6,7,8].indexOf(transform) > -1) {
-        canvas.width = height;
-        canvas.height = width;
-      } else {
-        canvas.width = width;
-        canvas.height = height;
-      }
+    // set proper canvas dimensions before transform & export
+    if ([5,6,7,8].indexOf(transform) > -1) {
+      canvas.width = height;
+      canvas.height = width;
+    } else {
+      canvas.width = width;
+      canvas.height = height;
+    }
 
-      // transform context before drawing image
-      switch (transform) {
-        case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
-        case 3: ctx.transform(-1, 0, 0, -1, width, height ); break;
-        case 4: ctx.transform(1, 0, 0, -1, 0, height ); break;
-        case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
-        case 6: ctx.transform(0, 1, -1, 0, height , 0); break;
-        case 7: ctx.transform(0, -1, -1, 0, height , width); break;
-        case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
-        default: ctx.transform(1, 0, 0, 1, 0, 0);
-      }
+    // transform context before drawing image
+    switch (transform) {
+      case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
+      case 3: ctx.transform(-1, 0, 0, -1, width, height ); break;
+      case 4: ctx.transform(1, 0, 0, -1, 0, height ); break;
+      case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
+      case 6: ctx.transform(0, 1, -1, 0, height , 0); break;
+      case 7: ctx.transform(0, -1, -1, 0, height , width); break;
+      case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
+      default: ctx.transform(1, 0, 0, 1, 0, 0);
+    }
 
-      // draw image
-      ctx.drawImage(img, 0, 0);
+    // draw image
+    ctx.drawImage(img, 0, 0);
 
-      // export base64
-      $img.attr('src', canvas.toDataURL());
-    };
-
-    img.src = $img.attr('src');
+    // export base64
+    $img.attr('src', canvas.toDataURL());
   };
+
+  img.src = $img.attr('src');
+};
 
   Fileinput.prototype.clear = function(e) {
     if (e) e.preventDefault()
@@ -261,23 +261,23 @@
     }
   },
 
-      Fileinput.prototype.reset = function() {
-        this.clear()
+  Fileinput.prototype.reset = function() {
+    this.clear()
 
-        this.$hidden.val(this.original.hiddenVal)
-        this.$preview.html(this.original.preview)
-        this.$element.find('.fileinput-filename').text('')
+    this.$hidden.val(this.original.hiddenVal)
+    this.$preview.html(this.original.preview)
+    this.$element.find('.fileinput-filename').text('')
 
-        if (this.original.exists) this.$element.addClass('fileinput-exists').removeClass('fileinput-new')
-        else this.$element.addClass('fileinput-new').removeClass('fileinput-exists')
+    if (this.original.exists) this.$element.addClass('fileinput-exists').removeClass('fileinput-new')
+     else this.$element.addClass('fileinput-new').removeClass('fileinput-exists')
 
-        this.$element.trigger('reseted.bs.fileinput')
-      },
+    this.$element.trigger('reseted.bs.fileinput')
+  },
 
-      Fileinput.prototype.trigger = function(e) {
-        this.$input.trigger('click')
-        e.preventDefault()
-      }
+  Fileinput.prototype.trigger = function(e) {
+    this.$input.trigger('click')
+    e.preventDefault()
+  }
 
 
   // FILEUPLOAD PLUGIN DEFINITION

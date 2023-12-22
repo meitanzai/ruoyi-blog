@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * 用户对象 sys_user
- * 
+ *
  * @author ruoyi
  */
 public class User extends BaseEntity
@@ -398,19 +398,5 @@ public class User extends BaseEntity
             .append("dept", getDept())
             .append("roles", getRoles())
             .toString();
-    }
-
-    /**
-     * 非数据库字段：账户ID
-     */
-    private Long accountId;
-
-    @JsonIgnore
-    public Long getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
     }
 }

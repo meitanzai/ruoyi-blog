@@ -30,14 +30,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<collection  property="roles"    javaType="java.util.List"  resultMap="RoleResult" />
 	</resultMap>
 
-	<resultMap id="deptResult" type="com.ruoyi.project.system.dept.domain.Dept">
-		<id     property="deptId"   column="dept_id"     />
-		<result property="parentId" column="parent_id"   />
+	<resultMap id="deptResult" type="Dept">
+		<id     property="deptId"    column="dept_id"     />
+		<result property="parentId"  column="parent_id"   />
 		<result property="ancestors" column="ancestors"   />
-		<result property="deptName" column="dept_name"   />
-		<result property="orderNum" column="order_num"   />
-		<result property="leader"   column="leader"   />
-		<result property="status"   column="dept_status" />
+		<result property="deptName"  column="dept_name"   />
+		<result property="orderNum"  column="order_num"   />
+		<result property="leader"    column="leader"      />
+		<result property="status"    column="dept_status" />
 	</resultMap>
 
 	<resultMap id="RoleResult" type="Role">

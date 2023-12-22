@@ -18,7 +18,7 @@ public class JobInvokeUtil
     /**
      * 执行方法
      *
-     * @param job 系统任务
+     * @param sysJob 系统任务
      */
     public static void invokeMethod(Job job) throws Exception
     {

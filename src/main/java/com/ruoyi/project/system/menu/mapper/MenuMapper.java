@@ -51,7 +51,7 @@ public interface MenuMapper
 
     /**
      * 根据角色ID查询权限
-     *
+     * 
      * @param roleId 角色ID
      * @return 权限列表
      */

@@ -45,7 +45,7 @@
 					</div>
 				</form>
 			</div>
-
+			
 			<div class="btn-group-sm" id="toolbar" role="group">
 				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="monitor:operlog:remove">
 		            <i class="fa fa-remove"></i> 删除
@@ -57,13 +57,13 @@
 		            <i class="fa fa-download"></i> 导出
 		        </a>
 	        </div>
-
+	        
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table"></table>
 			</div>
 		</div>
 	</div>
-
+	
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: bootstrap-select-js" />
 	<script th:inline="javascript">
@@ -99,7 +99,7 @@
                     formatter: function(value, row, index) {
                         return $.table.tooltip(value);
                     }
-		        },
+                },
 		        {
 		            field: 'businessType',
 		            title: '操作类型',
@@ -162,7 +162,7 @@
 		    };
 		    $.table.init(options);
 		});
-
+		
 		function queryParams(params) {
 			var search = $.table.queryParams(params);
 			search.params = {
@@ -172,13 +172,13 @@
 			search.businessTypes = $.common.join($('#businessTypes').selectpicker('val'));
 			return search;
 		}
-
+		
 		function searchPre() {
 		    $.table.search('operlog-form', 'bootstrap-table');
 		}
-
+		
 		function resetPre() {
-            resetDate();
+			resetDate();
 			$("#operlog-form")[0].reset();
 			$("#businessTypes").selectpicker('refresh');
 			$.table.search('operlog-form', 'bootstrap-table', 1);

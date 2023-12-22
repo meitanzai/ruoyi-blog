@@ -18,7 +18,7 @@ public class MapDataUtil
         Map<String, String[]> properties = request.getParameterMap();
         Map<String, Object> returnMap = new HashMap<String, Object>();
         Iterator<?> entries = properties.entrySet().iterator();
-        Entry<?, ?> entry;
+        Map.Entry<?, ?> entry;
         String name = "";
         String value = "";
         while (entries.hasNext())

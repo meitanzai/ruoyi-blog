@@ -364,7 +364,7 @@ public class UserServiceImpl implements IUserService
      * @return 结果
      */
     @Override
-    public Boolean checkLoginNameUnique(User user)
+    public boolean checkLoginNameUnique(User user)
     {
         Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
         User info = userMapper.checkLoginNameUnique(user.getLoginName());
@@ -382,7 +382,7 @@ public class UserServiceImpl implements IUserService
      * @return
      */
     @Override
-    public Boolean checkPhoneUnique(User user)
+    public boolean checkPhoneUnique(User user)
     {
         Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
         User info = userMapper.checkPhoneUnique(user.getPhonenumber());
@@ -400,7 +400,7 @@ public class UserServiceImpl implements IUserService
      * @return
      */
     @Override
-    public Boolean checkEmailUnique(User user)
+    public boolean checkEmailUnique(User user)
     {
         Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
         User info = userMapper.checkEmailUnique(user.getEmail());

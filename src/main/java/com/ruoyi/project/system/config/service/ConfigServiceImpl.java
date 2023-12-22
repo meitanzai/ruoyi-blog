@@ -187,7 +187,7 @@ public class ConfigServiceImpl implements IConfigService
      * @return 结果
      */
     @Override
-    public Boolean checkConfigKeyUnique(Config config)
+    public boolean checkConfigKeyUnique(Config config)
     {
         Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
         Config info = configMapper.checkConfigKeyUnique(config.getConfigKey());

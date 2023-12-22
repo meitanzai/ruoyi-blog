@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class IpUtils
 {
-
     public final static String REGX_0_255 = "(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]\\d|\\d)";
     // 匹配 ip
     public final static String REGX_IP = "((" + REGX_0_255 + "\\.){3}" + REGX_0_255 + ")";
@@ -56,7 +55,6 @@ public class IpUtils
 
         return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : getMultistageReverseProxyIp(ip);
     }
-
 
     /**
      * 检查是否为内部IP地址
@@ -234,8 +232,6 @@ public class IpUtils
         }
         return "未知";
     }
-
-
 
     /**
      * 从多级反向代理中获得第一个非unknown IP地址

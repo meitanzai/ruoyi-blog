@@ -150,7 +150,7 @@ public class DeptController extends BaseController
      */
     @PostMapping("/checkDeptNameUnique")
     @ResponseBody
-    public Boolean checkDeptNameUnique(Dept dept)
+    public boolean checkDeptNameUnique(Dept dept)
     {
         return deptService.checkDeptNameUnique(dept);
     }
@@ -163,7 +163,7 @@ public class DeptController extends BaseController
      */
     @GetMapping(value = { "/selectDeptTree/{deptId}", "/selectDeptTree/{deptId}/{excludeId}" })
     public String selectDeptTree(@PathVariable("deptId") Long deptId,
-                                 @PathVariable(value = "excludeId", required = false) Long excludeId, ModelMap mmap)
+            @PathVariable(value = "excludeId", required = false) Long excludeId, ModelMap mmap)
     {
         mmap.put("dept", deptService.selectDeptById(deptId));
         mmap.put("excludeId", excludeId);

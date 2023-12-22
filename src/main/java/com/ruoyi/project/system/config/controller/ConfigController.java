@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
@@ -23,7 +22,7 @@ import com.ruoyi.project.system.config.service.IConfigService;
 
 /**
  * 参数配置 信息操作处理
- * 
+ *
  * @author ruoyi
  */
 @Controller
@@ -149,7 +148,7 @@ public class ConfigController extends BaseController
      */
     @PostMapping("/checkConfigKeyUnique")
     @ResponseBody
-    public Boolean checkConfigKeyUnique(Config config)
+    public boolean checkConfigKeyUnique(Config config)
     {
         return configService.checkConfigKeyUnique(config);
     }

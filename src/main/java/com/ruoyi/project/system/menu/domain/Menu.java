@@ -9,7 +9,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
 
 /**
  * 菜单权限表 sys_menu
- * 
+ *
  * @author ruoyi
  */
 public class Menu extends BaseEntity
@@ -29,7 +29,7 @@ public class Menu extends BaseEntity
     private Long parentId;
 
     /** 显示顺序 */
-    private Integer orderNum;
+    private String orderNum;
 
     /** 菜单URL */
     private String url;
@@ -97,13 +97,13 @@ public class Menu extends BaseEntity
         this.parentId = parentId;
     }
 
-    @NotNull(message = "显示顺序不能为空")
-    public Integer getOrderNum()
+    @NotBlank(message = "显示顺序不能为空")
+    public String getOrderNum()
     {
         return orderNum;
     }
 
-    public void setOrderNum(Integer orderNum)
+    public void setOrderNum(String orderNum)
     {
         this.orderNum = orderNum;
     }

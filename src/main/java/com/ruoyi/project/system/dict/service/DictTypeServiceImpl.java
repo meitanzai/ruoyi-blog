@@ -216,7 +216,7 @@ public class DictTypeServiceImpl implements IDictTypeService
      * @return 结果
      */
     @Override
-    public Boolean checkDictTypeUnique(DictType dict)
+    public boolean checkDictTypeUnique(DictType dict)
     {
         Long dictId = StringUtils.isNull(dict.getDictId()) ? -1L : dict.getDictId();
         DictType dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());

@@ -35,7 +35,8 @@ public class AsyncFactory {
      * @return 任务task
      */
     public static TimerTask syncSessionToDb(final OnlineSession session) {
-        return new TimerTask() {
+        return new TimerTask()
+        {
             @Override
             public void run() {
                 UserOnline online = new UserOnline();

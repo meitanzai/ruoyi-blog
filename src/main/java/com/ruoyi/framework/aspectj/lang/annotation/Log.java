@@ -20,7 +20,7 @@ import com.ruoyi.framework.aspectj.lang.enums.OperatorType;
 public @interface Log
 {
     /**
-     * 模块 
+     * 模块
      */
     public String title() default "";
 

@@ -8,7 +8,7 @@
 //
 ///**
 // * 定时任务配置（单机部署建议默认走内存，如需集群需要创建qrtz数据库表/打开类注释）
-// * 
+// *
 // * @author ruoyi
 // *
 // */
@@ -34,7 +34,7 @@
 //        // 集群配置
 //        prop.put("org.quartz.jobStore.isClustered", "true");
 //        prop.put("org.quartz.jobStore.clusterCheckinInterval", "15000");
-//        prop.put("org.quartz.jobStore.maxMisfiresToHandleAtATime", "1");
+//        prop.put("org.quartz.jobStore.maxMisfiresToHandleAtATime", "10");
 //        prop.put("org.quartz.jobStore.txIsolationLevelSerializable", "true");
 //
 //        // sqlserver 启用
