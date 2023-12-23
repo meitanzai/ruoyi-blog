@@ -423,6 +423,14 @@ public class MtoPostServiceImpl implements IMtoPostService {
         if (exists) {
             FileUtils.deleteAllFile(directory);
         }
+        CacheUtils.remove(Constants.WEB_CATEGORY);
+        CacheUtils.remove(Constants.WEB_SLIDER);
+        CacheUtils.remove(Constants.WEB_CHANNEL);
+        CacheUtils.remove(Constants.WEB_TAG);
+        CacheUtils.remove(Constants.WEB_NEW_BLOG);
+        CacheUtils.remove(Constants.WEB_HOT_BLOG);
+        CacheUtils.remove(Constants.WEB_RECOMMEND_BLOG);
+        CacheUtils.remove(Constants.WEB_LINK);
         return 1;
     }
 
