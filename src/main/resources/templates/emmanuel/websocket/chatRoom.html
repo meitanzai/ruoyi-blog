@@ -10,16 +10,18 @@
     <!-- 网页在手机/平板上的显示比例  默认缩放80%（ initial-scale=0.8 ） -->
     <meta name="viewport"
           content="width=device-width,initial-scale=0.8,minimum-scale=0.5,maximum-scale=2,user-scalable=yes,viewport-fit=cover">
-    <link rel="shortcut icon" href="https://openai.com/favicon.ico">
+    <link rel="shortcut icon" href="/img/favicon.ico">
     <!-- 可修改 Editable - iPhone/iPad将网页添加到主屏幕后显示的Logo  默认为ChatGPT的Logo  *小白不需要改。需要传网页到Github/Gitee/静态网页托管平台/主机/服务器的同学，才需要设置。  简单点快速设置：任意格式的正方形图片。  推荐参考设置：png格式 180x180  -->
-    <link rel="apple-touch-icon" href="https://openai.com/favicon.ico">
+    <link rel="apple-touch-icon" href="/img/favicon.ico">
     <!--操作 cookie -->
     <th:block th:include="include :: js-cookie"/>
 
     <!-- Vue首选CDN(线路1) Vue是一款用于构建用户界面的JavaScript框架，网页常用技术  -->
     <!-- 20230520 tips: 不要使用3.2.47的prod版本，会偶尔产生错误，影响使用。 Do not use the prod version of 3.2.47, as I have found it to occasionally produce errors with unknown causes. -->
     <!-- 20230603 tips: 使用3.3.4的prod版本两周了，非常稳定，没有再报错，很棒的版本。  I've been using the prod version of 3.3.4 for two weeks now and it has been very stable, without any errors. It's a great version.  -->
-    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.prod.js"></script>
+<!--    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.prod.js"></script>-->
+    <script th:src="@{/blog/mblog/js/vue.global.prod.js}"></script>
+
     <!-- Vue备选CDN(线路2) 首选CDN失效后，自动加载备选CDN，确保vue的正确加载。 unescape()括号里的是一种编码，转义尖括号(<>)，非乱码。在线解码工具 https://tool.ip138.com/escape/   -->
     <script> !window.Vue && document.write(unescape('%3Cscript src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.prod.js"%3E%3C/script%3E')) </script>
 
@@ -3328,7 +3330,7 @@
                 onlineUserNum: 0,      // 在线用户数量
 
                 // 网页上的第一条信息/欢迎语，不属于上下文。 这条信息只会在网页中显示，不会回传给服务器，不属于聊天记录。
-                thefirstmessage: "### **若依聊天室** ***v4.7.6*** \r\n##### **v4.7.6** 基于ruoyi-fast开发，小而美的个人博客，后续还会新增更多好玩的更能和优化现有的功能，快来体验吧。 \r\n###### **v4.7.6** Developed based on ruoyi-fast, a small and beautiful personal blog. In the future, there will be more fun and optimized features to be added. Come and experience it now.\r\n\r\n_RUOYI-BLOG - small and beautiful_ \r\n###### _Change Language: [Settings] > [Language]_ \r\n```\r\nIf you like it, please give me a star on my Gitee repository.\r\n```\r\n[![](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://gitee.com/GiteeKey/ruoyi-blog/) [![](https://img.shields.io/badge/Gitee-C71D23?style=for-the-badge&logo=gitee&logoColor=white)](https://gitee.com/GiteeKey/ruoyi-blog/) ",
+                thefirstmessage: "### **若依聊天室** ***v4.7.6*** \r\n##### **v4.7.6** 基于ruoyi-fast开发，小而美的个人博客，后续还会新增更多好玩的更能和优化现有的功能，快来体验吧。 \r\n###### **v4.7.6** Developed based on ruoyi-fast, a small and beautiful personal blog. In the future, there will be more fun and optimized features to be added. Come and experience it now.\r\n\r\n_RUOYI-BLOG - small and beautiful_ \r\n###### _Change Language: [Settings] > [Language]_ \r\n```\r\nIf you like it, please give me a star on my Gitee repository.\r\n```\r\n[![](/img/github-C121011.svg)](https://gitee.com/GiteeKey/ruoyi-blog/) [![](/img/Gitee-C71D23.svg)](https://gitee.com/GiteeKey/ruoyi-blog/) ",
 
                 btnDisabledState_Sending: true,
                 btnDisabledState_CheckAPI: false,
@@ -3640,26 +3642,26 @@
                 ],
 
                 //**常规设置 头像  “Change-GPT-Green-SVG”是固定的，调用SVG的标识符。
-                userAvatarURL: 'https://lin2025.github.io/img/me-bili.jpg',  // *可修改 Editable. 默认的用户头像 Default User Avatar.
-                inputUserImageUrl: 'https://lin2025.github.io/img/me-bili.jpg', // *可修改 Editable. 默认用户头像的url地址，和上面的"userAvatarURL"保持一致。这个是出现在编辑框的文本内容。 Will display in the input. ("inputUserImageUrl" & "userAvatarURL") Two URLs are consistent.
+                userAvatarURL: '/img/me-bili.jpg',  // *可修改 Editable. 默认的用户头像 Default User Avatar.
+                inputUserImageUrl: '/img/me-bili.jpg', // *可修改 Editable. 默认用户头像的url地址，和上面的"userAvatarURL"保持一致。这个是出现在编辑框的文本内容。 Will display in the input. ("inputUserImageUrl" & "userAvatarURL") Two URLs are consistent.
                 gptAvatarURL: '',   // 当前GPT头像网址
                 inputGPTImageUrl: '',  // GPT input文本
                 selectedImageUrl: '',  // 预设头像库下拉框值
                 userpresetImages_cn: [
-                    {name: '2) 预设: 哔哩哔哩头像', url: 'https://lin2025.github.io/img/me-bili.jpg'},
-                    {name: '3) 预设: 黑色GPT头像', url: 'https://openai.com/favicon.ico'}
+                    {name: '2) 预设: 哔哩哔哩头像', url: '/img/me-bili.jpg'},
+                    {name: '3) 预设: 黑色GPT头像', url: '/img/favicon.ico'}
                 ],
                 userpresetImages_en: [
-                    {name: '2) Pre-set: Bilibili Logo', url: 'https://lin2025.github.io/img/me-bili.jpg'},
-                    {name: '3) Pre-set: Black GPT Logo', url: 'https://openai.com/favicon.ico'}
+                    {name: '2) Pre-set: Bilibili Logo', url: '/img/me-bili.jpg'},
+                    {name: '3) Pre-set: Black GPT Logo', url: '/img/favicon.ico'}
                 ],
                 gptpresetImages_cn: [
                     {name: '1) 预设: 绿色GPT头像', url: 'Change-GPT-Green-SVG'},
-                    {name: '2) 预设: 黑色GPT头像', url: 'https://openai.com/favicon.ico'} //黑色头像没有将绿色SVG改色，而是选用官网的ico图标
+                    {name: '2) 预设: 黑色GPT头像', url: '/img/favicon.ico'} //黑色头像没有将绿色SVG改色，而是选用官网的ico图标
                 ],
                 gptpresetImages_en: [
                     {name: '1) Pre-set: Green GPT Logo', url: 'Change-GPT-Green-SVG'},
-                    {name: '2) Pre-set: Black GPT Logo', url: 'https://openai.com/favicon.ico'}
+                    {name: '2) Pre-set: Black GPT Logo', url: '/img/favicon.ico'}
                 ],
                 isgptGreenSvgShow: true, //（显示<svg>的同时，隐藏<img>）或（隐藏<svg>时，显示<img>）。  (display<img> & hide<svg>) or (hide<img> & display<svg>)
                 GPTGreenSVG_UrlText_cn: 'GPT-Green-SVG *无网址，仅通过[GPT头像]更新', // GPT绿色SVG头像对应的显示的文本 cn
@@ -5250,7 +5252,7 @@
                             alert(message);
                         }, 800);
                     } else {
-                        if (!(role == 'user' && this.userAvatarURL === 'https://lin2025.github.io/img/me-bili.jpg')) { //在国内，未打开V. P_N，默认的"bili头像"大概率会加载失败，所以排除
+                        if (!(role == 'user' && this.userAvatarURL === '/img/me-bili.jpg')) { //在国内，未打开V. P_N，默认的"bili头像"大概率会加载失败，所以排除
                             // 恢复本地存储的头像（网址、路径、上传的头像），遇到错误时
                             const rolestr = this.settingsLanguage == 'cn' ? (role == 'user' ? '[用户头像]' : '[GPT头像]') : (role == 'user' ? '[User Avatar]' : '[GPT Avatar]');
                             notif = this.settingsLanguage == 'cn' ? rolestr + ' 未能加载' : rolestr + ' failed to load';
@@ -5799,7 +5801,7 @@
                         this.userAvatarUp_base64 = ''; //清空
                         this.userAvatarUp_blob = null; //清空
                         this.userAvatarUp_blobUrl = ''; //清空
-                        this.inputUserImageUrl = 'https://lin2025.github.io/img/me-bili.jpg'; //恢复默认头像url
+                        this.inputUserImageUrl = '/img/me-bili.jpg'; //恢复默认头像url
                         this.updateAvatar('user', false);//刷新头像 false=Don't show notif.
                         this.inputGPTImageUrl = this.settingsLanguage == 'cn' ? this.GPTGreenSVG_UrlText_cn : this.GPTGreenSVG_UrlText_en;
                         this.updateAvatar('gpt', false);
@@ -5858,7 +5860,7 @@
                         this.userAvatarUp_base64 = ''; //清空
                         this.userAvatarUp_blob = null; //清空
                         this.userAvatarUp_blobUrl = ''; //清空
-                        this.inputUserImageUrl = 'https://lin2025.github.io/img/me-bili.jpg'; //恢复默认头像url
+                        this.inputUserImageUrl = '/img/me-bili.jpg'; //恢复默认头像url
                         this.updateAvatar('user', false);//刷新头像 false=Don't show notif.
                         this.localStorage_SaveData(null, 'userSettings');//保存 更新localStorage
                         notif = this.settingsLanguage == 'cn' ? '已删除上传的用户头像' : 'Uploaded user avatar have been deleted';
@@ -5868,7 +5870,7 @@
                         this.userAvatarUp_base64 = ''; //清空
                         this.userAvatarUp_blob = null; //清空
                         this.userAvatarUp_blobUrl = ''; //清空
-                        this.inputUserImageUrl = 'https://lin2025.github.io/img/me-bili.jpg'; //恢复默认头像url
+                        this.inputUserImageUrl = '/img/me-bili.jpg'; //恢复默认头像url
                         this.updateAvatar('user', false);//刷新头像 false=Don't show notif.
                         //gpt头像恢复默认
                         this.inputGPTImageUrl = this.settingsLanguage == 'cn' ? this.GPTGreenSVG_UrlText_cn : this.GPTGreenSVG_UrlText_en;
@@ -11206,7 +11208,7 @@
 
                 // 可修改 Editable. 默认的GPT头像-方案B（任意一张图片地址） 二选一  Default GPT Avatar. Plan-B (Any image URL.).  You can only choose either Plan A or Plan B.
                 //		this.isgptGreenSvgShow = false; //隐藏<svg>+显示<img>。 display<img> + hide<svg>
-                //		this.gptAvatarURL =  'https://openai.com/favicon.ico';  // 当前GPT头像的图片地址。GPT Avatar URL. <img> url = Any image URL
+                //		this.gptAvatarURL =  '/img/favicon.ico';  // 当前GPT头像的图片地址。GPT Avatar URL. <img> url = Any image URL
                 //		this.inputGPTImageUrl = this.gptAvatarURL; // 显示在输入框的GPT头像的地址 input text
 
 
@@ -11603,7 +11605,7 @@
             // 1.异步加载marked.min.js  必备，失效将无法聊天
             // marked.js 开源的Markdown插件 官方: https://github.com/markedjs/marked
             this.loadScriptFromCDN(
-                "https://unpkg.com/marked@4.3.0/marked.min.js",
+                "/blog/editormd/lib/marked.min.js",
                 [
                     "https://cdn.bootcdn.net/ajax/libs/marked/4.3.0/marked.min.js",
                     "https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js",
@@ -11617,7 +11619,7 @@
             // 2.异步加载highlight.min.js  失效也可正常聊天，影响一般
             // highlight.js  开源的代码高亮插件  官方: https://github.com/highlightjs/highlight.js/
             this.loadScriptFromCDN(
-                "https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js",
+                "/ajax/libs/highlight/highlight.min.js",
                 [
                     "https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js",
                     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js",
@@ -11631,7 +11633,7 @@
             // 3.异步加载axios.min.js  必备，失效将无法聊天，需要使用axios与GPT服务器进行连线。
             // axios.js  Axios是一种常用HTTP库，用于向服务器发起HTTP请求。   官方: https://github.com/axios/axios/
             this.loadScriptFromCDN(
-                "https://unpkg.com/axios@1.3.2/dist/axios.min.js",
+                "/ajax/libs/axios/axios.min.js",
                 [
                     "https://cdn.bootcdn.net/ajax/libs/axios/1.3.2/axios.min.js",
                     "https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.2/axios.min.js",
@@ -11644,7 +11646,7 @@
             // 4.异步加载clipboard.min.js  失效也可正常聊天，影响非常小
             // clipboard.js  开源的一键复制按钮插件  官方: https://github.com/zenorocha/clipboard.js/  https://clipboardjs.com
             this.loadScriptFromCDN(
-                "https://unpkg.com/clipboard@2.0.11/dist/clipboard.min.js",
+                "/ajax/libs/clipboard/clipboard.min.js",
                 [
                     "https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js",
                     "https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js",
@@ -11658,7 +11660,7 @@
             // 5.异步加载panda-syntax-dark.min.css  失效也可正常聊天，影响非常小
             // Markdown代码高亮的css样式表，即配色方案。 方案名：Panda Syntax Dark  其他配色方案：https://highlightjs.org/static/demo/
             this.loadCssFileFromCDN(
-                "https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/panda-syntax-dark.min.css",
+                "/ajax/libs/highlight/panda-syntax-dark.min.css",
                 [
                     "https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/panda-syntax-dark.min.css",
                     "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/panda-syntax-dark.min.css"
