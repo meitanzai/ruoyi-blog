@@ -297,6 +297,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
         // 前台
         filterChainDefinitionMap.put("/blog/**", "anon");
+        filterChainDefinitionMap.put("/homepage/**", "anon");
         // 博客图片
         filterChainDefinitionMap.put("/profile/blog/**", "anon");
         // 第三方登录
