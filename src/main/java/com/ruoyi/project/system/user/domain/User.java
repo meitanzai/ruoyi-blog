@@ -399,4 +399,18 @@ public class User extends BaseEntity
             .append("roles", getRoles())
             .toString();
     }
+
+    /**
+     * 非数据库字段：账户ID
+     */
+    private Long accountId;
+
+    @JsonIgnore
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
 }
