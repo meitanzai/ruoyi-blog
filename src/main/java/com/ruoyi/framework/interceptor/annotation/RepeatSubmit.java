@@ -29,7 +29,9 @@ public @interface RepeatSubmit
 
     /**
      * 是否校验相同数据
+     *  true:校验 (eg:在间隔时间内，不同数据防止重复提交)
+     *  false:不校验  (eg: 在间隔时间内，不同数据每次提交)
      * @return
      */
-    public boolean repeatDate() default false;
+    public boolean repeatData() default false;
 }

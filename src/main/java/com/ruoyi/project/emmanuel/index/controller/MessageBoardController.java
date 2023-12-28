@@ -48,7 +48,7 @@ public class MessageBoardController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/submitMessage")
-    @RepeatSubmit(interval = 60000, message = "您手速太快啦",repeatDate = true)
+    @RepeatSubmit(interval = 60000, message = "您手速太快啦",repeatData = true)
     public AjaxResult submitMessageBoard(@Validated MtoComment comment, HttpServletRequest request) {
         try {
             mtoCommentService.insert(comment, request);
@@ -81,7 +81,7 @@ public class MessageBoardController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/submitBlogMessage")
-    @RepeatSubmit(interval = 30000, message = "您手速太快啦",repeatDate = true)
+    @RepeatSubmit(interval = 30000, message = "您手速太快啦",repeatData = true)
     public AjaxResult submitMessage(@Validated MtoComment comment, HttpServletRequest request) {
         try {
             mtoCommentService.insert(comment, request);

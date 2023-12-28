@@ -61,7 +61,7 @@ public class WebSocketController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/verifyCode")
-    @RepeatSubmit(interval = 60000, message = "操作频繁", repeatDate = true)
+    @RepeatSubmit(interval = 60000, message = "操作频繁", repeatData = true)
     public AjaxResult verificationCode(@RequestParam(value = "mailBox") String mailBox, @RequestParam(value = "uuid") String uuid) {
         int verifyCode = (int) ((Math.random() * 9 + 1) * 100000);
         String content = "<p><b>尊敬的用户：您好！</b></p><p><b>你正在申请登录ruoyi-blog聊天室，请在输入以下验证码完成操作：</b></p><p><span style=\"background-color: rgb(239, 239, 239);\"><font color=\"#ff0000\"><b>" + verifyCode + "</b></font></span></p>";

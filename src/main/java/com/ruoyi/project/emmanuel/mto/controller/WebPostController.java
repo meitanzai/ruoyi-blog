@@ -152,7 +152,7 @@ public class WebPostController extends BaseController {
      */
     @PostMapping("love")
     @ResponseBody
-    @RepeatSubmit(interval = 60000, message = "本月已点赞",repeatDate = true)
+    @RepeatSubmit(interval = 60000, message = "请求太频繁，请稍后重试",repeatData = true)
     public AjaxResult loveFavors(HttpServletRequest request,
                                  Long postId,
                                  Integer favorsType) {
