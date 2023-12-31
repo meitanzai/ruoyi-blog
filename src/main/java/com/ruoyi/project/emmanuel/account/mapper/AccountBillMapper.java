@@ -26,15 +26,7 @@ public interface AccountBillMapper {
      * @param month 年-月
      * @return
      */
-    List<AccountBill> billPayConunt(@Param("month") String month, @Param("userId") Long userId);
-
-    /**
-     * 收入统计
-     *
-     * @param month 年-月
-     * @return
-     */
-    List<AccountBill> billIncomeConunt(@Param("month") String month, @Param("userId") Long userId);
+    List<AccountBill> billConunt(@Param("month") String month, @Param("userId") Long userId);
 
     /**
      * 账单详情-按月统计
@@ -47,6 +39,6 @@ public interface AccountBillMapper {
     /**
      * 记账账户分析
      */
-    List<Map<String, Object>> accountAnalysis(@Param("accountId") Long accountId, @Param("classType") String classType);
+    List<Map<String, Object>> accountAnalysis(@Param("accountId") Long accountId);
 
 }

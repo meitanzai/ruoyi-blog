@@ -1,30 +1,26 @@
 package com.ruoyi.project.emmanuel.account.controller;
 
-import java.util.List;
-
 import com.ruoyi.common.utils.ToolUtils;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.aspectj.lang.annotation.Log;
+import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
+import com.ruoyi.framework.web.controller.BaseController;
+import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.emmanuel.account.domain.AccountAccount;
 import com.ruoyi.project.emmanuel.account.domain.AccountClass;
+import com.ruoyi.project.emmanuel.account.domain.AccountMoney;
 import com.ruoyi.project.emmanuel.account.mapper.AccountAccountMapper;
 import com.ruoyi.project.emmanuel.account.service.IAccountClassService;
+import com.ruoyi.project.emmanuel.account.service.IAccountMoneyService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.framework.aspectj.lang.annotation.Log;
-import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
-import com.ruoyi.project.emmanuel.account.domain.AccountMoney;
-import com.ruoyi.project.emmanuel.account.service.IAccountMoneyService;
-import com.ruoyi.framework.web.controller.BaseController;
-import com.ruoyi.framework.web.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.framework.web.page.TableDataInfo;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 记账详情Controller
@@ -103,6 +99,30 @@ public class AccountMoneyController extends BaseController {
         return prefix + "/add";
     }
 
+    @GetMapping("/add/{accountId}")
+    public String add(@PathVariable("accountId") String accountId,ModelMap modelMap) {
+        if (ToolUtils.isOneEmpty(accountId)) {
+            throw new RuntimeException("请选择记账账户");
+        }
+
+        // 直接放对象里，方便后期扩展
+        AccountAccount account = new AccountAccount();
+        account = accountAccountMapper.selectAccountNameById(Long.valueOf(accountId));
+        modelMap.put("account", account);
+
+        return prefix + "/add";
+    }
+
+    /**
+     * 查询记账分类列表
+     */
+    @GetMapping("/accountClass")
+    @ResponseBody
+    public TableDataInfo list(@RequestParam(name = "classType") String classType) {
+        List<AccountClass> accountClasseList = accountClassService.selectAccountClassList(classType);
+        return getDataTable(accountClasseList);
+    }
+
     /**
      * 新增保存记账详情
      */
@@ -128,17 +148,6 @@ public class AccountMoneyController extends BaseController {
         // 分类
         List<AccountClass> accountClasseList = accountClassService.selectAccountClassList(accountMoney.getClassType());
         modelMap.put("accountClasseList", accountClasseList);
-
-        // 收支
-        String type = "";
-        if (ToolUtils.isNotEmpty(accountMoney.getMoneyPay())) {
-            type = "1";
-        }
-        if (ToolUtils.isNotEmpty(accountMoney.getMoneyIncome())) {
-            type = "0";
-        }
-
-        modelMap.put("type", type);
         return prefix + "/edit";
     }
 
@@ -169,6 +178,8 @@ public class AccountMoneyController extends BaseController {
         AccountAccount accountAccount = accountAccountMapper.selectAccountAccountById(accountId);
         return accountAccount;
     }
+
+
 
 
 

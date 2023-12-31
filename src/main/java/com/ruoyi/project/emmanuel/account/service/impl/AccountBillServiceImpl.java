@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -49,20 +46,23 @@ public class AccountBillServiceImpl implements IAccountBillService {
     public HashMap<String, Object> billConunt(String month) {
         Long userId = ShiroUtils.getUserId();
         HashMap<String, Object> map = new HashMap<>();
-        // 支出统计
-        List<AccountBill> accountPayBillList = accountBillMapper.billPayConunt(month,userId);
-        if (ToolUtils.isNotEmpty(accountPayBillList)) {
-            List<String> payTypeList = accountPayBillList.stream().map(AccountBill::getName).collect(Collectors.toList());
-            map.put("payTypeList", payTypeList);
-            map.put("payData", accountPayBillList);
-            BigDecimal totalPay = accountPayBillList.stream().map(AccountBill::getValue).reduce(BigDecimal.ZERO, BigDecimal::add);
-            map.put("totalPay", totalPay);
+        List<AccountBill> accountBillList = accountBillMapper.billConunt(month,userId);
+        if (ToolUtils.isEmpty(accountBillList)) {
+            return map;
         }
 
+        // 支出统计
+        List<AccountBill> accountPayBillList = accountBillList.stream().filter(e -> Objects.equals("2", e.getStatus())).collect(Collectors.toList());
+        List<String> payTypeList = accountBillList.stream().map(AccountBill::getName).collect(Collectors.toList());
+        map.put("payTypeList", payTypeList);
+        map.put("payData", accountPayBillList);
+        BigDecimal totalPay = accountPayBillList.stream().map(AccountBill::getValue).reduce(BigDecimal.ZERO, BigDecimal::add);
+        map.put("totalPay", totalPay);
+
         // 收入统计
-        List<AccountBill> accountIncomeBillList = accountBillMapper.billIncomeConunt(month,userId);
+        List<AccountBill> accountIncomeBillList = accountBillList.stream().filter(e -> Objects.equals("1", e.getStatus())).collect(Collectors.toList());;
         List<String> incomeTypeList = accountIncomeBillList.stream().map(AccountBill::getName).collect(Collectors.toList());
-        List<BigDecimal> incomeMoneyList = accountIncomeBillList.stream().map(AccountBill::getIncome).collect(Collectors.toList());
+        List<BigDecimal> incomeMoneyList = accountIncomeBillList.stream().map(AccountBill::getValue).collect(Collectors.toList());
         map.put("incomeTypeList", incomeTypeList);
         map.put("incomeMoneyList", incomeMoneyList);
         return map;
@@ -79,26 +79,35 @@ public class AccountBillServiceImpl implements IAccountBillService {
         List<AccountBill> accountBillList = new ArrayList<>();
         accountMonies.stream().forEach(e -> {
             // 支出
-            if (ToolUtils.isNotEmpty(e.getMoneyPay())){
+            if (ToolUtils.isNotEmpty(e.getMoneyPay()) && e.getMoneyPay().compareTo(BigDecimal.ZERO) != 0){
                 AccountBill accountBill = new AccountBill();
                 accountBill.setOrder(1);
-                accountBill.setTitle(e.getMoneyPay());
+                accountBill.setTitle("-"+e.getMoneyPay());
                 accountBill.setStart(e.getMoneyDate());
-                accountBill.setBackgroundColor("#f3715c");
+                accountBill.setBackgroundColor("#fff");
                 accountBill.setBorderColor("#f3715c");
                 accountBillList.add(accountBill);
             }
             // 收入
-            if (ToolUtils.isNotEmpty(e.getMoneyIncome())){
+            if (ToolUtils.isNotEmpty(e.getMoneyIncome()) && e.getMoneyIncome().compareTo(BigDecimal.ZERO) != 0){
                 AccountBill accountBill = new AccountBill();
                 accountBill.setOrder(2);
-                accountBill.setTitle(e.getMoneyIncome());
+                accountBill.setTitle("+"+e.getMoneyIncome());
                 accountBill.setStart(e.getMoneyDate());
-                accountBill.setBackgroundColor("#b2d235");
+                accountBill.setBackgroundColor("#fff");
                 accountBill.setBorderColor("#b2d235");
                 accountBillList.add(accountBill);
             }
-
+            // 不计入
+            if (ToolUtils.isNotEmpty(e.getMoneyIgnore()) && e.getMoneyIgnore().compareTo(BigDecimal.ZERO) != 0){
+                AccountBill accountBill = new AccountBill();
+                accountBill.setOrder(3);
+                accountBill.setTitle(""+e.getMoneyIgnore());
+                accountBill.setStart(e.getMoneyDate());
+                accountBill.setBackgroundColor("#fff");
+                accountBill.setBorderColor("#2c3e50");
+                accountBillList.add(accountBill);
+            }
         });
         return accountBillList;
     }
@@ -108,10 +117,13 @@ public class AccountBillServiceImpl implements IAccountBillService {
      */
     @Override
     public Map<String, Object> accountAnalysis(Long accountId, ModelMap modelMap) {
-        // 支出
-        List<Map<String, Object>> accountClassPay = accountBillMapper.accountAnalysis(accountId,"1");
+
+        List<Map<String, Object>> accountByClass = accountBillMapper.accountAnalysis(accountId);
+
         // 收入
-        List<Map<String, Object>> accountClassIncome = accountBillMapper.accountAnalysis(accountId,"0");
+        List<Map<String, Object>> accountClassIncome =accountByClass.stream().filter(e->Objects.equals("1",e.get("status"))).collect(Collectors.toList());
+        // 支出
+        List<Map<String, Object>> accountClassPay = accountByClass.stream().filter(e->Objects.equals("2",e.get("status"))).collect(Collectors.toList());
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("accountClassPay",accountClassPay);

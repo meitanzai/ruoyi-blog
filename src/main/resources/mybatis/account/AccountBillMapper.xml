@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="pay"    column="pay"    />
         <result property="income"    column="income"    />
         <result property="balance"    column="balance"    />
+        <result property="moneyIgnore"    column="moneyIgnore"    />
     </resultMap>
 
     <sql id="selectAccountBillVo">
@@ -30,8 +31,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="countMoneyByMonth" resultMap="AccountBillResult">
         select
             date_format(m.money_date,'%Y-%m') "month",
-            SUM(if(c.class_type = 1,m.money_pay,0)) "pay",
-            SUM(IF(c.class_type = 0,m.money_income,0))  "income" from account_account a
+            sum(if(c.status = '1', m.money, 0)) as "income",
+            sum(if(c.status = '2', m.money, 0)) as "pay",
+            sum(if(c.status = '3', m.money, 0)) as "moneyIgnore"
+        from account_account a
         inner join account_user_account ua on a.id = ua.account_id
         left join account_money m on a.id = m.account_id
         left join account_class c on c.id = m.class_id
@@ -51,41 +54,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT id,account_name "accountName" from account_account ORDER BY order_num
     </select>
 
-    <select id="billPayConunt" resultType="com.ruoyi.project.emmanuel.account.domain.AccountBill">
-        SELECT LEFT(m.money_date, 7)     "money",
-            class_name                "name",
-            IFNull(sum(money_pay), 0) "value"
+    <select id="billConunt" resultType="com.ruoyi.project.emmanuel.account.domain.AccountBill">
+        SELECT LEFT(m.money_date, 7)   "money",
+            c.class_name            "name",
+            IFNull(sum(m.money), 0) "value",
+            c.status                "status"
         from account_account a
             inner join account_user_account ua on a.id = ua.account_id
             inner join account_money m on a.id = m.account_id
             inner join account_class c on c.id = m.class_id AND m.deleted = 0
-        where left(m.money_date, 7) =  #{month,jdbcType=VARCHAR}
-          and c.class_type = 1
-          and is_total = 0
-          and ua.user_id = #{userId}
-        GROUP BY LEFT(m.money_date, 7), class_name
-    </select>
-
-    <select id="billIncomeConunt"  resultType="com.ruoyi.project.emmanuel.account.domain.AccountBill">
-        SELECT LEFT(m.money_date, 7)        "money",
-            class_name                   "name",
-            IFNull(sum(money_income), 0) "income"
-        from account_account a
-            inner join account_user_account ua on a.id = ua.account_id
-            inner join account_money m on a.id = m.account_id
-            inner join account_class c on c.id = m.class_id
-            AND m.deleted = 0
         where left(m.money_date, 7) = #{month,jdbcType=VARCHAR}
-          and c.class_type = 0
-          and is_total = 0
+          and m.is_total = 0
           and ua.user_id = #{userId}
-        GROUP BY LEFT(m.money_date, 7),class_name
+        GROUP BY LEFT(m.money_date, 7), class_name, c.status
     </select>
 
     <select id="countFullCalendarList" resultType="com.ruoyi.project.emmanuel.account.domain.AccountMoney">
-        select sum(IF(c.class_type = 1, money_pay, 0))    as moneyPay,
-               sum(IF(c.class_type = 0, money_income, 0)) as moneyIncome,
-               money_date                                 as moneyDate
+        select sum(if(c.status = '1', m.money, 0)) as moneyIncome,
+               sum(if(c.status = '2', m.money, 0)) as moneyPay,
+               sum(if(c.status = '3', m.money, 0)) as moneyIgnore,
+               money_date                          as moneyDate
         from account_account a
                  inner join account_user_account ua on a.id = ua.account_id
                  inner join account_money m on a.id = m.account_id
@@ -95,12 +83,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="accountAnalysis" resultType="java.util.Map">
-        select  c.class_name as name, sum(if(c.class_type = 1,m.money_pay,m.money_income))  as value
+        select  c.class_name as name, sum(m.money)  as value,c.`status` as status
         from account_class c
                  left join account_money m on c.id = m.class_id
         where m.account_id = #{accountId,jdbcType=BIGINT}
           and m.deleted = 0
-          and c.class_type = #{classType,jdbcType=VARCHAR}
-        group by c.id, c.class_name
+          and m.is_total = 0
+        group by c.id, c.class_name,c.`status`
     </select>
 </mapper>

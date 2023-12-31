@@ -1,12 +1,12 @@
 package com.ruoyi.project.emmanuel.account.domain;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 记账详情对象 account_money
@@ -35,6 +35,12 @@ public class AccountMoney extends BaseEntity {
     private Long classId;
 
     /**
+     * 金额
+     */
+    @Excel(name = "金额")
+    private BigDecimal money;
+
+    /**
      * 收入金额
      */
     private BigDecimal moneyIncome;
@@ -43,6 +49,11 @@ public class AccountMoney extends BaseEntity {
      * 支出金额
      */
     private BigDecimal moneyPay;
+
+    /**
+     * 不计入金额
+     */
+    private BigDecimal moneyIgnore;
 
     /**
      * 0是正常，1是删除
@@ -59,12 +70,6 @@ public class AccountMoney extends BaseEntity {
      */
     @Excel(name = "类型")
     private String className;
-
-    /**
-     * 非数据库字段，用于页面显示金额
-     */
-    @Excel(name = "金额")
-    private BigDecimal money;
 
     /**
      * 消费日期（用户选择不选择默认为当天）
@@ -90,6 +95,12 @@ public class AccountMoney extends BaseEntity {
      */
     @Excel(name = "备注")
     private String moneyIntroduce;
+
+
+    /**
+     * 收支状态（1收入，2支出，3不计入）
+     */
+    private String status;
 
 
 }

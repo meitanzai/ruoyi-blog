@@ -1,18 +1,18 @@
 package com.ruoyi.project.emmanuel.account.service.impl;
 
-import java.util.List;
-
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
+import com.ruoyi.project.emmanuel.account.domain.AccountClass;
+import com.ruoyi.project.emmanuel.account.mapper.AccountClassMapper;
+import com.ruoyi.project.emmanuel.account.service.IAccountClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.emmanuel.account.mapper.AccountClassMapper;
-import com.ruoyi.project.emmanuel.account.domain.AccountClass;
-import com.ruoyi.project.emmanuel.account.service.IAccountClassService;
-import com.ruoyi.common.utils.text.Convert;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
 
 /**
  * 记账分类Service业务层处理
@@ -69,7 +69,6 @@ public class AccountClassServiceImpl implements IAccountClassService {
 
 
     private Boolean isExist(AccountClass accountClass) {
-        System.out.println("accountClassMapper.isExist(accountClass) = " + accountClassMapper.isExist(accountClass));
         return ToolUtils.isEmpty(accountClassMapper.isExist(accountClass)) ? false : true;
     }
 

@@ -55,11 +55,14 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="addPay()" shiro:hasPermission="account:money:add">
-                <i class="fa fa-plus"></i> 支出
-            </a>
-            <a class="btn btn-success" onclick="addIncome()" shiro:hasPermission="account:money:add">
-                <i class="fa fa-plus"></i> 收入
+<!--            <a class="btn btn-success" onclick="addPay()" shiro:hasPermission="account:money:add">-->
+<!--                <i class="fa fa-plus"></i> 支出-->
+<!--            </a>-->
+<!--            <a class="btn btn-success" onclick="addIncome()" shiro:hasPermission="account:money:add">-->
+<!--                <i class="fa fa-plus"></i> 收入-->
+<!--            </a>-->
+            <a class="btn btn-success" onclick="addMoney()" shiro:hasPermission="account:money:add">
+                <i class="fa fa-plus"></i> 添加
             </a>
             <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
                shiro:hasPermission="account:money:edit">
@@ -108,6 +111,28 @@
                     ignore: true,    // 列选项不可见
                 },
                 {
+                    field: 'classType',
+                    title: '账户类型',
+                    formatter: function (value, row, index) {
+                        if ($.common.isEmpty(classTypeDatas) || $.common.isEmpty(value)) {
+                            return '';
+                        }
+                        var actions = [];
+                        $.each(classTypeDatas, function(index, dict) {
+                            if (dict.dictLabel == ('' + value)) {
+                                var listClass = $.common.equals("default", dict.listClass) || $.common.isEmpty(dict.listClass) ? "" : "badge badge-" + dict.listClass;
+                                var cssClass = $.common.isNotEmpty(dict.cssClass) ? dict.cssClass : listClass;
+                                actions.push($.common.sprintf("<span class='%s'>%s</span>", cssClass, dict.dictLabel));
+                                return false;
+                            }
+                        });
+                        if (actions.length === 0) {
+                            actions.push($.common.sprintf("<span>%s</span>", value))
+                        }
+                        return actions.join('');
+                    }
+                },
+                {
                     field: 'className',
                     title: '所属分类',
                 },
@@ -131,13 +156,8 @@
                     formatter: function (value, row, index) {
                         return $.table.selectDictLabel(isTotalDatas, value);
                     }
-                }, {
-                    field: 'classType',
-                    title: '收支状态',
-                    formatter: function (value, row, index) {
-                        return $.table.selectDictLabel(classTypeDatas, value);
-                    }
-                }, {
+                },
+                {
                     field: 'moneyIntroduce',
                     title: '备注'
                 },
@@ -164,12 +184,12 @@
         return search;
     }
 
-    /*账目详情(金额)-新增金额*/
-    // function addPay() {
-    //     debugger;
-    //     var accountId = $("#accountId").val();
-    //     $.operate.add(accountId,0);
-    // }
+    /*账目详情(金额)-新增*/
+    function addMoney() {
+        var accountId = $("#accountId").val();
+        var url = prefix + '/add/' + accountId;
+        $.modal.openTab("新增支出", url);
+    }
 
     /*支出0----账目详情(金额)-新增金额*/
     function addPay() {
@@ -185,6 +205,8 @@
         var url = prefix + '/add/' + accountId + '/' + 0;
         $.modal.openTab("新增支出", url);
     }
+
+    /**/
 
 </script>
 </body>

@@ -36,6 +36,9 @@ public class AccountBill {
     @Excel(name = "收入")
     private BigDecimal income;
 
+    @Excel(name = "不计入")
+    private BigDecimal moneyIgnore;
+
     /**
      * 结余
      */
@@ -62,10 +65,15 @@ public class AccountBill {
     /**
      * 以下是 fullCalendar 组件 统计每月
      */
-    private BigDecimal title;
+    private String title;
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date start;
     private Integer order;
     private String backgroundColor;
     private String borderColor;
+
+    /**
+     * 收支状态（1收入，2支出，3不计入）
+     */
+    private String status;
 }

@@ -51,4 +51,9 @@ public class AccountClass extends BaseEntity {
      * 停用启用状态
      */
     private String classStatus;
+
+    /**
+     * 收支状态（1收入，2支出，3不计入）
+     */
+    private String status;
 }

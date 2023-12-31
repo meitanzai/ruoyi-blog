@@ -16,6 +16,7 @@
         <result property="updateTime" column="update_time"/>
         <result property="deleted" column="deleted"/>
         <result property="moneyDate" column="money_date"/>
+        <result property="classType" column="class_type"/>
     </resultMap>
 
     <sql id="selectAccountMoneyVo">
@@ -39,13 +40,12 @@
         SELECT m.id,
         m.account_id,
         m.class_id,
-        case when c.class_type = 1 then m.money_pay else m.money_income end as money,
-        -- IFNULL(m.money_pay,m.money_income)as money, -- ifnull会导致精度丢失
+        m.money as money,
         m.money_introduce,
         m.is_total,
         m.money_date,
         m.deleted,
-        c.class_type                                                           "classType",
+        c.class_type                                                           "class_type",
         c.class_name                                                           "className"
         FROM account_class c
         LEFT JOIN account_money m ON c.id = m.class_id
@@ -76,14 +76,12 @@
         SELECT m.id,
                m.account_id,
                m.class_id,
-               IFNULL(money_pay, money_income) as money,
-               money_pay                          "moneyPay",
-               money_income                       "moneyIncome",
+               m.money as money,
                m.money_introduce,
                m.is_total,
                m.money_date,
                m.deleted,
-               c.class_type                       "classType"
+               c.class_type                       "class_type"
         FROM account_class c
                  LEFT JOIN account_money m ON c.id = m.class_id
         where m.id = #{id}
@@ -92,12 +90,8 @@
     <insert id="insertAccountMoney" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountMoney">
         insert into account_money
         <trim prefix="(" suffix=")" suffixOverrides=",">
-
-            <if test="moneyPay != null">
-                money_pay,
-            </if>
-            <if test="moneyIncome != null">
-                money_income,
+            <if test="money != null">
+                money,
             </if>
             <if test="moneyDate != null">
                 money_date,
@@ -134,11 +128,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="moneyPay != null">
-                #{moneyPay,jdbcType=DECIMAL},
-            </if>
-            <if test="moneyIncome != null">
-                #{moneyIncome,jdbcType=DECIMAL},
+            <if test="money != null">
+                #{money,jdbcType=DECIMAL},
             </if>
             <if test="moneyDate != null">
                 #{moneyDate,jdbcType=TIMESTAMP},
@@ -180,11 +171,8 @@
     <update id="updateAccountMoney" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountMoney">
         update account_money
         <trim prefix="SET" suffixOverrides=",">
-            <if test="moneyPay != null">
-                money_pay = #{moneyPay,jdbcType=DECIMAL},
-            </if>
-            <if test="moneyIncome != null">
-                money_income = #{moneyIncome,jdbcType=DECIMAL},
+            <if test="money != null">
+                money = #{money,jdbcType=DECIMAL},
             </if>
             <if test="moneyDate != null">
                 money_date = #{moneyDate,jdbcType=TIMESTAMP},

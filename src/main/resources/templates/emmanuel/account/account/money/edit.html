@@ -15,11 +15,17 @@
                 <input name="money" th:field="*{accountId}" class="form-control" type="text" required readonly="true">
             </div>
         </div>
-
         <div class="form-group">
-            <label class="col-sm-3 control-label is-required">分类</label>
+            <label class="col-sm-3 control-label is-required">账户类型：</label>
             <div class="col-sm-8">
-
+                <select name="classType" id="classType" class="form-control" data-placeholder="请选择账户类型" th:with="type=${@dict.getType('account_income_pay')}" required>
+                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{classType}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">所属分类</label>
+            <div class="col-sm-8">
                 <select class="form-control" data-placeholder="请选择分类" id="classId" name="classId"
                         required>
                     <option value="">请选择</option>
@@ -30,7 +36,6 @@
                             th:disabled="${accountClass.classStatus == '1'}"
                     ></option>
                 </select>
-
             </div>
         </div>
         <div class="form-group">
@@ -106,6 +111,29 @@
         //只能输入两位小数
         this.value = this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
     })
+
+    // 监听选择框的选中事件
+    var selectBox = document.getElementById("classType");
+    selectBox.addEventListener("change", function() {
+        // 获取选中的值
+        var classType = selectBox.value;
+        $.ajax({
+            type: "GET",
+            url: prefix + "/accountClass",
+            data: {
+                "classType": classType
+            },
+            dataType: "json",
+            success: function (result) {
+                var html = "";
+                $.each(result.rows, function (i, n) {
+                    html += "<option value='" + n.id + "'>" + n.className + "</option>";
+                });
+                $("#classId").html(html);
+            }
+        });
+
+    });
 
 </script>
 </body>

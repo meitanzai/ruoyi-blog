@@ -201,21 +201,24 @@
         SELECT visible from account_account WHERE id = #{accountId,jdbcType=BIGINT}
     </select>
 
-    <select id="accountCount" resultType="java.util.Map">
+    <select id="accountCountByClass" resultType="java.util.Map">
         select c.id, c.class_name as className,
-               ifnull(sum(if(c.class_type = 1,m.money_pay,m.money_income)),0)  as money,
-               if(c.class_type = 1 ,'支出', '收入') as "classType"
+        sum(m.money)  as money,
+        c.class_type as "classType",
+        c.status as "status"
         from account_class c
                  inner join account_money m on c.id = m.class_id
         where m.account_id = #{accountId,jdbcType=BIGINT}
           and m.deleted = 0
+          and is_total = 0
         group by c.id, c.class_name
     </select>
 
     <select id="accountCountByImonth" resultType="java.util.Map">
         select
-            ifnull(sum(if(c.class_type = 1 ,m.money_pay,null)),0) as moneyPay,
-            ifnull(sum(if(c.class_type = 0 ,m.money_income,null)),0) as moneyIncome,
+            ifnull(sum(if(c.status = '1' ,m.money,null)),0) as moneyIncome,
+            ifnull(sum(if(c.status = '2' ,m.money,null)),0) as moneyPay,
+            ifnull(sum(if(c.status = '3' ,m.money,null)),0) as moneyIgnore,
             date_format(m.money_date,'%Y-%m') as "moneyDate"
         from account_class c
                  inner join account_money m on c.id = m.class_id

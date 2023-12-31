@@ -25,7 +25,7 @@
                create_by,
                create_time,
                update_by,
-               update_time, class_status
+               update_time, class_status,status
         from account_class
     </sql>
 
@@ -52,7 +52,7 @@
                 and order_num = #{orderNum}
             </if>
         </where>
-         ORDER BY  class_type, order_num
+        order by order_num, create_time desc
     </select>
 
     <select id="selectAccountClassById" parameterType="Long" resultMap="AccountClassResult">
@@ -89,7 +89,10 @@
                 update_time,
             </if>
             <if test="classStatus != null and classStatus != ''">
-               class_status
+               class_status,
+            </if>
+            <if test="status != null and status != ''">
+                status,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -119,6 +122,9 @@
             </if>
             <if test="classStatus != null and classStatus != ''">
                 #{classStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status != ''">
+                #{status,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -152,6 +158,9 @@
             </if>
             <if test="classStatus != null and classStatus != ''">
                 class_status = #{classStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status,jdbcType=VARCHAR},
             </if>
         </trim>
         where id = #{id}

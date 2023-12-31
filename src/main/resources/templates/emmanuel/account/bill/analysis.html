@@ -4,9 +4,6 @@
 <head>
     <th:block th:include="include :: header('百度ECharts')"/>
     <th:block th:include="include :: toastr-css"/>
-    <!-- fullCalendar -->
-    <link href='/blog/fullcalendar/main.css' rel='stylesheet'/>
-
 </head>
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight"
@@ -77,14 +74,16 @@
                             <th style="text-align: center">日期</th>
                             <th style="text-align: center">支出</th>
                             <th style="text-align: center">收入</th>
+                            <th style="text-align: center">不计入</th>
                         </tr>
                         </thead>
                         <tbody  th:each="item,temp : ${accountImonthList}">
                         <tr align="center">
                             <td th:text="${accountName}"></td>
                             <td th:text="${item.moneyDate}"></td>
-                            <td th:text="${item.moneyPay}"></td>
-                            <td th:text="${item.moneyIncome}"></td>
+                            <td th:text="${item.moneyPay} == 0.00 ? '-' : ${item.moneyPay}"></td>
+                            <td th:text="${item.moneyIncome} == 0.00 ? '-' : ${item.moneyIncome}"></td>
+                            <td th:text="${item.moneyIgnore} == 0.00 ? '-' : ${item.moneyIgnore}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -98,8 +97,6 @@
 </div>
 <th:block th:include="include :: footer"/>
 <th:block th:include="include :: echarts-js"/>
-<!-- fullCalendar 2.2.5 -->
-<script src='/blog/fullcalendar/main.js'></script>
 <th:block th:include="include :: toastr-js"/>
 <script type="text/javascript">
 

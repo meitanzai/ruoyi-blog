@@ -34,12 +34,14 @@ CREATE TABLE `account_account` (
                                    `update_time` datetime DEFAULT NULL COMMENT '更新时间',
                                    `create_user_id` bigint(20) DEFAULT NULL COMMENT '创建用户ID',
                                    PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of account_account
 -- ----------------------------
 BEGIN;
+INSERT INTO `account_account` (`id`, `cover`, `account_name`, `account_introduce`, `visible`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `create_user_id`) VALUES (1, NULL, '2024年账单', '2024年账单', '0', 1, 'admin', '2023-12-31 23:38:33', '', NULL, NULL);
+INSERT INTO `account_account` (`id`, `cover`, `account_name`, `account_introduce`, `visible`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `create_user_id`) VALUES (2, '', '2023年账单', '2023年账单', '0', 2, 'admin', '2023-12-31 23:38:45', '', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -57,13 +59,22 @@ CREATE TABLE `account_class` (
                                  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
                                  `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
                                  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 `status` char(1) DEFAULT NULL COMMENT '1收入 2支出 3不计入',
                                  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of account_class
 -- ----------------------------
 BEGIN;
+INSERT INTO `account_class` (`id`, `class_name`, `class_type`, `class_introduce`, `class_status`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `status`) VALUES (1, '工资', '收入', '工资', '0', 1, 'admin', '2023-12-31 23:23:08', '', NULL, '1');
+INSERT INTO `account_class` (`id`, `class_name`, `class_type`, `class_introduce`, `class_status`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `status`) VALUES (2, '快手直播', '收入', '快手直播', '0', 2, 'admin', '2023-12-31 23:23:32', '', NULL, '1');
+INSERT INTO `account_class` (`id`, `class_name`, `class_type`, `class_introduce`, `class_status`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `status`) VALUES (3, '衣', '支出', '衣', '0', 3, 'admin', '2023-12-31 23:24:08', '', NULL, '2');
+INSERT INTO `account_class` (`id`, `class_name`, `class_type`, `class_introduce`, `class_status`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `status`) VALUES (4, '食', '支出', '食', '0', 4, 'admin', '2023-12-31 23:24:08', '', NULL, '2');
+INSERT INTO `account_class` (`id`, `class_name`, `class_type`, `class_introduce`, `class_status`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `status`) VALUES (5, '住', '支出', '住', '0', 5, 'admin', '2023-12-31 23:24:08', '', NULL, '2');
+INSERT INTO `account_class` (`id`, `class_name`, `class_type`, `class_introduce`, `class_status`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `status`) VALUES (6, '行', '支出', '行', '0', 6, 'admin', '2023-12-31 23:24:08', '', NULL, '2');
+INSERT INTO `account_class` (`id`, `class_name`, `class_type`, `class_introduce`, `class_status`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `status`) VALUES (7, '招商信用卡', '还款', '招商信用卡', '0', 7, 'admin', '2023-12-31 23:24:08', '', NULL, '3');
+INSERT INTO `account_class` (`id`, `class_name`, `class_type`, `class_introduce`, `class_status`, `order_num`, `create_by`, `create_time`, `update_by`, `update_time`, `status`) VALUES (8, '花呗', '还款', '花呗', '0', 8, 'admin', '2023-12-31 23:24:08', '', NULL, '3');
 COMMIT;
 
 -- ----------------------------
@@ -74,8 +85,6 @@ CREATE TABLE `account_money` (
                                  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
                                  `account_id` bigint(20) NOT NULL COMMENT '账本id',
                                  `class_id` bigint(20) NOT NULL COMMENT '类型id',
-                                 `money_pay` decimal(20,2) DEFAULT NULL COMMENT '金额(支出金额)',
-                                 `money_income` decimal(20,2) DEFAULT NULL COMMENT '金额(收出金额)',
                                  `money_date` date DEFAULT NULL COMMENT '花钱日期',
                                  `money_introduce` varchar(2000) DEFAULT NULL COMMENT '备注/金额说明',
                                  `is_total` int(1) NOT NULL DEFAULT '0' COMMENT '是否记入总账（0记入，默认，1不记录）',
@@ -84,23 +93,24 @@ CREATE TABLE `account_money` (
                                  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
                                  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
                                  `deleted` char(1) NOT NULL DEFAULT '0' COMMENT '0是正常，1是删除',
+                                 `money` decimal(20,2) DEFAULT NULL COMMENT '金额',
                                  PRIMARY KEY (`id`) USING BTREE,
                                  KEY `account_id` (`account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of account_money
 -- ----------------------------
 BEGIN;
+INSERT INTO `account_money` (`id`, `account_id`, `class_id`, `money_date`, `money_introduce`, `is_total`, `create_by`, `create_time`, `update_by`, `update_time`, `deleted`, `money`) VALUES (1, 2, 2, '2023-12-01', '', 0, 'admin', '2023-12-31 23:41:51', '', NULL, '0', 1200.00);
+INSERT INTO `account_money` (`id`, `account_id`, `class_id`, `money_date`, `money_introduce`, `is_total`, `create_by`, `create_time`, `update_by`, `update_time`, `deleted`, `money`) VALUES (2, 2, 1, '2023-12-02', '', 0, 'admin', '2023-12-31 23:42:07', '', NULL, '0', 5000.00);
+INSERT INTO `account_money` (`id`, `account_id`, `class_id`, `money_date`, `money_introduce`, `is_total`, `create_by`, `create_time`, `update_by`, `update_time`, `deleted`, `money`) VALUES (3, 2, 5, '2023-12-31', '房租', 0, 'admin', '2023-12-31 23:42:44', '', NULL, '0', 1500.00);
+INSERT INTO `account_money` (`id`, `account_id`, `class_id`, `money_date`, `money_introduce`, `is_total`, `create_by`, `create_time`, `update_by`, `update_time`, `deleted`, `money`) VALUES (4, 2, 7, '2023-12-31', '', 0, 'admin', '2023-12-31 23:43:05', '', NULL, '0', 500.00);
+INSERT INTO `account_money` (`id`, `account_id`, `class_id`, `money_date`, `money_introduce`, `is_total`, `create_by`, `create_time`, `update_by`, `update_time`, `deleted`, `money`) VALUES (5, 1, 2, '2023-12-09', '', 0, 'admin', '2023-12-31 23:43:59', '', NULL, '0', 800.00);
+INSERT INTO `account_money` (`id`, `account_id`, `class_id`, `money_date`, `money_introduce`, `is_total`, `create_by`, `create_time`, `update_by`, `update_time`, `deleted`, `money`) VALUES (6, 1, 3, '2023-12-11', '', 0, 'admin', '2023-12-31 23:44:14', '', NULL, '0', 300.00);
+INSERT INTO `account_money` (`id`, `account_id`, `class_id`, `money_date`, `money_introduce`, `is_total`, `create_by`, `create_time`, `update_by`, `update_time`, `deleted`, `money`) VALUES (7, 1, 6, '2023-12-31', '', 0, 'admin', '2023-12-31 23:44:28', '', NULL, '0', 18.00);
 COMMIT;
 
--- ----------------------------
--- Table structure for account_user_account
--- ----------------------------
-
--- ----------------------------
--- Records of account_user_account
--- ----------------------------
 -- ----------------------------
 -- Table structure for account_user_account
 -- ----------------------------
@@ -111,7 +121,14 @@ CREATE TABLE `account_user_account` (
                                         `administrators` char(1) DEFAULT '0' COMMENT '管理员（1管理员 ,0非管理员）',
                                         PRIMARY KEY (`user_id`,`account_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户与记账账户关联表';
+
+-- ----------------------------
+-- Records of account_user_account
+-- ----------------------------
 BEGIN;
+INSERT INTO `account_user_account` (`user_id`, `account_id`, `administrators`) VALUES (1, 1, '1');
+INSERT INTO `account_user_account` (`user_id`, `account_id`, `administrators`) VALUES (1, 2, '1');
+INSERT INTO `account_user_account` (`user_id`, `account_id`, `administrators`) VALUES (2, 2, '0');
 COMMIT;
 
 -- ----------------------------
@@ -310,7 +327,7 @@ CREATE TABLE `mto_category` (
                                 `type` int(1) DEFAULT '0' COMMENT '类型 （0分类/1页面）',
                                 `page_url` varchar(255) DEFAULT NULL COMMENT '页面请求地址',
                                 PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='前台导航';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='前台导航';
 
 -- ----------------------------
 -- Records of mto_category
@@ -329,7 +346,7 @@ INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, 
 INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (13, 0, '新闻', '', 6, 'fa fa-hacker-news', 1, '2022-03-23 20:49:26', '2022-03-26 18:56:51', 1, '/blog/news');
 INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (15, 0, '主页', '我的主页', 0, 'fa fa-home', 1, '2022-09-02 16:24:24', '2022-09-02 16:24:24', 1, '/blog/homepage');
 INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (16, 0, 'vue博客', '', 101, 'glyphicon glyphicon-book', 1, '2023-01-15 14:05:00', '2023-01-15 14:05:54', 1, 'https://giteekey.gitee.io/blog-notes/');
-INSERT INTO `mto_category` ( id, pid, name, description, sort, icon, status, create_time, update_time, type, page_url) VALUES (17, 0, '聊天室', '', 7, 'glyphicon glyphicon-comment', 1, '2023-10-21 13:00:41', '2023-10-21 13:00:41', 1, 'http://localhost:10011/blog/websocket/chatRoom');
+INSERT INTO `mto_category` (`id`, `pid`, `name`, `description`, `sort`, `icon`, `status`, `create_time`, `update_time`, `type`, `page_url`) VALUES (17, 0, '聊天室', '', 7, 'glyphicon glyphicon-comment', 1, '2023-10-21 13:00:41', '2023-10-21 13:00:41', 1, 'http://localhost:10011/blog/websocket/chatRoom');
 COMMIT;
 
 -- ----------------------------
@@ -509,9 +526,9 @@ CREATE TABLE `mto_post` (
 -- Records of mto_post
 -- ----------------------------
 BEGIN;
-INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `pwd`, `weight`, `update_time`) VALUES (134, 1, 15, NULL, 0, '2022-11-19 12:27:08', 0, 0, 0, 0, 'ruoyi-blog博客项目，是前后台响应式，前台与后台都支持手机端，并且跟随ruoyi项目升级，并且作者会长期维护的项目，你值得拥有', '笔记', '', '配置文件说明一', 2, '', 0, '2022-11-19 12:58:44');
-INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `pwd`, `weight`, `update_time`) VALUES (135, 1, 15, NULL, 0, '2022-11-19 12:51:11', 0, 0, 0, 0, 'ruoyi-blog博客项目，是前后台响应式，前台与后台都支持手机端，并且跟随ruoyi项目升级，并且作者会长期维护的项目，你值得拥有', '笔记', '', '配置文件说明二', 0, '', 0, '2022-11-19 12:56:11');
-INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `pwd`, `weight`, `update_time`) VALUES (136, 1, 17, NULL, 0, '2022-11-19 12:55:53', 0, 0, 0, 0, '密码：123456 ，', '密码', '', '密码测试', 5, '123456', 0, '2022-11-19 12:57:51');
+INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `pwd`, `weight`, `update_time`) VALUES (134, 1, 15, NULL, 0, '2022-11-19 12:27:08', 0, 0, 0, 0, 'ruoyi-blog博客项目，是前后台响应式，前台与后台都支持手机端，并且跟随ruoyi项目升级，并且作者会长期维护的项目，你值得拥有', '笔记', '', '配置文件说明一', 3, '', 0, '2022-11-19 12:58:44');
+INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `pwd`, `weight`, `update_time`) VALUES (135, 1, 15, NULL, 0, '2022-11-19 12:51:11', 0, 1, 0, 0, 'ruoyi-blog博客项目，是前后台响应式，前台与后台都支持手机端，并且跟随ruoyi项目升级，并且作者会长期维护的项目，你值得拥有', '笔记', '', '配置文件说明二', 1, '', 0, '2022-11-19 12:56:11');
+INSERT INTO `mto_post` (`id`, `author_id`, `channel_id`, `category_Id`, `comments`, `create_time`, `slider`, `favors`, `featured`, `status`, `summary`, `tags`, `thumbnail`, `title`, `views`, `pwd`, `weight`, `update_time`) VALUES (136, 1, 17, NULL, 0, '2022-11-19 12:55:53', 0, 0, 0, 0, '密码：123456 ，', '密码', '', '密码测试', 7, '123456', 0, '2022-11-19 12:57:51');
 COMMIT;
 
 -- ----------------------------
@@ -715,9 +732,9 @@ CREATE TABLE `qrtz_job_details` (
 -- Records of qrtz_job_details
 -- ----------------------------
 BEGIN;
-INSERT INTO qrtz_job_details (sched_name, job_name, job_group, description, job_class_name, is_durable, is_nonconcurrent, is_update_data, requests_recovery, job_data) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME1', 'DEFAULT', null, 'com.ruoyi.project.monitor.job.util.QuartzDisallowConcurrentExecution', '0', '1', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000F5441534B5F50524F5045525449455373720028636F6D2E72756F79692E70726F6A6563742E6D6F6E69746F722E6A6F622E646F6D61696E2E4A6F6200000000000000010200084C000A636F6E63757272656E747400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000C696E766F6B6554617267657471007E00094C00086A6F6247726F757071007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C00076A6F624E616D6571007E00094C000D6D697366697265506F6C69637971007E00094C000673746174757371007E000978720029636F6D2E72756F79692E6672616D65776F726B2E7765622E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E00094C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0006706172616D7371007E00034C000672656D61726B71007E00094C000B73656172636856616C756571007E00094C0008757064617465427971007E00094C000A75706461746554696D6571007E000C787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017D1768E49078707400007070707400013174000E302F3130202A202A202A202A203F74001172795461736B2E72794E6F506172616D7374000744454641554C547372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000001740018E7B3BBE7BB9FE9BB98E8AEA4EFBC88E697A0E58F82EFBC8974000133740001317800);
-INSERT INTO qrtz_job_details (sched_name, job_name, job_group, description, job_class_name, is_durable, is_nonconcurrent, is_update_data, requests_recovery, job_data) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME2', 'DEFAULT', null, 'com.ruoyi.project.monitor.job.util.QuartzDisallowConcurrentExecution', '0', '1', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000F5441534B5F50524F5045525449455373720028636F6D2E72756F79692E70726F6A6563742E6D6F6E69746F722E6A6F622E646F6D61696E2E4A6F6200000000000000010200084C000A636F6E63757272656E747400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000C696E766F6B6554617267657471007E00094C00086A6F6247726F757071007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C00076A6F624E616D6571007E00094C000D6D697366697265506F6C69637971007E00094C000673746174757371007E000978720029636F6D2E72756F79692E6672616D65776F726B2E7765622E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E00094C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0006706172616D7371007E00034C000672656D61726B71007E00094C000B73656172636856616C756571007E00094C0008757064617465427971007E00094C000A75706461746554696D6571007E000C787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017D1768E49078707400007070707400013174000E302F3135202A202A202A202A203F74001572795461736B2E7279506172616D7328277279272974000744454641554C547372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000002740018E7B3BBE7BB9FE9BB98E8AEA4EFBC88E69C89E58F82EFBC8974000133740001317800);
-INSERT INTO qrtz_job_details (sched_name, job_name, job_group, description, job_class_name, is_durable, is_nonconcurrent, is_update_data, requests_recovery, job_data) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME3', 'DEFAULT', null, 'com.ruoyi.project.monitor.job.util.QuartzDisallowConcurrentExecution', '0', '1', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000F5441534B5F50524F5045525449455373720028636F6D2E72756F79692E70726F6A6563742E6D6F6E69746F722E6A6F622E646F6D61696E2E4A6F6200000000000000010200084C000A636F6E63757272656E747400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000C696E766F6B6554617267657471007E00094C00086A6F6247726F757071007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C00076A6F624E616D6571007E00094C000D6D697366697265506F6C69637971007E00094C000673746174757371007E000978720029636F6D2E72756F79692E6672616D65776F726B2E7765622E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E00094C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0006706172616D7371007E00034C000672656D61726B71007E00094C000B73656172636856616C756571007E00094C0008757064617465427971007E00094C000A75706461746554696D6571007E000C787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017D1768E49078707400007070707400013174000E302F3230202A202A202A202A203F74003872795461736B2E72794D756C7469706C65506172616D7328277279272C20747275652C20323030304C2C203331362E3530442C203130302974000744454641554C547372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000003740018E7B3BBE7BB9FE9BB98E8AEA4EFBC88E5A49AE58F82EFBC8974000133740001317800);
+INSERT INTO `qrtz_job_details` (`sched_name`, `job_name`, `job_group`, `description`, `job_class_name`, `is_durable`, `is_nonconcurrent`, `is_update_data`, `requests_recovery`, `job_data`) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME1', 'DEFAULT', NULL, 'com.ruoyi.project.monitor.job.util.QuartzDisallowConcurrentExecution', '0', '1', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000F5441534B5F50524F5045525449455373720028636F6D2E72756F79692E70726F6A6563742E6D6F6E69746F722E6A6F622E646F6D61696E2E4A6F6200000000000000010200084C000A636F6E63757272656E747400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000C696E766F6B6554617267657471007E00094C00086A6F6247726F757071007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C00076A6F624E616D6571007E00094C000D6D697366697265506F6C69637971007E00094C000673746174757371007E000978720029636F6D2E72756F79692E6672616D65776F726B2E7765622E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E00094C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0006706172616D7371007E00034C000672656D61726B71007E00094C000B73656172636856616C756571007E00094C0008757064617465427971007E00094C000A75706461746554696D6571007E000C787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017D1768E49078707400007070707400013174000E302F3130202A202A202A202A203F74001172795461736B2E72794E6F506172616D7374000744454641554C547372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000001740018E7B3BBE7BB9FE9BB98E8AEA4EFBC88E697A0E58F82EFBC8974000133740001317800);
+INSERT INTO `qrtz_job_details` (`sched_name`, `job_name`, `job_group`, `description`, `job_class_name`, `is_durable`, `is_nonconcurrent`, `is_update_data`, `requests_recovery`, `job_data`) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME2', 'DEFAULT', NULL, 'com.ruoyi.project.monitor.job.util.QuartzDisallowConcurrentExecution', '0', '1', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000F5441534B5F50524F5045525449455373720028636F6D2E72756F79692E70726F6A6563742E6D6F6E69746F722E6A6F622E646F6D61696E2E4A6F6200000000000000010200084C000A636F6E63757272656E747400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000C696E766F6B6554617267657471007E00094C00086A6F6247726F757071007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C00076A6F624E616D6571007E00094C000D6D697366697265506F6C69637971007E00094C000673746174757371007E000978720029636F6D2E72756F79692E6672616D65776F726B2E7765622E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E00094C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0006706172616D7371007E00034C000672656D61726B71007E00094C000B73656172636856616C756571007E00094C0008757064617465427971007E00094C000A75706461746554696D6571007E000C787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017D1768E49078707400007070707400013174000E302F3135202A202A202A202A203F74001572795461736B2E7279506172616D7328277279272974000744454641554C547372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000002740018E7B3BBE7BB9FE9BB98E8AEA4EFBC88E69C89E58F82EFBC8974000133740001317800);
+INSERT INTO `qrtz_job_details` (`sched_name`, `job_name`, `job_group`, `description`, `job_class_name`, `is_durable`, `is_nonconcurrent`, `is_update_data`, `requests_recovery`, `job_data`) VALUES ('RuoyiScheduler', 'TASK_CLASS_NAME3', 'DEFAULT', NULL, 'com.ruoyi.project.monitor.job.util.QuartzDisallowConcurrentExecution', '0', '1', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000F5441534B5F50524F5045525449455373720028636F6D2E72756F79692E70726F6A6563742E6D6F6E69746F722E6A6F622E646F6D61696E2E4A6F6200000000000000010200084C000A636F6E63757272656E747400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000C696E766F6B6554617267657471007E00094C00086A6F6247726F757071007E00094C00056A6F6249647400104C6A6176612F6C616E672F4C6F6E673B4C00076A6F624E616D6571007E00094C000D6D697366697265506F6C69637971007E00094C000673746174757371007E000978720029636F6D2E72756F79692E6672616D65776F726B2E7765622E646F6D61696E2E42617365456E7469747900000000000000010200074C0008637265617465427971007E00094C000A63726561746554696D657400104C6A6176612F7574696C2F446174653B4C0006706172616D7371007E00034C000672656D61726B71007E00094C000B73656172636856616C756571007E00094C0008757064617465427971007E00094C000A75706461746554696D6571007E000C787074000561646D696E7372000E6A6176612E7574696C2E44617465686A81014B597419030000787077080000017D1768E49078707400007070707400013174000E302F3230202A202A202A202A203F74003872795461736B2E72794D756C7469706C65506172616D7328277279272C20747275652C20323030304C2C203331362E3530442C203130302974000744454641554C547372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B02000078700000000000000003740018E7B3BBE7BB9FE9BB98E8AEA4EFBC88E5A49AE58F82EFBC8974000133740001317800);
 COMMIT;
 
 -- ----------------------------
@@ -734,8 +751,8 @@ CREATE TABLE `qrtz_locks` (
 -- Records of qrtz_locks
 -- ----------------------------
 BEGIN;
-INSERT INTO qrtz_locks (sched_name, lock_name) VALUES ('RuoyiScheduler', 'STATE_ACCESS');
-INSERT INTO qrtz_locks (sched_name, lock_name) VALUES ('RuoyiScheduler', 'TRIGGER_ACCESS');
+INSERT INTO `qrtz_locks` (`sched_name`, `lock_name`) VALUES ('RuoyiScheduler', 'STATE_ACCESS');
+INSERT INTO `qrtz_locks` (`sched_name`, `lock_name`) VALUES ('RuoyiScheduler', 'TRIGGER_ACCESS');
 COMMIT;
 
 -- ----------------------------
@@ -770,7 +787,7 @@ CREATE TABLE `qrtz_scheduler_state` (
 -- Records of qrtz_scheduler_state
 -- ----------------------------
 BEGIN;
-INSERT INTO qrtz_scheduler_state (sched_name, instance_name, last_checkin_time, checkin_interval) VALUES ('RuoyiScheduler', 'root1645534794964', 1645777236815, 15000);
+INSERT INTO `qrtz_scheduler_state` (`sched_name`, `instance_name`, `last_checkin_time`, `checkin_interval`) VALUES ('RuoyiScheduler', 'root1645534794964', 1645777236815, 15000);
 COMMIT;
 
 -- ----------------------------
@@ -895,7 +912,7 @@ CREATE TABLE `sys_config` (
                               `update_time` datetime DEFAULT NULL COMMENT '更新时间',
                               `remark` varchar(500) DEFAULT NULL COMMENT '备注',
                               PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='参数配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='参数配置表';
 
 -- ----------------------------
 -- Records of sys_config
@@ -911,7 +928,7 @@ INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_valu
 INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (8, '主框架页-菜单导航显示风格', 'sys.index.menuStyle', 'default', 'Y', 'admin', '2021-11-13 11:48:10', '', NULL, '菜单导航显示风格（default为左侧导航菜单，topnav为顶部导航菜单）');
 INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (9, '主框架页-是否开启页脚', 'sys.index.footer', 'true', 'Y', 'admin', '2021-11-13 11:48:10', '', NULL, '是否开启底部页脚显示（true显示，false隐藏）');
 INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (10, '主框架页-是否开启页签', 'sys.index.tagsView', 'true', 'Y', 'admin', '2021-11-13 11:48:10', '', NULL, '是否开启菜单多页签显示（true显示，false隐藏）');
-insert into  sys_config values(11, '用户登录-黑名单列表',           'sys.login.blackIPList',            '',              'Y', 'admin', sysdate(), '', null, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
+INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (11, '用户登录-黑名单列表', 'sys.login.blackIPList', '', 'Y', 'admin', '2023-12-31 23:17:44', '', NULL, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
 COMMIT;
 
 -- ----------------------------
@@ -1000,7 +1017,7 @@ CREATE TABLE `sys_dict_data` (
                                  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
                                  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
                                  PRIMARY KEY (`dict_code`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='字典数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='字典数据表';
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -1035,11 +1052,12 @@ INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value
 INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (27, 9, '清空数据', '9', 'sys_oper_type', '', 'danger', 'N', '0', 'admin', '2021-11-13 11:48:10', '', NULL, '清空操作');
 INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (28, 1, '成功', '0', 'sys_common_status', '', 'primary', 'N', '0', 'admin', '2021-11-13 11:48:10', '', NULL, '正常状态');
 INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (29, 2, '失败', '1', 'sys_common_status', '', 'danger', 'N', '0', 'admin', '2021-11-13 11:48:10', '', NULL, '停用状态');
-INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (30, 2, '收入', '0', 'account_income_pay', NULL, 'success', 'N', '0', 'admin', '2021-11-21 09:36:30', '', NULL, '账户分类的收支状态');
-INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (31, 1, '支出', '1', 'account_income_pay', '', 'danger', 'Y', '0', 'admin', '2021-11-21 09:36:55', 'admin', '2021-11-21 09:37:12', '账户分类的收支状态');
+INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (30, 1, '收入', '1', 'account_income_pay', '', 'success', 'N', '0', 'admin', '2021-11-21 09:36:30', 'admin', '2023-12-31 23:33:52', '账户分类的收支状态');
+INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (31, 2, '支出', '2', 'account_income_pay', '', 'danger', 'Y', '0', 'admin', '2021-11-21 09:36:55', 'admin', '2023-12-31 23:22:24', '账户分类的收支状态');
 INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (32, 1, '入账', '0', 'account_is_Total', NULL, 'primary', 'Y', '0', 'admin', '2021-11-21 14:36:45', '', NULL, NULL);
 INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (33, 2, '不入账', '1', 'account_is_Total', NULL, 'warning', 'N', '0', 'admin', '2021-11-21 14:37:15', '', NULL, NULL);
 INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (34, 1, '永结同心', '1', 'note_type', '', 'primary', 'Y', '0', 'admin', '2021-12-18 16:19:40', 'superAdmin', '2022-02-14 22:34:11', '');
+INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (35, 3, '还款', '3', 'account_income_pay', '', 'primary', 'Y', '0', 'admin', '2023-12-31 23:22:00', 'admin', '2023-12-31 23:36:48', '');
 COMMIT;
 
 -- ----------------------------
@@ -1154,21 +1172,21 @@ COMMIT;
 -- ----------------------------
 -- Table structure for sys_logininfor
 -- ----------------------------
-drop table if exists sys_logininfor;
-create table sys_logininfor (
-                                info_id        bigint(20)     not null auto_increment   comment '访问ID',
-                                login_name     varchar(50)    default ''                comment '登录账号',
-                                ipaddr         varchar(128)   default ''                comment '登录IP地址',
-                                login_location varchar(255)   default ''                comment '登录地点',
-                                browser        varchar(50)    default ''                comment '浏览器类型',
-                                os             varchar(50)    default ''                comment '操作系统',
-                                status         char(1)        default '0'               comment '登录状态（0成功 1失败）',
-                                msg            varchar(255)   default ''                comment '提示消息',
-                                login_time     datetime                                 comment '访问时间',
-                                primary key (info_id),
-                                key idx_sys_logininfor_s  (status),
-                                key idx_sys_logininfor_lt (login_time)
-) engine=innodb auto_increment=100 comment = '系统访问记录';
+DROP TABLE IF EXISTS `sys_logininfor`;
+CREATE TABLE `sys_logininfor` (
+                                  `info_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '访问ID',
+                                  `login_name` varchar(50) DEFAULT '' COMMENT '登录账号',
+                                  `ipaddr` varchar(128) DEFAULT '' COMMENT '登录IP地址',
+                                  `login_location` varchar(255) DEFAULT '' COMMENT '登录地点',
+                                  `browser` varchar(50) DEFAULT '' COMMENT '浏览器类型',
+                                  `os` varchar(50) DEFAULT '' COMMENT '操作系统',
+                                  `status` char(1) DEFAULT '0' COMMENT '登录状态（0成功 1失败）',
+                                  `msg` varchar(255) DEFAULT '' COMMENT '提示消息',
+                                  `login_time` datetime DEFAULT NULL COMMENT '访问时间',
+                                  PRIMARY KEY (`info_id`),
+                                  KEY `idx_sys_logininfor_s` (`status`),
+                                  KEY `idx_sys_logininfor_lt` (`login_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统访问记录';
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -1226,7 +1244,7 @@ CREATE TABLE `sys_menu` (
                             `update_time` datetime DEFAULT NULL COMMENT '更新时间',
                             `remark` varchar(500) DEFAULT '' COMMENT '备注',
                             PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1159 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='菜单权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=1167 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='菜单权限表';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -1408,6 +1426,14 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`,
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1156, '评论管理列表', 1155, 1, 'mto/comment/list', 'menuItem', 'F', '0', '1', 'mto:comment:list', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1157, '评论管理审核', 1155, 2, 'mto/comment/examine', 'menuItem', 'F', '0', '1', 'mto:comment:examine', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
 INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1158, '评论管理删除', 1155, 3, 'mto/comment/remove', 'menuItem', 'F', '0', '1', 'mto:comment:remove', '#', 'admin', '2021-11-13 15:23:07', 'superAdmin', '2021-11-22 22:35:22', '文章标题题菜单');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1159, '时间轴', 7, 1, '/memorial/TimeLineM', '', 'C', '0', '1', 'timeline:m:view', '#', 'admin', '2023-02-25 20:03:18', '', NULL, '时间轴主表菜单');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1160, '时间轴查询', 1159, 1, '#', '', 'F', '0', '1', 'timeline:m:list', '#', 'admin', '2023-02-25 20:03:18', '', NULL, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1161, '时间轴新增', 1159, 2, '#', '', 'F', '0', '1', 'timeline:m:add', '#', 'admin', '2023-02-25 20:03:18', '', NULL, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1162, '时间轴修改', 1159, 3, '#', '', 'F', '0', '1', 'timeline:m:edit', '#', 'admin', '2023-02-25 20:03:18', '', NULL, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1163, '时间轴删除', 1159, 4, '#', '', 'F', '0', '1', 'timeline:m:remove', '#', 'admin', '2023-02-25 20:03:18', '', NULL, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1164, '时间轴详情', 1159, 5, '#', '', 'F', '0', '1', 'timeline:m:detail', '#', 'admin', '2023-02-25 20:03:18', '', NULL, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1165, '时间轴详情新增', 1164, 6, '#', '', 'F', '0', '1', 'timeline:s:add', '#', 'admin', '2023-02-25 20:03:18', '', NULL, '');
+INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `target`, `menu_type`, `visible`, `is_refresh`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1166, '时间轴详情查看更多', 1164, 7, '#', '', 'F', '0', '1', 'timeline:s:detail', '#', 'admin', '2023-02-25 20:03:18', '', NULL, '');
 COMMIT;
 
 -- ----------------------------
@@ -1590,7 +1616,7 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` (`user_id`, `dept_id`, `login_name`, `user_name`, `user_type`, `email`, `phonenumber`, `sex`, `avatar`, `password`, `salt`, `status`, `del_flag`, `login_ip`, `login_date`, `pwd_update_date`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `totalSpace`) VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2023-02-08 17:34:56', '2023-02-08 17:34:56', 'admin', '2023-02-08 17:34:56', '', '2023-02-08 17:34:56', '管理员', 10.0);
+INSERT INTO `sys_user` (`user_id`, `dept_id`, `login_name`, `user_name`, `user_type`, `email`, `phonenumber`, `sex`, `avatar`, `password`, `salt`, `status`, `del_flag`, `login_ip`, `login_date`, `pwd_update_date`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `totalSpace`) VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', 'b3c62ecf954f05cc1697eed76d7fc26a', 'fee9eb', '0', '0', '127.0.0.1(223.104.40.244)', '2023-12-31 23:33:13', '2023-12-31 23:20:53', 'admin', '2023-02-08 17:34:56', '', '2023-12-31 23:33:12', '管理员', 10.0);
 INSERT INTO `sys_user` (`user_id`, `dept_id`, `login_name`, `user_name`, `user_type`, `email`, `phonenumber`, `sex`, `avatar`, `password`, `salt`, `status`, `del_flag`, `login_ip`, `login_date`, `pwd_update_date`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `totalSpace`) VALUES (2, 100, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '8e6d98b90472783cc73c17047ddccf36', '222222', '0', '0', '127.0.0.1', '2023-02-08 17:34:56', '2023-02-08 17:34:56', 'admin', '2023-02-08 17:34:56', 'admin', '2023-02-08 17:34:56', '测试员', 10.0);
 COMMIT;
 
@@ -1653,45 +1679,50 @@ BEGIN;
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (2, 2);
 COMMIT;
 
-create table time_line_m
-(
-    id          bigint auto_increment comment '主键id'
-        primary key,
-    time_title  varchar(50)            null comment '时间轴名称',
-    create_by   varchar(64) default '' null comment '创建者',
-    create_time datetime               null comment '创建时间',
-    update_by   varchar(64) default '' null comment '更新者',
-    update_time datetime               null comment '更新时间',
-    remark      varchar(500)           null comment '备注'
-);
+-- ----------------------------
+-- Table structure for time_line_m
+-- ----------------------------
+DROP TABLE IF EXISTS `time_line_m`;
+CREATE TABLE `time_line_m` (
+                               `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+                               `time_title` varchar(50) DEFAULT NULL COMMENT '时间轴名称',
+                               `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                               `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                               `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                               PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table time_line_s
-(
-    id          bigint auto_increment comment '主键id'
-        primary key,
-    summary     varchar(500)            null comment '摘要',
-    content     longtext                null,
-    status      char        default '0' not null comment '状态（0正常 1停用）',
-    create_by   varchar(64) default ''  null comment '创建者',
-    create_time datetime                null comment '创建时间',
-    time_title  varchar(50)             null comment '时间轴名称',
-    update_by   varchar(64) default ''  null comment '更新者',
-    update_time datetime                null comment '更新时间',
-    remark      varchar(500)            null comment '备注',
-    m_id        bigint                  null comment 'time_line_m主表id'
-);
+-- ----------------------------
+-- Records of time_line_m
+-- ----------------------------
+BEGIN;
+COMMIT;
 
+-- ----------------------------
+-- Table structure for time_line_s
+-- ----------------------------
+DROP TABLE IF EXISTS `time_line_s`;
+CREATE TABLE `time_line_s` (
+                               `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+                               `summary` varchar(500) DEFAULT NULL COMMENT '摘要',
+                               `content` longtext,
+                               `status` char(1) NOT NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
+                               `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
+                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               `time_title` varchar(50) DEFAULT NULL COMMENT '时间轴名称',
+                               `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
+                               `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                               `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+                               `m_id` bigint(20) DEFAULT NULL COMMENT 'time_line_m主表id',
+                               PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1159, '时间轴', 7, 1, '/memorial/TimeLineM', '', 'C', '0', '1', 'timeline:m:view', '#', 'admin', '2023-02-25 20:03:18', '', null, '时间轴主表菜单');
-INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1160, '时间轴查询', 1159, 1, '#', '', 'F', '0', '1', 'timeline:m:list', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
-INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1161, '时间轴新增', 1159, 2, '#', '', 'F', '0', '1', 'timeline:m:add', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
-INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1162, '时间轴修改', 1159, 3, '#', '', 'F', '0', '1', 'timeline:m:edit', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
-INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1163, '时间轴删除', 1159, 4, '#', '', 'F', '0', '1', 'timeline:m:remove', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
-INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1164, '时间轴详情', 1159, 5, '#', '', 'F', '0', '1', 'timeline:m:detail', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
-INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1165, '时间轴详情新增', 1164, 6, '#', '', 'F', '0', '1', 'timeline:s:add', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
-INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, url, target, menu_type, visible, is_refresh, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1166, '时间轴详情查看更多', 1164, 7, '#', '', 'F', '0', '1', 'timeline:s:detail', '#', 'admin', '2023-02-25 20:03:18', '', null, '');
-
-commit;
+-- ----------------------------
+-- Records of time_line_s
+-- ----------------------------
+BEGIN;
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
-

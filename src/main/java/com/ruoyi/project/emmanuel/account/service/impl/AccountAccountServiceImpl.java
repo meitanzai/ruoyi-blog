@@ -150,11 +150,11 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
         AccountAccount accountAccount = accountAccountMapper.selectAccountNameById(accountId);
         // 按月账单分析
         List<Map<String, Object>> accountImonthList = accountAccountMapper.accountCountByImonth(accountId);
-        // 收入支出列表
-        List<Map<String, Object>> accountClassList = accountAccountMapper.accountCount(accountId);
+        // 按分类账单分析
+        List<Map<String, Object>> accountClassList = accountAccountMapper.accountCountByClass(accountId);
         // 总收入，总支出
-        BigDecimal totalPay = accountClassList.stream().filter(e -> Objects.equals("支出", e.get("classType"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal totalIncome = accountClassList.stream().filter(e -> Objects.equals("收入", e.get("classType"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalPay = accountClassList.stream().filter(e -> Objects.equals("2", e.get("status"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalIncome = accountClassList.stream().filter(e -> Objects.equals("1", e.get("status"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
 
         modelMap.put("accountId", accountId);
         modelMap.put("accountName", accountAccount.getAccountName());

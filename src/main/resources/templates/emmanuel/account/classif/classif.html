@@ -18,7 +18,7 @@
                                 <label>分类类型：</label>
                                 <select name="classType" th:with="type=${@dict.getType('account_income_pay')}">
                                     <option value="">所有</option>
-                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictLabel}"></option>
                                 </select>
                             </li>
 
@@ -89,7 +89,22 @@
                     field: 'classType',
                     title: '分类类型',
                     formatter: function(value, row, index) {
-                       return $.table.selectDictLabel(classTypeDatas, value);
+                        if ($.common.isEmpty(classTypeDatas) || $.common.isEmpty(value)) {
+                            return '';
+                        }
+                        var actions = [];
+                        $.each(classTypeDatas, function(index, dict) {
+                            if (dict.dictLabel == ('' + value)) {
+                                var listClass = $.common.equals("default", dict.listClass) || $.common.isEmpty(dict.listClass) ? "" : "badge badge-" + dict.listClass;
+                                var cssClass = $.common.isNotEmpty(dict.cssClass) ? dict.cssClass : listClass;
+                                actions.push($.common.sprintf("<span class='%s'>%s</span>", cssClass, dict.dictLabel));
+                                return false;
+                            }
+                        });
+                        if (actions.length === 0) {
+                            actions.push($.common.sprintf("<span>%s</span>", value))
+                        }
+                        return actions.join('');
                     }
                 },
                 {

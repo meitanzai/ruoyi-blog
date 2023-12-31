@@ -41,15 +41,6 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <!--                        <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="account:bill:add">-->
-            <!--                            <i class="fa fa-plus"></i> 添加-->
-            <!--                        </a>-->
-            <!--            <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="account:bill:edit">-->
-            <!--                <i class="fa fa-edit"></i> 修改-->
-            <!--            </a>-->
-            <!--            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="account:bill:remove">-->
-            <!--                <i class="fa fa-remove"></i> 删除-->
-            <!--            </a>-->
             <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="account:bill:export">
                 <i class="fa fa-download"></i> 导出
             </a>
@@ -95,6 +86,13 @@
                 {
                     field: 'income',
                     title: '收入',
+                    formatter: function (value, item, index) {
+                        return value.toLocaleString('zh', {style: 'currency', currency: 'CNY'});
+                    }
+                },
+                {
+                    field: 'moneyIgnore',
+                    title: '不计入',
                     formatter: function (value, item, index) {
                         return value.toLocaleString('zh', {style: 'currency', currency: 'CNY'});
                     }

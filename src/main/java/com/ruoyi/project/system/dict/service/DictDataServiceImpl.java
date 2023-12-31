@@ -1,13 +1,14 @@
 package com.ruoyi.project.system.dict.service;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
 import com.ruoyi.project.system.dict.domain.DictData;
 import com.ruoyi.project.system.dict.mapper.DictDataMapper;
 import com.ruoyi.project.system.dict.utils.DictUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 字典 业务层处理
@@ -88,8 +89,7 @@ public class DictDataServiceImpl implements IDictDataService
         int row = dictDataMapper.insertDictData(data);
         if (row > 0)
         {
-            List<DictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
-            DictUtils.setDictCache(data.getDictType(), dictDatas);
+            DictUtils.removeDictCache(data.getDictType());
         }
         return row;
     }
@@ -107,8 +107,7 @@ public class DictDataServiceImpl implements IDictDataService
         int row = dictDataMapper.updateDictData(data);
         if (row > 0)
         {
-            List<DictData> dictDatas = dictDataMapper.selectDictDataByType(data.getDictType());
-            DictUtils.setDictCache(data.getDictType(), dictDatas);
+            DictUtils.removeDictCache(data.getDictType());
         }
         return row;
     }

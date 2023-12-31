@@ -1,18 +1,18 @@
 package com.ruoyi.project.emmanuel.account.service.impl;
 
-import java.util.List;
-import java.util.Objects;
-
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
+import com.ruoyi.common.utils.text.Convert;
+import com.ruoyi.project.emmanuel.account.domain.AccountMoney;
 import com.ruoyi.project.emmanuel.account.mapper.AccountAccountMapper;
+import com.ruoyi.project.emmanuel.account.mapper.AccountMoneyMapper;
+import com.ruoyi.project.emmanuel.account.service.IAccountMoneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.project.emmanuel.account.mapper.AccountMoneyMapper;
-import com.ruoyi.project.emmanuel.account.domain.AccountMoney;
-import com.ruoyi.project.emmanuel.account.service.IAccountMoneyService;
-import com.ruoyi.common.utils.text.Convert;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 记账详情Service业务层处理
@@ -64,13 +64,6 @@ public class AccountMoneyServiceImpl implements IAccountMoneyService {
         this.isAccountVisible(accountMoney);
         // type非数据库字段，1是支出,0是收入
         String type = accountMoney.getType();
-        if (Objects.equals("1", type)) {
-            accountMoney.setMoneyPay(accountMoney.getMoney());
-        }
-        if (Objects.equals("0", type)) {
-            accountMoney.setMoneyIncome(accountMoney.getMoney());
-        }
-
         // 如果不选择默认当天
         if (ToolUtils.isEmpty(accountMoney.getMoneyDate())) {
             accountMoney.setMoneyDate(DateUtils.getNowDate());
@@ -93,12 +86,6 @@ public class AccountMoneyServiceImpl implements IAccountMoneyService {
         this.isAccountVisible(accountMoney);
         // type非数据库字段，1是支出,0是收入
         String type = accountMoney.getType();
-        if (Objects.equals("1", type)) {
-            accountMoney.setMoneyPay(accountMoney.getMoney());
-        }
-        if (Objects.equals("0", type)) {
-            accountMoney.setMoneyIncome(accountMoney.getMoney());
-        }
         accountMoney.setUpdateTime(DateUtils.getNowDate());
         accountMoney.setCreateBy(ShiroUtils.getLoginName());
         return accountMoneyMapper.updateAccountMoney(accountMoney);
