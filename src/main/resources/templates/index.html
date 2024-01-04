@@ -14,7 +14,7 @@
     <link th:href="@{/css/animate.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/skins.css}" rel="stylesheet"/>
-    <link th:href="@{/ruoyi/css/ry-ui.css?v=4.7.7}" rel="stylesheet"/>
+    <link th:href="@{/ruoyi/css/ry-ui.css?v=4.7.8}" rel="stylesheet"/>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" th:classappend="${isMobile} ? 'canvas-menu'" style="overflow: hidden">
 <div id="wrapper">
@@ -164,7 +164,7 @@
 	                        <a href="javascript:;"><i class="fa fa-sitemap"></i>四层菜单<span class="fa arrow"></span></a>
 	                        <ul class="nav nav-third-level collapse">
 	                            <li>
-	                                <a href="#" id="damian">三级菜单1<span class="fa arrow"></span></a>
+	                                <a href="javascript:;" id="damian">三级菜单1<span class="fa arrow"></span></a>
 	                                <ul class="nav nav-third-level">
 	                                    <li>
 	                                        <a href="javascript:;">四级菜单1</a>
@@ -189,17 +189,17 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2" style="color:#FFF;" href="#" title="收起菜单">
+                    <a class="navbar-minimalize minimalize-styl-2" style="color:#FFF;" href="javascript:;" title="收起菜单">
                     	<i class="fa fa-bars"></i>
                     </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right welcome-message">
                     <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="开发文档" href="http://doc.ruoyi.vip/ruoyi" target="_blank"><i class="fa fa-question-circle"></i> 文档</a></li>
-                    <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="聊天室" href="/blog/websocket/chatRoom" target="_blank"><i class="glyphicon glyphicon-comment"></i> 聊天室</a></li>
+					<li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="聊天室" href="/blog/websocket/chatRoom" target="_blank"><i class="glyphicon glyphicon-comment"></i> 聊天室</a></li>
 					<li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="网盘" href="/cloud/file" target="_blank"><i class="fa fa-cloud"></i> 网盘</a></li>
 					<li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="博客前台" href="/blog" target="_blank"><i class="fa fa-television"></i> mblog</a></li>
-                    <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="锁定屏幕" href="#" id="lockScreen"><i class="fa fa-lock"></i> 锁屏</a></li>
-	                <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="全屏显示" href="#" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏</a></li>
+                    <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="锁定屏幕" href="javascript:;" id="lockScreen"><i class="fa fa-lock"></i> 锁屏</a></li>
+	                <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="全屏显示" href="javascript:;" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏</a></li>
                     <li class="dropdown user-menu">
 						<a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
 							<img th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}" th:onerror="this.src='img/profile.jpg'" class="user-image">
@@ -247,7 +247,7 @@
             <a href="javascript:void(0);" class="roll-nav roll-right tabReload"><i class="fa fa-refresh"></i> 刷新</a>
         </div>
 
-        <a id="ax_close_max" class="ax_close_max" href="#" title="关闭全屏"> <i class="fa fa-times-circle-o"></i> </a>
+        <a id="ax_close_max" class="ax_close_max" href="javascript:;" title="关闭全屏"> <i class="fa fa-times-circle-o"></i> </a>
 
         <div class="row mainContent" id="content-main" th:classappend="${mainClass}">
             <iframe class="RuoYi_iframe" name="iframe0" width="100%" height="100%" th:data-id="@{/system/main}"
@@ -268,8 +268,8 @@
 <script th:src="@{/js/jquery.contextMenu.min.js}"></script>
 <script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
 <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
-<script th:src="@{/ruoyi/js/ry-ui.js?v=4.7.7}"></script>
-<script th:src="@{/ruoyi/js/common.js?v=4.7.7}"></script>
+<script th:src="@{/ruoyi/js/ry-ui.js?v=4.7.8}"></script>
+<script th:src="@{/ruoyi/js/common.js?v=4.7.8}"></script>
 <script th:src="@{/ruoyi/index.js?v=20201208}"></script>
 <script th:src="@{/ajax/libs/fullscreen/jquery.fullscreen.js}"></script>
 <script th:inline="javascript">
@@ -285,6 +285,8 @@ var mode = "history";
 var historyPath = storage.get("historyPath");
 // 是否页签与菜单联动
 var isLinkage = true;
+// 是否页签切换滚动到顶部
+var isScrollToTop = true;
 
 // 本地主题优先，未设置取系统配置
 if($.common.isNotEmpty(skin)){
