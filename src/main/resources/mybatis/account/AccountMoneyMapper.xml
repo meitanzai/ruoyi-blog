@@ -23,7 +23,7 @@
         select id,
                account_id,
                class_id,
-               IFNULL(money_pay, money_income) as money,
+               money as money,
                money_introduce,
                is_total,
                create_by,
@@ -44,6 +44,10 @@
         m.money_introduce,
         m.is_total,
         m.money_date,
+        m.create_by,
+        m.create_time,
+        m.update_by,
+        m.update_time,
         m.deleted,
         c.class_type                                                           "class_type",
         c.class_name                                                           "className"
@@ -222,19 +226,33 @@
     </delete>
 
     <select id="getPreWeekBill" resultType="map">
-        SELECT m.account_id        as "accountId",
-               SUM(m.money_pay)    as moneyPay,
-               SUM(m.money_income) as moneyIncome,
-               m.money_date        as moneyDate,
-               a.account_name      as accountName
-        FROM account_money m
-                 INNER JOIN account_account a ON a.id = m.account_id
+        select m.account_id                                          as "accountId",
+        m.money_date                                          as moneyDate,
+        a.account_name                                        as accountName,
+        case when c.status = '1' then sum(m.money) else 0 end as moneyIncome,
+        case when c.status = '2' then sum(m.money) else 0 end as moneyPay,
+        case when c.status = '3' then sum(m.money) else 0 end as moneyIgnore
+        from account_account a
+        inner join account_money m on a.id = m.account_id
+        inner join account_class c on c.id = m.class_id
         WHERE m.deleted = 0
-              AND m.money_date BETWEEN   DATE_FORMAT(#{startDate},'%Y-%m-%d') AND  DATE_FORMAT(#{endtDate} ,'%Y-%m-%d')
-        GROUP BY m.account_id,
-                 m.money_date,
-                 a.account_name
-        ORDER BY account_id, money_date
+        and is_total = 0
+        AND m.money_date BETWEEN DATE_FORMAT(#{startDate},'%Y-%m-%d') AND  DATE_FORMAT(#{endtDate} ,'%Y-%m-%d')
+        group by c.status, money_date, a.account_name, m.account_id
+        union
+        select m.account_id                                   as "accountId",
+        ''                                                    as moneyDate,
+        '总 计'                                               as accountName,
+        case when c.status = '1' then sum(m.money) else 0 end as moneyIncome,
+        case when c.status = '2' then sum(m.money) else 0 end as moneyPay,
+        case when c.status = '3' then sum(m.money) else 0 end as moneyIgnore
+        from account_account a
+        inner join account_money m on a.id = m.account_id
+        inner join account_class c on c.id = m.class_id
+        WHERE m.deleted = 0
+        and is_total = 0
+        AND m.money_date BETWEEN DATE_FORMAT(#{startDate},'%Y-%m-%d') AND  DATE_FORMAT(#{endtDate} ,'%Y-%m-%d')
+        group by m.account_id ,c.status
     </select>
 
     <select id="getUserMail" resultType="java.lang.String">

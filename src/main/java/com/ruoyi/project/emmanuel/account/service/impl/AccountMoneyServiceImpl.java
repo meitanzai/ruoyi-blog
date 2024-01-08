@@ -87,7 +87,7 @@ public class AccountMoneyServiceImpl implements IAccountMoneyService {
         // type非数据库字段，1是支出,0是收入
         String type = accountMoney.getType();
         accountMoney.setUpdateTime(DateUtils.getNowDate());
-        accountMoney.setCreateBy(ShiroUtils.getLoginName());
+        accountMoney.setUpdateBy(ShiroUtils.getLoginName());
         return accountMoneyMapper.updateAccountMoney(accountMoney);
     }
 

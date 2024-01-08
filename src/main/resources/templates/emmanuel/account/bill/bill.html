@@ -80,21 +80,25 @@
                     field: 'pay',
                     title: '支出',
                     formatter: function (value, item, index) {
-                        return value.toLocaleString('zh', {style: 'currency', currency: 'cny'});
+                        // 如果是value=0.00则显示 - ，否则显示 ¥金额
+                        return value === 0.00 ? '-' :value.toLocaleString('zh', {style: 'currency', currency: 'cny'});
                     }
                 },
                 {
                     field: 'income',
                     title: '收入',
                     formatter: function (value, item, index) {
-                        return value.toLocaleString('zh', {style: 'currency', currency: 'CNY'});
+                        // 如果是value=0.00则显示 - ，否则显示 ¥金额
+                        return value === 0.00 ? '-' : value.toLocaleString('zh', {style: 'currency', currency: 'CNY'});
+
                     }
                 },
                 {
                     field: 'moneyIgnore',
                     title: '不计入',
                     formatter: function (value, item, index) {
-                        return value.toLocaleString('zh', {style: 'currency', currency: 'CNY'});
+                        // 如果是value=0.00则显示 - ，否则显示 ¥金额
+                        return value === 0.00 ? '-' : value.toLocaleString('zh', {style: 'currency', currency: 'CNY'});
                     }
                 },
                 {

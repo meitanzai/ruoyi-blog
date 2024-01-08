@@ -40,10 +40,18 @@ public class BillTask {
                 table += "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">" + map.get("accountName") + "</td>" +
                         "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\"><span t=\"5\" times=\"\" style=\"border-bottom: 1px dashed rgb(204, 204, 204);\">" + map.get("moneyDate") + "</span><br></td>" +
                         "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">" + map.getOrDefault("moneyPay", 0.00) + "<br></td>" +
-                        "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">" + map.getOrDefault("moneyIncome", 0.00) + "</td></tr>";
+                        "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">" + map.getOrDefault("moneyIncome", 0.00) + "<br></td>" +
+                        "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">" + map.getOrDefault("moneyIgnore", 0.00) + "</td></tr>";
             }
 
-            String billContent = "<div><br></div><div><table border=\"1\" width=\"500\" cellpadding=\"10\" cellspacing=\"0\" align=\"center\" class=\"table table-bordered\"><tbody><tr></tr><tr><td style=\"text-align: center;\" colspan=\"4\">" + weekOfYear.get("iYear") + "年第" + weekOfYear.get("week") + "周" + "</td></tr><tr><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">账单名称</td><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">日期</td><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">支出</td><td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">收入</td></tr><tr>" +
+            String billContent = "<div><br></div><div><table border=\"1\" width=\"500\" cellpadding=\"10\" cellspacing=\"0\" align=\"center\" class=\"table table-bordered\"><tbody><tr></tr><tr><td style=\"text-align: center;\" colspan=\"5\">" + weekOfYear.get("iYear") + "年第" + weekOfYear.get("week") + "周" + "</td></tr>" +
+                    "<tr>" +
+                    "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">账单名称</td>" +
+                    "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">日期</td>" +
+                    "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">支出</td>" +
+                    "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">收入</td>" +
+                    "<td style=\"font-family: &quot;lucida Grande&quot;, Verdana; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; text-align: center;\" align=\"center\">不计入</td>" +
+                    "</tr><tr>" +
                     table +
                     "</tr></tbody></table></div>";
 
