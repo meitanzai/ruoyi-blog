@@ -72,7 +72,7 @@
                shiro:hasPermission="account:money:remove">
                 <i class="fa fa-remove"></i> 删除
             </a>
-            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="account:money:export">
+            <a class="btn btn-warning" onclick="exportExcel()" shiro:hasPermission="account:money:export">
                 <i class="fa fa-download"></i> 导出
             </a>
             <a class="btn btn-danger" onclick="closeItem()">
@@ -213,22 +213,30 @@
         $.modal.openTab("新增支出", url);
     }
 
-    /*支出0----账目详情(金额)-新增金额*/
-    function addPay() {
+    /*导出*/
+    function exportExcel(formId) {
+        table.set();
         var accountId = $("#accountId").val();
-        var url = prefix + '/add/' + accountId + '/' + 1;
-        $.modal.openTab("新增支出", url);
+        $.modal.confirm("确定导出所有" + table.options.modalName + "吗？", function() {
+            var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
+            var params = $("#" + table.options.id).bootstrapTable('getOptions');
+            var dataParam = $("#" + currentId).serializeArray();
+            dataParam.push({ "name": "orderByColumn", "value": params.sortName });
+            dataParam.push({ "name": "isAsc", "value": params.sortOrder });
+            dataParam.push({ "name": "accountId", "value": accountId });
+            $.modal.loading("正在导出数据，请稍候...");
+            $.post(table.options.exportUrl, dataParam, function(result) {
+                if (result.code == web_status.SUCCESS) {
+                    window.location.href = ctx + "common/download?fileName=" + encodeURI(result.msg) + "&delete=" + true;
+                } else if (result.code == web_status.WARNING) {
+                    $.modal.alertWarning(result.msg)
+                } else {
+                    $.modal.alertError(result.msg);
+                }
+                $.modal.closeLoading();
+            });
+        });
     }
-
-    /*收入1----账目详情(金额)-新增金额*/
-    function addIncome() {
-        var accountId = $("#accountId").val();
-        // $.operate.add(accountId);
-        var url = prefix + '/add/' + accountId + '/' + 0;
-        $.modal.openTab("新增支出", url);
-    }
-
-    /**/
 
 </script>
 </body>

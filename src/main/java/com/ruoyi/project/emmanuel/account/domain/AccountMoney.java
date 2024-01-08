@@ -87,7 +87,7 @@ public class AccountMoney extends BaseEntity {
     /**
      * 分类类型 非数据库字段
      */
-    @Excel(name = "收支状态", readConverterExp = "0=收入,1=支出")
+    @Excel(name = "收支状态")
     private String classType;
 
     /**
