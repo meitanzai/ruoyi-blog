@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="vertical-timeline-content">
-                        <h2 th:text="${item.timeTitle}">会议</h2>
+                        <a href="javascript:void(0)" th:onclick=$.operate.viewDetail("/memorial/TimeLineS/detail/"+[[${item.id}]],[[${item.timeTitle}]])><h2 th:text="${item.timeTitle}"/></a>
                         <p th:text="${item.summary}">上一年的销售业绩发布会。总结产品营销和销售趋势及销售的现状。
                         </p>
                         <a th:onclick="openTimeLineSDetail([[${item.id}]])" shiro:hasPermission="timeline:s:detail" class="btn btn-sm btn-primary"> 更多信息</a>

@@ -61,6 +61,7 @@
         var options = {
             url: prefix + "/list",
             createUrl: prefix + "/add",
+            viewUrl: prefix + "/bullCount/{id}",
             selectUrl: prefix + "/bullCount/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
@@ -75,6 +76,9 @@
                     field: 'month',
                     title: '月份',
                     sortable: true,
+                    formatter: function (value, row, index) {
+                        return '<a href="javascript:void(0)" onclick="$.operate.view(\'' + row.month + '\')">' + value + '</a>';
+                    }
                 },
                 {
                     field: 'pay',

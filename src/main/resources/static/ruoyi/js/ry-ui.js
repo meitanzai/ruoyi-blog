@@ -464,7 +464,6 @@ var table = {
             },
             // 导入markdown数据
             importMarkdown: function(formId, width, height) {
-                debugger;
                 table.set();
                 var currentId = $.common.isEmpty(formId) ? 'importTpl' : formId;
                 var _width = $.common.isEmpty(width) ? "400" : width;
@@ -1326,6 +1325,10 @@ var table = {
                 table.set();
                 var url = table.options.viewUrl.replace("{id}", id);
                 $.modal.popupRight(table.options.modalName + "信息详情", url);
+            },
+            viewDetail: function(url,modalName){
+                table.set();
+                $.modal.popupRight(modalName, url);
             },
             // 保存信息 刷新表格
             save: function(url, data, callback) {

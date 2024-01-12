@@ -118,8 +118,8 @@ public class MtoPostController extends BaseController {
     /**
      * 根据id查看博客文章
      */
-    @RequiresPermissions("mto:post:selectDetail")
-    @GetMapping("/selectById/{id}")
+    @RequiresPermissions({"mto:post:selectDetail","mto:post:list"})
+    @GetMapping({"/selectById/{id}", "/view/{id}"})
     public String selectById(@PathVariable("id") Long id, ModelMap modelMap) {
         MtoPost mtoPost = mtoPostService.selectMtoPostById(id);
         modelMap.put("blog", mtoPost);

@@ -67,6 +67,7 @@
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
+            viewUrl: prefix + "/selectById/{id}",
             selectUrl: prefix + "/selectById/{id}",
             modalName: "随手记",
             uniqueId: 'id',
@@ -84,6 +85,9 @@
                     title: '标题',
                     align: 'left',
                     width: '260',
+                    formatter: function (value, row, index) {
+                        return '<a href="javascript:void(0)" onclick="$.operate.view(\'' + row.id + '\')">' + value + '</a>';
+                    }
                 },
                 {
                     field: 'noteSummary',
