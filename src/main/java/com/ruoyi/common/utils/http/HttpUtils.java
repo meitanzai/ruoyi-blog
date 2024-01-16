@@ -26,7 +26,7 @@ import com.ruoyi.common.utils.StringUtils;
 
 /**
  * 通用http发送方法
- *
+ * 
  * @author ruoyi
  */
 public class HttpUtils
@@ -76,7 +76,7 @@ public class HttpUtils
             URLConnection connection = realUrl.openConnection();
             connection.setRequestProperty("accept", "*/*");
             connection.setRequestProperty("connection", "Keep-Alive");
-            connection.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            connection.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
             connection.connect();
             in = new BufferedReader(new InputStreamReader(connection.getInputStream(), contentType));
             String line;
@@ -133,13 +133,12 @@ public class HttpUtils
         StringBuilder result = new StringBuilder();
         try
         {
-            String urlNameString = url;
-            log.info("sendPost - {}", urlNameString);
-            URL realUrl = new URL(urlNameString);
+            log.info("sendPost - {}", url);
+            URL realUrl = new URL(url);
             URLConnection conn = realUrl.openConnection();
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            conn.setRequestProperty("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
             conn.setRequestProperty("Accept-Charset", "utf-8");
             conn.setRequestProperty("contentType", "utf-8");
             conn.setDoOutput(true);
@@ -147,7 +146,7 @@ public class HttpUtils
             out = new PrintWriter(conn.getOutputStream());
             out.print(param);
             out.flush();
-            in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+            in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
             String line;
             while ((line = in.readLine()) != null)
             {
@@ -221,7 +220,7 @@ public class HttpUtils
             {
                 if (ret != null && !ret.trim().equals(""))
                 {
-                    result.append(new String(ret.getBytes("ISO-8859-1"), "utf-8"));
+                    result.append(new String(ret.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
                 }
             }
             log.info("recv - {}", result);
