@@ -60,11 +60,8 @@
             <if test="classId != null ">
                 and m.class_id = #{classId}
             </if>
-            <if test="money != null ">
-                and m.money = #{money}
-            </if>
             <if test="moneyIntroduce != null  and moneyIntroduce != ''">
-                and m.money_introduce = #{moneyIntroduce}
+                and m.money_introduce like concat('%',#{moneyIntroduce},'%')
             </if>
             <if test="isTotal != null ">
                 and m.is_total = #{isTotal}

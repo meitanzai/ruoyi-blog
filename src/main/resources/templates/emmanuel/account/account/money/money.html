@@ -36,6 +36,10 @@
                             </select>
                         </li>
                         <li>
+                            <label>备注: </label>
+                            <input class="form-control" type="text" name="moneyIntroduce" id="moneyIntroduce"/>
+                        </li>
+                        <li>
                             <label>是否入账：</label>
                             <select name="isTotal" th:with="type=${@dict.getType('account_is_Total')}">
                                 <option value="">所有</option>
