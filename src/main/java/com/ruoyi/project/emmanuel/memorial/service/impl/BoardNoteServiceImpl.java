@@ -1,6 +1,5 @@
 package com.ruoyi.project.emmanuel.memorial.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -47,6 +46,10 @@ public class BoardNoteServiceImpl extends ServiceImpl<BoardNoteMapper, BoardNote
         String noteTitle = boardNote.getNoteTitle();
         if (ToolUtils.isNotEmpty(noteTitle)) {
             queryWrapper.lambda().like(BoardNote::getNoteTitle, noteTitle);
+        }
+        String isPublic = boardNote.getIsPublic();
+        if (ToolUtils.isNotEmpty(isPublic)) {
+            queryWrapper.lambda().and(i -> i.eq(BoardNote::getIsPublic, isPublic));
         }
         List<BoardNote> boardNoteList = boardNoteMapper.selectList( queryWrapper);
 

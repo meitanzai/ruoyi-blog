@@ -18,8 +18,17 @@
                             <label>类型：</label>
                             <select name="noteType" th:with="type=${@dict.getType('note_type')}">
                                 <option value="">所有</option>
+                                <option value="-1" label="动态" ></option>
                                 <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
                                         th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>形式：</label>
+                            <select name="isPublic">
+                                <option value="" label="所有" ></option>
+                                <option value="0" label="公开" ></option>
+                                <option value="1" label="隐私" ></option>
                             </select>
                         </li>
                         <li>
