@@ -2,6 +2,8 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header('账目详情列表')"/>
+    <th:block th:include="include :: select2-css" />
+    <th:block th:include="include :: bootstrap-select-css" />
 </head>
 <body class="gray-bg">
 <div class="container-div">
@@ -26,17 +28,17 @@
                         </li>
                         <li>
                             <label>分类：</label>
-                            <select  data-placeholder="请选择分类" id="classId" name="classId"
-                            >
-                                <option value="">请选择</option>
-                                <option th:each="accountClass:${classList}"
-                                        th:value="${accountClass.id}"
-                                        th:text="${accountClass.className}"
-                                ></option>
+                            <select id="classIds" name="classIds" class="noselect2 selectpicker" data-none-selected-text="请选择分类" multiple >
+                                <optgroup th:each="entry:${map}" th:label="${entry.key}">
+                                    <option th:each="accountClass:${entry.value}"
+                                            th:value="${accountClass.id}"
+                                            th:text="${accountClass.className}"
+                                    ></option>
+                                </optgroup>
                             </select>
                         </li>
                         <li>
-                            <label>备注: </label>
+                            <label>备注：</label>
                             <input class="form-control" type="text" name="moneyIntroduce" id="moneyIntroduce"/>
                         </li>
                         <li>
@@ -89,6 +91,8 @@
     </div>
 </div>
 <th:block th:include="include :: footer"/>
+<th:block th:include="include :: select2-js" />
+<th:block th:include="include :: bootstrap-select-js" />
 <script th:inline="javascript">
     var editFlag = [[${@permission.hasPermi('account:money:edit')}]];
     var removeFlag = [[${@permission.hasPermi('account:money:remove')}]];

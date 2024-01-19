@@ -1,6 +1,7 @@
 package com.ruoyi.project.emmanuel.account.service.impl;
 
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.common.utils.text.Convert;
@@ -48,8 +49,12 @@ public class AccountMoneyServiceImpl implements IAccountMoneyService {
      * @return 记账详情
      */
     @Override
-    public List<AccountMoney> selectAccountMoneyList(AccountMoney accountMoney) {
-        return accountMoneyMapper.selectAccountMoneyList(accountMoney);
+    public List<AccountMoney> selectAccountMoneyList(AccountMoney accountMoney,String classIds) {
+        String[] classIdList = null;
+        if (StringUtils.isNotEmpty(classIds)){
+            classIdList = Convert.toStrArray(classIds);
+        }
+        return accountMoneyMapper.selectAccountMoneyList(accountMoney, classIdList);
     }
 
     /**

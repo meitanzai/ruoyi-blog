@@ -750,7 +750,10 @@ var table = {
             reset: function(formId, tableId, pageNumber, pageSize) {
                 table.set(tableId);
                 formId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
+                // 重置表单
                 $("#" + formId)[0].reset();
+                // 更新selectpicker
+                $('.selectpicker').selectpicker('refresh');
                 var tableId = $.common.isEmpty(tableId) ? table.options.id : tableId;
                 if (table.options.type == table_type.bootstrapTable) {
                     var params = $("#" + tableId).bootstrapTable('getOptions');

@@ -54,20 +54,25 @@
         FROM account_class c
         LEFT JOIN account_money m ON c.id = m.class_id
         <where>
-            <if test="accountId != null ">
-                and m.account_id = #{accountId}
+            <if test="accountMoney.accountId != null ">
+                and m.account_id = #{accountMoney.accountId,jdbcType=BIGINT}
             </if>
-            <if test="classId != null ">
-                and m.class_id = #{classId}
+            <if test="accountMoney.classId != null ">
+                and m.class_id = #{accountMoney.classId,jdbcType=BIGINT}
             </if>
-            <if test="moneyIntroduce != null  and moneyIntroduce != ''">
-                and m.money_introduce like concat('%',#{moneyIntroduce},'%')
+            <if test="accountMoney.moneyIntroduce != null and accountMoney.moneyIntroduce != ''">
+                and m.money_introduce like concat('%',#{accountMoney.moneyIntroduce,jdbcType=VARCHAR},'%')
             </if>
-            <if test="isTotal != null ">
-                and m.is_total = #{isTotal}
+            <if test="accountMoney.isTotal != null ">
+                and m.is_total = #{accountMoney.isTotal}
             </if>
-            <if test="moneyDate != null ">
-                and m.money_date = #{moneyDate,jdbcType=TIMESTAMP}
+            <if test="accountMoney.moneyDate != null ">
+                and m.money_date = #{accountMoney.moneyDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="classIds != null and classIds.length > 0">
+                <foreach collection="classIds" item="classId" open="and m.class_id in (" separator="," close=")">
+                    #{classId}
+                </foreach>
             </if>
         </where>
         order by m.money_date desc,m.create_time desc

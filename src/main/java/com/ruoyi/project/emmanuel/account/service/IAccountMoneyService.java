@@ -1,8 +1,8 @@
 package com.ruoyi.project.emmanuel.account.service;
 
-import java.util.List;
-
 import com.ruoyi.project.emmanuel.account.domain.AccountMoney;
+
+import java.util.List;
 
 /**
  * 记账详情Service接口
@@ -25,7 +25,7 @@ public interface IAccountMoneyService {
      * @param accountMoney 记账详情
      * @return 记账详情集合
      */
-    public List<AccountMoney> selectAccountMoneyList(AccountMoney accountMoney);
+    public List<AccountMoney> selectAccountMoneyList(AccountMoney accountMoney,String classIds);
 
     /**
      * 新增记账详情

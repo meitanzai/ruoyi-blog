@@ -1,11 +1,11 @@
 package com.ruoyi.project.emmanuel.account.mapper;
 
+import com.ruoyi.project.emmanuel.account.domain.AccountMoney;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import com.ruoyi.project.emmanuel.account.domain.AccountMoney;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * 记账详情Mapper接口
@@ -29,7 +29,7 @@ public interface AccountMoneyMapper
      * @param accountMoney 记账详情
      * @return 记账详情集合
      */
-    public List<AccountMoney> selectAccountMoneyList(AccountMoney accountMoney);
+    public List<AccountMoney> selectAccountMoneyList(@Param("accountMoney") AccountMoney accountMoney,@Param("classIds") String[] classIds);
 
     /**
      * 新增记账详情

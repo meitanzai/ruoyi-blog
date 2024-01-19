@@ -55,9 +55,9 @@ public class AccountMoneyController extends BaseController {
     @RequiresPermissions("account:money:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(AccountMoney accountMoney) {
+    public TableDataInfo list(AccountMoney accountMoney,String classIds) {
         startPage();
-        List<AccountMoney> list = accountMoneyService.selectAccountMoneyList(accountMoney);
+        List<AccountMoney> list = accountMoneyService.selectAccountMoneyList(accountMoney,classIds);
         return getDataTable(list);
     }
 
@@ -68,8 +68,8 @@ public class AccountMoneyController extends BaseController {
     @Log(title = "记账详情导出", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(AccountMoney accountMoney) {
-        List<AccountMoney> list = accountMoneyService.selectAccountMoneyList(accountMoney);
+    public AjaxResult export(AccountMoney accountMoney,String classIds) {
+        List<AccountMoney> list = accountMoneyService.selectAccountMoneyList(accountMoney,classIds);
         ExcelUtil<AccountMoney> util = new ExcelUtil<AccountMoney>(AccountMoney.class);
         return util.exportExcel(list, "记账详情数据");
     }

@@ -20,7 +20,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 记账账户Controller
@@ -135,7 +139,12 @@ public class AccountAccountController extends BaseController {
         modelMap.put("account", account);
         // 获取分类
         List<AccountClass> classList = accountClassService.selectAccountClassList(new AccountClass());
-        modelMap.put("classList", classList);
+
+        Map<String, List<AccountClass>> map = new HashMap<>();
+        map.put("收入", classList.stream().filter(accountClass -> Objects.equals("1", accountClass.getStatus())).collect(Collectors.toList()));
+        map.put("支出", classList.stream().filter(accountClass -> Objects.equals("2", accountClass.getStatus())).collect(Collectors.toList()));
+        map.put("不计入", classList.stream().filter(accountClass -> Objects.equals("3", accountClass.getStatus())).collect(Collectors.toList()));
+        modelMap.put("map", map);
 
         return prefix + "/money/money";
     }
