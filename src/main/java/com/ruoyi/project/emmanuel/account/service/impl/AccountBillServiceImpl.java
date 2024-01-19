@@ -130,4 +130,39 @@ public class AccountBillServiceImpl implements IAccountBillService {
         map.put("accountClassIncome",accountClassIncome);
         return map;
     }
+
+    /**
+     * 记账账户分析 - 查询指定账户近期收支情况
+     */
+    @Override
+    public Map<String, Object> accountAnalysisByMonth(Long accountId, ModelMap modelMap) {
+        Long userId = ShiroUtils.getUserId();
+        List<Map<String, Object>> accountByClassByMonth = accountBillMapper.accountAnalysisByMonth(accountId,userId);
+        HashMap<String, Object> result = new HashMap<>();
+        List<Object> monthList = accountByClassByMonth.stream().map(e -> e.get("month")).collect(Collectors.toList());
+        List<BigDecimal> incomeList = accountByClassByMonth.stream().map(e -> (BigDecimal)e.get("income")).collect(Collectors.toList());
+        List<BigDecimal> payList = accountByClassByMonth.stream().map(e -> (BigDecimal)e.get("pay")).collect(Collectors.toList());
+        List<BigDecimal> moneyIgnoreList = accountByClassByMonth.stream().map(e -> (BigDecimal)e.get("moneyIgnore")).collect(Collectors.toList());
+        result.put("monthList",monthList);
+        result.put("incomeList",incomeList);
+        result.put("payList",payList);
+        result.put("moneyIgnoreList",moneyIgnoreList);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> billCountByMonth(String month) {
+        Long userId = ShiroUtils.getUserId();
+        List<Map<String, Object>> billCountByMonth = accountBillMapper.billCountByMonth(month,userId);
+        HashMap<String, Object> result = new HashMap<>();
+        List<Object> monthList = billCountByMonth.stream().map(e -> e.get("month")).collect(Collectors.toList());
+        List<BigDecimal> incomeList = billCountByMonth.stream().map(e -> (BigDecimal)e.get("income")).collect(Collectors.toList());
+        List<BigDecimal> payList = billCountByMonth.stream().map(e -> (BigDecimal)e.get("pay")).collect(Collectors.toList());
+        List<BigDecimal> moneyIgnoreList = billCountByMonth.stream().map(e -> (BigDecimal)e.get("moneyIgnore")).collect(Collectors.toList());
+        result.put("monthList",monthList);
+        result.put("incomeList",incomeList);
+        result.put("payList",payList);
+        result.put("moneyIgnoreList",moneyIgnoreList);
+        return result;
+    }
 }

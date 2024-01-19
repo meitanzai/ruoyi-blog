@@ -72,11 +72,11 @@ public interface AccountAccountMapper {
      */
     AccountAccount isExist(AccountAccount accountAccount);
 
-    AccountAccount selectAccountNameById(Long id);
+    AccountAccount selectAccountNameById(@Param("id") Long id,@Param("userId") Long userId);
 
     String isAccountVisible(AccountMoney accountMoney);
 
-    List<Map<String, Object>> accountCountByClass(Long accountId);
+    List<Map<String, Object>> accountCountByClass(@Param("accountId") Long accountId,@Param("userId") Long userId);
 
     /**
      * 根据账户ID查询每月的支出，收入统计

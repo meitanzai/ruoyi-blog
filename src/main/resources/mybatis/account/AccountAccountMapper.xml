@@ -194,7 +194,11 @@
     </select>
 
     <select id="selectAccountNameById" resultMap="AccountAccountResult">
-        SELECT id,account_name,visible from account_account where id = #{id,jdbcType=BIGINT}
+        SELECT id,account_name,visible from account_account aa inner join account_user_account aua on aa.id = aua.account_id where aa.id = #{id,jdbcType=BIGINT}
+            <if test="userId != null">
+                and aua.user_id = #{userId,jdbcType=BIGINT}
+            </if>
+        limit 1
     </select>
 
     <select id="isAccountVisible" resultType="java.lang.String">
@@ -202,10 +206,12 @@
     </select>
 
     <select id="accountCountByClass" resultType="java.util.Map">
-        select c.id, c.class_name as className,
-        sum(m.money)  as money,
-        c.class_type as "classType",
-        c.status as "status"
+        select c.id,
+               c.class_name as className,
+               sum(m.money) as money,
+               c.class_type as "classType",
+               c.status     as "status",
+               c.order_num as "orderNum"
         from account_class c
                  inner join account_money m on c.id = m.class_id
         where m.account_id = #{accountId,jdbcType=BIGINT}

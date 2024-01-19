@@ -25,4 +25,8 @@ public interface IAccountBillService {
     List<AccountBill> fullCalendarList(String month);
 
     Map<String, Object> accountAnalysis(Long accountId, ModelMap modelMap);
+
+    Map<String, Object> accountAnalysisByMonth(Long accountId, ModelMap modelMap);
+
+    Map<String, Object> billCountByMonth(String month);
 }

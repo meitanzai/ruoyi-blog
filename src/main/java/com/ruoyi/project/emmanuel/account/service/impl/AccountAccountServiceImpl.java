@@ -15,10 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 记账账户Service业务层处理
@@ -135,7 +133,7 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
 
     @Override
     public AccountAccount selectAccountNameById(Long id) {
-        return accountAccountMapper.selectAccountNameById(id);
+        return accountAccountMapper.selectAccountNameById(id,ShiroUtils.getUserId());
     }
 
     /**
@@ -147,14 +145,25 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
     @Override
     public void accountAnalysisPage(Long accountId, ModelMap modelMap) {
 
-        AccountAccount accountAccount = accountAccountMapper.selectAccountNameById(accountId);
+        Long userId = ShiroUtils.getUserId();
+
+        AccountAccount accountAccount = accountAccountMapper.selectAccountNameById(accountId, userId);
+
+        if (ToolUtils.isEmpty(accountAccount)) {
+            return;
+        }
+
         // 按月账单分析
         List<Map<String, Object>> accountImonthList = accountAccountMapper.accountCountByImonth(accountId);
         // 按分类账单分析
-        List<Map<String, Object>> accountClassList = accountAccountMapper.accountCountByClass(accountId);
-        // 总收入，总支出
-        BigDecimal totalPay = accountClassList.stream().filter(e -> Objects.equals("2", e.get("status"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+        List<Map<String, Object>> accountClassList = accountAccountMapper.accountCountByClass(accountId,userId);
+        // 排序
+        accountClassList = accountClassList.stream().sorted(Comparator.comparing((Map<String, Object> e) -> (String) e.get("status")).thenComparing(e -> (Integer) e.get("orderNum"))).collect(Collectors.toList());
+
+        // 总收入，总支出，总不计入统计
         BigDecimal totalIncome = accountClassList.stream().filter(e -> Objects.equals("1", e.get("status"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalPay = accountClassList.stream().filter(e -> Objects.equals("2", e.get("status"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalIgnore = accountClassList.stream().filter(e -> Objects.equals("3", e.get("status"))).map(e -> (BigDecimal) e.get("money")).reduce(BigDecimal.ZERO, BigDecimal::add);
 
         modelMap.put("accountId", accountId);
         modelMap.put("accountName", accountAccount.getAccountName());
@@ -162,6 +171,7 @@ public class AccountAccountServiceImpl implements IAccountAccountService {
         modelMap.put("accountClassList", accountClassList);
         modelMap.put("totalPay", totalPay);
         modelMap.put("totalIncome", totalIncome);
+        modelMap.put("totalIgnore", totalIgnore);
     }
 
     /**

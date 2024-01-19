@@ -8,6 +8,40 @@
 <div class="wrapper wrapper-content animated fadeInRight"
      style="padding-left: 8px !important; padding-right: 8px; !important">
 
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <h5>本月收入</h5>
+                    <h1 class="no-margins" id="incomeId">0</h1>
+                    <div class="stat-percent font-bold text-navy" id="incomeLastId">0 </div>
+                    <small>对比上月</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <h5>本月支出</h5>
+                    <h1 class="no-margins" id="payId">0</h1>
+                    <div class="stat-percent font-bold text-navy" id="payLastId">0 </div>
+                    <small>对比上月</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <h5>本月不计入</h5>
+                    <h1 class="no-margins" id="moneyIgnoreId">0</h1>
+                    <div class="stat-percent font-bold text-navy" id="moneyIgnoreLastId">0 </div>
+                    <small>对比上月</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     <div class="row" >
 
         <!--支出饼状图-->
@@ -38,6 +72,15 @@
             </div>
         </div>
 
+        <!--近一年收支情况-->
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div style="height:600px" id="recent-line-chart"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -50,7 +93,7 @@
 
     $.ajax({
         type: "get",
-        url: "/account/bill//bullCount/month?month=" + '[[${month}]]',
+        url: "/account/bill/bullCount/month?month=" + '[[${month}]]',
         dataType: "json",
         success: function (data) {
             console.log(data);
@@ -113,6 +156,99 @@
             $(window).resize(pieChart.resize);
         }
     })
+
+    $.ajax({
+        type: "get",
+        url: "/account/bill/bullCount/moneyByMonth?month=" + '[[${month}]]',
+        dataType: "json",
+        success: function (data) {
+
+            // 总收入
+            $('#incomeId').html(data.incomeList[0]);
+            if (data.incomeList.length>1) {
+                var incomeId = (data.incomeList[0]- data.incomeList[1]).toFixed(2);
+                $('#incomeLastId').html(incomeId);
+                incomeId < 0? $('#incomeLastId').removeClass('text-navy').addClass('text-success') : $('#incomeLastId').removeClass('text-navy').addClass('text-danger');
+                incomeId < 0? $('#incomeLastId').removeClass('fa fa-level-up').addClass('fa fa-level-down') : $('#incomeLastId').removeClass('fa fa-level-up').addClass('fa fa-level-up');
+
+
+            }
+
+            // 总支出
+            $('#payId').html(data.payList[0]);
+            if (data.payList.length>1) {
+                var payLast = (data.payList[0]- data.payList[1]).toFixed(2);
+                $('#payLastId').html(payLast);
+                payLast < 0? $('#payLastId').removeClass('text-navy').addClass('text-success') : $('#payLastId').removeClass('text-navy').addClass('text-danger');
+                payLast < 0? $('#payLastId').removeClass('fa fa-level-up').addClass('fa fa-level-down') : $('#payLastId').removeClass('fa fa-level-up').addClass('fa fa-level-up');
+            }
+
+            // 总不计入
+            $('#moneyIgnoreId').html(data.moneyIgnoreList[0]);
+            if (data.moneyIgnoreList.length>1) {
+                var moneyIgnoreLast = (data.moneyIgnoreList[0]- data.moneyIgnoreList[1]).toFixed(2);
+                $('#moneyIgnoreLastId').html(moneyIgnoreLast);
+                moneyIgnoreLast < 0 ? $('#moneyIgnoreLastId').removeClass('text-navy').addClass('text-success') : $('#moneyIgnoreLastId').removeClass('text-navy').addClass('text-danger');
+                moneyIgnoreLast < 0? $('#moneyIgnoreLastId').removeClass('fa fa-level-up').addClass('fa fa-level-down') : $('#moneyIgnoreLastId').removeClass('fa fa-level-up').addClass('fa fa-level-up');
+
+            }
+
+            // 近期收支分析
+            var pieChart = echarts.init(document.getElementById("recent-line-chart"));
+            var pieoption = {
+                title: {
+                    text: '近一年分析',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['收入', '支出', '不计入'],
+                    top: '4%',
+                },
+                grid: {
+                    left: '1%', // 调整左边距
+                    right: '1%', // 调整右边距
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLabel:{
+                        interval:0,//横轴信息全部显示
+                        rotate:45,//-30度角倾斜显示
+                        fontSize:10,// 字体大小
+                    },
+                    data: data.monthList
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '收入',
+                        type: 'line',
+                        data: data.incomeList
+                    },
+                    {
+                        name: '支出',
+                        type: 'line',
+                        data: data.payList
+                    },
+                    {
+                        name: '不计入',
+                        type: 'line',
+                        data: data.moneyIgnoreList
+                    }
+                ]
+            };
+            pieChart.setOption(pieoption);
+            $(window).resize(pieChart.resize);
+        }
+    })
+
 </script>
 
 <script>

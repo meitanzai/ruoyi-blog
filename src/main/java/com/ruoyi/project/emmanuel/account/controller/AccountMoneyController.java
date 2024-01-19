@@ -2,6 +2,7 @@ package com.ruoyi.project.emmanuel.account.controller;
 
 import com.ruoyi.common.utils.ToolUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.framework.interceptor.annotation.RepeatSubmit;
@@ -89,7 +90,7 @@ public class AccountMoneyController extends BaseController {
         modelMap.put("type", type);
         // 直接放对象里，方便后期扩展
         AccountAccount account = new AccountAccount();
-        account = accountAccountMapper.selectAccountNameById(Long.valueOf(accountId));
+        account = accountAccountMapper.selectAccountNameById(Long.valueOf(accountId), ShiroUtils.getUserId());
         modelMap.put("account", account);
 
         // 分类
@@ -107,7 +108,7 @@ public class AccountMoneyController extends BaseController {
 
         // 直接放对象里，方便后期扩展
         AccountAccount account = new AccountAccount();
-        account = accountAccountMapper.selectAccountNameById(Long.valueOf(accountId));
+        account = accountAccountMapper.selectAccountNameById(Long.valueOf(accountId),ShiroUtils.getUserId());
         modelMap.put("account", account);
 
         return prefix + "/add";
@@ -178,9 +179,5 @@ public class AccountMoneyController extends BaseController {
         AccountAccount accountAccount = accountAccountMapper.selectAccountAccountById(accountId);
         return accountAccount;
     }
-
-
-
-
 
 }

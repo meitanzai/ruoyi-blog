@@ -41,4 +41,20 @@ public interface AccountBillMapper {
      */
     List<Map<String, Object>> accountAnalysis(@Param("accountId") Long accountId);
 
+    /**
+     * 记账账户分析 - 查询指定账户近期收支情况
+     *
+     * @param accountId 账户id
+     * @param userId   用户id
+     * @return
+     */
+    List<Map<String, Object>> accountAnalysisByMonth(@Param("accountId") Long accountId,@Param("userId") Long userId);
+
+    /**
+     * 账单详情 - 查询近期收支情况
+     * @param month 月
+     * @param userId 用户id
+     * @return
+     */
+    List<Map<String, Object>> billCountByMonth(@Param("month") String month,@Param("userId") Long userId);
 }

@@ -117,4 +117,29 @@ public class AccountBillController extends BaseController {
         return map;
     }
 
+    /**
+     * 记账账户分析 - 查询指定账户近期收支情况
+     */
+    @RequiresPermissions("account:account:analysis")
+    @GetMapping("/accountAnalysisByMonth/{accountId}")
+    @ResponseBody
+    public Map<String, Object> accountAnalysisByMonth(@PathVariable("accountId") Long accountId, ModelMap modelMap) {
+        Map<String, Object> map = accountBillService.accountAnalysisByMonth(accountId, modelMap);
+        return map;
+    }
+
+    /**
+     * 统计页面的请求
+     *
+     * @param modelMap
+     * @param month    月
+     * @return
+     */
+    @GetMapping("/bullCount/moneyByMonth")
+    @ResponseBody
+    @RequiresPermissions("account:bill:count")
+    public Map<String, Object> billCountByMonth(ModelMap modelMap, String month) {
+        return accountBillService.billCountByMonth(month);
+    }
+
 }
