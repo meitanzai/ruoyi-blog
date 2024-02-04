@@ -56,4 +56,9 @@ public class AccountClass extends BaseEntity {
      * 收支状态（1收入，2支出，3不计入）
      */
     private String status;
+
+    /**
+     * 是否以使用 1为以使用，null为未使用
+     */
+    private String isBuy;
 }

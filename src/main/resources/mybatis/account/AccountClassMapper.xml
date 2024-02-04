@@ -31,7 +31,19 @@
 
     <select id="selectAccountClassList" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountClass"
             resultMap="AccountClassResult">
-        <include refid="selectAccountClassVo"/>
+        select ac.id,
+        ac.class_name,
+        ac.class_type,
+        ac.class_introduce,
+        ac.order_num,
+        ac.create_by,
+        ac.create_time,
+        ac.update_by,
+        ac.update_time,
+        ac.class_status,
+        ac.status,
+        (select 1 from account_money am where ac.id = am.class_id and am.deleted = 0  limit 1) as is_buy
+        from account_class ac
         <where>
             <if test="id != null ">
                 and id = #{id}
@@ -173,10 +185,13 @@
     </delete>
 
     <delete id="deleteAccountClassByIds" parameterType="String">
-        delete from account_class where id in
+        delete
+        from account_class ac
+        where ac.id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
+        and not exists (select ac.id from account_money am where ac.id = am.class_id and am.deleted = 0 limit 1)
     </delete>
 
     <select id="isExist" resultType="java.lang.Integer" parameterType="com.ruoyi.project.emmanuel.account.domain.AccountClass">
